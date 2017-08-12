@@ -220,12 +220,12 @@ class WC_3f(object):
             return C_at_mu_QCD + C_at_mu_QED
 
 
-    def _my_cNR(self, mchi, QCD=None, dict=None, NLO=None):
+    def _my_cNR(self, mchi, RGE=None, dict=None, NLO=None):
         """Calculate the coefficients of the NR operators, with momentum dependence factored out.
     
         mchi is the DM mass in GeV
 
-        QCD is a flag to turn QCD running on (True) or off (False). (Default True)
+        RGE is a flag to turn RGE running on (True) or off (False). (Default True)
 
         If NLO is set to True, the coherently enhanced NLO terms for Q_9^(7) are added. (Default False)
 
@@ -242,8 +242,8 @@ class WC_3f(object):
 
         For dict = False, returns a numpy array of values according to the list above.
         """
-        if QCD is None:
-            QCD = True
+        if RGE is None:
+            RGE = True
         if dict is None:
             dict = True
         if NLO is None:
@@ -300,7 +300,7 @@ class WC_3f(object):
         # q^2 is here always the spatial part!!! 
         #
 
-        if QCD:
+        if RGE:
             c3mu_dict = self.run(2)
         else:
             c3mu_dict = self.coeff_dict
@@ -619,12 +619,12 @@ class WC_3f(object):
             return dict_to_list(my_cNR_dict, self.my_cNR_name_list)
 
 
-    def cNR(self, mchi, qvector, QCD=None, dict=None, NLO=None):
+    def cNR(self, mchi, qvector, RGE=None, dict=None, NLO=None):
         """ The operator coefficients of O_1^N -- O_12^N as in 1308.6288 -- multiply by propagators and sum up contributions 
 
         mchi is the DM mass in GeV
 
-        QCD is a flag to turn QCD running on (True) or off (False). (Default True)
+        RGE is a flag to turn RGE running on (True) or off (False). (Default True)
 
         If NLO is set to True, the coherently enhanced NLO terms for Q_9^(7) are added. (Default False)
 
@@ -639,8 +639,8 @@ class WC_3f(object):
 
         For dict = False, returns a numpy array of values according to the list above.
         """
-        if QCD is None:
-            QCD = True
+        if RGE is None:
+            RGE = True
         if dict is None:
             dict = True
         if NLO is None:
@@ -654,7 +654,7 @@ class WC_3f(object):
 
         # The traditional coefficients, where different from above
         cNR_dict = {}
-        my_cNR = self._my_cNR(mchi, QCD, True, NLO)
+        my_cNR = self._my_cNR(mchi, RGE, True, NLO)
 
         # Add meson- / photon-pole contributions
         cNR_dict['cNR1p'] = my_cNR['cNR1p'] + qsq * my_cNR['cNR100p']
@@ -707,7 +707,7 @@ class WC_3f(object):
             return dict_to_list(cNR_dict, self.cNR_name_list)
 
 
-    def write_mma(self, mchi, qvector, QCD=None, NLO=None, path=None, filename=None):
+    def write_mma(self, mchi, qvector, RGE=None, NLO=None, path=None, filename=None):
         """ Write a text file with the NR coefficients that can be read into DMFormFactor 
 
         The order is {cNR1p, cNR2p, ... , cNR1n, cNR1n, ... }
@@ -719,8 +719,8 @@ class WC_3f(object):
 
         <filename> is the filename (default 'cNR.m')
         """
-        if QCD is None:
-            QCD=True
+        if RGE is None:
+            RGE=True
         if NLO is None:
             NLO=False
         if path is None:
@@ -728,7 +728,7 @@ class WC_3f(object):
         if filename is None:
             filename = 'cNR.m'
 
-        val = self.cNR(mchi, qvector, QCD, True, NLO)
+        val = self.cNR(mchi, qvector, RGE, True, NLO)
         self.cNR_list_mma = '{' + str(val['cNR1p']) + ', '\
                             + str(val['cNR2p']) + ', '\
                             + str(val['cNR3p']) + ', '\
@@ -1022,15 +1022,15 @@ class WC_4f(object):
         else:
             return dict_to_list(cdict3f, self.wc_name_list_3f)
 
-    def _my_cNR(self, mchi, QCD=None, dict=None, NLO=None):
+    def _my_cNR(self, mchi, RGE=None, dict=None, NLO=None):
         """ Calculate the NR coefficients from four-flavor theory with meson contributions split off (mainly for internal use) """
-        return WC_3f(self.match())._my_cNR(mchi, QCD, dict, NLO)
+        return WC_3f(self.match())._my_cNR(mchi, RGE, dict, NLO)
 
-    def cNR(self, mchi, qvec, QCD=None, dict=None, NLO=None):
+    def cNR(self, mchi, qvec, RGE=None, dict=None, NLO=None):
         """ Calculate the NR coefficients from four-flavor theory """
-        return WC_3f(self.match()).cNR(mchi, qvec, QCD, dict, NLO)
+        return WC_3f(self.match()).cNR(mchi, qvec, RGE, dict, NLO)
 
-    def write_mma(self, mchi, qvector, QCD=None, NLO=None, path=None, filename=None):
+    def write_mma(self, mchi, qvector, RGE=None, NLO=None, path=None, filename=None):
         """ Write a text file with the NR coefficients that can be read into DMFormFactor 
 
         The order is {cNR1p, cNR2p, ... , cNR1n, cNR1n, ... }
@@ -1042,7 +1042,7 @@ class WC_4f(object):
 
         <filename> is the filename (default 'cNR.m')
         """
-        WC_3f(self.match()).write_mma(mchi, qvector, QCD, NLO, path, filename)
+        WC_3f(self.match()).write_mma(mchi, qvector, RGE, NLO, path, filename)
 
 
 
@@ -1310,15 +1310,15 @@ class WC_5f(object):
         else:
             return dict_to_list(cdict4f, self.wc_name_list_4f)
 
-    def _my_cNR(self, mchi, QCD=None, dict=None, NLO=None):
+    def _my_cNR(self, mchi, RGE=None, dict=None, NLO=None):
         """ Calculate the NR coefficients from four-flavor theory with meson contributions split off (mainly for internal use) """
-        return WC_4f(self.match())._my_cNR(mchi, QCD, dict, NLO)
+        return WC_4f(self.match())._my_cNR(mchi, RGE, dict, NLO)
 
-    def cNR(self, mchi, qvec, QCD=None, dict=None, NLO=None):
+    def cNR(self, mchi, qvec, RGE=None, dict=None, NLO=None):
         """ Calculate the NR coefficients from four-flavor theory """
-        return WC_4f(self.match()).cNR(mchi, qvec, QCD, dict, NLO)
+        return WC_4f(self.match()).cNR(mchi, qvec, RGE, dict, NLO)
 
-    def write_mma(self, mchi, qvector, QCD=None, NLO=None, path=None, filename=None):
+    def write_mma(self, mchi, qvector, RGE=None, NLO=None, path=None, filename=None):
         """ Write a text file with the NR coefficients that can be read into DMFormFactor 
 
         The order is {cNR1p, cNR2p, ... , cNR1n, cNR1n, ... }
@@ -1330,5 +1330,5 @@ class WC_5f(object):
 
         <filename> is the filename (default 'cNR.m')
         """
-        WC_4f(self.match()).write_mma(mchi, qvector, QCD, NLO, path, filename)
+        WC_4f(self.match()).write_mma(mchi, qvector, RGE, NLO, path, filename)
 
