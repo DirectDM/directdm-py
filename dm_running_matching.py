@@ -3,6 +3,7 @@
 import sys
 import numpy as np
 import scipy.integrate as spint
+import warnings
 sys.path.append('.')
 import adm
 import rge
@@ -149,6 +150,11 @@ class WC_3f(object):
                               'cNR11p', 'cNR11n', 'cNR12p', 'cNR12n']
 
         self.coeff_dict = {}
+        for wc_name in coeff_dict.keys():
+            if wc_name in self.wc_name_list:
+                pass
+            else:
+                warnings.warn('The key ' + wc_name + ' is not defined. Typo?')
         for wc_name in self.wc_name_list:
             if wc_name in coeff_dict.keys():
                 self.coeff_dict[wc_name] = coeff_dict[wc_name]
@@ -896,6 +902,11 @@ class WC_4f(object):
 
 
         self.coeff_dict = {}
+        for wc_name in coeff_dict.keys():
+            if wc_name in self.wc_name_list:
+                pass
+            else:
+                warnings.warn('The key ' + wc_name + ' is not defined. Typo?')
         for wc_name in self.wc_name_list:
             if wc_name in coeff_dict.keys():
                 self.coeff_dict[wc_name] = coeff_dict[wc_name]
@@ -1178,6 +1189,11 @@ class WC_5f(object):
 
 
         self.coeff_dict = {}
+        for wc_name in coeff_dict.keys():
+            if wc_name in self.wc_name_list:
+                pass
+            else:
+                warnings.warn('The key ' + wc_name + ' is not defined. Typo?')
         for wc_name in self.wc_name_list:
             if wc_name in coeff_dict.keys():
                 self.coeff_dict[wc_name] = coeff_dict[wc_name]
