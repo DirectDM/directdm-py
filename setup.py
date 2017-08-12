@@ -1,0 +1,15 @@
+from setuptools import setup
+
+with open (directdm/_version) as f:
+    exec(f.read())
+
+setup(name='directdm',
+      version=__version__,
+      author='Fady Bishara, Joachim Brod, Benjamin Grinstein, Jure Zupan',
+      author_email='joachim.brod@tu-dortmund.de',
+      url='https://directdm.github.io',
+      description='A python package for dark matter direct detection',
+      license='MIT',
+      packages=['directdm'],
+      install_requires=['numpy', 'scipy', 'setuptools']
+    )

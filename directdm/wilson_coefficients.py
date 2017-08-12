@@ -4,15 +4,14 @@ import sys
 import numpy as np
 import scipy.integrate as spint
 import warnings
-sys.path.append('.')
-import adm
-import rge
-from num_input import Num_input
+from directdm.run import adm
+from directdm.run import rge
+from directdm.num.num_input import Num_input
 
 
-#----------------------#
-# dict to list to dict #
-#----------------------#
+#----------------------------------------------#
+# convert dictionaries to lists and vice versa #
+#----------------------------------------------#
 
 def dict_to_list(dictionary, order_list):
     """ Create a list from dictionary, according to ordering in oerder_list """

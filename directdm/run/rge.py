@@ -8,8 +8,7 @@ from scipy.integrate import odeint
 from scipy.special import zetac
 from scipy.interpolate import interp1d
 from scipy.linalg import expm
-sys.path.append('.')
-from num_input import Num_input
+from ..num.num_input import Num_input
 
 
 ### The Riemann Zeta Function

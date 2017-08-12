@@ -1,10 +1,7 @@
 #!/usr/bin/env python3
 
 import sys
-sys.path.append('.')
-import dm_running_matching as drm
-
-
+import directdm as ddm
 
 #----------------------------------------------------#
 #                                                    #
@@ -30,7 +27,7 @@ dict1 = {'C61u' : 1./scale**2, 'C62u' : 1./scale**2, 'C61d' : 1./scale**2}
 # Mandatory first argument is the dictionary for Wilson coefficients.
 # Optional argument id the DM-Type "D" [default], "M", "C", "R"
 
-wc3f = drm.WC_3f(dict1, "D")
+wc3f = ddm.WC_3f(dict1, "D")
 
 
 # The main method is to output the NR coefficients. 
