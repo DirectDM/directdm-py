@@ -153,7 +153,7 @@ class WC_3f(object):
             if wc_name in self.wc_name_list:
                 pass
             else:
-                warnings.warn('The key ' + wc_name + ' is not defined. Typo?')
+                warnings.warn('The key ' + wc_name + ' has not been defined. Typo?')
         for wc_name in self.wc_name_list:
             if wc_name in coeff_dict.keys():
                 self.coeff_dict[wc_name] = coeff_dict[wc_name]
@@ -905,7 +905,7 @@ class WC_4f(object):
             if wc_name in self.wc_name_list:
                 pass
             else:
-                warnings.warn('The key ' + wc_name + ' is not defined. Typo?')
+                warnings.warn('The key ' + wc_name + ' has not been defined. Typo?')
         for wc_name in self.wc_name_list:
             if wc_name in coeff_dict.keys():
                 self.coeff_dict[wc_name] = coeff_dict[wc_name]
@@ -1024,11 +1024,11 @@ class WC_4f(object):
 
     def _my_cNR(self, mchi, RGE=None, dict=None, NLO=None):
         """ Calculate the NR coefficients from four-flavor theory with meson contributions split off (mainly for internal use) """
-        return WC_3f(self.match())._my_cNR(mchi, RGE, dict, NLO)
+        return WC_3f(self.match(), self.DM_type)._my_cNR(mchi, RGE, dict, NLO)
 
     def cNR(self, mchi, qvec, RGE=None, dict=None, NLO=None):
         """ Calculate the NR coefficients from four-flavor theory """
-        return WC_3f(self.match()).cNR(mchi, qvec, RGE, dict, NLO)
+        return WC_3f(self.match(), self.DM_type).cNR(mchi, qvec, RGE, dict, NLO)
 
     def write_mma(self, mchi, qvector, RGE=None, NLO=None, path=None, filename=None):
         """ Write a text file with the NR coefficients that can be read into DMFormFactor 
@@ -1042,7 +1042,7 @@ class WC_4f(object):
 
         <filename> is the filename (default 'cNR.m')
         """
-        WC_3f(self.match()).write_mma(mchi, qvector, RGE, NLO, path, filename)
+        WC_3f(self.match(), self.DM_type).write_mma(mchi, qvector, RGE, NLO, path, filename)
 
 
 
@@ -1192,7 +1192,7 @@ class WC_5f(object):
             if wc_name in self.wc_name_list:
                 pass
             else:
-                warnings.warn('The key ' + wc_name + ' is not defined. Typo?')
+                warnings.warn('The key ' + wc_name + ' has not been defined. Typo?')
         for wc_name in self.wc_name_list:
             if wc_name in coeff_dict.keys():
                 self.coeff_dict[wc_name] = coeff_dict[wc_name]
@@ -1312,11 +1312,11 @@ class WC_5f(object):
 
     def _my_cNR(self, mchi, RGE=None, dict=None, NLO=None):
         """ Calculate the NR coefficients from four-flavor theory with meson contributions split off (mainly for internal use) """
-        return WC_4f(self.match())._my_cNR(mchi, RGE, dict, NLO)
+        return WC_4f(self.match(), self.DM_type)._my_cNR(mchi, RGE, dict, NLO)
 
     def cNR(self, mchi, qvec, RGE=None, dict=None, NLO=None):
         """ Calculate the NR coefficients from four-flavor theory """
-        return WC_4f(self.match()).cNR(mchi, qvec, RGE, dict, NLO)
+        return WC_4f(self.match(), self.DM_type).cNR(mchi, qvec, RGE, dict, NLO)
 
     def write_mma(self, mchi, qvector, RGE=None, NLO=None, path=None, filename=None):
         """ Write a text file with the NR coefficients that can be read into DMFormFactor 
@@ -1330,5 +1330,5 @@ class WC_5f(object):
 
         <filename> is the filename (default 'cNR.m')
         """
-        WC_4f(self.match()).write_mma(mchi, qvector, RGE, NLO, path, filename)
+        WC_4f(self.match(), self.DM_type).write_mma(mchi, qvector, RGE, NLO, path, filename)
 
