@@ -1485,8 +1485,17 @@ class WC_EW(object):
             C5_at_muz = rge.CmuEW(self.coeff_list_dim_5, adm.ADM5(self.Ychi, self.Jchi), self.Lambda, muz, self.Ychi, self.Jchi, 1, 1, 1, 1)
             C6_at_muz = rge.CmuEW(C6_at_Lambda, adm.ADM6(self.Ychi, self.Jchi), self.Lambda, muz, self.Ychi, self.Jchi, 1, 1, 1, 1)
 
+            C5_at_muz_dict = list_to_dict(C5_at_muz.run()[0][1], self.wc_name_list_dim_5)
+            C6_at_muz_dict = list_to_dict(C6_at_muz.run()[0][1], self.wc_name_list_dim_6)
+
+            C_at_muz_dict = {}
+            for wc_name in self.wc_name_list_dim_5:
+                C_at_muz_dict[wc_name] = C5_at_muz_dict[wc_name]
+            for wc_name in self.wc_name_list_dim_6:
+                C_at_muz_dict[wc_name] = C6_at_muz_dict[wc_name]
+
             if dict:
-                return [C5_at_muz.run()[0][1], C6_at_muz.run()[0][1]]
+                return C_at_muz_dict
             else:
                 raise Exception("Currently, only a dictionary can be returned.")
         else:
@@ -1565,104 +1574,116 @@ class WC_EW(object):
         cw = MW/MZ
         sw = np.sqrt(1-cw**2)
 
+
+        # The Wilson coefficients in the "UV" EFT at scale MZ
+        if RUN_EW == 'FULL':
+            wcew_dict = self.run(muz=ip.Mz, resum=True, dict=True)
+        elif RUN_EW == 'LL':
+            wcew_dict = self.run(muz=ip.Mz, resum=False, dict=True)
+        elif RUN_EW == 'OFF':
+            wcew_dict = self.coeff_dict
+        else:
+            raise Exception("RUN_EW can only be set to \'FULL\', \'LL\', or \'OFF\'.")
+
+
         # Calculate the physical DM mass in terms of mchi and the Wilson coefficients, 
         # and the corresponding shift in the dimension-five Wilson coefficients.
 
         if mchi > mchi_threshold:
             if self.Jchi == 0:
-                self.mchi_phys = mchi - vev**2/2/self.Lambda * self.coeff_dict['C53']
+                self.mchi_phys = mchi - vev**2/2/self.Lambda * wcew_dict['C53']
                 wc5_dict_shifted = {}
 
-                wc5_dict_shifted['C51'] = self.coeff_dict['C51'] + vev**2/2/self.Lambda/mchi * self.coeff_dict['C57'] * self.coeff_dict['C55']
-                wc5_dict_shifted['C53'] = self.coeff_dict['C53'] + vev**2/2/self.Lambda/mchi * self.coeff_dict['C57'] * self.coeff_dict['C57']
-                wc5_dict_shifted['C55'] = self.coeff_dict['C55'] - vev**2/2/self.Lambda/mchi * self.coeff_dict['C57'] * self.coeff_dict['C51']
-                wc5_dict_shifted['C57'] = self.coeff_dict['C57'] - vev**2/2/self.Lambda/mchi * self.coeff_dict['C57'] * self.coeff_dict['C53']
+                wc5_dict_shifted['C51'] = wcew_dict['C51'] + vev**2/2/self.Lambda/mchi * wcew_dict['C57'] * wcew_dict['C55']
+                wc5_dict_shifted['C53'] = wcew_dict['C53'] + vev**2/2/self.Lambda/mchi * wcew_dict['C57'] * wcew_dict['C57']
+                wc5_dict_shifted['C55'] = wcew_dict['C55'] - vev**2/2/self.Lambda/mchi * wcew_dict['C57'] * wcew_dict['C51']
+                wc5_dict_shifted['C57'] = wcew_dict['C57'] - vev**2/2/self.Lambda/mchi * wcew_dict['C57'] * wcew_dict['C53']
 
             else:
-                self.mchi_phys = mchi - vev**2/2/self.Lambda * (self.coeff_dict['C53'] + self.Ychi/4 * self.coeff_dict['C54'])
+                self.mchi_phys = mchi - vev**2/2/self.Lambda * (wcew_dict['C53'] + self.Ychi/4 * wcew_dict['C54'])
                 wc5_dict_shifted = {}
 
-                wc5_dict_shifted['C51'] = self.coeff_dict['C51']\
-                                          + vev**2/2/self.Lambda/mchi * (self.coeff_dict['C57'] + self.Ychi/4 * self.coeff_dict['C58']) * self.coeff_dict['C55']
-                wc5_dict_shifted['C52'] = self.coeff_dict['C52']\
-                                          + vev**2/2/self.Lambda/mchi * (self.coeff_dict['C57'] + self.Ychi/4 * self.coeff_dict['C58']) * self.coeff_dict['C56']
-                wc5_dict_shifted['C53'] = self.coeff_dict['C53']\
-                                          + vev**2/2/self.Lambda/mchi * (self.coeff_dict['C57'] + self.Ychi/4 * self.coeff_dict['C58']) * self.coeff_dict['C57']
-                wc5_dict_shifted['C54'] = self.coeff_dict['C54']\
-                                          + vev**2/2/self.Lambda/mchi * (self.coeff_dict['C57'] + self.Ychi/4 * self.coeff_dict['C58']) * self.coeff_dict['C58']
-                wc5_dict_shifted['C55'] = self.coeff_dict['C55']\
-                                          - vev**2/2/self.Lambda/mchi * (self.coeff_dict['C57'] + self.Ychi/4 * self.coeff_dict['C58']) * self.coeff_dict['C51']
-                wc5_dict_shifted['C56'] = self.coeff_dict['C56']\
-                                          - vev**2/2/self.Lambda/mchi * (self.coeff_dict['C57'] + self.Ychi/4 * self.coeff_dict['C58']) * self.coeff_dict['C52']
-                wc5_dict_shifted['C57'] = self.coeff_dict['C57']\
-                                          - vev**2/2/self.Lambda/mchi * (self.coeff_dict['C57'] + self.Ychi/4 * self.coeff_dict['C58']) * self.coeff_dict['C53']
-                wc5_dict_shifted['C58'] = self.coeff_dict['C58']\
-                                          - vev**2/2/self.Lambda/mchi * (self.coeff_dict['C57'] + self.Ychi/4 * self.coeff_dict['C58']) * self.coeff_dict['C54']
+                wc5_dict_shifted['C51'] = wcew_dict['C51']\
+                                          + vev**2/2/self.Lambda/mchi * (wcew_dict['C57'] + self.Ychi/4 * wcew_dict['C58']) * wcew_dict['C55']
+                wc5_dict_shifted['C52'] = wcew_dict['C52']\
+                                          + vev**2/2/self.Lambda/mchi * (wcew_dict['C57'] + self.Ychi/4 * wcew_dict['C58']) * wcew_dict['C56']
+                wc5_dict_shifted['C53'] = wcew_dict['C53']\
+                                          + vev**2/2/self.Lambda/mchi * (wcew_dict['C57'] + self.Ychi/4 * wcew_dict['C58']) * wcew_dict['C57']
+                wc5_dict_shifted['C54'] = wcew_dict['C54']\
+                                          + vev**2/2/self.Lambda/mchi * (wcew_dict['C57'] + self.Ychi/4 * wcew_dict['C58']) * wcew_dict['C58']
+                wc5_dict_shifted['C55'] = wcew_dict['C55']\
+                                          - vev**2/2/self.Lambda/mchi * (wcew_dict['C57'] + self.Ychi/4 * wcew_dict['C58']) * wcew_dict['C51']
+                wc5_dict_shifted['C56'] = wcew_dict['C56']\
+                                          - vev**2/2/self.Lambda/mchi * (wcew_dict['C57'] + self.Ychi/4 * wcew_dict['C58']) * wcew_dict['C52']
+                wc5_dict_shifted['C57'] = wcew_dict['C57']\
+                                          - vev**2/2/self.Lambda/mchi * (wcew_dict['C57'] + self.Ychi/4 * wcew_dict['C58']) * wcew_dict['C53']
+                wc5_dict_shifted['C58'] = wcew_dict['C58']\
+                                          - vev**2/2/self.Lambda/mchi * (wcew_dict['C57'] + self.Ychi/4 * wcew_dict['C58']) * wcew_dict['C54']
 
         else:
             if self.Jchi == 0:
-                cosphi = np.sqrt((self.coeff_dict['C53'] - 2*mchi*self.Lambda/vev**2)**2/\
-                                 ((self.coeff_dict['C53'] - 2*mchi*self.Lambda/vev**2)**2 + self.coeff_dict['C57']**2))
-                sinphi = np.sqrt((self.coeff_dict['C57'])**2/\
-                                 ((self.coeff_dict['C53'] - 2*mchi*self.Lambda/vev**2)**2 + self.coeff_dict['C57']**2))
-                pre_mchi_phys = mchi*cosphi + vev**2/2/self.Lambda * (self.coeff_dict['C57'] * sinphi - self.coeff_dict['C53'] * cosphi)
+                cosphi = np.sqrt((wcew_dict['C53'] - 2*mchi*self.Lambda/vev**2)**2/\
+                                 ((wcew_dict['C53'] - 2*mchi*self.Lambda/vev**2)**2 + wcew_dict['C57']**2))
+                sinphi = np.sqrt((wcew_dict['C57'])**2/\
+                                 ((wcew_dict['C53'] - 2*mchi*self.Lambda/vev**2)**2 + wcew_dict['C57']**2))
+                pre_mchi_phys = mchi*cosphi + vev**2/2/self.Lambda * (wcew_dict['C57'] * sinphi - wcew_dict['C53'] * cosphi)
                 if pre_mchi_phys > 0:
                     self.mchi_phys = pre_mchi_phys
 
                     wc5_dict_shifted = {}
 
-                    wc5_dict_shifted['C51'] = cosphi * self.coeff_dict['C51'] + sinphi * self.coeff_dict['C55'] 
-                    wc5_dict_shifted['C53'] = cosphi * self.coeff_dict['C53'] + sinphi * self.coeff_dict['C57'] 
-                    wc5_dict_shifted['C55'] = cosphi * self.coeff_dict['C55'] - sinphi * self.coeff_dict['C51'] 
-                    wc5_dict_shifted['C57'] = cosphi * self.coeff_dict['C57'] - sinphi * self.coeff_dict['C53'] 
+                    wc5_dict_shifted['C51'] = cosphi * wcew_dict['C51'] + sinphi * wcew_dict['C55'] 
+                    wc5_dict_shifted['C53'] = cosphi * wcew_dict['C53'] + sinphi * wcew_dict['C57'] 
+                    wc5_dict_shifted['C55'] = cosphi * wcew_dict['C55'] - sinphi * wcew_dict['C51'] 
+                    wc5_dict_shifted['C57'] = cosphi * wcew_dict['C57'] - sinphi * wcew_dict['C53'] 
                 else:
                     self.mchi_phys = - pre_mchi_phys
 
                     wc5_dict_shifted = {}
 
-                    wc5_dict_shifted['C51'] = cosphi * self.coeff_dict['C51'] - sinphi * self.coeff_dict['C55'] 
-                    wc5_dict_shifted['C53'] = cosphi * self.coeff_dict['C53'] - sinphi * self.coeff_dict['C57'] 
-                    wc5_dict_shifted['C55'] = cosphi * self.coeff_dict['C55'] + sinphi * self.coeff_dict['C51'] 
-                    wc5_dict_shifted['C57'] = cosphi * self.coeff_dict['C57'] + sinphi * self.coeff_dict['C53'] 
+                    wc5_dict_shifted['C51'] = cosphi * wcew_dict['C51'] - sinphi * wcew_dict['C55'] 
+                    wc5_dict_shifted['C53'] = cosphi * wcew_dict['C53'] - sinphi * wcew_dict['C57'] 
+                    wc5_dict_shifted['C55'] = cosphi * wcew_dict['C55'] + sinphi * wcew_dict['C51'] 
+                    wc5_dict_shifted['C57'] = cosphi * wcew_dict['C57'] + sinphi * wcew_dict['C53'] 
             else:
-                cosphi = np.sqrt((self.coeff_dict['C53'] + self.Ychi/4 * self.coeff_dict['C54'] - 2*mchi*self.Lambda/vev**2)**2/\
-                                ((self.coeff_dict['C53'] + self.Ychi/4 * self.coeff_dict['C54'] - 2*mchi*self.Lambda/vev**2)**2\
-                                +(self.coeff_dict['C57'] + self.Ychi/4 * self.coeff_dict['C58'])**2))
-                sinphi = np.sqrt((self.coeff_dict['C57'] + self.Ychi/4 * self.coeff_dict['C58'])**2/\
-                                ((self.coeff_dict['C53'] + self.Ychi/4 * self.coeff_dict['C54'] - 2*mchi*self.Lambda/vev**2)**2\
-                                +(self.coeff_dict['C57'] + self.Ychi/4 * self.coeff_dict['C58'])**2))
-                pre_mchi_phys = mchi*cosphi + vev**2/2/self.Lambda * ((self.coeff_dict['C57'] + self.Ychi/4 * self.coeff_dict['C58'])*sinphi\
-                                                              - (self.coeff_dict['C53'] + self.Ychi/4 * self.coeff_dict['C54'])*cosphi)
+                cosphi = np.sqrt((wcew_dict['C53'] + self.Ychi/4 * wcew_dict['C54'] - 2*mchi*self.Lambda/vev**2)**2/\
+                                ((wcew_dict['C53'] + self.Ychi/4 * wcew_dict['C54'] - 2*mchi*self.Lambda/vev**2)**2\
+                                +(wcew_dict['C57'] + self.Ychi/4 * wcew_dict['C58'])**2))
+                sinphi = np.sqrt((wcew_dict['C57'] + self.Ychi/4 * wcew_dict['C58'])**2/\
+                                ((wcew_dict['C53'] + self.Ychi/4 * wcew_dict['C54'] - 2*mchi*self.Lambda/vev**2)**2\
+                                +(wcew_dict['C57'] + self.Ychi/4 * wcew_dict['C58'])**2))
+                pre_mchi_phys = mchi*cosphi + vev**2/2/self.Lambda * ((wcew_dict['C57'] + self.Ychi/4 * wcew_dict['C58'])*sinphi\
+                                                              - (wcew_dict['C53'] + self.Ychi/4 * wcew_dict['C54'])*cosphi)
                 if pre_mchi_phys > 0:
                     self.mchi_phys = pre_mchi_phys
 
                     wc5_dict_shifted = {}
 
-                    wc5_dict_shifted['C51'] = cosphi * self.coeff_dict['C51'] + sinphi * self.coeff_dict['C55'] 
-                    wc5_dict_shifted['C52'] = cosphi * self.coeff_dict['C52'] + sinphi * self.coeff_dict['C56'] 
-                    wc5_dict_shifted['C53'] = cosphi * self.coeff_dict['C53'] + sinphi * self.coeff_dict['C57'] 
-                    wc5_dict_shifted['C54'] = cosphi * self.coeff_dict['C54'] + sinphi * self.coeff_dict['C58'] 
-                    wc5_dict_shifted['C55'] = cosphi * self.coeff_dict['C55'] - sinphi * self.coeff_dict['C51'] 
-                    wc5_dict_shifted['C56'] = cosphi * self.coeff_dict['C56'] - sinphi * self.coeff_dict['C52'] 
-                    wc5_dict_shifted['C57'] = cosphi * self.coeff_dict['C57'] - sinphi * self.coeff_dict['C53'] 
-                    wc5_dict_shifted['C58'] = cosphi * self.coeff_dict['C58'] - sinphi * self.coeff_dict['C54'] 
+                    wc5_dict_shifted['C51'] = cosphi * wcew_dict['C51'] + sinphi * wcew_dict['C55'] 
+                    wc5_dict_shifted['C52'] = cosphi * wcew_dict['C52'] + sinphi * wcew_dict['C56'] 
+                    wc5_dict_shifted['C53'] = cosphi * wcew_dict['C53'] + sinphi * wcew_dict['C57'] 
+                    wc5_dict_shifted['C54'] = cosphi * wcew_dict['C54'] + sinphi * wcew_dict['C58'] 
+                    wc5_dict_shifted['C55'] = cosphi * wcew_dict['C55'] - sinphi * wcew_dict['C51'] 
+                    wc5_dict_shifted['C56'] = cosphi * wcew_dict['C56'] - sinphi * wcew_dict['C52'] 
+                    wc5_dict_shifted['C57'] = cosphi * wcew_dict['C57'] - sinphi * wcew_dict['C53'] 
+                    wc5_dict_shifted['C58'] = cosphi * wcew_dict['C58'] - sinphi * wcew_dict['C54'] 
                 else:
                     self.mchi_phys = - pre_mchi_phys
 
                     wc5_dict_shifted = {}
 
-                    wc5_dict_shifted['C51'] = cosphi * self.coeff_dict['C51'] - sinphi * self.coeff_dict['C55'] 
-                    wc5_dict_shifted['C52'] = cosphi * self.coeff_dict['C52'] - sinphi * self.coeff_dict['C56'] 
-                    wc5_dict_shifted['C53'] = cosphi * self.coeff_dict['C53'] - sinphi * self.coeff_dict['C57'] 
-                    wc5_dict_shifted['C54'] = cosphi * self.coeff_dict['C54'] - sinphi * self.coeff_dict['C58'] 
-                    wc5_dict_shifted['C55'] = cosphi * self.coeff_dict['C55'] + sinphi * self.coeff_dict['C51'] 
-                    wc5_dict_shifted['C56'] = cosphi * self.coeff_dict['C56'] + sinphi * self.coeff_dict['C52'] 
-                    wc5_dict_shifted['C57'] = cosphi * self.coeff_dict['C57'] + sinphi * self.coeff_dict['C53'] 
-                    wc5_dict_shifted['C58'] = cosphi * self.coeff_dict['C58'] + sinphi * self.coeff_dict['C54'] 
+                    wc5_dict_shifted['C51'] = cosphi * wcew_dict['C51'] - sinphi * wcew_dict['C55'] 
+                    wc5_dict_shifted['C52'] = cosphi * wcew_dict['C52'] - sinphi * wcew_dict['C56'] 
+                    wc5_dict_shifted['C53'] = cosphi * wcew_dict['C53'] - sinphi * wcew_dict['C57'] 
+                    wc5_dict_shifted['C54'] = cosphi * wcew_dict['C54'] - sinphi * wcew_dict['C58'] 
+                    wc5_dict_shifted['C55'] = cosphi * wcew_dict['C55'] + sinphi * wcew_dict['C51'] 
+                    wc5_dict_shifted['C56'] = cosphi * wcew_dict['C56'] + sinphi * wcew_dict['C52'] 
+                    wc5_dict_shifted['C57'] = cosphi * wcew_dict['C57'] + sinphi * wcew_dict['C53'] 
+                    wc5_dict_shifted['C58'] = cosphi * wcew_dict['C58'] + sinphi * wcew_dict['C54'] 
 
         # The redefinitions of the dim.-5 Wilson coefficients resulting from the mass shift:
 
-        coeff_dict_shifted = self.coeff_dict
+        coeff_dict_shifted = wcew_dict
         coeff_dict_shifted.update(wc5_dict_shifted)
 
         # The Higgs penguin function. 
