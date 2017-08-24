@@ -1287,10 +1287,10 @@ class WC_5f(object):
         if self.DM_type == "D" or self.DM_type == "M":
             for wcn in self.wc_name_list_4f:
                 cdict4f[wcn] = cdold[wcn]
-            cdict4f['C71'] = cdold['C71'] - cdold['C65b']
-            cdict4f['C72'] = cdold['C72'] - cdold['C66b']
-            cdict4f['C73'] = cdold['C73'] + cdold['C67b']
-            cdict4f['C74'] = cdold['C74'] + cdold['C68b']
+            cdict4f['C71'] = cdold['C71'] - cdold['C75b']
+            cdict4f['C72'] = cdold['C72'] - cdold['C76b']
+            cdict4f['C73'] = cdold['C73'] + cdold['C77b']
+            cdict4f['C74'] = cdold['C74'] + cdold['C78b']
 
         if self.DM_type == "C":
             for wcn in self.wc_name_list_4f:
