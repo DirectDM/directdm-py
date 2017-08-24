@@ -781,20 +781,20 @@ class WC_4f(object):
                              'C63u', 'C63d', 'C63s', 'C63c', 'C63e', 'C63mu', 'C63tau', 
                              'C64u', 'C64d', 'C64s', 'C64c', 'C64e', 'C64mu', 'C64tau',
                              'C71', 'C72', 'C73', 'C74',
-                             'C75u', 'C75d', 'C75s', 'C65c', 'C75e', 'C75mu', 'C75tau', 
-                             'C76u', 'C76d', 'C76s', 'C66c', 'C76e', 'C76mu', 'C76tau',
-                             'C77u', 'C77d', 'C77s', 'C67c', 'C77e', 'C77mu', 'C77tau', 
-                             'C78u', 'C78d', 'C78s', 'C68c', 'C78e', 'C78mu', 'C78tau',
-                             'C79u', 'C79d', 'C79s', 'C69c', 'C79e', 'C79mu', 'C79tau', 
-                             'C710u', 'C710d', 'C710s', 'C610c', 'C710e', 'C710mu', 'C710tau'
+                             'C75u', 'C75d', 'C75s', 'C75c', 'C75e', 'C75mu', 'C75tau', 
+                             'C76u', 'C76d', 'C76s', 'C76c', 'C76e', 'C76mu', 'C76tau',
+                             'C77u', 'C77d', 'C77s', 'C77c', 'C77e', 'C77mu', 'C77tau', 
+                             'C78u', 'C78d', 'C78s', 'C78c', 'C78e', 'C78mu', 'C78tau',
+                             'C79u', 'C79d', 'C79s', 'C79c', 'C79e', 'C79mu', 'C79tau', 
+                             'C710u', 'C710d', 'C710s', 'C710c', 'C710e', 'C710mu', 'C710tau'
 
         Majorana fermion:    'C62u', 'C62d', 'C62s', 'C62c', 'C62e', 'C62mu', 'C62tau',
                              'C64u', 'C64d', 'C64s', 'C64c', 'C64e', 'C64mu', 'C64tau',
                              'C71', 'C72', 'C73', 'C74',
-                             'C75u', 'C75d', 'C75s', 'C65c', 'C75e', 'C75mu', 'C75tau', 
-                             'C76u', 'C76d', 'C76s', 'C66c', 'C76e', 'C76mu', 'C76tau',
-                             'C77u', 'C77d', 'C77s', 'C67c', 'C77e', 'C77mu', 'C77tau', 
-                             'C78u', 'C78d', 'C78s', 'C68c', 'C78e', 'C78mu', 'C78tau',
+                             'C75u', 'C75d', 'C75s', 'C75c', 'C75e', 'C75mu', 'C75tau', 
+                             'C76u', 'C76d', 'C76s', 'C76c', 'C76e', 'C76mu', 'C76tau',
+                             'C77u', 'C77d', 'C77s', 'C77c', 'C77e', 'C77mu', 'C77tau', 
+                             'C78u', 'C78d', 'C78s', 'C78c', 'C78e', 'C78mu', 'C78tau',
 
         Complex Scalar:      'C61u', 'C61d', 'C61s', 'C61c', 'C61e', 'C61mu', 'C61tau', 
                              'C62u', 'C62d', 'C62s', 'C62c', 'C62e', 'C62mu', 'C62tau',
@@ -842,12 +842,12 @@ class WC_4f(object):
                                  'C63u', 'C63d', 'C63s', 'C63c', 'C63e', 'C63mu', 'C63tau', 
                                  'C64u', 'C64d', 'C64s', 'C64c', 'C64e', 'C64mu', 'C64tau',
                                  'C71', 'C72', 'C73', 'C74',
-                                 'C75u', 'C75d', 'C75s', 'C65c', 'C75e', 'C75mu', 'C75tau', 
-                                 'C76u', 'C76d', 'C76s', 'C66c', 'C76e', 'C76mu', 'C76tau',
-                                 'C77u', 'C77d', 'C77s', 'C67c', 'C77e', 'C77mu', 'C77tau', 
-                                 'C78u', 'C78d', 'C78s', 'C68c', 'C78e', 'C78mu', 'C78tau',
-                                 'C79u', 'C79d', 'C79s', 'C69c', 'C79e', 'C79mu', 'C79tau', 
-                                 'C710u', 'C710d', 'C710s', 'C610c', 'C710e', 'C710mu', 'C710tau']
+                                 'C75u', 'C75d', 'C75s', 'C75c', 'C75e', 'C75mu', 'C75tau', 
+                                 'C76u', 'C76d', 'C76s', 'C76c', 'C76e', 'C76mu', 'C76tau',
+                                 'C77u', 'C77d', 'C77s', 'C77c', 'C77e', 'C77mu', 'C77tau', 
+                                 'C78u', 'C78d', 'C78s', 'C78c', 'C78e', 'C78mu', 'C78tau',
+                                 'C79u', 'C79d', 'C79s', 'C79c', 'C79e', 'C79mu', 'C79tau', 
+                                 'C710u', 'C710d', 'C710s', 'C710c', 'C710e', 'C710mu', 'C710tau']
             self.wc_name_list_3f = ['C51', 'C52', 'C61u', 'C61d', 'C61s', 'C61e', 'C61mu', 'C61tau',
                                     'C62u', 'C62d', 'C62s', 'C62e', 'C62mu', 'C62tau',
                                  'C63u', 'C63d', 'C63s', 'C63e', 'C63mu', 'C63tau',
@@ -864,10 +864,10 @@ class WC_4f(object):
             self.wc_name_list = ['C62u', 'C62d', 'C62s', 'C62c', 'C62e', 'C62mu', 'C62tau',
                                  'C64u', 'C64d', 'C64s', 'C64c', 'C64e', 'C64mu', 'C64tau',
                                  'C71', 'C72', 'C73', 'C74',
-                                 'C75u', 'C75d', 'C75s', 'C65c', 'C75e', 'C75mu', 'C75tau', 
-                                 'C76u', 'C76d', 'C76s', 'C66c', 'C76e', 'C76mu', 'C76tau',
-                                 'C77u', 'C77d', 'C77s', 'C67c', 'C77e', 'C77mu', 'C77tau', 
-                                 'C78u', 'C78d', 'C78s', 'C68c', 'C78e', 'C78mu', 'C78tau']
+                                 'C75u', 'C75d', 'C75s', 'C75c', 'C75e', 'C75mu', 'C75tau', 
+                                 'C76u', 'C76d', 'C76s', 'C76c', 'C76e', 'C76mu', 'C76tau',
+                                 'C77u', 'C77d', 'C77s', 'C77c', 'C77e', 'C77mu', 'C77tau', 
+                                 'C78u', 'C78d', 'C78s', 'C78c', 'C78e', 'C78mu', 'C78tau']
             self.wc_name_list_3f = ['C62u', 'C62d', 'C62s', 'C62e', 'C62mu', 'C62tau',
                                     'C64u', 'C64d', 'C64s', 'C64e', 'C64mu', 'C64tau',
                                     'C71', 'C72', 'C73', 'C74',
@@ -998,10 +998,10 @@ class WC_4f(object):
         if self.DM_type == "D" or self.DM_type == "M":
             for wcn in self.wc_name_list_3f:
                 cdict3f[wcn] = cdold[wcn]
-            cdict3f['C71'] = cdold['C71'] - cdold['C65c']
-            cdict3f['C72'] = cdold['C72'] - cdold['C66c']
-            cdict3f['C73'] = cdold['C73'] + cdold['C67c']
-            cdict3f['C74'] = cdold['C74'] + cdold['C68c']
+            cdict3f['C71'] = cdold['C71'] - cdold['C75c']
+            cdict3f['C72'] = cdold['C72'] - cdold['C76c']
+            cdict3f['C73'] = cdold['C73'] + cdold['C77c']
+            cdict3f['C74'] = cdold['C74'] + cdold['C78c']
 
         if self.DM_type == "C":
             for wcn in self.wc_name_list_3f:
@@ -1068,20 +1068,20 @@ class WC_5f(object):
                              'C63u', 'C63d', 'C63s', 'C63c', 'C63b', 'C63e', 'C63mu', 'C63tau', 
                              'C64u', 'C64d', 'C64s', 'C64c', 'C64b', 'C64e', 'C64mu', 'C64tau',
                              'C71', 'C72', 'C73', 'C74',
-                             'C75u', 'C75d', 'C75s', 'C65c', 'C65b', 'C75e', 'C75mu', 'C75tau', 
-                             'C76u', 'C76d', 'C76s', 'C66c', 'C66b', 'C76e', 'C76mu', 'C76tau',
-                             'C77u', 'C77d', 'C77s', 'C67c', 'C67b', 'C77e', 'C77mu', 'C77tau', 
-                             'C78u', 'C78d', 'C78s', 'C68c', 'C68b', 'C78e', 'C78mu', 'C78tau',
-                             'C79u', 'C79d', 'C79s', 'C69c', 'C69b', 'C79e', 'C79mu', 'C79tau', 
-                             'C710u', 'C710d', 'C710s', 'C610c', 'C610b', 'C710e', 'C710mu', 'C710tau'
+                             'C75u', 'C75d', 'C75s', 'C75c', 'C75b', 'C75e', 'C75mu', 'C75tau', 
+                             'C76u', 'C76d', 'C76s', 'C76c', 'C76b', 'C76e', 'C76mu', 'C76tau',
+                             'C77u', 'C77d', 'C77s', 'C77c', 'C77b', 'C77e', 'C77mu', 'C77tau', 
+                             'C78u', 'C78d', 'C78s', 'C78c', 'C78b', 'C78e', 'C78mu', 'C78tau',
+                             'C79u', 'C79d', 'C79s', 'C79c', 'C79b', 'C79e', 'C79mu', 'C79tau', 
+                             'C710u', 'C710d', 'C710s', 'C710c', 'C710b', 'C710e', 'C710mu', 'C710tau'
 
         Majorana fermion:    'C62u', 'C62d', 'C62s', 'C62c', 'C62b', 'C62e', 'C62mu', 'C62tau',
                              'C64u', 'C64d', 'C64s', 'C64c', 'C64b', 'C64e', 'C64mu', 'C64tau',
                              'C71', 'C72', 'C73', 'C74',
-                             'C75u', 'C75d', 'C75s', 'C65c', 'C65b', 'C75e', 'C75mu', 'C75tau', 
-                             'C76u', 'C76d', 'C76s', 'C66c', 'C66b', 'C76e', 'C76mu', 'C76tau',
-                             'C77u', 'C77d', 'C77s', 'C67c', 'C67b', 'C77e', 'C77mu', 'C77tau', 
-                             'C78u', 'C78d', 'C78s', 'C68c', 'C68b', 'C78e', 'C78mu', 'C78tau',
+                             'C75u', 'C75d', 'C75s', 'C75c', 'C75b', 'C75e', 'C75mu', 'C75tau', 
+                             'C76u', 'C76d', 'C76s', 'C76c', 'C76b', 'C76e', 'C76mu', 'C76tau',
+                             'C77u', 'C77d', 'C77s', 'C77c', 'C77b', 'C77e', 'C77mu', 'C77tau', 
+                             'C78u', 'C78d', 'C78s', 'C78c', 'C78b', 'C78e', 'C78mu', 'C78tau',
 
         Complex Scalar:      'C61u', 'C61d', 'C61s', 'C61c', 'C61b', 'C61e', 'C61mu', 'C61tau', 
                              'C62u', 'C62d', 'C62s', 'C62c', 'C62b', 'C62e', 'C62mu', 'C62tau',
@@ -1128,39 +1128,39 @@ class WC_5f(object):
                                  'C63u', 'C63d', 'C63s', 'C63c', 'C63b', 'C63e', 'C63mu', 'C63tau', 
                                  'C64u', 'C64d', 'C64s', 'C64c', 'C64b', 'C64e', 'C64mu', 'C64tau',
                                  'C71', 'C72', 'C73', 'C74',
-                                 'C75u', 'C75d', 'C75s', 'C65c', 'C65b', 'C75e', 'C75mu', 'C75tau', 
-                                 'C76u', 'C76d', 'C76s', 'C66c', 'C66b', 'C76e', 'C76mu', 'C76tau',
-                                 'C77u', 'C77d', 'C77s', 'C67c', 'C67b', 'C77e', 'C77mu', 'C77tau', 
-                                 'C78u', 'C78d', 'C78s', 'C68c', 'C68b', 'C78e', 'C78mu', 'C78tau',
-                                 'C79u', 'C79d', 'C79s', 'C69c', 'C69b', 'C79e', 'C79mu', 'C79tau', 
-                                 'C710u', 'C710d', 'C710s', 'C610c', 'C610b', 'C710e', 'C710mu', 'C710tau']
+                                 'C75u', 'C75d', 'C75s', 'C75c', 'C75b', 'C75e', 'C75mu', 'C75tau', 
+                                 'C76u', 'C76d', 'C76s', 'C76c', 'C76b', 'C76e', 'C76mu', 'C76tau',
+                                 'C77u', 'C77d', 'C77s', 'C77c', 'C77b', 'C77e', 'C77mu', 'C77tau', 
+                                 'C78u', 'C78d', 'C78s', 'C78c', 'C78b', 'C78e', 'C78mu', 'C78tau',
+                                 'C79u', 'C79d', 'C79s', 'C79c', 'C79b', 'C79e', 'C79mu', 'C79tau', 
+                                 'C710u', 'C710d', 'C710s', 'C710c', 'C710b', 'C710e', 'C710mu', 'C710tau']
             self.wc_name_list_4f = ['C51', 'C52', 'C61u', 'C61d', 'C61s', 'C61c', 'C61e', 'C61mu', 'C61tau', 
                                     'C62u', 'C62d', 'C62s', 'C62c', 'C62e', 'C62mu', 'C62tau',
                                     'C63u', 'C63d', 'C63s', 'C63c', 'C63e', 'C63mu', 'C63tau', 
                                     'C64u', 'C64d', 'C64s', 'C64c', 'C64e', 'C64mu', 'C64tau',
                                     'C71', 'C72', 'C73', 'C74',
-                                    'C75u', 'C75d', 'C75s', 'C65c', 'C75e', 'C75mu', 'C75tau', 
-                                    'C76u', 'C76d', 'C76s', 'C66c', 'C76e', 'C76mu', 'C76tau',
-                                    'C77u', 'C77d', 'C77s', 'C67c', 'C77e', 'C77mu', 'C77tau', 
-                                    'C78u', 'C78d', 'C78s', 'C68c', 'C78e', 'C78mu', 'C78tau',
-                                    'C79u', 'C79d', 'C79s', 'C69c', 'C79e', 'C79mu', 'C79tau', 
-                                    'C710u', 'C710d', 'C710s', 'C610c', 'C710e', 'C710mu', 'C710tau']
+                                    'C75u', 'C75d', 'C75s', 'C75c', 'C75e', 'C75mu', 'C75tau', 
+                                    'C76u', 'C76d', 'C76s', 'C76c', 'C76e', 'C76mu', 'C76tau',
+                                    'C77u', 'C77d', 'C77s', 'C77c', 'C77e', 'C77mu', 'C77tau', 
+                                    'C78u', 'C78d', 'C78s', 'C78c', 'C78e', 'C78mu', 'C78tau',
+                                    'C79u', 'C79d', 'C79s', 'C79c', 'C79e', 'C79mu', 'C79tau', 
+                                    'C710u', 'C710d', 'C710s', 'C710c', 'C710e', 'C710mu', 'C710tau']
 
         if self.DM_type == "M":
             self.wc_name_list = ['C62u', 'C62d', 'C62s', 'C62c', 'C62b', 'C62e', 'C62mu', 'C62tau',
                                  'C64u', 'C64d', 'C64s', 'C64c', 'C64b', 'C64e', 'C64mu', 'C64tau',
                                  'C71', 'C72', 'C73', 'C74',
-                                 'C75u', 'C75d', 'C75s', 'C65c', 'C65b', 'C75e', 'C75mu', 'C75tau', 
-                                 'C76u', 'C76d', 'C76s', 'C66c', 'C66b', 'C76e', 'C76mu', 'C76tau',
-                                 'C77u', 'C77d', 'C77s', 'C67c', 'C67b', 'C77e', 'C77mu', 'C77tau', 
-                                 'C78u', 'C78d', 'C78s', 'C68c', 'C68b', 'C78e', 'C78mu', 'C78tau']
+                                 'C75u', 'C75d', 'C75s', 'C75c', 'C75b', 'C75e', 'C75mu', 'C75tau', 
+                                 'C76u', 'C76d', 'C76s', 'C76c', 'C76b', 'C76e', 'C76mu', 'C76tau',
+                                 'C77u', 'C77d', 'C77s', 'C77c', 'C77b', 'C77e', 'C77mu', 'C77tau', 
+                                 'C78u', 'C78d', 'C78s', 'C78c', 'C78b', 'C78e', 'C78mu', 'C78tau']
             self.wc_name_list_4f = ['C62u', 'C62d', 'C62s', 'C62c', 'C62e', 'C62mu', 'C62tau',
                                     'C64u', 'C64d', 'C64s', 'C64c', 'C64e', 'C64mu', 'C64tau',
                                     'C71', 'C72', 'C73', 'C74',
-                                    'C75u', 'C75d', 'C75s', 'C65c', 'C75e', 'C75mu', 'C75tau', 
-                                    'C76u', 'C76d', 'C76s', 'C66c', 'C76e', 'C76mu', 'C76tau',
-                                    'C77u', 'C77d', 'C77s', 'C67c', 'C77e', 'C77mu', 'C77tau', 
-                                    'C78u', 'C78d', 'C78s', 'C68c', 'C78e', 'C78mu', 'C78tau']
+                                    'C75u', 'C75d', 'C75s', 'C75c', 'C75e', 'C75mu', 'C75tau', 
+                                    'C76u', 'C76d', 'C76s', 'C76c', 'C76e', 'C76mu', 'C76tau',
+                                    'C77u', 'C77d', 'C77s', 'C77c', 'C77e', 'C77mu', 'C77tau', 
+                                    'C78u', 'C78d', 'C78s', 'C78c', 'C78e', 'C78mu', 'C78tau']
             del_ind_list = [i for i in range(0,10)] + [i for i in range(18,26)] + [i for i in range(70,86)]
 
         if self.DM_type == "C":
@@ -1287,10 +1287,10 @@ class WC_5f(object):
         if self.DM_type == "D" or self.DM_type == "M":
             for wcn in self.wc_name_list_4f:
                 cdict4f[wcn] = cdold[wcn]
-            cdict4f['C71'] = cdold['C71'] - cdold['C65b']
-            cdict4f['C72'] = cdold['C72'] - cdold['C66b']
-            cdict4f['C73'] = cdold['C73'] + cdold['C67b']
-            cdict4f['C74'] = cdold['C74'] + cdold['C68b']
+            cdict4f['C71'] = cdold['C71'] - cdold['C75b']
+            cdict4f['C72'] = cdold['C72'] - cdold['C76b']
+            cdict4f['C73'] = cdold['C73'] + cdold['C77b']
+            cdict4f['C74'] = cdold['C74'] + cdold['C78b']
 
         if self.DM_type == "C":
             for wcn in self.wc_name_list_4f:
