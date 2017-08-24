@@ -7,6 +7,7 @@ import warnings
 from directdm.run import adm
 from directdm.run import rge
 from directdm.num.num_input import Num_input
+from directdm.match.higgs_penguin import Higgspenguin
 
 
 #----------------------------------------------#
@@ -15,7 +16,7 @@ from directdm.num.num_input import Num_input
 
 def dict_to_list(dictionary, order_list):
     """ Create a list from dictionary, according to ordering in oerder_list """
-    assert sorted(order_list) == sorted(dictionary.keys())
+    #assert sorted(order_list) == sorted(dictionary.keys())
     wc_list = []
     for wc_name in order_list:
         wc_list.append(dictionary[wc_name])
@@ -23,7 +24,7 @@ def dict_to_list(dictionary, order_list):
 
 def list_to_dict(wc_list, order_list):
     """ Create a dictionary from a list wc_list, using keys in order_list """
-    assert len(order_list) == len(wc_list)
+    #assert len(order_list) == len(wc_list)
     wc_dict = {}
     for wc_ind in range(len(order_list)):
         wc_dict[order_list[wc_ind]] = wc_list[wc_ind]
@@ -149,17 +150,20 @@ class WC_3f(object):
                               'cNR11p', 'cNR11n', 'cNR12p', 'cNR12n']
 
         self.coeff_dict = {}
+        # Issue a user warning if a key is not defined:
         for wc_name in coeff_dict.keys():
             if wc_name in self.wc_name_list:
                 pass
             else:
-                warnings.warn('The key ' + wc_name + ' has not been defined. Typo?')
+                warnings.warn('The key ' + wc_name + ' is not a default key value. Typo?')
+        # Create the dictionary:
         for wc_name in self.wc_name_list:
             if wc_name in coeff_dict.keys():
                 self.coeff_dict[wc_name] = coeff_dict[wc_name]
             else:
                 self.coeff_dict[wc_name] = 0.
 
+        # Create the np.array of coefficients:
         self.coeff_list = np.array(dict_to_list(self.coeff_dict, self.wc_name_list))
 
 
@@ -451,7 +455,7 @@ class WC_3f(object):
             'cNR7n' : 0,
             'cNR8n' : 2*(2*c3mu_dict['C62d'] + c3mu_dict['C62u']),
             'cNR9n' : mN * (4*ip.mudn*c3mu_dict['C62d'] + 2*ip.muun*c3mu_dict['C62u'] - 6*ip.mus*c3mu_dict['C62s'])/mN,
-            'cNR10n' : mN * (- mtilde * (ip.Deltadn/md + ip.Deltaun/mu + ip.Deltas/ms) * c3mu_dict['C73']),
+            'cNR10n' : -mN * mtilde * (ip.Deltadn/md + ip.Deltaun/mu + ip.Deltas/ms) * c3mu_dict['C73'],
             'cNR11n' : mN * (-(ip.sigmadn*c3mu_dict['C76d'] + ip.sigmaun*c3mu_dict['C76u'] + ip.sigmas*c3mu_dict['C76s'])/mchi\
                            + 2*ip.mG/27*c3mu_dict['C72']/mchi),
             'cNR12n' : 0,
@@ -901,17 +905,20 @@ class WC_4f(object):
 
 
         self.coeff_dict = {}
+        # Issue a user warning if a key is not defined:
         for wc_name in coeff_dict.keys():
             if wc_name in self.wc_name_list:
                 pass
             else:
-                warnings.warn('The key ' + wc_name + ' has not been defined. Typo?')
+                warnings.warn('The key ' + wc_name + ' is not a default key value. Typo?')
+        # Create the dictionary:
         for wc_name in self.wc_name_list:
             if wc_name in coeff_dict.keys():
                 self.coeff_dict[wc_name] = coeff_dict[wc_name]
             else:
                 self.coeff_dict[wc_name] = 0.
 
+        # Create the np.array of coefficients:
         self.coeff_list = np.array(dict_to_list(self.coeff_dict, self.wc_name_list))
 
 
@@ -1188,17 +1195,20 @@ class WC_5f(object):
 
 
         self.coeff_dict = {}
+        # Issue a user warning if a key is not defined:
         for wc_name in coeff_dict.keys():
             if wc_name in self.wc_name_list:
                 pass
             else:
-                warnings.warn('The key ' + wc_name + ' has not been defined. Typo?')
+                warnings.warn('The key ' + wc_name + ' is not a default key value. Typo?')
+        # Create the dictionary:
         for wc_name in self.wc_name_list:
             if wc_name in coeff_dict.keys():
                 self.coeff_dict[wc_name] = coeff_dict[wc_name]
             else:
                 self.coeff_dict[wc_name] = 0.
 
+        # Create the np.array of coefficients:
         self.coeff_list = np.array(dict_to_list(self.coeff_dict, self.wc_name_list))
 
 
@@ -1331,4 +1341,669 @@ class WC_5f(object):
         <filename> is the filename (default 'cNR.m')
         """
         WC_4f(self.match(), self.DM_type).write_mma(mchi, qvector, RGE, NLO, path, filename)
+
+
+
+
+
+#-------------------------------#
+# The e/w Wilson coefficicients #
+#-------------------------------#
+
+
+class WC_EW(object):
+    def __init__(self, coeff_dict, Lambda, Ychi, Jchi, DM_type=None, DM_mass_scale=None):
+        """ Class for DM Wilson coefficients in the SM unbroken phase
+
+        The first argument should be a dictionary for the initial conditions of the 8 
+        dimension-five Wilson coefficients of the form
+        {'C51' : value, 'C52' : value, ...}; 
+        
+        the 46 dimension-six Wilson coefficients of the form
+        {'C611' : value, 'C621' : value, ...}; 
+
+        and the dimension-seven Wilson coefficient (currently not yet implemented).
+        An arbitrary number of them can be given; the default values are zero. 
+        
+        The possible keys are, for Jchi != 0:
+
+         'C51', 'C52', 'C53', 'C54', 'C55', 'C56', 'C57', 'C58',
+         'C611', 'C621', 'C631', 'C641', 'C651', 'C661', 'C671', 'C681', 'C691', 'C6101', 'C6111', 'C6121', 'C6131', 'C6141',
+         'C612', 'C622', 'C632', 'C642', 'C652', 'C662', 'C672', 'C682', 'C692', 'C6102', 'C6112', 'C6122', 'C6132', 'C6142',
+         'C613', 'C623', 'C633', 'C643', 'C653', 'C663', 'C673', 'C683', 'C693', 'C6103', 'C6113', 'C6123', 'C6133', 'C6143',
+         'C615', 'C616', 'C617', 'C618'
+        
+        The possible keys are, for Jchi = 0:
+
+         'C51', 'C53', 'C55', 'C57',
+         'C621', 'C631', 'C641', 'C661', 'C671', 'C681', 'C6101', 'C6111', 'C6131', 'C6141',
+         'C622', 'C632', 'C642', 'C662', 'C672', 'C682', 'C6102', 'C6112', 'C6132', 'C6142',
+         'C623', 'C633', 'C643', 'C663', 'C673', 'C683', 'C6103', 'C6113', 'C6133', 'C6143',
+         'C616', 'C618'
+        
+        Lambda is the NP scale in GeV
+        Jchi is the DM weak isospin
+        Ychi is the DM hypercharge such that Q = I^3 + Y/2
+
+        The second-to-last argument is the DM type; it is optional and can take the following values: 
+            "D" (Dirac fermion; this is the default)
+
+        The last argument is currently ignored.
+        """
+        if DM_type is None:
+            DM_type = "D"
+        self.DM_type = DM_type
+
+        self.Lambda = Lambda
+        self.Ychi = Ychi
+        self.Jchi = Jchi
+
+        if self.DM_type == "D":
+            if self.Jchi == 0:
+                self.wc_name_list_dim_5 = ['C51', 'C53', 'C55', 'C57']
+                self.wc_name_list_dim_6 = ['C621', 'C631', 'C641', 'C661', 'C671', 'C681', 'C6101', 'C6111', 'C6131', 'C6141',\
+                                           'C622', 'C632', 'C642', 'C662', 'C672', 'C682', 'C6102', 'C6112', 'C6132', 'C6142',\
+                                           'C623', 'C633', 'C643', 'C663', 'C673', 'C683', 'C6103', 'C6113', 'C6133', 'C6143',\
+                                           'C616', 'C618']
+            else:
+                self.wc_name_list_dim_5 = ['C51', 'C52', 'C53', 'C54', 'C55', 'C56', 'C57', 'C58']
+                self.wc_name_list_dim_6 = ['C611', 'C621', 'C631', 'C641', 'C651', 'C661', 'C671', 'C681', 'C691', 'C6101', 'C6111', 'C6121', 'C6131', 'C6141',\
+                                           'C612', 'C622', 'C632', 'C642', 'C652', 'C662', 'C672', 'C682', 'C692', 'C6102', 'C6112', 'C6122', 'C6132', 'C6142',\
+                                           'C613', 'C623', 'C633', 'C643', 'C653', 'C663', 'C673', 'C683', 'C693', 'C6103', 'C6113', 'C6123', 'C6133', 'C6143',\
+                                           'C615', 'C616', 'C617', 'C618']
+
+
+        # Issue a user warning if a key is not defined or belongs to a redundant operator:
+        for wc_name in coeff_dict.keys():
+            if wc_name in self.wc_name_list_dim_5:
+                pass
+            elif wc_name in self.wc_name_list_dim_6:
+                pass
+            else:
+                if self.Jchi == 0:
+                    warnings.warn('The key ' + wc_name + ' is not a default key value. Typo; or belongs to an operator that is redundant for Jchi = 0?')
+                else:
+                    warnings.warn('The key ' + wc_name + ' is not a default key value. Typo?')
+
+        self.coeff_dict = {}
+        # Create the dictionary:
+        for wc_name in (self.wc_name_list_dim_5 + self.wc_name_list_dim_6):
+            if wc_name in coeff_dict.keys():
+                self.coeff_dict[wc_name] = coeff_dict[wc_name]
+            else:
+                self.coeff_dict[wc_name] = 0.
+
+        # Create the np.array of coefficients:
+        self.coeff_list_dim_5 = np.array(dict_to_list(self.coeff_dict, self.wc_name_list_dim_5))
+        self.coeff_list_dim_6 = np.array(dict_to_list(self.coeff_dict, self.wc_name_list_dim_6))
+
+    #---------#
+    # Running #
+    #---------#
+
+    def run(self, muz=None, resum=None, dict=None):
+        """Calculate the e/w running from scale Lambda to scale muz [muz = MZ by default].
+
+        resum = True yields full resummation (default)
+        resum = False gives only the linear log 
+        """
+        ip = Num_input()
+
+        if resum is None:
+            resum=True
+        if muz is None:
+            muz = ip.Mz
+        if dict is None:
+            dict = True
+
+        # Some abbeviations
+        nsu2 = 2*self.Jchi + 1
+        jj1 = self.Jchi*(self.Jchi+1)
+
+        # Number of colors
+        nc = 3
+
+        # Input parameters
+        ip = Num_input()
+
+        alpha = 1/ip.aMZinv
+        el = np.sqrt(4*np.pi*alpha)
+        MW = ip.Mw
+        MZ = ip.Mz
+        Mh = ip.Mh
+        cw = MW/MZ
+        sw = np.sqrt(1-cw**2)
+        g1 = el/cw
+        g2 = el/sw
+        yt = np.sqrt(2)*ip.mt_pole/246.
+
+
+        # Add entries for unphysical operators
+        C6_at_Lambda = np.concatenate((self.coeff_list_dim_6, np.array([0 for i in range(130)])))
+
+        if resum:
+            C5_at_muz = rge.CmuEW(self.coeff_list_dim_5, adm.ADM5(self.Ychi, self.Jchi), self.Lambda, muz, self.Ychi, self.Jchi, 1, 1, 1, 1)
+            C6_at_muz = rge.CmuEW(C6_at_Lambda, adm.ADM6(self.Ychi, self.Jchi), self.Lambda, muz, self.Ychi, self.Jchi, 1, 1, 1, 1)
+
+            if dict:
+                return [C5_at_muz.run()[0][1], C6_at_muz.run()[0][1]]
+            else:
+                raise Exception("Currently, only a dictionary can be returned.")
+        else:
+            ADM5 = g1**2*adm.ADM5(self.Ychi, self.Jchi)[0] + g2**2*adm.ADM5(self.Ychi, self.Jchi)[1] + yt**2*adm.ADM5(self.Ychi, self.Jchi)[3]
+            C5_at_muz = self.coeff_list_dim_5 + np.log(muz**2/self.Lambda**2)/(16*np.pi**2) * np.dot(self.coeff_list_dim_5, ADM5) 
+            ADM6 = g1**2*adm.ADM6(self.Ychi, self.Jchi)[0] + g2**2*adm.ADM6(self.Ychi, self.Jchi)[1] + yt**2*adm.ADM6(self.Ychi, self.Jchi)[3]
+            C6_at_muz = C6_at_Lambda + np.log(muz**2/self.Lambda**2)/(16*np.pi**2) * np.dot(C6_at_Lambda, ADM6)
+
+            if dict:
+                dict56 = list_to_dict(C5_at_muz, self.wc_name_list_dim_5)
+                dict6 = list_to_dict(C6_at_muz, self.wc_name_list_dim_6)
+                dict56.update(dict6)
+                return dict56
+            else:
+                raise Exception("Currently, only a dictionary can be returned.")
+
+    #----------#
+    # Matching #
+    #----------#
+
+    def match(self, mchi, mchi_threshold=None, RUN_EW=None, dict=None, DIM4=None):
+        """Calculate the matching from the relativistic theory to the five-flavor theory at scale MZ
+
+        mchi is the DM mass, as it appears in the UV Lagrangian. It is not the physical DM mass after EWSB. 
+
+        mchi_threshold is the DM mass below which DM is treated as "light" [default is 40 GeV]
+
+        RUN_EW can have three values: 
+
+         - RUN_EW = 'FULL'  does the full leading-logarithm resummation (this is the default)
+         - RUN_EW = 'LL'    keeps only the linear e/w logarithm
+         - RUN_EW = 'OFF'   no electroweak running
+
+        DIM4 multiplies the dimension-four matching contributions. To be considered as an "analysis tool", might be removed
+
+        Returns a dictionary of Wilson coefficients for the five-flavor Lagrangian, 
+        with the following keys (only Dirac DM is implemented so far):
+
+        Dirac fermion:       'C51', 'C52', 'C61u', 'C61d', 'C61s', 'C61c', 'C61b', 'C61e', 'C61mu', 'C61tau', 
+                             'C62u', 'C62d', 'C62s', 'C62c', 'C62b', 'C62e', 'C62mu', 'C62tau',
+                             'C63u', 'C63d', 'C63s', 'C63c', 'C63b', 'C63e', 'C63mu', 'C63tau', 
+                             'C64u', 'C64d', 'C64s', 'C64c', 'C64b', 'C64e', 'C64mu', 'C64tau',
+                             'C71', 'C72', 'C73', 'C74',
+                             'C75u', 'C75d', 'C75s', 'C65c', 'C65b', 'C75e', 'C75mu', 'C75tau', 
+                             'C76u', 'C76d', 'C76s', 'C66c', 'C66b', 'C76e', 'C76mu', 'C76tau',
+                             'C77u', 'C77d', 'C77s', 'C67c', 'C67b', 'C77e', 'C77mu', 'C77tau', 
+                             'C78u', 'C78d', 'C78s', 'C68c', 'C68b', 'C78e', 'C78mu', 'C78tau',
+                             'C79u', 'C79d', 'C79s', 'C69c', 'C69b', 'C79e', 'C79mu', 'C79tau', 
+                             'C710u', 'C710d', 'C710s', 'C610c', 'C610b', 'C710e', 'C710mu', 'C710tau'
+        """
+        if RUN_EW is None:
+            RUN_EW = 'FULL'
+        self.RUN_EW = RUN_EW
+
+        if mchi_threshold is None:
+            mchi_threshold = 40 # GeV
+        self.mchi_threshold = mchi_threshold
+
+        if dict is None:
+            dict = True
+
+        if DIM4 is None:
+            DIM4 = 1
+        else:
+            DIM4 = 0
+
+        # Some input parameters:
+
+        ip = Num_input()
+
+        vev = 1/np.sqrt(np.sqrt(2)*ip.GF)
+        alpha = 1/ip.aMZinv
+        MW = ip.Mw
+        MZ = ip.Mz
+        Mh = ip.Mh
+        cw = MW/MZ
+        sw = np.sqrt(1-cw**2)
+
+        # Calculate the physical DM mass in terms of mchi and the Wilson coefficients, 
+        # and the corresponding shift in the dimension-five Wilson coefficients.
+
+        if mchi > mchi_threshold:
+            if self.Jchi == 0:
+                self.mchi_phys = mchi - vev**2/2/self.Lambda * self.coeff_dict['C53']
+                wc5_dict_shifted = {}
+
+                wc5_dict_shifted['C51'] = self.coeff_dict['C51'] + vev**2/2/self.Lambda/mchi * self.coeff_dict['C57'] * self.coeff_dict['C55']
+                wc5_dict_shifted['C53'] = self.coeff_dict['C53'] + vev**2/2/self.Lambda/mchi * self.coeff_dict['C57'] * self.coeff_dict['C57']
+                wc5_dict_shifted['C55'] = self.coeff_dict['C55'] - vev**2/2/self.Lambda/mchi * self.coeff_dict['C57'] * self.coeff_dict['C51']
+                wc5_dict_shifted['C57'] = self.coeff_dict['C57'] - vev**2/2/self.Lambda/mchi * self.coeff_dict['C57'] * self.coeff_dict['C53']
+
+            else:
+                self.mchi_phys = mchi - vev**2/2/self.Lambda * (self.coeff_dict['C53'] + self.Ychi/4 * self.coeff_dict['C54'])
+                wc5_dict_shifted = {}
+
+                wc5_dict_shifted['C51'] = self.coeff_dict['C51']\
+                                          + vev**2/2/self.Lambda/mchi * (self.coeff_dict['C57'] + self.Ychi/4 * self.coeff_dict['C58']) * self.coeff_dict['C55']
+                wc5_dict_shifted['C52'] = self.coeff_dict['C52']\
+                                          + vev**2/2/self.Lambda/mchi * (self.coeff_dict['C57'] + self.Ychi/4 * self.coeff_dict['C58']) * self.coeff_dict['C56']
+                wc5_dict_shifted['C53'] = self.coeff_dict['C53']\
+                                          + vev**2/2/self.Lambda/mchi * (self.coeff_dict['C57'] + self.Ychi/4 * self.coeff_dict['C58']) * self.coeff_dict['C57']
+                wc5_dict_shifted['C54'] = self.coeff_dict['C54']\
+                                          + vev**2/2/self.Lambda/mchi * (self.coeff_dict['C57'] + self.Ychi/4 * self.coeff_dict['C58']) * self.coeff_dict['C58']
+                wc5_dict_shifted['C55'] = self.coeff_dict['C55']\
+                                          - vev**2/2/self.Lambda/mchi * (self.coeff_dict['C57'] + self.Ychi/4 * self.coeff_dict['C58']) * self.coeff_dict['C51']
+                wc5_dict_shifted['C56'] = self.coeff_dict['C56']\
+                                          - vev**2/2/self.Lambda/mchi * (self.coeff_dict['C57'] + self.Ychi/4 * self.coeff_dict['C58']) * self.coeff_dict['C52']
+                wc5_dict_shifted['C57'] = self.coeff_dict['C57']\
+                                          - vev**2/2/self.Lambda/mchi * (self.coeff_dict['C57'] + self.Ychi/4 * self.coeff_dict['C58']) * self.coeff_dict['C53']
+                wc5_dict_shifted['C58'] = self.coeff_dict['C58']\
+                                          - vev**2/2/self.Lambda/mchi * (self.coeff_dict['C57'] + self.Ychi/4 * self.coeff_dict['C58']) * self.coeff_dict['C54']
+
+        else:
+            if self.Jchi == 0:
+                cosphi = np.sqrt((self.coeff_dict['C53'] - 2*mchi*self.Lambda/vev**2)**2/\
+                                 ((self.coeff_dict['C53'] - 2*mchi*self.Lambda/vev**2)**2 + self.coeff_dict['C57']**2))
+                sinphi = np.sqrt((self.coeff_dict['C57'])**2/\
+                                 ((self.coeff_dict['C53'] - 2*mchi*self.Lambda/vev**2)**2 + self.coeff_dict['C57']**2))
+                pre_mchi_phys = mchi*cosphi + vev**2/2/self.Lambda * (self.coeff_dict['C57'] * sinphi - self.coeff_dict['C53'] * cosphi)
+                if pre_mchi_phys > 0:
+                    self.mchi_phys = pre_mchi_phys
+
+                    wc5_dict_shifted = {}
+
+                    wc5_dict_shifted['C51'] = cosphi * self.coeff_dict['C51'] + sinphi * self.coeff_dict['C55'] 
+                    wc5_dict_shifted['C53'] = cosphi * self.coeff_dict['C53'] + sinphi * self.coeff_dict['C57'] 
+                    wc5_dict_shifted['C55'] = cosphi * self.coeff_dict['C55'] - sinphi * self.coeff_dict['C51'] 
+                    wc5_dict_shifted['C57'] = cosphi * self.coeff_dict['C57'] - sinphi * self.coeff_dict['C53'] 
+                else:
+                    self.mchi_phys = - pre_mchi_phys
+
+                    wc5_dict_shifted = {}
+
+                    wc5_dict_shifted['C51'] = cosphi * self.coeff_dict['C51'] - sinphi * self.coeff_dict['C55'] 
+                    wc5_dict_shifted['C53'] = cosphi * self.coeff_dict['C53'] - sinphi * self.coeff_dict['C57'] 
+                    wc5_dict_shifted['C55'] = cosphi * self.coeff_dict['C55'] + sinphi * self.coeff_dict['C51'] 
+                    wc5_dict_shifted['C57'] = cosphi * self.coeff_dict['C57'] + sinphi * self.coeff_dict['C53'] 
+            else:
+                cosphi = np.sqrt((self.coeff_dict['C53'] + self.Ychi/4 * self.coeff_dict['C54'] - 2*mchi*self.Lambda/vev**2)**2/\
+                                ((self.coeff_dict['C53'] + self.Ychi/4 * self.coeff_dict['C54'] - 2*mchi*self.Lambda/vev**2)**2\
+                                +(self.coeff_dict['C57'] + self.Ychi/4 * self.coeff_dict['C58'])**2))
+                sinphi = np.sqrt((self.coeff_dict['C57'] + self.Ychi/4 * self.coeff_dict['C58'])**2/\
+                                ((self.coeff_dict['C53'] + self.Ychi/4 * self.coeff_dict['C54'] - 2*mchi*self.Lambda/vev**2)**2\
+                                +(self.coeff_dict['C57'] + self.Ychi/4 * self.coeff_dict['C58'])**2))
+                pre_mchi_phys = mchi*cosphi + vev**2/2/self.Lambda * ((self.coeff_dict['C57'] + self.Ychi/4 * self.coeff_dict['C58'])*sinphi\
+                                                              - (self.coeff_dict['C53'] + self.Ychi/4 * self.coeff_dict['C54'])*cosphi)
+                if pre_mchi_phys > 0:
+                    self.mchi_phys = pre_mchi_phys
+
+                    wc5_dict_shifted = {}
+
+                    wc5_dict_shifted['C51'] = cosphi * self.coeff_dict['C51'] + sinphi * self.coeff_dict['C55'] 
+                    wc5_dict_shifted['C52'] = cosphi * self.coeff_dict['C52'] + sinphi * self.coeff_dict['C56'] 
+                    wc5_dict_shifted['C53'] = cosphi * self.coeff_dict['C53'] + sinphi * self.coeff_dict['C57'] 
+                    wc5_dict_shifted['C54'] = cosphi * self.coeff_dict['C54'] + sinphi * self.coeff_dict['C58'] 
+                    wc5_dict_shifted['C55'] = cosphi * self.coeff_dict['C55'] - sinphi * self.coeff_dict['C51'] 
+                    wc5_dict_shifted['C56'] = cosphi * self.coeff_dict['C56'] - sinphi * self.coeff_dict['C52'] 
+                    wc5_dict_shifted['C57'] = cosphi * self.coeff_dict['C57'] - sinphi * self.coeff_dict['C53'] 
+                    wc5_dict_shifted['C58'] = cosphi * self.coeff_dict['C58'] - sinphi * self.coeff_dict['C54'] 
+                else:
+                    self.mchi_phys = - pre_mchi_phys
+
+                    wc5_dict_shifted = {}
+
+                    wc5_dict_shifted['C51'] = cosphi * self.coeff_dict['C51'] - sinphi * self.coeff_dict['C55'] 
+                    wc5_dict_shifted['C52'] = cosphi * self.coeff_dict['C52'] - sinphi * self.coeff_dict['C56'] 
+                    wc5_dict_shifted['C53'] = cosphi * self.coeff_dict['C53'] - sinphi * self.coeff_dict['C57'] 
+                    wc5_dict_shifted['C54'] = cosphi * self.coeff_dict['C54'] - sinphi * self.coeff_dict['C58'] 
+                    wc5_dict_shifted['C55'] = cosphi * self.coeff_dict['C55'] + sinphi * self.coeff_dict['C51'] 
+                    wc5_dict_shifted['C56'] = cosphi * self.coeff_dict['C56'] + sinphi * self.coeff_dict['C52'] 
+                    wc5_dict_shifted['C57'] = cosphi * self.coeff_dict['C57'] + sinphi * self.coeff_dict['C53'] 
+                    wc5_dict_shifted['C58'] = cosphi * self.coeff_dict['C58'] + sinphi * self.coeff_dict['C54'] 
+
+        # The redefinitions of the dim.-5 Wilson coefficients resulting from the mass shift:
+
+        coeff_dict_shifted = self.coeff_dict
+        coeff_dict_shifted.update(wc5_dict_shifted)
+
+        # The Higgs penguin function. 
+        # The result is valid for all input values and gives (in principle) a real output.
+        # Note that currently there is no distinction between e/w and light DM, as the two-loop function for light DM is unknown.
+        def higgs_penguin_fermion(Ychi,Jchi):
+            return Higgspenguin(Ychi, Jchi).oneloop_ew(self.mchi_phys)
+        def higgs_penguin_gluon(Ychi,Jchi):
+            return Higgspenguin(Ychi, Jchi).twoloop_ew_fa(self.mchi_phys) + 0*Higgspenguin(Ychi, Jchi).hisano_fbc(self.mchi_phys)
+
+
+        #-----------------------#
+        # The new coefficients: #
+        #-----------------------#
+        
+        # Note that in the RG-DM paper we introduced the hat notation. We will not do that here, but instead put in the appropriate powers of Lambda explicitly. 
+
+        coeff_dict_5f = {}
+
+        if self.Jchi == 0:
+            coeff_dict_5f['C51'] = 1/(4*np.pi*alpha)*(cw**2 * coeff_dict_shifted['C51'])/self.Lambda
+            coeff_dict_5f['C52'] = 1/(4*np.pi*alpha)*(cw**2 * coeff_dict_shifted['C55'])/self.Lambda
+
+            coeff_dict_5f['C61u'] = (coeff_dict_shifted['C621']/2 + coeff_dict_shifted['C631']/2\
+                  - (3-8*sw**2)/6 * coeff_dict_shifted['C616']\
+                  + self.Lambda**2/MZ**2 * (np.pi*alpha*self.Ychi)/(6*sw**2*cw**2) * (3-8*sw**2) * DIM4)/self.Lambda**2
+            coeff_dict_5f['C61d'] = (coeff_dict_shifted['C621']/2 + coeff_dict_shifted['C641']/2\
+                  + (3-4*sw**2)/6 * coeff_dict_shifted['C616']\
+                  - self.Lambda**2/MZ**2 * (np.pi*alpha*self.Ychi)/(6*sw**2*cw**2) * (3-4*sw**2) * DIM4)/self.Lambda**2
+            coeff_dict_5f['C61s'] = (coeff_dict_shifted['C622']/2 + coeff_dict_shifted['C642']/2\
+                  + (3-4*sw**2)/6 * coeff_dict_shifted['C616']\
+                  - self.Lambda**2/MZ**2 * (np.pi*alpha*self.Ychi)/(6*sw**2*cw**2) * (3-4*sw**2) * DIM4)/self.Lambda**2
+            coeff_dict_5f['C61c'] = (coeff_dict_shifted['C622']/2 + coeff_dict_shifted['C632']/2\
+                  - (3-8*sw**2)/6 * coeff_dict_shifted['C616']\
+                  + self.Lambda**2/MZ**2 * (np.pi*alpha*self.Ychi)/(6*sw**2*cw**2) * (3-8*sw**2) * DIM4)/self.Lambda**2
+            coeff_dict_5f['C61b'] = (coeff_dict_shifted['C623']/2 + coeff_dict_shifted['C643']/2\
+                  + (3-4*sw**2)/6 * coeff_dict_shifted['C616']\
+                  - self.Lambda**2/MZ**2 * (np.pi*alpha*self.Ychi)/(6*sw**2*cw**2) * (3-4*sw**2) * DIM4)/self.Lambda**2
+            coeff_dict_5f['C61e'] = (coeff_dict_shifted['C6101']/2 + coeff_dict_shifted['C6111']/2\
+                  + (1-4*sw**2)/2 * coeff_dict_shifted['C616']\
+                  - self.Lambda**2/MZ**2 * (np.pi*alpha*self.Ychi)/(2*sw**2*cw**2) * (1-4*sw**2) * DIM4)/self.Lambda**2
+            coeff_dict_5f['C61mu'] = (coeff_dict_shifted['C6102']/2 + coeff_dict_shifted['C6112']/2\
+                  + (1-4*sw**2)/2 * coeff_dict_shifted['C616']\
+                  - self.Lambda**2/MZ**2 * (np.pi*alpha*self.Ychi)/(2*sw**2*cw**2) * (1-4*sw**2) * DIM4)/self.Lambda**2
+            coeff_dict_5f['C61tau'] = (coeff_dict_shifted['C6103']/2 + coeff_dict_shifted['C6113']/2\
+                  + (1-4*sw**2)/2 * coeff_dict_shifted['C616']\
+                  - self.Lambda**2/MZ**2 * (np.pi*alpha*self.Ychi)/(2*sw**2*cw**2) * (1-4*sw**2) * DIM4)/self.Lambda**2
+
+            coeff_dict_5f['C62u'] = (coeff_dict_shifted['C661']/2 + coeff_dict_shifted['C671']/2\
+                   - (3-8*sw**2)/6 * coeff_dict_shifted['C618'])/self.Lambda**2
+            coeff_dict_5f['C62d'] = (coeff_dict_shifted['C661']/2 + coeff_dict_shifted['C681']/2\
+                   + (3-4*sw**2)/6 * coeff_dict_shifted['C618'])/self.Lambda**2
+            coeff_dict_5f['C62s'] = (coeff_dict_shifted['C662']/2 + coeff_dict_shifted['C682']/2\
+                   + (3-4*sw**2)/6 * coeff_dict_shifted['C618'])/self.Lambda**2
+            coeff_dict_5f['C62c'] = (coeff_dict_shifted['C662']/2 + coeff_dict_shifted['C672']/2\
+                   - (3-8*sw**2)/6 * coeff_dict_shifted['C618'])/self.Lambda**2
+            coeff_dict_5f['C62b'] = (coeff_dict_shifted['C663']/2 + coeff_dict_shifted['C683']/2\
+                   + (3-4*sw**2)/6 * coeff_dict_shifted['C618'])/self.Lambda**2
+            coeff_dict_5f['C62e'] = (coeff_dict_shifted['C6131']/2 + coeff_dict_shifted['C6141']/2\
+                   + (1-4*sw**2)/2 * coeff_dict_shifted['C618'])/self.Lambda**2
+            coeff_dict_5f['C62mu'] = (coeff_dict_shifted['C6132']/2 + coeff_dict_shifted['C6142']/2\
+                   + (1-4*sw**2)/2 * coeff_dict_shifted['C618'])/self.Lambda**2
+            coeff_dict_5f['C62tau'] = (coeff_dict_shifted['C6133']/2 + coeff_dict_shifted['C6143']/2\
+                   + (1-4*sw**2)/2 * coeff_dict_shifted['C618'])/self.Lambda**2
+
+            coeff_dict_5f['C63u'] = (- coeff_dict_shifted['C621']/2 + coeff_dict_shifted['C631']/2\
+                   + 1/2 * coeff_dict_shifted['C616']\
+                   - self.Lambda**2/MZ**2 * (np.pi*alpha*self.Ychi)/(2*sw**2*cw**2) * DIM4)/self.Lambda**2
+            coeff_dict_5f['C63d'] = (- coeff_dict_shifted['C621']/2 + coeff_dict_shifted['C641']/2\
+                   - 1/2 * coeff_dict_shifted['C616']\
+                   + self.Lambda**2/MZ**2 * (np.pi*alpha*self.Ychi)/(2*sw**2*cw**2) * DIM4)/self.Lambda**2
+            coeff_dict_5f['C63s'] = (- coeff_dict_shifted['C622']/2 + coeff_dict_shifted['C642']/2\
+                   - 1/2 * coeff_dict_shifted['C616']\
+                   + self.Lambda**2/MZ**2 * (np.pi*alpha*self.Ychi)/(2*sw**2*cw**2) * DIM4)/self.Lambda**2
+            coeff_dict_5f['C63c'] = (- coeff_dict_shifted['C622']/2 + coeff_dict_shifted['C632']/2\
+                   + 1/2 * coeff_dict_shifted['C616']\
+                   - self.Lambda**2/MZ**2 * (np.pi*alpha*self.Ychi)/(2*sw**2*cw**2) * DIM4)/self.Lambda**2
+            coeff_dict_5f['C63b'] = (- coeff_dict_shifted['C623']/2 + coeff_dict_shifted['C643']/2\
+                   - 1/2 * coeff_dict_shifted['C616']\
+                   + self.Lambda**2/MZ**2 * (np.pi*alpha*self.Ychi)/(2*sw**2*cw**2) * DIM4)/self.Lambda**2
+            coeff_dict_5f['C63e'] = (- coeff_dict_shifted['C6101']/2 + coeff_dict_shifted['C6111']/2\
+                   - 1/2 * coeff_dict_shifted['C616']\
+                   + self.Lambda**2/MZ**2 * (np.pi*alpha*self.Ychi)/(2*sw**2*cw**2) * DIM4)/self.Lambda**2
+            coeff_dict_5f['C63mu'] = (- coeff_dict_shifted['C6102']/2 + coeff_dict_shifted['C6112']/2\
+                   - 1/2 * coeff_dict_shifted['C616']\
+                   + self.Lambda**2/MZ**2 * (np.pi*alpha*self.Ychi)/(2*sw**2*cw**2) * DIM4)/self.Lambda**2
+            coeff_dict_5f['C63tau'] = (- coeff_dict_shifted['C6103']/2 + coeff_dict_shifted['C6113']/2\
+                   - 1/2 * coeff_dict_shifted['C616']\
+                   + self.Lambda**2/MZ**2 * (np.pi*alpha*self.Ychi)/(2*sw**2*cw**2) * DIM4)/self.Lambda**2
+
+            coeff_dict_5f['C64u'] = (- coeff_dict_shifted['C661']/2 + coeff_dict_shifted['C671']/2\
+                    + 1/2 * coeff_dict_shifted['C618'])/self.Lambda**2
+            coeff_dict_5f['C64d'] = (- coeff_dict_shifted['C661']/2 + coeff_dict_shifted['C681']/2\
+                    - 1/2 * coeff_dict_shifted['C618'])/self.Lambda**2
+            coeff_dict_5f['C64s'] = (- coeff_dict_shifted['C662']/2 + coeff_dict_shifted['C682']/2\
+                    - 1/2 * coeff_dict_shifted['C618'])/self.Lambda**2
+            coeff_dict_5f['C64c'] = (- coeff_dict_shifted['C662']/2 + coeff_dict_shifted['C672']/2\
+                    + 1/2 * coeff_dict_shifted['C618'])/self.Lambda**2
+            coeff_dict_5f['C64b'] = (- coeff_dict_shifted['C663']/2 + coeff_dict_shifted['C683']/2\
+                    - 1/2 * coeff_dict_shifted['C618'])/self.Lambda**2
+            coeff_dict_5f['C64e'] = (- coeff_dict_shifted['C6131']/2 + coeff_dict_shifted['C6141']/2\
+                    - 1/2 * coeff_dict_shifted['C618'])/self.Lambda**2
+            coeff_dict_5f['C64mu'] = (- coeff_dict_shifted['C6132']/2 + coeff_dict_shifted['C6142']/2\
+                    - 1/2 * coeff_dict_shifted['C618'])/self.Lambda**2
+            coeff_dict_5f['C64tau'] = (- coeff_dict_shifted['C6133']/2 + coeff_dict_shifted['C6143']/2\
+                    - 1/2 * coeff_dict_shifted['C618'])/self.Lambda**2
+
+            coeff_dict_5f['C71'] = (self.Lambda**2/Mh**2 * (coeff_dict_shifted['C53']))/self.Lambda**3\
+                                   + higgs_penguin_gluon(self.Ychi,self.Jchi) * DIM4
+            coeff_dict_5f['C72'] = (self.Lambda**2/Mh**2 * (coeff_dict_shifted['C57']))/self.Lambda**3
+
+            coeff_dict_5f['C75u'] = self.Lambda/Mh**2 * (coeff_dict_shifted['C53'])/self.Lambda**2\
+                                    + higgs_penguin_fermion(self.Ychi,self.Jchi) * DIM4
+            coeff_dict_5f['C75d'] = self.Lambda/Mh**2 * (coeff_dict_shifted['C53'])/self.Lambda**2\
+                                    + higgs_penguin_fermion(self.Ychi,self.Jchi) * DIM4
+            coeff_dict_5f['C75s'] = self.Lambda/Mh**2 * (coeff_dict_shifted['C53'])/self.Lambda**2\
+                                    + higgs_penguin_fermion(self.Ychi,self.Jchi) * DIM4
+            coeff_dict_5f['C75c'] = self.Lambda/Mh**2 * (coeff_dict_shifted['C53'])/self.Lambda**2\
+                                    + higgs_penguin_fermion(self.Ychi,self.Jchi) * DIM4
+            coeff_dict_5f['C75b'] = self.Lambda/Mh**2 * (coeff_dict_shifted['C53'])/self.Lambda**2\
+                                    + higgs_penguin_fermion(self.Ychi,self.Jchi) * DIM4
+            coeff_dict_5f['C75e'] = self.Lambda/Mh**2 * (coeff_dict_shifted['C53'])/self.Lambda**2\
+                                    + higgs_penguin_fermion(self.Ychi,self.Jchi) * DIM4
+            coeff_dict_5f['C75mu'] = self.Lambda/Mh**2 * (coeff_dict_shifted['C53'])/self.Lambda**2\
+                                    + higgs_penguin_fermion(self.Ychi,self.Jchi) * DIM4
+            coeff_dict_5f['C61tau'] = self.Lambda/Mh**2 * (coeff_dict_shifted['C53'])/self.Lambda**2\
+                                    + higgs_penguin_fermion(self.Ychi,self.Jchi) * DIM4
+
+            coeff_dict_5f['C76u'] = self.Lambda/Mh**2 * (coeff_dict_shifted['C57'])/self.Lambda**2
+            coeff_dict_5f['C76d'] = self.Lambda/Mh**2 * (coeff_dict_shifted['C57'])/self.Lambda**2
+            coeff_dict_5f['C76s'] = self.Lambda/Mh**2 * (coeff_dict_shifted['C57'])/self.Lambda**2
+            coeff_dict_5f['C76c'] = self.Lambda/Mh**2 * (coeff_dict_shifted['C57'])/self.Lambda**2
+            coeff_dict_5f['C76b'] = self.Lambda/Mh**2 * (coeff_dict_shifted['C57'])/self.Lambda**2
+            coeff_dict_5f['C76e'] = self.Lambda/Mh**2 * (coeff_dict_shifted['C57'])/self.Lambda**2
+            coeff_dict_5f['C76mu'] = self.Lambda/Mh**2 * (coeff_dict_shifted['C57'])/self.Lambda**2
+            coeff_dict_5f['C76tau'] = self.Lambda/Mh**2 * (coeff_dict_shifted['C57'])/self.Lambda**2
+        else:
+            coeff_dict_5f['C51'] = 1/(4*np.pi*alpha)*(cw**2 * coeff_dict_shifted['C51'] + sw**2 * self.Ychi/2 * coeff_dict_shifted['C52'])/self.Lambda
+            coeff_dict_5f['C52'] = 1/(4*np.pi*alpha)*(cw**2 * coeff_dict_shifted['C55'] + sw**2 * self.Ychi/2 * coeff_dict_shifted['C56'])/self.Lambda
+
+            coeff_dict_5f['C61u'] = (- self.Ychi/8 * coeff_dict_shifted['C611'] + coeff_dict_shifted['C621']/2 + coeff_dict_shifted['C631']/2\
+                  - self.Ychi * (3-8*sw**2)/24 * coeff_dict_shifted['C615']\
+                  - (3-8*sw**2)/6 * coeff_dict_shifted['C616']\
+                  + self.Lambda**2/MZ**2 * (np.pi*alpha*self.Ychi)/(6*sw**2*cw**2) * (3-8*sw**2) * DIM4)/self.Lambda**2
+            coeff_dict_5f['C61d'] = (self.Ychi/8*coeff_dict_shifted['C611'] + coeff_dict_shifted['C621']/2 + coeff_dict_shifted['C641']/2\
+                  + self.Ychi * (3-4*sw**2)/24 * coeff_dict_shifted['C615']\
+                  + (3-4*sw**2)/6 * coeff_dict_shifted['C616']\
+                  - self.Lambda**2/MZ**2 * (np.pi*alpha*self.Ychi)/(6*sw**2*cw**2) * (3-4*sw**2) * DIM4)/self.Lambda**2
+            coeff_dict_5f['C61s'] = (self.Ychi/8*coeff_dict_shifted['C612'] + coeff_dict_shifted['C622']/2 + coeff_dict_shifted['C642']/2\
+                  + self.Ychi * (3-4*sw**2)/24 * coeff_dict_shifted['C615']\
+                  + (3-4*sw**2)/6 * coeff_dict_shifted['C616']\
+                  - self.Lambda**2/MZ**2 * (np.pi*alpha*self.Ychi)/(6*sw**2*cw**2) * (3-4*sw**2) * DIM4)/self.Lambda**2
+            coeff_dict_5f['C61c'] = (- self.Ychi/8*coeff_dict_shifted['C612'] + coeff_dict_shifted['C622']/2 + coeff_dict_shifted['C632']/2\
+                  - self.Ychi * (3-8*sw**2)/24 * coeff_dict_shifted['C615']\
+                  - (3-8*sw**2)/6 * coeff_dict_shifted['C616']\
+                  + self.Lambda**2/MZ**2 * (np.pi*alpha*self.Ychi)/(6*sw**2*cw**2) * (3-8*sw**2) * DIM4)/self.Lambda**2
+            coeff_dict_5f['C61b'] = (self.Ychi/8*coeff_dict_shifted['C613'] + coeff_dict_shifted['C623']/2 + coeff_dict_shifted['C643']/2\
+                  + self.Ychi * (3-4*sw**2)/24 * coeff_dict_shifted['C615']\
+                  + (3-4*sw**2)/6 * coeff_dict_shifted['C616']\
+                  - self.Lambda**2/MZ**2 * (np.pi*alpha*self.Ychi)/(6*sw**2*cw**2) * (3-4*sw**2) * DIM4)/self.Lambda**2
+            coeff_dict_5f['C61e'] = (self.Ychi/8*coeff_dict_shifted['C691'] + coeff_dict_shifted['C6101']/2 + coeff_dict_shifted['C6111']/2\
+                  + self.Ychi * (1-4*sw**2)/8 * coeff_dict_shifted['C615']\
+                  + (1-4*sw**2)/2 * coeff_dict_shifted['C616']\
+                  - self.Lambda**2/MZ**2 * (np.pi*alpha*self.Ychi)/(2*sw**2*cw**2) * (1-4*sw**2) * DIM4)/self.Lambda**2
+            coeff_dict_5f['C61mu'] = (self.Ychi/8*coeff_dict_shifted['C692'] + coeff_dict_shifted['C6102']/2 + coeff_dict_shifted['C6112']/2\
+                  + self.Ychi * (1-4*sw**2)/8 * coeff_dict_shifted['C615']\
+                  + (1-4*sw**2)/2 * coeff_dict_shifted['C616']\
+                  - self.Lambda**2/MZ**2 * (np.pi*alpha*self.Ychi)/(2*sw**2*cw**2) * (1-4*sw**2) * DIM4)/self.Lambda**2
+            coeff_dict_5f['C61tau'] = (self.Ychi/8*coeff_dict_shifted['C693'] + coeff_dict_shifted['C6103']/2 + coeff_dict_shifted['C6113']/2\
+                  + self.Ychi * (1-4*sw**2)/8 * coeff_dict_shifted['C615']\
+                  + (1-4*sw**2)/2 * coeff_dict_shifted['C616']\
+                  - self.Lambda**2/MZ**2 * (np.pi*alpha*self.Ychi)/(2*sw**2*cw**2) * (1-4*sw**2) * DIM4)/self.Lambda**2
+
+            coeff_dict_5f['C62u'] = (- self.Ychi/8*coeff_dict_shifted['C651'] + coeff_dict_shifted['C661']/2 + coeff_dict_shifted['C671']/2\
+                   - self.Ychi * (3-8*sw**2)/24 * coeff_dict_shifted['C617']\
+                   - (3-8*sw**2)/6 * coeff_dict_shifted['C618'])/self.Lambda**2
+            coeff_dict_5f['C62d'] = (self.Ychi/8*coeff_dict_shifted['C651'] + coeff_dict_shifted['C661']/2 + coeff_dict_shifted['C681']/2\
+                   + self.Ychi * (3-4*sw**2)/24 * coeff_dict_shifted['C617']\
+                   + (3-4*sw**2)/6 * coeff_dict_shifted['C618'])/self.Lambda**2
+            coeff_dict_5f['C62s'] = (self.Ychi/8*coeff_dict_shifted['C652'] + coeff_dict_shifted['C662']/2 + coeff_dict_shifted['C682']/2\
+                   + self.Ychi * (3-4*sw**2)/24 * coeff_dict_shifted['C617']\
+                   + (3-4*sw**2)/6 * coeff_dict_shifted['C618'])/self.Lambda**2
+            coeff_dict_5f['C62c'] = (- self.Ychi/8*coeff_dict_shifted['C652'] + coeff_dict_shifted['C662']/2 + coeff_dict_shifted['C672']/2\
+                   - self.Ychi * (3-8*sw**2)/24 * coeff_dict_shifted['C617']\
+                   - (3-8*sw**2)/6 * coeff_dict_shifted['C618'])/self.Lambda**2
+            coeff_dict_5f['C62b'] = (self.Ychi/8*coeff_dict_shifted['C653'] + coeff_dict_shifted['C663']/2 + coeff_dict_shifted['C683']/2\
+                   + self.Ychi * (3-4*sw**2)/24 * coeff_dict_shifted['C617']\
+                   + (3-4*sw**2)/6 * coeff_dict_shifted['C618'])/self.Lambda**2
+            coeff_dict_5f['C62e'] = (self.Ychi/8*coeff_dict_shifted['C6121'] + coeff_dict_shifted['C6131']/2 + coeff_dict_shifted['C6141']/2\
+                   + self.Ychi * (1-4*sw**2)/8 * coeff_dict_shifted['C617']\
+                   + (1-4*sw**2)/2 * coeff_dict_shifted['C618'])/self.Lambda**2
+            coeff_dict_5f['C62mu'] = (self.Ychi/8*coeff_dict_shifted['C6122'] + coeff_dict_shifted['C6132']/2 + coeff_dict_shifted['C6142']/2\
+                   + self.Ychi * (1-4*sw**2)/8 * coeff_dict_shifted['C617']\
+                   + (1-4*sw**2)/2 * coeff_dict_shifted['C618'])/self.Lambda**2
+            coeff_dict_5f['C62tau'] = (self.Ychi/8*coeff_dict_shifted['C6123'] + coeff_dict_shifted['C6133']/2 + coeff_dict_shifted['C6143']/2\
+                   + self.Ychi * (1-4*sw**2)/8 * coeff_dict_shifted['C617']\
+                   + (1-4*sw**2)/2 * coeff_dict_shifted['C618'])/self.Lambda**2
+
+            coeff_dict_5f['C63u'] = (self.Ychi/8*coeff_dict_shifted['C611'] - coeff_dict_shifted['C621']/2 + coeff_dict_shifted['C631']/2\
+                   + self.Ychi/8 * coeff_dict_shifted['C615']\
+                   + 1/2 * coeff_dict_shifted['C616']\
+                   - self.Lambda**2/MZ**2 * (np.pi*alpha*self.Ychi)/(2*sw**2*cw**2) * DIM4)/self.Lambda**2
+            coeff_dict_5f['C63d'] = (- self.Ychi/8*coeff_dict_shifted['C611'] - coeff_dict_shifted['C621']/2 + coeff_dict_shifted['C641']/2\
+                   - self.Ychi/8 * coeff_dict_shifted['C615']\
+                   - 1/2 * coeff_dict_shifted['C616']\
+                   + self.Lambda**2/MZ**2 * (np.pi*alpha*self.Ychi)/(2*sw**2*cw**2) * DIM4)/self.Lambda**2
+            coeff_dict_5f['C63s'] = (- self.Ychi/8*coeff_dict_shifted['C612'] - coeff_dict_shifted['C622']/2 + coeff_dict_shifted['C642']/2\
+                   - self.Ychi/8 * coeff_dict_shifted['C615']\
+                   - 1/2 * coeff_dict_shifted['C616']\
+                   + self.Lambda**2/MZ**2 * (np.pi*alpha*self.Ychi)/(2*sw**2*cw**2) * DIM4)/self.Lambda**2
+            coeff_dict_5f['C63c'] = (self.Ychi/8*coeff_dict_shifted['C612'] - coeff_dict_shifted['C622']/2 + coeff_dict_shifted['C632']/2\
+                   + self.Ychi/8 * coeff_dict_shifted['C615']\
+                   + 1/2 * coeff_dict_shifted['C616']\
+                   - self.Lambda**2/MZ**2 * (np.pi*alpha*self.Ychi)/(2*sw**2*cw**2) * DIM4)/self.Lambda**2
+            coeff_dict_5f['C63b'] = (- self.Ychi/8*coeff_dict_shifted['C613'] - coeff_dict_shifted['C623']/2 + coeff_dict_shifted['C643']/2\
+                   - self.Ychi/8 * coeff_dict_shifted['C615']\
+                   - 1/2 * coeff_dict_shifted['C616']\
+                   + self.Lambda**2/MZ**2 * (np.pi*alpha*self.Ychi)/(2*sw**2*cw**2) * DIM4)/self.Lambda**2
+            coeff_dict_5f['C63e'] = (- self.Ychi/8*coeff_dict_shifted['C691'] - coeff_dict_shifted['C6101']/2 + coeff_dict_shifted['C6111']/2\
+                   - self.Ychi/8 * coeff_dict_shifted['C615']\
+                   - 1/2 * coeff_dict_shifted['C616']\
+                   + self.Lambda**2/MZ**2 * (np.pi*alpha*self.Ychi)/(2*sw**2*cw**2) * DIM4)/self.Lambda**2
+            coeff_dict_5f['C63mu'] = (- self.Ychi/8*coeff_dict_shifted['C692'] - coeff_dict_shifted['C6102']/2 + coeff_dict_shifted['C6112']/2\
+                   - self.Ychi/8 * coeff_dict_shifted['C615']\
+                   - 1/2 * coeff_dict_shifted['C616']\
+                   + self.Lambda**2/MZ**2 * (np.pi*alpha*self.Ychi)/(2*sw**2*cw**2) * DIM4)/self.Lambda**2
+            coeff_dict_5f['C63tau'] = (- self.Ychi/8*coeff_dict_shifted['C693'] - coeff_dict_shifted['C6103']/2 + coeff_dict_shifted['C6113']/2\
+                   - self.Ychi/8 * coeff_dict_shifted['C615']\
+                   - 1/2 * coeff_dict_shifted['C616']\
+                   + self.Lambda**2/MZ**2 * (np.pi*alpha*self.Ychi)/(2*sw**2*cw**2) * DIM4)/self.Lambda**2
+
+            coeff_dict_5f['C64u'] = (self.Ychi/8*coeff_dict_shifted['C651'] - coeff_dict_shifted['C661']/2 + coeff_dict_shifted['C671']/2\
+                    + self.Ychi/8 * coeff_dict_shifted['C617']\
+                    + 1/2 * coeff_dict_shifted['C618'])/self.Lambda**2
+            coeff_dict_5f['C64d'] = (- self.Ychi/8*coeff_dict_shifted['C651'] - coeff_dict_shifted['C661']/2 + coeff_dict_shifted['C681']/2\
+                    - self.Ychi/8 * coeff_dict_shifted['C617']\
+                    - 1/2 * coeff_dict_shifted['C618'])/self.Lambda**2
+            coeff_dict_5f['C64s'] = (- self.Ychi/8*coeff_dict_shifted['C652'] - coeff_dict_shifted['C662']/2 + coeff_dict_shifted['C682']/2\
+                    - self.Ychi/8 * coeff_dict_shifted['C617']\
+                    - 1/2 * coeff_dict_shifted['C618'])/self.Lambda**2
+            coeff_dict_5f['C64c'] = (self.Ychi/8*coeff_dict_shifted['C652'] - coeff_dict_shifted['C662']/2 + coeff_dict_shifted['C672']/2\
+                    + self.Ychi/8 * coeff_dict_shifted['C617']\
+                    + 1/2 * coeff_dict_shifted['C618'])/self.Lambda**2
+            coeff_dict_5f['C64b'] = (- self.Ychi/8*coeff_dict_shifted['C653'] - coeff_dict_shifted['C663']/2 + coeff_dict_shifted['C683']/2\
+                    - self.Ychi/8 * coeff_dict_shifted['C617']\
+                    - 1/2 * coeff_dict_shifted['C618'])/self.Lambda**2
+            coeff_dict_5f['C64e'] = (- self.Ychi/8*coeff_dict_shifted['C6121'] - coeff_dict_shifted['C6131']/2 + coeff_dict_shifted['C6141']/2\
+                    - self.Ychi/8 * coeff_dict_shifted['C617']\
+                    - 1/2 * coeff_dict_shifted['C618'])/self.Lambda**2
+            coeff_dict_5f['C64mu'] = (- self.Ychi/8*coeff_dict_shifted['C6122'] - coeff_dict_shifted['C6132']/2 + coeff_dict_shifted['C6142']/2\
+                    - self.Ychi/8 * coeff_dict_shifted['C617']\
+                    - 1/2 * coeff_dict_shifted['C618'])/self.Lambda**2
+            coeff_dict_5f['C64tau'] = (- self.Ychi/8*coeff_dict_shifted['C6123'] - coeff_dict_shifted['C6133']/2 + coeff_dict_shifted['C6143']/2\
+                    - self.Ychi/8 * coeff_dict_shifted['C617']\
+                    - 1/2 * coeff_dict_shifted['C618'])/self.Lambda**2
+
+            coeff_dict_5f['C71'] = (self.Lambda**2/Mh**2 * (coeff_dict_shifted['C53'] + self.Ychi/4 * coeff_dict_shifted['C54']))/self.Lambda**3\
+                                   + higgs_penguin_gluon(self.Ychi,self.Jchi) * DIM4
+            coeff_dict_5f['C72'] = (self.Lambda**2/Mh**2 * (coeff_dict_shifted['C57'] + self.Ychi/4 * coeff_dict_shifted['C58']))/self.Lambda**3
+
+            coeff_dict_5f['C75u'] = self.Lambda/Mh**2 * (coeff_dict_shifted['C53'] + self.Ychi/4 * coeff_dict_shifted['C54'])/self.Lambda**2\
+                                    + higgs_penguin_fermion(self.Ychi,self.Jchi) * DIM4
+            coeff_dict_5f['C75d'] = self.Lambda/Mh**2 * (coeff_dict_shifted['C53'] + self.Ychi/4 * coeff_dict_shifted['C54'])/self.Lambda**2\
+                                    + higgs_penguin_fermion(self.Ychi,self.Jchi) * DIM4
+            coeff_dict_5f['C75s'] = self.Lambda/Mh**2 * (coeff_dict_shifted['C53'] + self.Ychi/4 * coeff_dict_shifted['C54'])/self.Lambda**2\
+                                    + higgs_penguin_fermion(self.Ychi,self.Jchi) * DIM4
+            coeff_dict_5f['C75c'] = self.Lambda/Mh**2 * (coeff_dict_shifted['C53'] + self.Ychi/4 * coeff_dict_shifted['C54'])/self.Lambda**2\
+                                    + higgs_penguin_fermion(self.Ychi,self.Jchi) * DIM4
+            coeff_dict_5f['C75b'] = self.Lambda/Mh**2 * (coeff_dict_shifted['C53'] + self.Ychi/4 * coeff_dict_shifted['C54'])/self.Lambda**2\
+                                    + higgs_penguin_fermion(self.Ychi,self.Jchi) * DIM4
+            coeff_dict_5f['C75e'] = self.Lambda/Mh**2 * (coeff_dict_shifted['C53'] + self.Ychi/4 * coeff_dict_shifted['C54'])/self.Lambda**2\
+                                    + higgs_penguin_fermion(self.Ychi,self.Jchi) * DIM4
+            coeff_dict_5f['C75mu'] = self.Lambda/Mh**2 * (coeff_dict_shifted['C53'] + self.Ychi/4 * coeff_dict_shifted['C54'])/self.Lambda**2\
+                                    + higgs_penguin_fermion(self.Ychi,self.Jchi) * DIM4
+            coeff_dict_5f['C61tau'] = self.Lambda/Mh**2 * (coeff_dict_shifted['C53'] + self.Ychi/4 * coeff_dict_shifted['C54'])/self.Lambda**2\
+                                    + higgs_penguin_fermion(self.Ychi,self.Jchi) * DIM4
+
+            coeff_dict_5f['C76u'] = self.Lambda/Mh**2 * (coeff_dict_shifted['C57'] + self.Ychi/4 * coeff_dict_shifted['C58'])/self.Lambda**2
+            coeff_dict_5f['C76d'] = self.Lambda/Mh**2 * (coeff_dict_shifted['C57'] + self.Ychi/4 * coeff_dict_shifted['C58'])/self.Lambda**2
+            coeff_dict_5f['C76s'] = self.Lambda/Mh**2 * (coeff_dict_shifted['C57'] + self.Ychi/4 * coeff_dict_shifted['C58'])/self.Lambda**2
+            coeff_dict_5f['C76c'] = self.Lambda/Mh**2 * (coeff_dict_shifted['C57'] + self.Ychi/4 * coeff_dict_shifted['C58'])/self.Lambda**2
+            coeff_dict_5f['C76b'] = self.Lambda/Mh**2 * (coeff_dict_shifted['C57'] + self.Ychi/4 * coeff_dict_shifted['C58'])/self.Lambda**2
+            coeff_dict_5f['C76e'] = self.Lambda/Mh**2 * (coeff_dict_shifted['C57'] + self.Ychi/4 * coeff_dict_shifted['C58'])/self.Lambda**2
+            coeff_dict_5f['C76mu'] = self.Lambda/Mh**2 * (coeff_dict_shifted['C57'] + self.Ychi/4 * coeff_dict_shifted['C58'])/self.Lambda**2
+            coeff_dict_5f['C76tau'] = self.Lambda/Mh**2 * (coeff_dict_shifted['C57'] + self.Ychi/4 * coeff_dict_shifted['C58'])/self.Lambda**2
+
+        coeff_dict_5f['C73'] = 0
+        coeff_dict_5f['C74'] = 0
+
+        coeff_dict_5f['C78u'] = 0
+        coeff_dict_5f['C78d'] = 0
+        coeff_dict_5f['C78s'] = 0
+        coeff_dict_5f['C78c'] = 0
+        coeff_dict_5f['C78b'] = 0
+        coeff_dict_5f['C78e'] = 0
+        coeff_dict_5f['C78mu'] = 0
+        coeff_dict_5f['C78tau'] = 0
+
+        coeff_dict_5f['C79u'] = 0
+        coeff_dict_5f['C79d'] = 0
+        coeff_dict_5f['C79s'] = 0
+        coeff_dict_5f['C79c'] = 0
+        coeff_dict_5f['C79b'] = 0
+        coeff_dict_5f['C79e'] = 0
+        coeff_dict_5f['C79mu'] = 0
+        coeff_dict_5f['C79tau'] = 0
+
+        coeff_dict_5f['C710u'] = 0
+        coeff_dict_5f['C710d'] = 0
+        coeff_dict_5f['C710s'] = 0
+        coeff_dict_5f['C710c'] = 0
+        coeff_dict_5f['C710b'] = 0
+        coeff_dict_5f['C710e'] = 0
+        coeff_dict_5f['C710mu'] = 0
+        coeff_dict_5f['C710tau'] = 0
+
+        return coeff_dict_5f
+
+
+    def _my_cNR(self, mchi, RGE=None, dict=None, NLO=None, mchi_threshold=None, RUN_EW=None, DIM4=None):
+        """ Calculate the NR coefficients from four-flavor theory with meson contributions split off (mainly for internal use) """
+        return WC_5f(self.match(mchi, mchi_threshold, RUN_EW, True, DIM4), self.DM_type)._my_cNR(self.mchi_phys, RGE, dict, NLO)
+
+    def cNR(self, mchi, qvec, RGE=None, dict=None, NLO=None, mchi_threshold=None, RUN_EW=None, DIM4=None):
+        """ Calculate the NR coefficients from four-flavor theory """
+        return WC_5f(self.match(mchi, mchi_threshold, RUN_EW, True, DIM4), self.DM_type).cNR(mchi, qvec, RGE, dict, NLO)
+
+    def write_mma(self, mchi, qvector, RGE=None, NLO=None, mchi_threshold=None, RUN_EW=None, DIM4=None, path=None, filename=None):
+        """ Write a text file with the NR coefficients that can be read into DMFormFactor 
+
+        The order is {cNR1p, cNR2p, ... , cNR1n, cNR1n, ... }
+
+        Mandatory arguments are the DM mass mchi (in GeV) and the momentum transfer qvector (in GeV) 
+
+        <path> should be a string with the path (including the trailing "/") where the file should be saved
+        (default is '.')
+
+        <filename> is the filename (default 'cNR.m')
+        """
+        WC_5f(self.match(mchi, mchi_threshold, RUN_EW, True, DIM4), self.DM_type).write_mma(mchi, qvector, RGE, NLO, path, filename)
+
+
+
 

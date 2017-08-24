@@ -182,3 +182,108 @@ class RGE(object):
         return expm((asmuh-asmul)/(4*np.pi) * np.array(np.transpose(self.adm[0]))/(2*b0))
 
 
+
+class CmuEW(object):
+    def __init__(self, Wilson, ADM, muh, mul, Y, J, s1, s2, s3, st):
+        """ Calculate the running of the Wilson coefficients in the unbroken EW theory
+
+        The running takes into account the gauge coupling g1, g2, g3, and the top Yukawa yt.
+
+        Wilson should be a list of initial conditions for the Wilson coefficients.
+
+        ADM should be a list / array of four anomalous dimension matrices for g1, g2, g3, yt.
+
+        muh is the initial scale.
+
+        mul is the final scale.
+
+        s1, s2, s3, st = 1 / 0 switches g1, g2, gs, yt on / off
+        """
+        self. Wilson = Wilson
+        self.ADM = ADM
+        self.muh = muh
+        self.mul = mul
+        self.Y = Y
+        self.J = J
+        self.s1 = s1
+        self.s2 = s2
+        self.s3 = s3
+        self.st = st
+
+        # Input parameters
+
+        ip = Num_input()
+
+        self.alpha = 1/ip.aMZinv
+        self.el = np.sqrt(4*np.pi*self.alpha)
+        self.MW = ip.Mw
+        self.MZ = ip.Mz
+        self.Mh = ip.Mh
+        self.cw = self.MW/self.MZ
+        self.sw = np.sqrt(1-self.cw**2)
+        self.g1 = self.el/self.cw
+        self.g2 = self.el/self.sw
+        self.asMZ = ip.asMZ
+        self.gs = np.sqrt(4*np.pi*self.asMZ)
+        self.yt = ip.mt_pole/246*np.sqrt(2)
+
+        # The initial values of the couplings at MZ
+        self.ginit = [self.g1*self.s1, self.g2*self.s2, self.gs*self.s3, self.yt*self.st]
+
+
+    def _dgdmu(self, g, mu, Y, J):
+        """ Calculate the log derivative of the couplings g1, g2, g3, yt w.r.t. to mu, at scale mu
+        
+        Takes a 4-vector (list) of couplings g = [g1,g2,g3,yt]
+
+        Takes the DM quantum numbers J, Y (so far only 1 multiplet)
+
+        Returns the derivative -- again a 4-vector
+        """
+        N = 1
+        # The 4x4 matrix of beta functions (Arason et al., Phys.Rev. D46 (1992) 3945-3965, and our calculation)
+        beta = [[-41/6-Y**2*(2*J+1)*N/3,0,0,0],
+                [0,19/6-4*J*(J+1)*(2*J+1)*N/9,0,0],
+                [0,0,7,0],
+                [17/12,9/4,8,-9/2]]
+        deriv_list = [sum([ -g[k]*beta[k][i]*g[i]**2 / mu / (4*np.pi)**2 for i in range(4)]) for k in range(4)]
+        return deriv_list
+
+    def _alphai(self, g_init, mu_init, mu2, Y, J):
+        """ Calculate the one-loop running of alpha1, alpha2, alpha3, alphat in 6-flavor theory
+        
+        Run from mu_init to mu2. ginit are the couplings defined at scale mu_init.
+
+        Careful, takes g's as input and returns alpha's
+        """
+
+        def deriv(g,mu):
+            return self._dgdmu(g, mu, Y, J)
+        r = odeint(deriv, g_init, np.array([mu_init, mu2]))
+        # Now take just final numbers and make alpha's out of the g's
+        alpha = list(map(lambda x: x**2/4/np.pi, r[1]))
+        return alpha
+
+    def _alphai_interpolate(self, g_init, mu_init, mu1, mu2, mu0, Y, J):
+        """ Calculate the one-loop running of alpha1, alpha2, alpha3, alphat in 6-flavor theory as an interpolating function from mu1 to mu2
+        
+        Interpolate the running between mu1 and mu2 at mu0. ginit are the couplings defined at scale mu_init.
+
+        Careful, it takes g's as input and returns alpha's
+        """
+        def deriv(g,mu):
+            return self._dgdmu(g, mu, Y, J)
+        def domain(mu):
+            return np.array([mu_init, mu])
+        points = 50
+        assert mu1 != mu2, "This is alphai_interpolate: mu1 and mu2 have to be different!"
+        r = np.array([list(map(lambda x: x**2/4/np.pi, odeint(deriv, g_init, domain(mu))[1])) for mu in np.linspace(mu1, mu2, points)])
+        # Create interpolating function for the running couplings
+        int_fun_list = np.array([interp1d(np.linspace(mu1, mu2, points), r.T[k], kind='cubic')(mu0) for k in range(4)])
+        return int_fun_list
+
+    def run(self):
+        def deriv(C, mu):
+            return sum([np.dot(C,self.ADM[k])*self._alphai(self.ginit, self.MZ, mu, self.Y, self.J)[k]/4/np.pi/mu for k in range(4)])
+        r = odeint(deriv, self.Wilson, np.array([self.muh, self.mul]), full_output=1)
+        return list(r)
