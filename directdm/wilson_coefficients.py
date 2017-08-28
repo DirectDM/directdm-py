@@ -822,11 +822,11 @@ class WC_4f(object):
 
         run
         ---
-        Runs the Wilson from mb = 4.18 GeV to muc [GeV; default 2 GeV], with 4 active quark flavors
+        Runs the Wilson from mb(mb) to mu_low [GeV; default 2 GeV], with 4 active quark flavors
 
         match
         -----
-        Matches the Wilson coefficients from 4-flavor to 3-flavor QCD, at scale muc [default 2 GeV]
+        Matches the Wilson coefficients from 4-flavor to 3-flavor QCD, at scale mu_low [default 2 GeV]
 
         cNR
         ---
@@ -948,19 +948,19 @@ class WC_4f(object):
             self.gamma_QCD2 = np.delete(np.delete(adm.ADM_QCD2(4), del_ind_list, 1), del_ind_list, 2)
 
 
-    def run(self, muc=None, dict=None):
+    def run(self, mu_low=None, dict=None):
         """ Running of 4-flavor Wilson coefficients
 
-        Calculate the running from mb to muc [GeV; default 2 GeV] in the four-flavor theory. 
+        Calculate the running from mb(mb) to mu_low [GeV; default 2 GeV] in the four-flavor theory. 
 
         For dict = True, returns a dictionary of Wilson coefficients for the four-flavor Lagrangian
-        at scale muc (this is the default).
+        at scale mu_low (this is the default).
 
         For dict = False, returns a numpy array of Wilson coefficients for the four-flavor Lagrangian
-        at scale muc.
+        at scale mu_low.
         """
-        if muc is None:
-            muc=2
+        if mu_low is None:
+            mu_low=2
         if dict is None:
             dict = True
 
@@ -977,9 +977,9 @@ class WC_4f(object):
         evolve1 = rge.RGE(self.gamma_QCD, 4)
         evolve2 = rge.RGE(self.gamma_QCD2, 4)
 
-        # Strictly speaking, mb should be defined at scale muc (however, this is a higher-order difference)
-        C_at_mc_QCD = np.dot(evolve2.U0_as2(as41.run(mb),as41.run(muc)), np.dot(evolve1.U0(as41.run(mb),as41.run(muc)), self.coeff_list))
-        C_at_mc_QED = np.dot(self.coeff_list, self.gamma_QED) * np.log(muc/mb) * alpha_at_mc/(4*np.pi)
+        # Strictly speaking, mb should be defined at scale mu_low (however, this is a higher-order difference)
+        C_at_mc_QCD = np.dot(evolve2.U0_as2(as41.run(mb),as41.run(mu_low)), np.dot(evolve1.U0(as41.run(mb),as41.run(mu_low)), self.coeff_list))
+        C_at_mc_QED = np.dot(self.coeff_list, self.gamma_QED) * np.log(mu_low/mb) * alpha_at_mc/(4*np.pi)
 
         if dict:
             return list_to_dict(C_at_mc_QCD + C_at_mc_QED, self.wc_name_list)
@@ -1112,11 +1112,11 @@ class WC_5f(object):
 
         run
         ---
-        Runs the Wilson from MZ = 91.1876 GeV to mub [GeV; default mb = 4.18 GeV], with 5 active quark flavors
+        Runs the Wilson from MZ = 91.1876 GeV to mu_low [GeV; default mb(mb)], with 5 active quark flavors
 
         match
         -----
-        Matches the Wilson coefficients from 5-flavor to 4-flavor QCD, at scale mub
+        Matches the Wilson coefficients from 5-flavor to 4-flavor QCD, at scale mu_low
 
         cNR
         ---
@@ -1238,20 +1238,20 @@ class WC_5f(object):
             self.gamma_QCD2 = np.delete(np.delete(adm.ADM_QCD2(5), del_ind_list, 1), del_ind_list, 2)
 
 
-    def run(self, mub=None, dict=None):
+    def run(self, mu_low=None, dict=None):
         """ Running of 5-flavor Wilson coefficients
 
-        Calculate the running from MZ to mub [GeV; default 4.18 GeV] in the five-flavor theory. 
+        Calculate the running from MZ to mu_low [GeV; default mb(mb)] in the five-flavor theory. 
 
         For dict = True, returns a dictionary of Wilson coefficients for the five-flavor Lagrangian
-        at scale mub (this is the default).
+        at scale mu_low (this is the default).
 
         For dict = False, returns a numpy array of Wilson coefficients for the five-flavor Lagrangian
-        at scale mub.
+        at scale mu_low.
         """
         ip = Num_input()
-        if mub is None:
-            mub=ip.mb_at_mb
+        if mu_low is None:
+            mu_low=ip.mb_at_mb
         if dict is None:
             dict = True
 
@@ -1269,8 +1269,8 @@ class WC_5f(object):
         evolve2 = rge.RGE(self.gamma_QCD2, 5)
 
         # Strictly speaking, MZ and mb should be defined at the same scale (however, this is a higher-order difference)
-        C_at_mb_QCD = np.dot(evolve2.U0_as2(as51.run(MZ),as51.run(mub)), np.dot(evolve1.U0(as51.run(MZ),as51.run(mub)), self.coeff_list))
-        C_at_mb_QED = np.dot(self.coeff_list, self.gamma_QED) * np.log(mub/MZ) * alpha_at_mb/(4*np.pi)
+        C_at_mb_QCD = np.dot(evolve2.U0_as2(as51.run(MZ),as51.run(mu_low)), np.dot(evolve1.U0(as51.run(MZ),as51.run(mu_low)), self.coeff_list))
+        C_at_mb_QED = np.dot(self.coeff_list, self.gamma_QED) * np.log(mu_low/MZ) * alpha_at_mb/(4*np.pi)
 
         if dict:
             return list_to_dict(C_at_mb_QCD + C_at_mb_QED, self.wc_name_list)
