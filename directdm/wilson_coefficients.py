@@ -623,7 +623,7 @@ class WC_3f(object):
             return dict_to_list(my_cNR_dict, self.my_cNR_name_list)
 
 
-    def cNR(self, mchi, qvector, RGE=None, dict=None, NLO=None):
+    def cNR(self, mchi, q, RGE=None, dict=None, NLO=None):
         """ The operator coefficients of O_1^N -- O_12^N as in 1308.6288 -- multiply by propagators and sum up contributions 
 
         mchi is the DM mass in GeV
@@ -654,7 +654,7 @@ class WC_3f(object):
         meta = ip.meta
         mpi = ip.mpi0
 
-        qsq = qvector**2
+        qsq = q**2
 
         # The traditional coefficients, where different from above
         cNR_dict = {}
@@ -711,12 +711,12 @@ class WC_3f(object):
             return dict_to_list(cNR_dict, self.cNR_name_list)
 
 
-    def write_mma(self, mchi, qvector, RGE=None, NLO=None, path=None, filename=None):
+    def write_mma(self, mchi, q, RGE=None, NLO=None, path=None, filename=None):
         """ Write a text file with the NR coefficients that can be read into DMFormFactor 
 
         The order is {cNR1p, cNR2p, ... , cNR1n, cNR1n, ... }
 
-        Mandatory arguments are the DM mass mchi (in GeV) and the momentum transfer qvector (in GeV) 
+        Mandatory arguments are the DM mass mchi (in GeV) and the momentum transfer q (in GeV) 
 
         <path> should be a string with the path (including the trailing "/") where the file should be saved
         (default is '.')
@@ -729,10 +729,15 @@ class WC_3f(object):
             NLO=False
         if path is None:
             path = './'
+        assert type(path) is str
+        if path.endswith('/'):
+            pass
+        else:
+            path += '/'
         if filename is None:
             filename = 'cNR.m'
 
-        val = self.cNR(mchi, qvector, RGE, True, NLO)
+        val = self.cNR(mchi, q, RGE, True, NLO)
         self.cNR_list_mma = '{' + str(val['cNR1p']) + ', '\
                             + str(val['cNR2p']) + ', '\
                             + str(val['cNR3p']) + ', '\
@@ -1037,19 +1042,19 @@ class WC_4f(object):
         """ Calculate the NR coefficients from four-flavor theory """
         return WC_3f(self.match(), self.DM_type).cNR(mchi, qvec, RGE, dict, NLO)
 
-    def write_mma(self, mchi, qvector, RGE=None, NLO=None, path=None, filename=None):
+    def write_mma(self, mchi, q, RGE=None, NLO=None, path=None, filename=None):
         """ Write a text file with the NR coefficients that can be read into DMFormFactor 
 
         The order is {cNR1p, cNR2p, ... , cNR1n, cNR1n, ... }
 
-        Mandatory arguments are the DM mass mchi (in GeV) and the momentum transfer qvector (in GeV) 
+        Mandatory arguments are the DM mass mchi (in GeV) and the momentum transfer q (in GeV) 
 
         <path> should be a string with the path (including the trailing "/") where the file should be saved
         (default is '.')
 
         <filename> is the filename (default 'cNR.m')
         """
-        WC_3f(self.match(), self.DM_type).write_mma(mchi, qvector, RGE, NLO, path, filename)
+        WC_3f(self.match(), self.DM_type).write_mma(mchi, q, RGE, NLO, path, filename)
 
 
 
@@ -1328,19 +1333,19 @@ class WC_5f(object):
         """ Calculate the NR coefficients from four-flavor theory """
         return WC_4f(self.match(), self.DM_type).cNR(mchi, qvec, RGE, dict, NLO)
 
-    def write_mma(self, mchi, qvector, RGE=None, NLO=None, path=None, filename=None):
+    def write_mma(self, mchi, q, RGE=None, NLO=None, path=None, filename=None):
         """ Write a text file with the NR coefficients that can be read into DMFormFactor 
 
         The order is {cNR1p, cNR2p, ... , cNR1n, cNR1n, ... }
 
-        Mandatory arguments are the DM mass mchi (in GeV) and the momentum transfer qvector (in GeV) 
+        Mandatory arguments are the DM mass mchi (in GeV) and the momentum transfer q (in GeV) 
 
         <path> should be a string with the path (including the trailing "/") where the file should be saved
         (default is '.')
 
         <filename> is the filename (default 'cNR.m')
         """
-        WC_4f(self.match(), self.DM_type).write_mma(mchi, qvector, RGE, NLO, path, filename)
+        WC_4f(self.match(), self.DM_type).write_mma(mchi, q, RGE, NLO, path, filename)
 
 
 
