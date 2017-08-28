@@ -64,8 +64,10 @@ def ADM_QCD(nf):
 
 def ADM_QCD2(nf):
     """ Returns the QCD anomalous dimension for nf flavor EFT, when ADM starts at O(alphas^2) """
+    # Mixing of Q_1^(7) into Q_{5,q}^(7) and Q_2^(7) into Q_{6,q}^(7), from Hill et al. 1409.8290. Note that we have different prefactors and signs. 
     gamma_gq = -32/3
-    gamma_5gq = 16
+    # Mixing of Q_3^(7) into Q_{7,q}^(7) and Q_4^(7) into Q_{8,q}^(7), from Hill et al. 1409.8290. Note that we have different prefactors and signs. 
+    gamma_5gq = 8
     gamma_QCD2_gq = np.array([5*[gamma_gq]])
     gamma_QCD2_5gq = np.array([5*[gamma_5gq]])
     gamma_QCD2_1 = np.zeros((34,86))
