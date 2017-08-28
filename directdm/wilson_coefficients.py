@@ -818,7 +818,7 @@ class WC_4f(object):
 
         run
         ---
-        Runs the Wilson from mb = 4.18 GeV to muc [GeV; default 2 GeV], with 4 active quark flavors
+        Runs the Wilson from mb(mb) to muc [GeV; default 2 GeV], with 4 active quark flavors
 
         match
         -----
@@ -944,7 +944,7 @@ class WC_4f(object):
     def run(self, muc=None, dict=None):
         """ Running of 4-flavor Wilson coefficients
 
-        Calculate the running from mb to muc [GeV; default 2 GeV] in the four-flavor theory. 
+        Calculate the running from mb(mb) to muc [GeV; default 2 GeV] in the four-flavor theory. 
 
         For dict = True, returns a dictionary of Wilson coefficients for the four-flavor Lagrangian
         at scale muc (this is the default).
@@ -1105,7 +1105,7 @@ class WC_5f(object):
 
         run
         ---
-        Runs the Wilson from MZ = 91.1876 GeV to mub [GeV; default mb = 4.18 GeV], with 5 active quark flavors
+        Runs the Wilson from MZ = 91.1876 GeV to mub [GeV; default mb(mb)], with 5 active quark flavors
 
         match
         -----
