@@ -725,6 +725,11 @@ class WC_3f(object):
             NLO=False
         if path is None:
             path = './'
+        assert type(path) is str
+        if path.endswith('/'):
+            pass
+        else:
+            path += '/'
         if filename is None:
             filename = 'cNR.m'
 
