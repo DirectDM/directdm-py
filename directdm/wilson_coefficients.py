@@ -138,7 +138,7 @@ class WC_3f(object):
                                  'C64u', 'C64d', 'C64s', 'C64e', 'C64mu', 'C64tau']
             del_ind_list = [i for i in range(0,26)] + [27] + [29] + [i for i in range(36,42)] + [i for i in range(48,66)]
 
-        self.my_cNR_name_list = ['cNR1p', 'cNR1n', 'cNR2p', 'cNR2n', 'cNR3p', 'cNR3n', 'cNR4p', 'cNR4n', 'cNR5p', 'cNR5n',
+        self._my_cNR_name_list = ['cNR1p', 'cNR1n', 'cNR2p', 'cNR2n', 'cNR3p', 'cNR3n', 'cNR4p', 'cNR4n', 'cNR5p', 'cNR5n',
                                  'cNR6p', 'cNR6n', 'cNR7p', 'cNR7n', 'cNR8p', 'cNR8n', 'cNR9p', 'cNR9n', 'cNR10p', 'cNR10n',
                                  'cNR11p', 'cNR11n', 'cNR12p', 'cNR12n', 'cNR13p', 'cNR13n', 'cNR14p', 'cNR14n', 'cNR15p', 'cNR15n',
                                  'cNR16p', 'cNR16n', 'cNR17p', 'cNR17n', 'cNR18p', 'cNR18n', 'cNR19p', 'cNR19n', 'cNR20p', 'cNR20n',
@@ -619,7 +619,7 @@ class WC_3f(object):
         if dict:
             return my_cNR_dict
         else:
-            return dict_to_list(my_cNR_dict, self.my_cNR_name_list)
+            return dict_to_list(my_cNR_dict, self._my_cNR_name_list)
 
 
     def cNR(self, mchi, q, RGE=None, dict=None, NLO=None):
