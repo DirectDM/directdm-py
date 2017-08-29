@@ -1796,35 +1796,35 @@ class WC_EW(object):
             coeff_dict_5f['C64tau'] = (- coeff_dict_shifted['C6133']/2 + coeff_dict_shifted['C6143']/2\
                     - 1/2 * coeff_dict_shifted['C618'])/self.Lambda**2
 
-            coeff_dict_5f['C71'] = (self.Lambda**2/Mh**2 * (coeff_dict_shifted['C53']))/self.Lambda**3\
+            coeff_dict_5f['C71'] = (1/Mh**2 * (coeff_dict_shifted['C53']))/self.Lambda\
                                    + higgs_penguin_gluon(self.Ychi,self.Jchi) * DIM4
-            coeff_dict_5f['C72'] = (self.Lambda**2/Mh**2 * (coeff_dict_shifted['C57']))/self.Lambda**3
+            coeff_dict_5f['C72'] = (1/Mh**2 * (coeff_dict_shifted['C57']))/self.Lambda
 
-            coeff_dict_5f['C75u'] = self.Lambda/Mh**2 * (coeff_dict_shifted['C53'])/self.Lambda**2\
+            coeff_dict_5f['C75u'] = - 1/Mh**2 * (coeff_dict_shifted['C53'])/self.Lambda\
                                     + higgs_penguin_fermion(self.Ychi,self.Jchi) * DIM4
-            coeff_dict_5f['C75d'] = self.Lambda/Mh**2 * (coeff_dict_shifted['C53'])/self.Lambda**2\
+            coeff_dict_5f['C75d'] = - 1/Mh**2 * (coeff_dict_shifted['C53'])/self.Lambda\
                                     + higgs_penguin_fermion(self.Ychi,self.Jchi) * DIM4
-            coeff_dict_5f['C75s'] = self.Lambda/Mh**2 * (coeff_dict_shifted['C53'])/self.Lambda**2\
+            coeff_dict_5f['C75s'] = - 1/Mh**2 * (coeff_dict_shifted['C53'])/self.Lambda\
                                     + higgs_penguin_fermion(self.Ychi,self.Jchi) * DIM4
-            coeff_dict_5f['C75c'] = self.Lambda/Mh**2 * (coeff_dict_shifted['C53'])/self.Lambda**2\
+            coeff_dict_5f['C75c'] = - 1/Mh**2 * (coeff_dict_shifted['C53'])/self.Lambda\
                                     + higgs_penguin_fermion(self.Ychi,self.Jchi) * DIM4
-            coeff_dict_5f['C75b'] = self.Lambda/Mh**2 * (coeff_dict_shifted['C53'])/self.Lambda**2\
+            coeff_dict_5f['C75b'] = - 1/Mh**2 * (coeff_dict_shifted['C53'])/self.Lambda\
                                     + higgs_penguin_fermion(self.Ychi,self.Jchi) * DIM4
-            coeff_dict_5f['C75e'] = self.Lambda/Mh**2 * (coeff_dict_shifted['C53'])/self.Lambda**2\
+            coeff_dict_5f['C75e'] = - 1/Mh**2 * (coeff_dict_shifted['C53'])/self.Lambda\
                                     + higgs_penguin_fermion(self.Ychi,self.Jchi) * DIM4
-            coeff_dict_5f['C75mu'] = self.Lambda/Mh**2 * (coeff_dict_shifted['C53'])/self.Lambda**2\
+            coeff_dict_5f['C75mu'] = - 1/Mh**2 * (coeff_dict_shifted['C53'])/self.Lambda\
                                     + higgs_penguin_fermion(self.Ychi,self.Jchi) * DIM4
-            coeff_dict_5f['C61tau'] = self.Lambda/Mh**2 * (coeff_dict_shifted['C53'])/self.Lambda**2\
+            coeff_dict_5f['C61tau'] = - 1/Mh**2 * (coeff_dict_shifted['C53'])/self.Lambda\
                                     + higgs_penguin_fermion(self.Ychi,self.Jchi) * DIM4
 
-            coeff_dict_5f['C76u'] = self.Lambda/Mh**2 * (coeff_dict_shifted['C57'])/self.Lambda**2
-            coeff_dict_5f['C76d'] = self.Lambda/Mh**2 * (coeff_dict_shifted['C57'])/self.Lambda**2
-            coeff_dict_5f['C76s'] = self.Lambda/Mh**2 * (coeff_dict_shifted['C57'])/self.Lambda**2
-            coeff_dict_5f['C76c'] = self.Lambda/Mh**2 * (coeff_dict_shifted['C57'])/self.Lambda**2
-            coeff_dict_5f['C76b'] = self.Lambda/Mh**2 * (coeff_dict_shifted['C57'])/self.Lambda**2
-            coeff_dict_5f['C76e'] = self.Lambda/Mh**2 * (coeff_dict_shifted['C57'])/self.Lambda**2
-            coeff_dict_5f['C76mu'] = self.Lambda/Mh**2 * (coeff_dict_shifted['C57'])/self.Lambda**2
-            coeff_dict_5f['C76tau'] = self.Lambda/Mh**2 * (coeff_dict_shifted['C57'])/self.Lambda**2
+            coeff_dict_5f['C76u'] = - 1/Mh**2 * (coeff_dict_shifted['C57'])/self.Lambda
+            coeff_dict_5f['C76d'] = - 1/Mh**2 * (coeff_dict_shifted['C57'])/self.Lambda
+            coeff_dict_5f['C76s'] = - 1/Mh**2 * (coeff_dict_shifted['C57'])/self.Lambda
+            coeff_dict_5f['C76c'] = - 1/Mh**2 * (coeff_dict_shifted['C57'])/self.Lambda
+            coeff_dict_5f['C76b'] = - 1/Mh**2 * (coeff_dict_shifted['C57'])/self.Lambda
+            coeff_dict_5f['C76e'] = - 1/Mh**2 * (coeff_dict_shifted['C57'])/self.Lambda
+            coeff_dict_5f['C76mu'] = - 1/Mh**2 * (coeff_dict_shifted['C57'])/self.Lambda
+            coeff_dict_5f['C76tau'] = - 1/Mh**2 * (coeff_dict_shifted['C57'])/self.Lambda
         else:
             coeff_dict_5f['C51'] = 1/(4*np.pi*alpha)*(cw**2 * coeff_dict_shifted['C51'] + sw**2 * self.Ychi/2 * coeff_dict_shifted['C52'])/self.Lambda
             coeff_dict_5f['C52'] = 1/(4*np.pi*alpha)*(cw**2 * coeff_dict_shifted['C55'] + sw**2 * self.Ychi/2 * coeff_dict_shifted['C56'])/self.Lambda
@@ -1945,35 +1945,35 @@ class WC_EW(object):
                     - self.Ychi/8 * coeff_dict_shifted['C617']\
                     - 1/2 * coeff_dict_shifted['C618'])/self.Lambda**2
 
-            coeff_dict_5f['C71'] = (self.Lambda**2/Mh**2 * (coeff_dict_shifted['C53'] + self.Ychi/4 * coeff_dict_shifted['C54']))/self.Lambda**3\
+            coeff_dict_5f['C71'] = (1/Mh**2 * (coeff_dict_shifted['C53'] + self.Ychi/4 * coeff_dict_shifted['C54']))/self.Lambda\
                                    + higgs_penguin_gluon(self.Ychi,self.Jchi) * DIM4
-            coeff_dict_5f['C72'] = (self.Lambda**2/Mh**2 * (coeff_dict_shifted['C57'] + self.Ychi/4 * coeff_dict_shifted['C58']))/self.Lambda**3
+            coeff_dict_5f['C72'] = (1/Mh**2 * (coeff_dict_shifted['C57'] + self.Ychi/4 * coeff_dict_shifted['C58']))/self.Lambda
 
-            coeff_dict_5f['C75u'] = self.Lambda/Mh**2 * (coeff_dict_shifted['C53'] + self.Ychi/4 * coeff_dict_shifted['C54'])/self.Lambda**2\
+            coeff_dict_5f['C75u'] = - 1/Mh**2 * (coeff_dict_shifted['C53'] + self.Ychi/4 * coeff_dict_shifted['C54'])/self.Lambda\
                                     + higgs_penguin_fermion(self.Ychi,self.Jchi) * DIM4
-            coeff_dict_5f['C75d'] = self.Lambda/Mh**2 * (coeff_dict_shifted['C53'] + self.Ychi/4 * coeff_dict_shifted['C54'])/self.Lambda**2\
+            coeff_dict_5f['C75d'] = - 1/Mh**2 * (coeff_dict_shifted['C53'] + self.Ychi/4 * coeff_dict_shifted['C54'])/self.Lambda\
                                     + higgs_penguin_fermion(self.Ychi,self.Jchi) * DIM4
-            coeff_dict_5f['C75s'] = self.Lambda/Mh**2 * (coeff_dict_shifted['C53'] + self.Ychi/4 * coeff_dict_shifted['C54'])/self.Lambda**2\
+            coeff_dict_5f['C75s'] = - 1/Mh**2 * (coeff_dict_shifted['C53'] + self.Ychi/4 * coeff_dict_shifted['C54'])/self.Lambda\
                                     + higgs_penguin_fermion(self.Ychi,self.Jchi) * DIM4
-            coeff_dict_5f['C75c'] = self.Lambda/Mh**2 * (coeff_dict_shifted['C53'] + self.Ychi/4 * coeff_dict_shifted['C54'])/self.Lambda**2\
+            coeff_dict_5f['C75c'] = - 1/Mh**2 * (coeff_dict_shifted['C53'] + self.Ychi/4 * coeff_dict_shifted['C54'])/self.Lambda\
                                     + higgs_penguin_fermion(self.Ychi,self.Jchi) * DIM4
-            coeff_dict_5f['C75b'] = self.Lambda/Mh**2 * (coeff_dict_shifted['C53'] + self.Ychi/4 * coeff_dict_shifted['C54'])/self.Lambda**2\
+            coeff_dict_5f['C75b'] = - 1/Mh**2 * (coeff_dict_shifted['C53'] + self.Ychi/4 * coeff_dict_shifted['C54'])/self.Lambda\
                                     + higgs_penguin_fermion(self.Ychi,self.Jchi) * DIM4
-            coeff_dict_5f['C75e'] = self.Lambda/Mh**2 * (coeff_dict_shifted['C53'] + self.Ychi/4 * coeff_dict_shifted['C54'])/self.Lambda**2\
+            coeff_dict_5f['C75e'] = - 1/Mh**2 * (coeff_dict_shifted['C53'] + self.Ychi/4 * coeff_dict_shifted['C54'])/self.Lambda\
                                     + higgs_penguin_fermion(self.Ychi,self.Jchi) * DIM4
-            coeff_dict_5f['C75mu'] = self.Lambda/Mh**2 * (coeff_dict_shifted['C53'] + self.Ychi/4 * coeff_dict_shifted['C54'])/self.Lambda**2\
+            coeff_dict_5f['C75mu'] = - 1/Mh**2 * (coeff_dict_shifted['C53'] + self.Ychi/4 * coeff_dict_shifted['C54'])/self.Lambda\
                                     + higgs_penguin_fermion(self.Ychi,self.Jchi) * DIM4
-            coeff_dict_5f['C61tau'] = self.Lambda/Mh**2 * (coeff_dict_shifted['C53'] + self.Ychi/4 * coeff_dict_shifted['C54'])/self.Lambda**2\
+            coeff_dict_5f['C61tau'] = - 1/Mh**2 * (coeff_dict_shifted['C53'] + self.Ychi/4 * coeff_dict_shifted['C54'])/self.Lambda\
                                     + higgs_penguin_fermion(self.Ychi,self.Jchi) * DIM4
 
-            coeff_dict_5f['C76u'] = self.Lambda/Mh**2 * (coeff_dict_shifted['C57'] + self.Ychi/4 * coeff_dict_shifted['C58'])/self.Lambda**2
-            coeff_dict_5f['C76d'] = self.Lambda/Mh**2 * (coeff_dict_shifted['C57'] + self.Ychi/4 * coeff_dict_shifted['C58'])/self.Lambda**2
-            coeff_dict_5f['C76s'] = self.Lambda/Mh**2 * (coeff_dict_shifted['C57'] + self.Ychi/4 * coeff_dict_shifted['C58'])/self.Lambda**2
-            coeff_dict_5f['C76c'] = self.Lambda/Mh**2 * (coeff_dict_shifted['C57'] + self.Ychi/4 * coeff_dict_shifted['C58'])/self.Lambda**2
-            coeff_dict_5f['C76b'] = self.Lambda/Mh**2 * (coeff_dict_shifted['C57'] + self.Ychi/4 * coeff_dict_shifted['C58'])/self.Lambda**2
-            coeff_dict_5f['C76e'] = self.Lambda/Mh**2 * (coeff_dict_shifted['C57'] + self.Ychi/4 * coeff_dict_shifted['C58'])/self.Lambda**2
-            coeff_dict_5f['C76mu'] = self.Lambda/Mh**2 * (coeff_dict_shifted['C57'] + self.Ychi/4 * coeff_dict_shifted['C58'])/self.Lambda**2
-            coeff_dict_5f['C76tau'] = self.Lambda/Mh**2 * (coeff_dict_shifted['C57'] + self.Ychi/4 * coeff_dict_shifted['C58'])/self.Lambda**2
+            coeff_dict_5f['C76u'] = - 1/Mh**2 * (coeff_dict_shifted['C57'] + self.Ychi/4 * coeff_dict_shifted['C58'])/self.Lambda
+            coeff_dict_5f['C76d'] = - 1/Mh**2 * (coeff_dict_shifted['C57'] + self.Ychi/4 * coeff_dict_shifted['C58'])/self.Lambda
+            coeff_dict_5f['C76s'] = - 1/Mh**2 * (coeff_dict_shifted['C57'] + self.Ychi/4 * coeff_dict_shifted['C58'])/self.Lambda
+            coeff_dict_5f['C76c'] = - 1/Mh**2 * (coeff_dict_shifted['C57'] + self.Ychi/4 * coeff_dict_shifted['C58'])/self.Lambda
+            coeff_dict_5f['C76b'] = - 1/Mh**2 * (coeff_dict_shifted['C57'] + self.Ychi/4 * coeff_dict_shifted['C58'])/self.Lambda
+            coeff_dict_5f['C76e'] = - 1/Mh**2 * (coeff_dict_shifted['C57'] + self.Ychi/4 * coeff_dict_shifted['C58'])/self.Lambda
+            coeff_dict_5f['C76mu'] = - 1/Mh**2 * (coeff_dict_shifted['C57'] + self.Ychi/4 * coeff_dict_shifted['C58'])/self.Lambda
+            coeff_dict_5f['C76tau'] = - 1/Mh**2 * (coeff_dict_shifted['C57'] + self.Ychi/4 * coeff_dict_shifted['C58'])/self.Lambda
 
         coeff_dict_5f['C73'] = 0
         coeff_dict_5f['C74'] = 0
