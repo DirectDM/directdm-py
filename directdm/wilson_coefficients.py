@@ -15,7 +15,7 @@ from directdm.num.num_input import Num_input
 
 def dict_to_list(dictionary, order_list):
     """ Create a list from dictionary, according to ordering in oerder_list """
-    assert sorted(order_list) == sorted(dictionary.keys())
+    #assert sorted(order_list) == sorted(dictionary.keys())
     wc_list = []
     for wc_name in order_list:
         wc_list.append(dictionary[wc_name])
@@ -23,7 +23,7 @@ def dict_to_list(dictionary, order_list):
 
 def list_to_dict(wc_list, order_list):
     """ Create a dictionary from a list wc_list, using keys in order_list """
-    assert len(order_list) == len(wc_list)
+    #assert len(order_list) == len(wc_list)
     wc_dict = {}
     for wc_ind in range(len(order_list)):
         wc_dict[order_list[wc_ind]] = wc_list[wc_ind]
@@ -149,17 +149,20 @@ class WC_3f(object):
                               'cNR11p', 'cNR11n', 'cNR12p', 'cNR12n']
 
         self.coeff_dict = {}
+        # Issue a user warning if a key is not defined:
         for wc_name in coeff_dict.keys():
             if wc_name in self.wc_name_list:
                 pass
             else:
-                warnings.warn('The key ' + wc_name + ' has not been defined. Typo?')
+                warnings.warn('The key ' + wc_name + ' is not a default key value. Typo?')
+        # Create the dictionary:
         for wc_name in self.wc_name_list:
             if wc_name in coeff_dict.keys():
                 self.coeff_dict[wc_name] = coeff_dict[wc_name]
             else:
                 self.coeff_dict[wc_name] = 0.
 
+        # Create the np.array of coefficients:
         self.coeff_list = np.array(dict_to_list(self.coeff_dict, self.wc_name_list))
 
 
@@ -451,7 +454,7 @@ class WC_3f(object):
             'cNR7n' : 0,
             'cNR8n' : 2*(2*c3mu_dict['C62d'] + c3mu_dict['C62u']),
             'cNR9n' : mN * (4*ip.mudn*c3mu_dict['C62d'] + 2*ip.muun*c3mu_dict['C62u'] - 6*ip.mus*c3mu_dict['C62s'])/mN,
-            'cNR10n' : mN * (- mtilde * (ip.Deltadn/md + ip.Deltaun/mu + ip.Deltas/ms) * c3mu_dict['C73']),
+            'cNR10n' : -mN * mtilde * (ip.Deltadn/md + ip.Deltaun/mu + ip.Deltas/ms) * c3mu_dict['C73'],
             'cNR11n' : mN * (-(ip.sigmadn*c3mu_dict['C76d'] + ip.sigmaun*c3mu_dict['C76u'] + ip.sigmas*c3mu_dict['C76s'])/mchi\
                            + 2*ip.mG/27*c3mu_dict['C72']/mchi),
             'cNR12n' : 0,
@@ -906,17 +909,20 @@ class WC_4f(object):
 
 
         self.coeff_dict = {}
+        # Issue a user warning if a key is not defined:
         for wc_name in coeff_dict.keys():
             if wc_name in self.wc_name_list:
                 pass
             else:
-                warnings.warn('The key ' + wc_name + ' has not been defined. Typo?')
+                warnings.warn('The key ' + wc_name + ' is not a default key value. Typo?')
+        # Create the dictionary:
         for wc_name in self.wc_name_list:
             if wc_name in coeff_dict.keys():
                 self.coeff_dict[wc_name] = coeff_dict[wc_name]
             else:
                 self.coeff_dict[wc_name] = 0.
 
+        # Create the np.array of coefficients:
         self.coeff_list = np.array(dict_to_list(self.coeff_dict, self.wc_name_list))
 
 
@@ -1193,17 +1199,20 @@ class WC_5f(object):
 
 
         self.coeff_dict = {}
+        # Issue a user warning if a key is not defined:
         for wc_name in coeff_dict.keys():
             if wc_name in self.wc_name_list:
                 pass
             else:
-                warnings.warn('The key ' + wc_name + ' has not been defined. Typo?')
+                warnings.warn('The key ' + wc_name + ' is not a default key value. Typo?')
+        # Create the dictionary:
         for wc_name in self.wc_name_list:
             if wc_name in coeff_dict.keys():
                 self.coeff_dict[wc_name] = coeff_dict[wc_name]
             else:
                 self.coeff_dict[wc_name] = 0.
 
+        # Create the np.array of coefficients:
         self.coeff_list = np.array(dict_to_list(self.coeff_dict, self.wc_name_list))
 
 
