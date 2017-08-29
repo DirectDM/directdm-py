@@ -5,11 +5,29 @@
 
 You can get the latest version of `directdm` on [`github`](https://directdm.github.io).
 
+## Installation
+
+`directdm` needs `python3`, and the python 3 versions of `SciPy` and `NumPy`.
+
+You can install `directdm` simply by using `pip`:
+
+```
+pip3 install directdm
+```
+
+**Note**: the package has been tested on a linux machine. Mac users should be able to install `directdm` after 
+
+```
+brew install python3
+brew upgrade numpy
+brew upgrade scipy
+```
+
 ## Usage
 
 The included `example.py` file has basic examples for using the functions provided by the code. 
 
-Here is a simple example assuming that the `example.py` file is in same directory as `./directdm/`.
+Here is a simple example assuming how to use `directdm`:
 
 Load the package
 ```
