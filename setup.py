@@ -1,6 +1,6 @@
 from setuptools import setup
 
-with open (directdm/_version) as f:
+with open ('directdm/_version.py') as f:
     exec(f.read())
 
 setup(name='directdm',
