@@ -4,10 +4,10 @@ import sys
 import numpy as np
 import scipy.integrate as spint
 import warnings
+import os.path
 from directdm.run import adm
 from directdm.run import rge
 from directdm.num.num_input import Num_input
-
 
 #----------------------------------------------#
 # convert dictionaries to lists and vice versa #
@@ -762,7 +762,7 @@ class WC_3f(object):
                             + str(val['cNR11n']) + ', '\
                             + str(val['cNR12n']) + '}' + '\n'
 
-        output_file = path + filename
+        output_file = str(os.path.expanduser(path)) + filename
 
         with open(output_file,'w') as f:
             f.write(self.cNR_list_mma)
