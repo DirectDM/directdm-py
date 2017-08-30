@@ -9,13 +9,13 @@ You can get the latest version of `directdm` on [`github`](https://directdm.gith
 
 `directdm` needs `python3`, and the python 3 versions of `SciPy` and `NumPy`.
 
-You can install `directdm` simply by using `pip`:
+You can install `directdm` simply by using the python 3 version`pip`:
 
 ```
-pip3 install directdm
+pip install directdm
 ```
 
-**Note**: the package has been tested on a linux machine. Mac users should be able to install `directdm` after 
+**Note**: the package has been tested on a linux machine. Mac users using `homebrew` should be able to install `directdm` after executing
 
 ```
 brew install python3
@@ -45,7 +45,7 @@ Match the three-flavor Wilson coefficients onto the non-relativstic ones (the DM
 print(wc3f.cNR(100, 50e-3))
 ```
 
-Write the list of proton and neutron NR Wilson coefficients into a file in the current directory with filename 'filename':
+Write the list of proton and neutron NR Wilson coefficients into a file in the current directory with filename 'wc3.m':
 ```
 wc3f.write_mma(100, 50e-3, filename='wc3.m')
 ```
