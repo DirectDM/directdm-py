@@ -619,7 +619,7 @@ class WC_3f(object):
         if dict:
             return my_cNR_dict
         else:
-            return dict_to_list(my_cNR_dict, self._my_cNR_name_list)
+            return np.array(dict_to_list(my_cNR_dict, self._my_cNR_name_list))
 
 
     def cNR(self, mchi, q, RGE=None, dict=None, NLO=None):
@@ -707,7 +707,7 @@ class WC_3f(object):
         if dict:
             return cNR_dict
         else:
-            return dict_to_list(cNR_dict, self.cNR_name_list)
+            return np.array(dict_to_list(cNR_dict, self.cNR_name_list))
 
 
     def write_mma(self, mchi, q, RGE=None, NLO=None, path=None, filename=None):
@@ -1031,7 +1031,7 @@ class WC_4f(object):
         if dict:
             return cdict3f
         else:
-            return dict_to_list(cdict3f, self.wc_name_list_3f)
+            return np.array(dict_to_list(cdict3f, self.wc_name_list_3f))
 
     def _my_cNR(self, mchi, RGE=None, dict=None, NLO=None):
         """ Calculate the NR coefficients from four-flavor theory with meson contributions split off (mainly for internal use) """
@@ -1322,7 +1322,7 @@ class WC_5f(object):
         if dict:
             return cdict4f
         else:
-            return dict_to_list(cdict4f, self.wc_name_list_4f)
+            return np.array(dict_to_list(cdict4f, self.wc_name_list_4f))
 
     def _my_cNR(self, mchi, RGE=None, dict=None, NLO=None):
         """ Calculate the NR coefficients from four-flavor theory with meson contributions split off (mainly for internal use) """
