@@ -7,9 +7,9 @@ You can get the latest version of `directdm` on [`github`](https://directdm.gith
 
 ## Installation
 
-`directdm` needs `python3`, and the python 3 versions of `SciPy` and `NumPy`.
+`directdm` needs `python3`, and the `python3` versions of `SciPy` and `NumPy`.
 
-You can install `directdm` simply by using the python 3 version`pip`:
+Instead of just cloning the repository, you can install `directdm` by using the `python3` version of `pip`:
 
 ```
 pip install directdm
