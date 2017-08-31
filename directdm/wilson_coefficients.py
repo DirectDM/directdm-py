@@ -825,7 +825,7 @@ class WC_4f(object):
 
         match
         -----
-        Matches the Wilson coefficients from 4-flavor to 3-flavor QCD, at scale mu_low [default 2 GeV]
+        Matches the Wilson coefficients from 4-flavor to 3-flavor QCD, at scale mu [GeV; default 2 GeV]
 
         cNR
         ---
@@ -1115,7 +1115,7 @@ class WC_5f(object):
 
         match
         -----
-        Matches the Wilson coefficients from 5-flavor to 4-flavor QCD, at scale mu_low
+        Matches the Wilson coefficients from 5-flavor to 4-flavor QCD, at scale mu [GeV; default mu = mb(mb)]
 
         cNR
         ---
@@ -1260,7 +1260,6 @@ class WC_5f(object):
         #-------------#
 
         MZ = ip.Mz
-        mb = ip.mb_at_mb
         alpha_at_mb = 1/ip.aMZinv
 
         as51 = rge.AlphaS(5,1)
