@@ -1,7 +1,7 @@
 **DirectDM**: a python package for dark matter direct detection
 =====
 
-`directdm` takes the Wilson coefficients of relativistic operators that couple DM to the SM quarks, leptons, and gauge bosons and matches them onto a non-relativistic Galilean invariant EFT in order to caclulate the direct detection scattering rates.
+`directdm` takes the Wilson coefficients of relativistic operators that couple DM to the SM quarks, leptons, and gauge bosons and matches them onto a non-relativistic Galilean invariant EFT in order to calculate the direct detection scattering rates.
 
 You can get the latest version of `directdm` on [`github`](https://directdm.github.io).
 
