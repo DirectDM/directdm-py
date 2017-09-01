@@ -1,0 +1,5 @@
+__pycache__/*
+*.m
+build/*
+directdm.egg-info/*
+dist/*
