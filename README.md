@@ -9,7 +9,7 @@ You can get the latest version of `directdm` on [`github`](https://directdm.gith
 
 `directdm` needs `python3`, and the `python3` versions of `SciPy` and `NumPy`.
 
-After cloning this repository, you can easily install `directdm` by using the `python3` version of `pip`:
+After cloning this repository, you can easily install `directdm` by using the `python3` version of `pip`. In the base directory of the package, execute
 
 ```
 python3 setup.py sdist
@@ -57,15 +57,18 @@ wc3f.write_mma(100, 50e-3, filename='wc3.m')
 ## Citation
 If you use `DirectDM` please cite us! To get the `BibTeX` entries, click on: [inspirehep query](https://inspirehep.net/search?p=arxiv:1708.02678+or+arxiv:1707.06998+or+arxiv:1611.00368&of=hx) 
 
+
 ## Main Author 
 
    * Joachim Brod (TU Dortmund)
+
 
 ## Contributors
 
    * Fady Bishara (University of Oxford)
    * Jure Zupan (University of Cincinnati)
    * Benjamin Grinstein (UC San Diego)
+
 
 ## License
 `DirectDM` is distributed under the MIT license.
