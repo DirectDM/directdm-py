@@ -111,7 +111,7 @@ class AlphaS(object):
     def solve_rge(self, as_at_mu, mu, mu0):
         """The running strong coupling
     
-        Run from scale mu to scale mu0, with nf active flavors
+        Run from scale mu to scale mu0, initial condition alphas(mu) = as_at_mu
         """
         def deriv(alphas, mu):
             return self.__dalphasdmu(mu, alphas, self.nf)
@@ -121,7 +121,7 @@ class AlphaS(object):
     def __solve_rge_nf(self, as_at_mu, mu, mu0, nf):
         """The running strong coupling
     
-        Run from scale mu to scale mu0, with nf active flavors
+        Run from scale mu to scale mu0, with initial condition alphas(mu) = as_at_mu, and nf active flavors
         """
         def deriv(alphas, mu):
             return self.__dalphasdmu(mu, alphas, nf)
@@ -129,7 +129,10 @@ class AlphaS(object):
         return list(r)[1][0]
 
     def run(self, mu0):
-        """ Run the strong coupling """
+        """ Run the strong coupling 
+
+        Start value is alphas(MZ), decoupling at quark thresholds is performed automatically. 
+        """
         if self.nf == 5:
             return self.solve_rge(self.asMZ, self.MZ, mu0)
         if self.nf == 4:
@@ -150,26 +153,6 @@ class RGE(object):
     def __init__(self, adm, nf):
         self.adm = adm
         self.nf = nf
-
-    def magic_numbers(self):
-        b0 = QCD_beta(self.nf, 1).trad()
-        return np.linalg.eig(np.transpose(self.adm[0]))[0]/2/b0
-
-    def U0_trad(self, asmuh, asmul):
-        """The leading order (QCD) RG evolution matrix in f-flavor QCD 
-
-        Traditional Buras-style diagonalization method. 
-
-        Note that results differs from exponentiation method for singular matrices like np.array([[[0,0,0],[0,0,0],[16,16,0]]])
-        """
-        b0 = QCD_beta(self.nf, 1).trad()
-        V = np.linalg.eig(np.transpose(self.adm[0]))[1]
-        Vinv = np.linalg.inv(V)
-        ze = self.adm[0].shape[0]
-        sp = self.adm[0].shape[1]
-        ai = np.linalg.eig(np.transpose(self.adm[0]))[0]/2/b0
-        exp = np.diag(np.asarray([(asmuh/asmul)**n for n in ai]))
-        return np.dot(np.dot(V, exp),Vinv)
 
     def U0(self, asmuh, asmul):
         """The leading order (QCD) RG evolution matrix in f-flavor QCD -- matrix exponentiation """

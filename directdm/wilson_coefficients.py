@@ -4,11 +4,11 @@ import sys
 import numpy as np
 import scipy.integrate as spint
 import warnings
+import os.path
 from directdm.run import adm
 from directdm.run import rge
 from directdm.num.num_input import Num_input
 from directdm.match.higgs_penguin import Higgspenguin
-
 
 #----------------------------------------------#
 # convert dictionaries to lists and vice versa #
@@ -620,7 +620,7 @@ class WC_3f(object):
         if dict:
             return my_cNR_dict
         else:
-            return dict_to_list(my_cNR_dict, self._my_cNR_name_list)
+            return np.array(dict_to_list(my_cNR_dict, self._my_cNR_name_list))
 
 
     def cNR(self, mchi, q, RGE=None, dict=None, NLO=None):
@@ -708,7 +708,7 @@ class WC_3f(object):
         if dict:
             return cNR_dict
         else:
-            return dict_to_list(cNR_dict, self.cNR_name_list)
+            return np.array(dict_to_list(cNR_dict, self.cNR_name_list))
 
 
     def write_mma(self, mchi, q, RGE=None, NLO=None, path=None, filename=None):
@@ -763,7 +763,7 @@ class WC_3f(object):
                             + str(val['cNR11n']) + ', '\
                             + str(val['cNR12n']) + '}' + '\n'
 
-        output_file = path + filename
+        output_file = str(os.path.expanduser(path)) + filename
 
         with open(output_file,'w') as f:
             f.write(self.cNR_list_mma)
@@ -826,7 +826,7 @@ class WC_4f(object):
 
         match
         -----
-        Matches the Wilson coefficients from 4-flavor to 3-flavor QCD, at scale mu_low [default 2 GeV]
+        Matches the Wilson coefficients from 4-flavor to 3-flavor QCD, at scale mu [GeV; default 2 GeV]
 
         cNR
         ---
@@ -1032,7 +1032,7 @@ class WC_4f(object):
         if dict:
             return cdict3f
         else:
-            return dict_to_list(cdict3f, self.wc_name_list_3f)
+            return np.array(dict_to_list(cdict3f, self.wc_name_list_3f))
 
     def _my_cNR(self, mchi, RGE=None, dict=None, NLO=None):
         """ Calculate the NR coefficients from four-flavor theory with meson contributions split off (mainly for internal use) """
@@ -1116,7 +1116,7 @@ class WC_5f(object):
 
         match
         -----
-        Matches the Wilson coefficients from 5-flavor to 4-flavor QCD, at scale mu_low
+        Matches the Wilson coefficients from 5-flavor to 4-flavor QCD, at scale mu [GeV; default mu = mb(mb)]
 
         cNR
         ---
@@ -1261,7 +1261,6 @@ class WC_5f(object):
         #-------------#
 
         MZ = ip.Mz
-        mb = ip.mb_at_mb
         alpha_at_mb = 1/ip.aMZinv
 
         as51 = rge.AlphaS(5,1)
@@ -1323,7 +1322,7 @@ class WC_5f(object):
         if dict:
             return cdict4f
         else:
-            return dict_to_list(cdict4f, self.wc_name_list_4f)
+            return np.array(dict_to_list(cdict4f, self.wc_name_list_4f))
 
     def _my_cNR(self, mchi, RGE=None, dict=None, NLO=None):
         """ Calculate the NR coefficients from four-flavor theory with meson contributions split off (mainly for internal use) """
