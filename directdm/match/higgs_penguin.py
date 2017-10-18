@@ -134,7 +134,7 @@ class Higgspenguin(object):
         z = self.MZ**2/mchi**2
         Y = self.Ychi/2
 
-        return np.real(3*self.alpha**2/self.sw**2 * ((self.nchi**2 - (4*Y**2+1))/(8*self.MW**3) * self.__gW(w,y) + Y**2/(4*self.MZ**3*self.cw**4) * self.__gZ(z,y)))
+        return np.real(3*self.alpha**2/self.sw**4 * ((self.nchi**2 - (4*Y**2+1))/(8*self.MW**3) * self.__gW(w,y) + Y**2/(4*self.MZ**3*self.cw**4) * self.__gZ(z,y)))
         #return np.real_if_close(3*self.alpha**2/self.sw**2 * ((self.nchi**2 - (4*Y**2+1))/(8*self.MW**3) * self.__gW(w,y)\
         #                                                        + Y**2/(4*self.MZ**3*self.cw**4) * self.__gZ(z,y)))
 
@@ -142,14 +142,20 @@ class Higgspenguin(object):
         """The result is valid for all input values and gives (in principle) a real output."""
         w = self.MW**2/mchi**2
         z = self.MZ**2/mchi**2
-        def f(x):
-            if x > 4:
-                out = np.real_if_close(2*(x**2-2*x-2)/(np.sqrt(x-4)) * np.log(np.sqrt(x)/2 + np.sqrt(x/4-1)) + np.sqrt(x)*(2-x*np.log(x)))
-            if x < 4:
-                out = np.real_if_close(2*(x**2-2*x-2)/(np.sqrt(4-x)*1j) * np.log(np.sqrt(x)/2 + np.sqrt(1-x/4)*1j) + np.sqrt(x)*(2-x*np.log(x)))
-            assert np.imag(out) == 0, "Imaginary part of Higgs Penguin should not appear"
+        Y = self.Ychi/2
+        # def f(x):
+        #     if x > 4:
+        #         out = np.real_if_close(2*(x**2-2*x-2)/(np.sqrt(x-4)) * np.log(np.sqrt(x)/2 + np.sqrt(x/4-1)) + np.sqrt(x)*(2-x*np.log(x)))
+        #     if x < 4:
+        #         out = np.real_if_close(2*(x**2-2*x-2)/(np.sqrt(4-x)*1j) * np.log(np.sqrt(x)/2 + np.sqrt(1-x/4)*1j) + np.sqrt(x)*(2-x*np.log(x)))
+        #     assert np.imag(out) == 0, "Imaginary part of Higgs Penguin should not appear"
+        #     return out
+        def gH(x):
+            bx = np.sqrt(1-x/4+0*1j)
+            out = np.real_if_close(-2/bx * (2 + 2*x - x**2) * np.arctan(2*bx/np.sqrt(x)) + 2*np.sqrt(x) * (2 - x*np.log(x)))
             return out
-        return (self.alpha)**2/(2*self.MW*self.Mh**2*self.sw**4) * ( (self.Jchi*(self.Jchi+1)-self.Ychi**2/4)*f(w) + self.Ychi**2/4/self.cw**3*f(z) )
+        # return (self.alpha)**2/(2*self.MW*self.Mh**2*self.sw**4) * ( (self.Jchi*(self.Jchi+1)-self.Ychi**2/4)*f(w) + self.Ychi**2/4/self.cw**3*f(z) )
+        return (self.alpha)**2/(4*self.Mh**2*self.sw**4) * ((self.nchi**2 - (4*Y**2+1))/(8*self.MW) * gH(w) + Y**2/(4*self.MZ*self.cw**4) * gH(z))
 
     def oneloop_light(self, mchi):
         return -3*(self.alpha)**2/(8*self.MW**2*self.Mh**2*self.sw**4*self.cw**2) * mchi * \

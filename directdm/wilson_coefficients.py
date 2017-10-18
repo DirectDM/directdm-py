@@ -1696,7 +1696,7 @@ class WC_EW(object):
         def higgs_penguin_fermion(Ychi,Jchi):
             return Higgspenguin(Ychi, Jchi).oneloop_ew(self.mchi_phys)
         def higgs_penguin_gluon(Ychi,Jchi):
-            return Higgspenguin(Ychi, Jchi).twoloop_ew_fa(self.mchi_phys) + 0*Higgspenguin(Ychi, Jchi).hisano_fbc(self.mchi_phys)
+            return Higgspenguin(Ychi, Jchi).twoloop_ew_fa(self.mchi_phys) + Higgspenguin(Ychi, Jchi).hisano_fbc(self.mchi_phys)
 
 
         #-----------------------#
