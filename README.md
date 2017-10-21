@@ -31,14 +31,14 @@ brew upgrade scipy
 
 The included `example.py` file has basic examples for using the functions provided by the code. 
 
-Here is a simple example assuming how to use `directdm`:
+Here is a simple example how to use `directdm`:
 
 Load the package
 ```
 import directdm as ddm
 ```
 
-Set the DM type to a Dirac fermion and set some Wilson coefficients in the three-flavor basis
+Define some Wilson coefficients for Dirac DM in the three-flavor basis, using a `python` dictionary:
 ```
 wc_dict = {'C61u' : 1./100**2 , 'C61d' : 1./100**2}
 wc3f = ddm.WC_3f(wc_dict, DM_type="D")
