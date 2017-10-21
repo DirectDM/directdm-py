@@ -8,6 +8,7 @@ import os.path
 from directdm.run import adm
 from directdm.run import rge
 from directdm.num.num_input import Num_input
+from directdm.num.num_input import FF0
 
 #----------------------------------------------#
 # convert dictionaries to lists and vice versa #
@@ -39,7 +40,7 @@ class WC_3f(object):
     def __init__(self, coeff_dict, DM_type=None):
         """ Class for Wilson coefficients in 3 flavor QCD x QED plus DM.
 
-        The first argument should be a dictionary for the initial conditions of the 2 + 24 + 4 + 36 = 66 
+        The first argument should be a dictionary for the initial conditions of the 2 + 24 + 4 + 36 + 4 + 48 = 118 
         dimension-five to dimension-seven three-flavor-QCD Wilson coefficients of the form
         {'C51' : value, 'C52' : value, ...}. 
         An arbitrary number of them can be given; the default values are zero. 
@@ -50,7 +51,7 @@ class WC_3f(object):
             "C" (Complex scalar)
             "R" (Real scalar)
 
-        The possible name are (with an hopefully obvious notation):
+        The possible names are (with an hopefully obvious notation):
 
         Dirac fermion:       'C51', 'C52', 'C61u', 'C61d', 'C61s', 'C61e', 'C61mu', 'C61tau', 
                              'C62u', 'C62d', 'C62s', 'C62e', 'C62mu', 'C62tau',
@@ -62,7 +63,16 @@ class WC_3f(object):
                              'C77u', 'C77d', 'C77s', 'C77e', 'C77mu', 'C77tau', 
                              'C78u', 'C78d', 'C78s', 'C78e', 'C78mu', 'C78tau',
                              'C79u', 'C79d', 'C79s', 'C79e', 'C79mu', 'C79tau', 
-                             'C710u', 'C710d', 'C710s', 'C710e', 'C710mu', 'C710tau'
+                             'C710u', 'C710d', 'C710s', 'C710e', 'C710mu', 'C710tau',
+                             'C711', 'C712', 'C713', 'C714',
+                             'C715u', 'C715d', 'C715s', 'C715e', 'C715mu', 'C715tau', 
+                             'C716u', 'C716d', 'C716s', 'C716e', 'C716mu', 'C716tau',
+                             'C717u', 'C717d', 'C717s', 'C717e', 'C717mu', 'C717tau', 
+                             'C718u', 'C718d', 'C718s', 'C718e', 'C718mu', 'C718tau',
+                             'C719u', 'C719d', 'C719s', 'C719e', 'C719mu', 'C719tau', 
+                             'C720u', 'C720d', 'C720s', 'C720e', 'C720mu', 'C720tau', 
+                             'C721u', 'C721d', 'C721s', 'C721e', 'C721mu', 'C721tau', 
+                             'C722u', 'C722d', 'C722s', 'C722e', 'C722mu', 'C722tau' 
 
         Majorana fermion:    'C62u', 'C62d', 'C62s', 'C62e', 'C62mu', 'C62tau',
                              'C64u', 'C64d', 'C64s', 'C64e', 'C64mu', 'C64tau',
@@ -71,16 +81,21 @@ class WC_3f(object):
                              'C76u', 'C76d', 'C76s', 'C76e', 'C76mu', 'C76tau',
                              'C77u', 'C77d', 'C77s', 'C77e', 'C77mu', 'C77tau', 
                              'C78u', 'C78d', 'C78s', 'C78e', 'C78mu', 'C78tau',
+                             'C711', 'C712', 'C713', 'C714',
+                             'C715u', 'C715d', 'C715s', 'C715e', 'C715mu', 'C715tau', 
+                             'C716u', 'C716d', 'C716s', 'C716e', 'C716mu', 'C716tau',
+                             'C717u', 'C717d', 'C717s', 'C717e', 'C717mu', 'C717tau', 
+                             'C718u', 'C718d', 'C718s', 'C718e', 'C718mu', 'C718tau',
 
         Complex Scalar:      'C61u', 'C61d', 'C61s', 'C61e', 'C61mu', 'C61tau', 
                              'C62u', 'C62d', 'C62s', 'C62e', 'C62mu', 'C62tau',
                              'C63u', 'C63d', 'C63s', 'C63e', 'C63mu', 'C63tau', 
                              'C64u', 'C64d', 'C64s', 'C64e', 'C64mu', 'C64tau',
-                             'C65', 'C66'
+                             'C65', 'C66', 'C67', 'C68' 
 
         Real Scalar:         'C63u', 'C63d', 'C63s', 'C63e', 'C63mu', 'C63tau', 
                              'C64u', 'C64d', 'C64s', 'C64e', 'C64mu', 'C64tau',
-                             'C65', 'C66'
+                             'C65', 'C66', 'C67', 'C68'
 
         (the notation corresponds to the numbering in 1707.06998).
         The Wilson coefficients should be specified in the MS-bar scheme at 2 GeV.
@@ -89,19 +104,19 @@ class WC_3f(object):
 
         run
         ---
-        Runs the Wilson coefficients from mu = 2 GeV to mu_low [GeV; default 2 GeV], with 3 active quark flavors
+        Run the Wilson coefficients from mu = 2 GeV to mu_low [GeV; default 2 GeV], with 3 active quark flavors
 
 
         cNR
         ---
-        Calculates the cNR coefficients as defined in 1308.6288
+        Calculate the cNR coefficients as defined in 1308.6288
 
         The class has two mandatory arguments: The DM mass in GeV and the momentum transfer in GeV
 
 
         write_mma
         ---------
-        Writes an output file that can be loaded into mathematica, 
+        Write an output file that can be loaded into mathematica, 
         to be used in the DMFormFactor package [1308.6288].
 
         """
@@ -115,34 +130,53 @@ class WC_3f(object):
                                  'C71', 'C72', 'C73', 'C74',
                                  'C75u', 'C75d', 'C75s', 'C75e', 'C75mu', 'C75tau', 'C76u', 'C76d', 'C76s', 'C76e', 'C76mu', 'C76tau',
                                  'C77u', 'C77d', 'C77s', 'C77e', 'C77mu', 'C77tau', 'C78u', 'C78d', 'C78s', 'C78e', 'C78mu', 'C78tau',
-                                 'C79u', 'C79d', 'C79s', 'C79e', 'C79mu', 'C79tau', 'C710u', 'C710d', 'C710s', 'C710e', 'C710mu', 'C710tau']
+                                 'C79u', 'C79d', 'C79s', 'C79e', 'C79mu', 'C79tau', 'C710u', 'C710d', 'C710s', 'C710e', 'C710mu', 'C710tau',
+                                 'C711', 'C712', 'C713', 'C714',
+                                 'C715u', 'C715d', 'C715s', 'C715e', 'C715mu', 'C715tau', 'C716u', 'C716d', 'C716s', 'C716e', 'C716mu', 'C716tau',
+                                 'C717u', 'C717d', 'C717s', 'C717e', 'C717mu', 'C717tau', 'C718u', 'C718d', 'C718s', 'C718e', 'C718mu', 'C718tau',
+                                 'C719u', 'C719d', 'C719s', 'C719e', 'C719mu', 'C719tau', 'C720u', 'C720d', 'C720s', 'C720e', 'C720mu', 'C720tau', 
+                                 'C721u', 'C721d', 'C721s', 'C721e', 'C721mu', 'C721tau', 'C722u', 'C722d', 'C722s', 'C722e', 'C722mu', 'C722tau']
+
         if self.DM_type == "M":
             self.wc_name_list = ['C62u', 'C62d', 'C62s', 'C62e', 'C62mu', 'C62tau',
                                  'C64u', 'C64d', 'C64s', 'C64e', 'C64mu', 'C64tau',
                                  'C71', 'C72', 'C73', 'C74',
                                  'C75u', 'C75d', 'C75s', 'C75e', 'C75mu', 'C75tau', 'C76u', 'C76d', 'C76s', 'C76e', 'C76mu', 'C76tau',
-                                 'C77u', 'C77d', 'C77s', 'C77e', 'C77mu', 'C77tau', 'C78u', 'C78d', 'C78s', 'C78e', 'C78mu', 'C78tau']
-            del_ind_list = [i for i in range(0,8)] + [i for i in range(14,20)] + [i for i in range(54,66)]
+                                 'C77u', 'C77d', 'C77s', 'C77e', 'C77mu', 'C77tau', 'C78u', 'C78d', 'C78s', 'C78e', 'C78mu', 'C78tau',
+                                 'C711', 'C712', 'C713', 'C714',
+                                 'C715u', 'C715d', 'C715s', 'C715e', 'C715mu', 'C715tau', 'C716u', 'C716d', 'C716s', 'C716e', 'C716mu', 'C716tau',
+                                 'C717u', 'C717d', 'C717s', 'C717e', 'C717mu', 'C717tau', 'C718u', 'C718d', 'C718s', 'C718e', 'C718mu', 'C718tau']
+
+            # The list of indices to be deleted from the QCD/QED ADM because of less operators
+            del_ind_list = [i for i in range(0,8)] + [i for i in range(14,20)] + [i for i in range(54,66)] + [i for i in range(94,118)]
 
         if self.DM_type == "C":
             self.wc_name_list = ['C61u', 'C61d', 'C61s', 'C61e', 'C61mu', 'C61tau', 
                                  'C62u', 'C62d', 'C62s', 'C62e', 'C62mu', 'C62tau',
                                  'C65', 'C66',
                                  'C63u', 'C63d', 'C63s', 'C63e', 'C63mu', 'C63tau', 
-                                 'C64u', 'C64d', 'C64s', 'C64e', 'C64mu', 'C64tau']
-            del_ind_list = [0,1] + [i for i in range(8,14)] + [i for i in range(20,26)] + [27] + [29] + [i for i in range(36,42)] + [i for i in range(48,66)]
+                                 'C64u', 'C64d', 'C64s', 'C64e', 'C64mu', 'C64tau',
+                                 'C67', 'C68']
+
+            # The list of indices to be deleted from the QCD/QED ADM because of less operators
+            del_ind_list = [0,1] + [i for i in range(8,14)] + [i for i in range(20,26)] + [27] + [29] + [i for i in range(36,42)]\
+                           + [i for i in range(48,66)] + [67] + [69] + [i for i in range(70,118)]
 
         if self.DM_type == "R":
             self.wc_name_list = ['C65', 'C66',
                                  'C63u', 'C63d', 'C63s', 'C63e', 'C63mu', 'C63tau', 
-                                 'C64u', 'C64d', 'C64s', 'C64e', 'C64mu', 'C64tau']
-            del_ind_list = [i for i in range(0,26)] + [27] + [29] + [i for i in range(36,42)] + [i for i in range(48,66)]
+                                 'C64u', 'C64d', 'C64s', 'C64e', 'C64mu', 'C64tau',
+                                 'C67', 'C68']
+
+            # The list of indices to be deleted from the QCD/QED ADM because of less operators
+            del_ind_list = [i for i in range(0,26)] + [27] + [29] + [i for i in range(36,42)] + [i for i in range(48,66)]\
+                           + [67] + [69] + [i for i in range(70,118)]
 
         self._my_cNR_name_list = ['cNR1p', 'cNR1n', 'cNR2p', 'cNR2n', 'cNR3p', 'cNR3n', 'cNR4p', 'cNR4n', 'cNR5p', 'cNR5n',
                                  'cNR6p', 'cNR6n', 'cNR7p', 'cNR7n', 'cNR8p', 'cNR8n', 'cNR9p', 'cNR9n', 'cNR10p', 'cNR10n',
                                  'cNR11p', 'cNR11n', 'cNR12p', 'cNR12n', 'cNR13p', 'cNR13n', 'cNR14p', 'cNR14n', 'cNR15p', 'cNR15n',
                                  'cNR16p', 'cNR16n', 'cNR17p', 'cNR17n', 'cNR18p', 'cNR18n', 'cNR19p', 'cNR19n', 'cNR20p', 'cNR20n',
-                                 'cNR21p', 'cNR21n', 'cNR22p', 'cNR22n', 'cNR23p', 'cNR23n', 'cNR100p', 'cNR100n']
+                                 'cNR21p', 'cNR21n', 'cNR22p', 'cNR22n', 'cNR23p', 'cNR23n', 'cNR100p', 'cNR100n', 'cNR104p', 'cNR104n']
 
         self.cNR_name_list = ['cNR1p', 'cNR1n', 'cNR2p', 'cNR2n', 'cNR3p', 'cNR3n', 'cNR4p', 'cNR4n', 'cNR5p', 'cNR5n',
                               'cNR6p', 'cNR6n', 'cNR7p', 'cNR7n', 'cNR8p', 'cNR8n', 'cNR9p', 'cNR9n', 'cNR10p', 'cNR10n',
@@ -154,7 +188,7 @@ class WC_3f(object):
             if wc_name in self.wc_name_list:
                 pass
             else:
-                warnings.warn('The key ' + wc_name + ' is not a default key value. Typo?')
+                warnings.warn('The key ' + wc_name + ' is not a valid key. Typo?')
         # Create the dictionary:
         for wc_name in self.wc_name_list:
             if wc_name in coeff_dict.keys():
@@ -171,18 +205,22 @@ class WC_3f(object):
         #---------------------------#
         if self.DM_type == "D":
             self.gamma_QED = adm.ADM_QED(3)
+            self.gamma_QED2 = adm.ADM_QED2(3)
             self.gamma_QCD = adm.ADM_QCD(3)
             self.gamma_QCD2 = adm.ADM_QCD2(3)
         if self.DM_type == "M":
             self.gamma_QED = np.delete(np.delete(adm.ADM_QED(3), del_ind_list, 0), del_ind_list, 1)
+            self.gamma_QED2 = np.delete(np.delete(adm.ADM_QED2(3), del_ind_list, 0), del_ind_list, 1)
             self.gamma_QCD = np.delete(np.delete(adm.ADM_QCD(3), del_ind_list, 1), del_ind_list, 2)
             self.gamma_QCD2 = np.delete(np.delete(adm.ADM_QCD2(3), del_ind_list, 1), del_ind_list, 2)
         if self.DM_type == "C":
             self.gamma_QED = np.delete(np.delete(adm.ADM_QED(3), del_ind_list, 0), del_ind_list, 1)
+            self.gamma_QED2 = np.delete(np.delete(adm.ADM_QED2(3), del_ind_list, 0), del_ind_list, 1)
             self.gamma_QCD = np.delete(np.delete(adm.ADM_QCD(3), del_ind_list, 1), del_ind_list, 2)
             self.gamma_QCD2 = np.delete(np.delete(adm.ADM_QCD2(3), del_ind_list, 1), del_ind_list, 2)
         if self.DM_type == "R":
             self.gamma_QED = np.delete(np.delete(adm.ADM_QED(3), del_ind_list, 0), del_ind_list, 1)
+            self.gamma_QED2 = np.delete(np.delete(adm.ADM_QED2(3), del_ind_list, 0), del_ind_list, 1)
             self.gamma_QCD = np.delete(np.delete(adm.ADM_QCD(3), del_ind_list, 1), del_ind_list, 2)
             self.gamma_QCD2 = np.delete(np.delete(adm.ADM_QCD2(3), del_ind_list, 1), del_ind_list, 2)
 
@@ -192,10 +230,10 @@ class WC_3f(object):
 
         Calculate the running from 2 GeV to mu_low [GeV; default 2 GeV] in the three-flavor theory. 
 
-        For dict = True, returns a dictionary of Wilson coefficients for the three-flavor Lagrangian
+        For dict=True return a dictionary of Wilson coefficients for the three-flavor Lagrangian
         at scale mu_low (this is the default).
 
-        For dict = False, returns a numpy array of Wilson coefficients for the three-flavor Lagrangian
+        For dict=False return a numpy array of Wilson coefficients for the three-flavor Lagrangian
         at scale mu_low.
         """
         if mu_low is None:
@@ -215,7 +253,8 @@ class WC_3f(object):
         evolve2 = rge.RGE(self.gamma_QCD2, 3)
 
         C_at_mu_QCD = np.dot(evolve2.U0_as2(as31.run(2),as31.run(mu_low)), np.dot(evolve1.U0(as31.run(2),as31.run(mu_low)), self.coeff_list))
-        C_at_mu_QED = np.dot(self.coeff_list, self.gamma_QED) * np.log(mu_low/2) * alpha_at_mu/(4*np.pi)
+        C_at_mu_QED = np.dot(self.coeff_list, self.gamma_QED) * np.log(mu_low/2) * alpha_at_mu/(4*np.pi)\
+                      + np.dot(self.coeff_list, self.gamma_QED2) * np.log(mu_low/2) * (alpha_at_mu/(4*np.pi))**2
 
         if dict:
             return list_to_dict(C_at_mu_QCD + C_at_mu_QED, self.wc_name_list)
@@ -241,7 +280,7 @@ class WC_3f(object):
          'cNR6p', 'cNR6n', 'cNR7p', 'cNR7n', 'cNR8p', 'cNR8n', 'cNR9p', 'cNR9n', 'cNR10p', 'cNR10n',
          'cNR11p', 'cNR11n', 'cNR12p', 'cNR12n', 'cNR13p', 'cNR13n', 'cNR14p', 'cNR14n', 'cNR15p', 'cNR15n',
          'cNR16p', 'cNR16n', 'cNR17p', 'cNR17n', 'cNR18p', 'cNR18n', 'cNR19p', 'cNR19n', 'cNR20p', 'cNR20n',
-         'cNR21p', 'cNR21n', 'cNR22p', 'cNR22n', 'cNR23p', 'cNR23n', 'cNR100p', 'cNR100n']
+         'cNR21p', 'cNR21n', 'cNR22p', 'cNR22n', 'cNR23p', 'cNR23n', 'cNR100p', 'cNR100n', 'cNR104p', 'cNR104n']
 
         For dict = False, returns a numpy array of values according to the list above.
         """
@@ -273,7 +312,32 @@ class WC_3f(object):
 
         mproton = ip.mproton
         mneutron = ip.mneutron
-    
+
+        F1up = FF0('1', 'u', 'p').value()
+        F1dp = FF0('1', 'd', 'p').value()
+        F1sp = FF0('1', 's', 'p').value()
+
+        F1un = FF0('1', 'u', 'n').value()
+        F1dn = FF0('1', 'd', 'n').value()
+        F1sn = FF0('1', 's', 'n').value()
+
+        F2up = FF0('2', 'u', 'p').value()
+        F2dp = FF0('2', 'd', 'p').value()
+        F2sp = FF0('2', 's', 'p').value()
+
+        F2un = FF0('2', 'u', 'n').value()
+        F2dn = FF0('2', 'd', 'n').value()
+        F2sn = FF0('2', 's', 'n').value()
+
+        FAup = FF0('A', 'u', 'p').value()
+        FAdp = FF0('A', 'd', 'p').value()
+        FAsp = FF0('A', 's', 'p').value()
+
+        FAun = FF0('A', 'u', 'n').value()
+        FAdn = FF0('A', 'd', 'n').value()
+        FAsn = FF0('A', 's', 'n').value()
+
+
         ### The coefficients ###
         #
         # Note that all dependence on 1/q^2, 1/(m^2-q^2), q^2/(m^2-q^2) is taken care of by defining spurious operators.
@@ -297,7 +361,10 @@ class WC_3f(object):
         #                      O22 = O6/q^2.
         #                      O23 = O11/q^2.
         # 
-        # For the tensors, O1 appears as a subleading contribution.
+        # For the tensors, O4 * q^2 appears as a leading contribution.
+        # Therefore, we define O104 = O1 * q^2
+        #
+        # For the tensors, O1 * q^2 appears as a subleading contribution.
         # Therefore, we define O100 = O1 * q^2
         #
         # q^2 is here always the spatial part!!! 
@@ -312,30 +379,40 @@ class WC_3f(object):
             my_cNR_dict = {
             'cNR1p' : 2*c3mu_dict['C61u'] + c3mu_dict['C61d'] - 2*ip.mG/27*c3mu_dict['C71']\
                       + ip.sigmaup*c3mu_dict['C75u'] + ip.sigmadp*c3mu_dict['C75d'] + ip.sigmas*c3mu_dict['C75s']\
-                      - alpha/(2*np.pi*mchi)*c3mu_dict['C51'],
+                      - alpha/(2*np.pi*mchi)*c3mu_dict['C51']\
+                      + 2*mchi * (F1up*c3mu_dict['C715u'] + F1dp*c3mu_dict['C715d'] + F1sp*c3mu_dict['C715s']),
             'cNR2p' : 0,
             'cNR3p' : 0,
             'cNR4p' : - 4*(ip.Deltaup*c3mu_dict['C64u'] + ip.Deltadp*c3mu_dict['C64d'] + ip.Deltas*c3mu_dict['C64s'])\
                       - 2*alpha/np.pi * ip.mup/mN * c3mu_dict['C51']\
                       + 8*(ip.FT0up*c3mu_dict['C79u'] + ip.FT0dp*c3mu_dict['C79d'] + ms*ip.gTs*c3mu_dict['C79s']),
-            'cNR5p' : 0,
-            'cNR6p' : -mN**2 * mtilde * (ip.Deltaup/mu + ip.Deltadp/md + ip.Deltas/ms)/mchi * c3mu_dict['C74'],
-            'cNR7p' : -2*(ip.Deltaup*c3mu_dict['C63u'] + ip.Deltadp*c3mu_dict['C63d'] + ip.Deltas*c3mu_dict['C63s']),
+            'cNR5p' : - 2*mN * (F1up*c3mu_dict['C719u'] + F1dp*c3mu_dict['C719d'] + F1sp*c3mu_dict['C719s']),
+            'cNR6p' : -mN**2 * mtilde * (ip.Deltaup/mu + ip.Deltadp/md + ip.Deltas/ms)/mchi * c3mu_dict['C74']\
+                      -2*mN*((F1up+F2up)*c3mu_dict['C719u'] + (F1dp+F2dp)*c3mu_dict['C719d'] + (F1sp+F2dp)*c3mu_dict['C719s']),
+            'cNR7p' : -2*(ip.Deltaup*c3mu_dict['C63u'] + ip.Deltadp*c3mu_dict['C63d'] + ip.Deltas*c3mu_dict['C63s'])\
+                      - 4*mchi * (FAup*c3mu_dict['C717u'] + FAdp*c3mu_dict['C717d'] + FAsp*c3mu_dict['C717s']),
             'cNR8p' : 4*c3mu_dict['C62u'] + 2*c3mu_dict['C62d'],
             'cNR9p' : mN*((4*ip.muup*c3mu_dict['C62u'] + 2*ip.mudp*c3mu_dict['C62d'] - 6*ip.mus*c3mu_dict['C62s'])/mN\
-                      + 2*(ip.Deltaup*c3mu_dict['C63u'] + ip.Deltadp*c3mu_dict['C63d'] + ip.Deltas*c3mu_dict['C63s'])/mchi),
+                      + 2*(ip.Deltaup*c3mu_dict['C63u'] + ip.Deltadp*c3mu_dict['C63d'] + ip.Deltas*c3mu_dict['C63s'])/mchi)\
+                      - 4*mN * (FAup*c3mu_dict['C721u'] + FAdp*c3mu_dict['C721d'] + FAsp*c3mu_dict['C721s']),
             'cNR10p' : -mN * mtilde * (ip.Deltaup/mu + ip.Deltadp/md + ip.Deltas/ms) * c3mu_dict['C73']\
                        -2*mN/mchi * (ip.FT0up*c3mu_dict['C710u'] + ip.FT0dp*c3mu_dict['C710d'] + ms*ip.gTs*c3mu_dict['C710s']),
             'cNR11p' : mN * (-(ip.sigmaup*c3mu_dict['C76u'] + ip.sigmadp*c3mu_dict['C76d'] + ip.sigmas*c3mu_dict['C76s'])/mchi\
                             + 2*ip.mG/27*c3mu_dict['C72']/mchi)\
                         + 2*(ip.FT0up*c3mu_dict['C710u'] + ip.FT0dp*c3mu_dict['C710d'] + ms*ip.gTs*c3mu_dict['C710s'])\
-                        + 2*(mu*ip.BT10up*c3mu_dict['C710u'] + md*ip.BT10dp*c3mu_dict['C710d'] + ms*ip.BT10s*c3mu_dict['C710s']),
+                        + 2*(mu*ip.BT10up*c3mu_dict['C710u'] + md*ip.BT10dp*c3mu_dict['C710d'] + ms*ip.BT10s*c3mu_dict['C710s'])\
+                        - 2*mN * (  F1up*(c3mu_dict['C716u']+c3mu_dict['C720u'])\
+                                  + F1dp*(c3mu_dict['C716d']+c3mu_dict['C720d'])\
+                                  + F1sp*(c3mu_dict['C716s']+c3mu_dict['C720s'])),
             'cNR12p' : -8*(ip.FT0up*c3mu_dict['C710u'] + ip.FT0dp*c3mu_dict['C710d'] + ms*ip.gTs*c3mu_dict['C710s']),
     
             'cNR13p' : mN**2 * (ip.gA * (ip.B0mu*c3mu_dict['C78u'] - ip.B0md*c3mu_dict['C78d'])/mchi + 2*ip.gA * (c3mu_dict['C64u'] - c3mu_dict['C64d'])),
             'cNR14p' : mN**2 * ((ip.Deltaup + ip.Deltadp - 2*ip.Deltas)/3\
                                * (ip.B0mu*c3mu_dict['C78u'] + ip.B0md*c3mu_dict['C78d'] - 2*ip.B0ms*c3mu_dict['C78s'])/mchi\
-                               + 2/3 * (ip.Deltaup + ip.Deltadp - 2*ip.Deltas) * (c3mu_dict['C64u'] + c3mu_dict['C64d'] - 2*c3mu_dict['C64s'])),
+                               + 2/3 * (ip.Deltaup + ip.Deltadp - 2*ip.Deltas) * (c3mu_dict['C64u'] + c3mu_dict['C64d'] - 2*c3mu_dict['C64s']))\
+                        + 4*mN * (  FAup*(c3mu_dict['C718u']+c3mu_dict['C722u'])\
+                                  + FAdp*(c3mu_dict['C718d']+c3mu_dict['C722d'])\
+                                  + FAsp*(c3mu_dict['C718s']+c3mu_dict['C722s'])),
             'cNR15p' : -mN**2 * (-mtilde/2 * ip.gA * (1/mu - 1/md) * c3mu_dict['C74']/mchi),
             'cNR16p' : -mN**2 * (-mtilde/6 * (ip.Deltaup + ip.Deltadp - 2*ip.Deltas) * (1/mu + 1/md - 2/ms) * c3mu_dict['C74']/mchi),
     
@@ -349,36 +426,47 @@ class WC_3f(object):
             'cNR22p' : -mN**2* (- 2*alpha/np.pi * ip.mup/mN * c3mu_dict['C51']),
             'cNR23p' : mN* (2*alpha/np.pi*c3mu_dict['C52']),
 
-            'cNR100p' : 0,
+            'cNR100p' : (F1up*c3mu_dict['C719u'] + F1dp*c3mu_dict['C719d'] + F1sp*c3mu_dict['C719s'])/(2*mchi),
+            'cNR104p' : 2*((F1up+F2up)*c3mu_dict['C719u'] + (F1dp+F2dp)*c3mu_dict['C719d'] + (F1sp+F2dp)*c3mu_dict['C719s'])/mN,
 
 
 
 
             'cNR1n' : 2*c3mu_dict['C61d'] + c3mu_dict['C61u'] - 2*ip.mG/27*c3mu_dict['C71']\
-                      + ip.sigmadn*c3mu_dict['C75d'] + ip.sigmaun*c3mu_dict['C75u'] + ip.sigmas*c3mu_dict['C75s'],
+                      + ip.sigmadn*c3mu_dict['C75d'] + ip.sigmaun*c3mu_dict['C75u'] + ip.sigmas*c3mu_dict['C75s']\
+                      + 2*mchi * (F1un*c3mu_dict['C715u'] + F1dn*c3mu_dict['C715d'] + F1sn*c3mu_dict['C715s']),
             'cNR2n' : 0,
             'cNR3n' : 0,
             'cNR4n' : - 4*(ip.Deltadn*c3mu_dict['C64d'] + ip.Deltaun*c3mu_dict['C64u'] + ip.Deltas*c3mu_dict['C64s'])\
                       - 2*alpha/np.pi * ip.mun/mN * c3mu_dict['C51']\
                       + 8*(ip.FT0dn*c3mu_dict['C79d'] + ip.FT0un*c3mu_dict['C79u'] + ms*ip.gTs*c3mu_dict['C79s']),
-            'cNR5n' : 0,
-            'cNR6n' : -mN**2 * (mtilde * (ip.Deltadn/md + ip.Deltaun/mu + ip.Deltas/ms)/mchi * c3mu_dict['C74']),
-            'cNR7n' : -2*(ip.Deltadn*c3mu_dict['C63d'] + ip.Deltaun*c3mu_dict['C63u'] + ip.Deltas*c3mu_dict['C63s']),
+            'cNR5n' : - 2*mN * (F1un*c3mu_dict['C719u'] + F1dn*c3mu_dict['C719d'] + F1sn*c3mu_dict['C719s']),
+            'cNR6n' : -mN**2 * (mtilde * (ip.Deltadn/md + ip.Deltaun/mu + ip.Deltas/ms)/mchi * c3mu_dict['C74'])\
+                      -2*mN*((F1un+F2un)*c3mu_dict['C719u'] + (F1dn+F2dn)*c3mu_dict['C719d'] + (F1sn+F2dn)*c3mu_dict['C719s']),
+            'cNR7n' : -2*(ip.Deltadn*c3mu_dict['C63d'] + ip.Deltaun*c3mu_dict['C63u'] + ip.Deltas*c3mu_dict['C63s'])\
+                      - 4*mchi * (FAun*c3mu_dict['C717u'] + FAdn*c3mu_dict['C717d']+ FAsn*c3mu_dict['C717s']),
             'cNR8n' : 2*(2*c3mu_dict['C62d'] + c3mu_dict['C62u']),
             'cNR9n' : mN * ((4*ip.mudn*c3mu_dict['C62d'] + 2*ip.muun*c3mu_dict['C62u'] - 6*ip.mus*c3mu_dict['C62s'])/mN\
-                           + 2*(ip.Deltadn*c3mu_dict['C63d'] + ip.Deltaun*c3mu_dict['C63u'] + ip.Deltas*c3mu_dict['C63s'])/mchi),
+                           + 2*(ip.Deltadn*c3mu_dict['C63d'] + ip.Deltaun*c3mu_dict['C63u'] + ip.Deltas*c3mu_dict['C63s'])/mchi)\
+                      - 4*mN * (FAun*c3mu_dict['C721u'] + FAdn*c3mu_dict['C721d'] + FAsn*c3mu_dict['C721s']),
             'cNR10n' : mN * (- mtilde * (ip.Deltadn/md + ip.Deltaun/mu + ip.Deltas/ms) * c3mu_dict['C73'])\
                      -2*mN/mchi * (ip.FT0dn*c3mu_dict['C710d'] + ip.FT0un*c3mu_dict['C710u'] + ms*ip.gTs*c3mu_dict['C710s']),
             'cNR11n' : mN * (-(ip.sigmadn*c3mu_dict['C76d'] + ip.sigmaun*c3mu_dict['C76u'] + ip.sigmas*c3mu_dict['C76s'])/mchi\
                            + 2*ip.mG/27*c3mu_dict['C72']/mchi)\
                        + 2*(ip.FT0dn*c3mu_dict['C710d'] + ip.FT0un*c3mu_dict['C710u'] + ms*ip.gTs*c3mu_dict['C710s'])\
                        + 2*(mu*ip.BT10dn*c3mu_dict['C710d'] + md*ip.BT10un*c3mu_dict['C710u'] + ms*ip.BT10s*c3mu_dict['C710s']),
-            'cNR12n' : -8*(ip.FT0dn*c3mu_dict['C710d'] + ip.FT0un*c3mu_dict['C710u'] + ms*ip.gTs*c3mu_dict['C710s']),
+            'cNR12n' : -8*(ip.FT0dn*c3mu_dict['C710d'] + ip.FT0un*c3mu_dict['C710u'] + ms*ip.gTs*c3mu_dict['C710s'])\
+                       - 2*mN * (  F1un*(c3mu_dict['C716u']+c3mu_dict['C720u'])\
+                                 + F1dn*(c3mu_dict['C716d']+c3mu_dict['C720d'])\
+                                 + F1sn*(c3mu_dict['C716s']+c3mu_dict['C720s'])),
     
             'cNR13n' : mN**2 * (ip.gA * (ip.B0md*c3mu_dict['C78d'] - ip.B0mu*c3mu_dict['C78u'])/mchi + 2*ip.gA * (c3mu_dict['C64d'] - c3mu_dict['C64u'])),
             'cNR14n' : mN**2 * ((ip.Deltadn + ip.Deltaun - 2*ip.Deltas)/3\
                                 * (ip.B0md*c3mu_dict['C78d'] + ip.B0mu*c3mu_dict['C78u'] - 2*ip.B0ms*c3mu_dict['C78s'])/mchi\
-                               + 2/3 * (ip.Deltadn + ip.Deltaun - 2*ip.Deltas) * (c3mu_dict['C64d'] + c3mu_dict['C64u'] - 2*c3mu_dict['C64s'])),
+                               + 2/3 * (ip.Deltadn + ip.Deltaun - 2*ip.Deltas) * (c3mu_dict['C64d'] + c3mu_dict['C64u'] - 2*c3mu_dict['C64s']))\
+                        + 4*mN * (  FAun*(c3mu_dict['C718u']+c3mu_dict['C722u'])\
+                                  + FAdn*(c3mu_dict['C718d']+c3mu_dict['C722d'])\
+                                  + FAsn*(c3mu_dict['C718s']+c3mu_dict['C722s'])),
             'cNR15n' : -mN**2 * (-mtilde/2 * ip.gA * (1/md - 1/mu) * c3mu_dict['C74']/mchi),
             'cNR16n' : -mN**2 * (-mtilde/6 * (ip.Deltadn + ip.Deltaun - 2*ip.Deltas) * (1/mu + 1/md - 2/ms) * c3mu_dict['C74']/mchi),
     
@@ -392,7 +480,8 @@ class WC_3f(object):
             'cNR22n' : -mN**2 * (- 2*alpha/np.pi * ip.mun/mN * c3mu_dict['C51']),
             'cNR23n' : 0,
 
-            'cNR100n' : 0
+            'cNR100n' : (F1un*c3mu_dict['C719u'] + F1dn*c3mu_dict['C719d'] + F1sn*c3mu_dict['C719s'])/(2*mchi),
+            'cNR104n' : 2*((F1un+F2un)*c3mu_dict['C719u'] + (F1dn+F2dn)*c3mu_dict['C719d'] + (F1sn+F2dn)*c3mu_dict['C719s'])/mN
             }
 
             if NLO:
@@ -405,27 +494,31 @@ class WC_3f(object):
                 my_cNR_dict['cNR100n'] = - (ip.FT0dn*c3mu_dict['C79d'] + ip.FT0un*c3mu_dict['C79u'] + ms*ip.gTs*c3mu_dict['C79s'])/(2*mchi*mN)\
                                          - (mu*ip.BT10dn*c3mu_dict['C79d'] + md*ip.BT10un*c3mu_dict['C79u'] + ms*ip.BT10s*c3mu_dict['C79s'])/(2*mchi*mN)
 
+
         if self.DM_type == "M":
             my_cNR_dict = {
             'cNR1p' : - 2*ip.mG/27*c3mu_dict['C71']\
-                      + ip.sigmaup*c3mu_dict['C75u'] + ip.sigmadp*c3mu_dict['C75d'] + ip.sigmas*c3mu_dict['C75s'],
+                      + ip.sigmaup*c3mu_dict['C75u'] + ip.sigmadp*c3mu_dict['C75d'] + ip.sigmas*c3mu_dict['C75s']\
+                      + 2*mchi * (F1up*c3mu_dict['C715u'] + F1dp*c3mu_dict['C715d'] + F1sp*c3mu_dict['C715s']),
             'cNR2p' : 0,
             'cNR3p' : 0,
             'cNR4p' : - 4*(ip.Deltaup*c3mu_dict['C64u'] + ip.Deltadp*c3mu_dict['C64d'] + ip.Deltas*c3mu_dict['C64s']),
             'cNR5p' : 0,
             'cNR6p' : -mN**2 * mtilde * (ip.Deltaup/mu + ip.Deltadp/md + ip.Deltas/ms)/mchi * c3mu_dict['C74'],
-            'cNR7p' : 0,
+            'cNR7p' : - 4*mchi * (FAup*c3mu_dict['C717u'] + FAdp*c3mu_dict['C717d'] + FAsp*c3mu_dict['C717s']),
             'cNR8p' : 4*c3mu_dict['C62u'] + 2*c3mu_dict['C62d'],
             'cNR9p' : mN*(4*ip.muup*c3mu_dict['C62u'] + 2*ip.mudp*c3mu_dict['C62d'] - 6*ip.mus*c3mu_dict['C62s'])/mN,
             'cNR10p' : -mN * mtilde * (ip.Deltaup/mu + ip.Deltadp/md + ip.Deltas/ms) * c3mu_dict['C73'],
             'cNR11p' : mN * (-(ip.sigmaup*c3mu_dict['C76u'] + ip.sigmadp*c3mu_dict['C76d'] + ip.sigmas*c3mu_dict['C76s'])/mchi\
-                            + 2*ip.mG/27*c3mu_dict['C72']/mchi),
+                            + 2*ip.mG/27*c3mu_dict['C72']/mchi)\
+                        - 2*mN * (  F1up*c3mu_dict['C716u'] + F1dp*c3mu_dict['C716d'] + F1sp*c3mu_dict['C716s']),
             'cNR12p' : 0,
     
             'cNR13p' : mN**2 * (ip.gA * (ip.B0mu*c3mu_dict['C78u'] - ip.B0md*c3mu_dict['C78d'])/mchi + 2*ip.gA * (c3mu_dict['C64u'] - c3mu_dict['C64d'])),
             'cNR14p' : mN**2 * ((ip.Deltaup + ip.Deltadp - 2*ip.Deltas)/3\
                                * (ip.B0mu*c3mu_dict['C78u'] + ip.B0md*c3mu_dict['C78d'] - 2*ip.B0ms*c3mu_dict['C78s'])/mchi\
-                               + 2/3 * (ip.Deltaup + ip.Deltadp - 2*ip.Deltas) * (c3mu_dict['C64u'] + c3mu_dict['C64d'] - 2*c3mu_dict['C64s'])),
+                               + 2/3 * (ip.Deltaup + ip.Deltadp - 2*ip.Deltas) * (c3mu_dict['C64u'] + c3mu_dict['C64d'] - 2*c3mu_dict['C64s']))\
+                        + 4*mN * (FAup*c3mu_dict['C718u'] + FAdp*c3mu_dict['C718d'] + FAsp*c3mu_dict['C718s']),
             'cNR15p' : -mN**2 * (-mtilde/2 * ip.gA * (1/mu - 1/md) * c3mu_dict['C74']/mchi),
             'cNR16p' : -mN**2 * (-mtilde/6 * (ip.Deltaup + ip.Deltadp - 2*ip.Deltas) * (1/mu + 1/md - 2/ms) * c3mu_dict['C74']/mchi),
     
@@ -440,29 +533,33 @@ class WC_3f(object):
             'cNR23p' : 0,
 
             'cNR100p' : 0,
+            'cNR104p' : 0,
 
 
 
 
             'cNR1n' : - 2*ip.mG/27*c3mu_dict['C71']\
-                      + ip.sigmadn*c3mu_dict['C75d'] + ip.sigmaun*c3mu_dict['C75u'] + ip.sigmas*c3mu_dict['C75s'],
+                      + ip.sigmadn*c3mu_dict['C75d'] + ip.sigmaun*c3mu_dict['C75u'] + ip.sigmas*c3mu_dict['C75s']\
+                      + 2*mchi * (F1un*c3mu_dict['C715u'] + F1dn*c3mu_dict['C715d'] + F1sn*c3mu_dict['C715s']),
             'cNR2n' : 0,
             'cNR3n' : 0,
             'cNR4n' : - 4*(ip.Deltadn*c3mu_dict['C64d'] + ip.Deltaun*c3mu_dict['C64u'] + ip.Deltas*c3mu_dict['C64s']),
             'cNR5n' : 0,
             'cNR6n' : -mN**2 * (mtilde * (ip.Deltadn/md + ip.Deltaun/mu + ip.Deltas/ms)/mchi * c3mu_dict['C74']),
-            'cNR7n' : 0,
+            'cNR7n' : - 4*mchi * (FAun*c3mu_dict['C717u'] + FAdn*c3mu_dict['C717d'] + FAsn*c3mu_dict['C717s']),
             'cNR8n' : 2*(2*c3mu_dict['C62d'] + c3mu_dict['C62u']),
             'cNR9n' : mN * (4*ip.mudn*c3mu_dict['C62d'] + 2*ip.muun*c3mu_dict['C62u'] - 6*ip.mus*c3mu_dict['C62s'])/mN,
             'cNR10n' : -mN * mtilde * (ip.Deltadn/md + ip.Deltaun/mu + ip.Deltas/ms) * c3mu_dict['C73'],
             'cNR11n' : mN * (-(ip.sigmadn*c3mu_dict['C76d'] + ip.sigmaun*c3mu_dict['C76u'] + ip.sigmas*c3mu_dict['C76s'])/mchi\
-                           + 2*ip.mG/27*c3mu_dict['C72']/mchi),
+                           + 2*ip.mG/27*c3mu_dict['C72']/mchi)\
+                        - 2*mN * (  F1un*c3mu_dict['C716u'] + F1dn*c3mu_dict['C716d'] + F1sn*c3mu_dict['C716s']),
             'cNR12n' : 0,
     
             'cNR13n' : mN**2 * (ip.gA * (ip.B0md*c3mu_dict['C78d'] - ip.B0mu*c3mu_dict['C78u'])/mchi + 2*ip.gA * (c3mu_dict['C64d'] - c3mu_dict['C64u'])),
             'cNR14n' : mN**2 * ((ip.Deltadn + ip.Deltaun - 2*ip.Deltas)/3\
                                 * (ip.B0md*c3mu_dict['C78d'] + ip.B0mu*c3mu_dict['C78u'] - 2*ip.B0ms*c3mu_dict['C78s'])/mchi\
-                               + 2/3 * (ip.Deltadn + ip.Deltaun - 2*ip.Deltas) * (c3mu_dict['C64d'] + c3mu_dict['C64u'] - 2*c3mu_dict['C64s'])),
+                               + 2/3 * (ip.Deltadn + ip.Deltaun - 2*ip.Deltas) * (c3mu_dict['C64d'] + c3mu_dict['C64u'] - 2*c3mu_dict['C64s']))\
+                        + 4*mN * (FAun*c3mu_dict['C718u'] + FAdn*c3mu_dict['C718d'] + FAsn*c3mu_dict['C718s']),
             'cNR15n' : -mN**2 * (-mtilde/2 * ip.gA * (1/md - 1/mu) * c3mu_dict['C74']/mchi),
             'cNR16n' : -mN**2 * (-mtilde/6 * (ip.Deltadn + ip.Deltaun - 2*ip.Deltas) * (1/mu + 1/md - 2/ms) * c3mu_dict['C74']/mchi),
     
@@ -476,7 +573,8 @@ class WC_3f(object):
             'cNR22n' : 0,
             'cNR23n' : 0,
 
-            'cNR100n' : 0
+            'cNR100n' : 0,
+            'cNR104n' : 0
             }
 
 
@@ -512,6 +610,7 @@ class WC_3f(object):
             'cNR23p' : 0,
 
             'cNR100p' : 0,
+            'cNR104p' : 0,
 
 
 
@@ -545,7 +644,8 @@ class WC_3f(object):
             'cNR22n' : 0,
             'cNR23n' : 0,
 
-            'cNR100n' : 0
+            'cNR100n' : 0,
+            'cNR104n' : 0
             }
 
 
@@ -580,6 +680,7 @@ class WC_3f(object):
             'cNR23p' : 0,
 
             'cNR100p' : 0,
+            'cNR104p' : 0,
 
 
 
@@ -612,7 +713,8 @@ class WC_3f(object):
             'cNR22n' : 0,
             'cNR23n' : 0,
 
-            'cNR100n' : 0
+            'cNR100n' : 0,
+            'cNR104n' : 0
             }
 
 
@@ -663,7 +765,7 @@ class WC_3f(object):
         cNR_dict['cNR1p'] = my_cNR['cNR1p'] + qsq * my_cNR['cNR100p']
         cNR_dict['cNR2p'] = my_cNR['cNR2p']
         cNR_dict['cNR3p'] = my_cNR['cNR3p']
-        cNR_dict['cNR4p'] = my_cNR['cNR4p']
+        cNR_dict['cNR4p'] = my_cNR['cNR4p'] + qsq * my_cNR['cNR104p']
         cNR_dict['cNR5p'] = my_cNR['cNR5p'] + 1/qsq * my_cNR['cNR21p']
         cNR_dict['cNR6p'] = my_cNR['cNR6p']\
                             + 1/(mpi**2 + qsq) * my_cNR['cNR13p']\
@@ -685,7 +787,7 @@ class WC_3f(object):
         cNR_dict['cNR1n'] = my_cNR['cNR1n'] + qsq * my_cNR['cNR100n']
         cNR_dict['cNR2n'] = my_cNR['cNR2n']
         cNR_dict['cNR3n'] = my_cNR['cNR3n']
-        cNR_dict['cNR4n'] = my_cNR['cNR4n']
+        cNR_dict['cNR4n'] = my_cNR['cNR4n'] + qsq * my_cNR['cNR104n']
         cNR_dict['cNR5n'] = my_cNR['cNR5n'] + 1/qsq * my_cNR['cNR21n']
         cNR_dict['cNR6n'] = my_cNR['cNR6n']\
                             + 1/(mpi**2 + qsq) * my_cNR['cNR13n']\
@@ -718,7 +820,7 @@ class WC_3f(object):
         Mandatory arguments are the DM mass mchi (in GeV) and the momentum transfer q (in GeV) 
 
         <path> should be a string with the path (including the trailing "/") where the file should be saved
-        (default is '.')
+        (default is './')
 
         <filename> is the filename (default 'cNR.m')
         """
@@ -771,7 +873,7 @@ class WC_4f(object):
     def __init__(self, coeff_dict, DM_type=None):
         """ Class for Wilson coefficients in 4 flavor QCD x QED plus DM.
 
-        The argument should be a dictionary for the initial conditions of the 2 + 28 + 4 + 42 = 76 
+        The argument should be a dictionary for the initial conditions of the 2 + 28 + 4 + 42 + 4 + 56 = 136 
         dimension-five to dimension-seven four-flavor-QCD Wilson coefficients of the form
         {'C51' : value, 'C52' : value, ...}. 
         An arbitrary number of them can be given; the default values are zero. 
@@ -794,7 +896,17 @@ class WC_4f(object):
                              'C77u', 'C77d', 'C77s', 'C77c', 'C77e', 'C77mu', 'C77tau', 
                              'C78u', 'C78d', 'C78s', 'C78c', 'C78e', 'C78mu', 'C78tau',
                              'C79u', 'C79d', 'C79s', 'C79c', 'C79e', 'C79mu', 'C79tau', 
-                             'C710u', 'C710d', 'C710s', 'C710c', 'C710e', 'C710mu', 'C710tau'
+                             'C710u', 'C710d', 'C710s', 'C710c', 'C710e', 'C710mu', 'C710tau',
+                             'C711', 'C712', 'C713', 'C714',
+                             'C715u', 'C715d', 'C715s', 'C715c', 'C715e', 'C715mu', 'C715tau', 
+                             'C716u', 'C716d', 'C716s', 'C716c', 'C716e', 'C716mu', 'C716tau',
+                             'C717u', 'C717d', 'C717s', 'C717c', 'C717e', 'C717mu', 'C717tau', 
+                             'C718u', 'C718d', 'C718s', 'C718c', 'C718e', 'C718mu', 'C718tau',
+                             'C719u', 'C719d', 'C719s', 'C719c', 'C719e', 'C719mu', 'C719tau', 
+                             'C720u', 'C720d', 'C720s', 'C720c', 'C720e', 'C720mu', 'C720tau', 
+                             'C721u', 'C721d', 'C721s', 'C721c', 'C721e', 'C721mu', 'C721tau', 
+                             'C722u', 'C722d', 'C722s', 'C722c', 'C722e', 'C722mu', 'C722tau' 
+
 
         Majorana fermion:    'C62u', 'C62d', 'C62s', 'C62c', 'C62e', 'C62mu', 'C62tau',
                              'C64u', 'C64d', 'C64s', 'C64c', 'C64e', 'C64mu', 'C64tau',
@@ -803,16 +915,24 @@ class WC_4f(object):
                              'C76u', 'C76d', 'C76s', 'C76c', 'C76e', 'C76mu', 'C76tau',
                              'C77u', 'C77d', 'C77s', 'C77c', 'C77e', 'C77mu', 'C77tau', 
                              'C78u', 'C78d', 'C78s', 'C78c', 'C78e', 'C78mu', 'C78tau',
+                             'C711', 'C712', 'C713', 'C714',
+                             'C715u', 'C715d', 'C715s', 'C715c', 'C715e', 'C715mu', 'C715tau', 
+                             'C716u', 'C716d', 'C716s', 'C716c', 'C716e', 'C716mu', 'C716tau',
+                             'C717u', 'C717d', 'C717s', 'C717c', 'C717e', 'C717mu', 'C717tau', 
+                             'C718u', 'C718d', 'C718s', 'C718c', 'C718e', 'C718mu', 'C718tau',
 
         Complex Scalar:      'C61u', 'C61d', 'C61s', 'C61c', 'C61e', 'C61mu', 'C61tau', 
                              'C62u', 'C62d', 'C62s', 'C62c', 'C62e', 'C62mu', 'C62tau',
                              'C65', 'C66',
                              'C63u', 'C63d', 'C63s', 'C63c', 'C63e', 'C63mu', 'C63tau', 
-                             'C64u', 'C64d', 'C64s', 'C64c', 'C64e', 'C64mu', 'C64tau'
+                             'C64u', 'C64d', 'C64s', 'C64c', 'C64e', 'C64mu', 'C64tau',
+                             'C67', 'C68'
 
         Real Scalar:         'C65', 'C66'
                              'C63u', 'C63d', 'C63s', 'C63c', 'C63e', 'C63mu', 'C63tau', 
                              'C64u', 'C64d', 'C64s', 'C64c', 'C64e', 'C64mu', 'C64tau',
+                             'C67', 'C68'
+
 
         (the notation corresponds to the numbering in 1707.06998).
         The Wilson coefficients should be specified in the MS-bar scheme at mb = 4.18 GeV.
@@ -821,15 +941,15 @@ class WC_4f(object):
 
         run
         ---
-        Runs the Wilson from mb(mb) to mu_low [GeV; default 2 GeV], with 4 active quark flavors
+        Run the Wilson from mb(mb) to mu_low [GeV; default 2 GeV], with 4 active quark flavors
 
         match
         -----
-        Matches the Wilson coefficients from 4-flavor to 3-flavor QCD, at scale mu [GeV; default 2 GeV]
+        Match the Wilson coefficients from 4-flavor to 3-flavor QCD, at scale mu [GeV; default 2 GeV]
 
         cNR
         ---
-        Calculates the cNR coefficients as defined in 1308.6288
+        Calculate the cNR coefficients as defined in 1308.6288
 
         It has two mandatory arguments: The DM mass in GeV and the momentum transfer in GeV
 
@@ -855,18 +975,38 @@ class WC_4f(object):
                                  'C77u', 'C77d', 'C77s', 'C77c', 'C77e', 'C77mu', 'C77tau', 
                                  'C78u', 'C78d', 'C78s', 'C78c', 'C78e', 'C78mu', 'C78tau',
                                  'C79u', 'C79d', 'C79s', 'C79c', 'C79e', 'C79mu', 'C79tau', 
-                                 'C710u', 'C710d', 'C710s', 'C710c', 'C710e', 'C710mu', 'C710tau']
+                                 'C710u', 'C710d', 'C710s', 'C710c', 'C710e', 'C710mu', 'C710tau',
+                                 'C711', 'C712', 'C713', 'C714',
+                                 'C715u', 'C715d', 'C715s', 'C715c', 'C715e', 'C715mu', 'C715tau', 
+                                 'C716u', 'C716d', 'C716s', 'C716c', 'C716e', 'C716mu', 'C716tau',
+                                 'C717u', 'C717d', 'C717s', 'C717c', 'C717e', 'C717mu', 'C717tau', 
+                                 'C718u', 'C718d', 'C718s', 'C718c', 'C718e', 'C718mu', 'C718tau',
+                                 'C719u', 'C719d', 'C719s', 'C719c', 'C719e', 'C719mu', 'C719tau', 
+                                 'C720u', 'C720d', 'C720s', 'C720c', 'C720e', 'C720mu', 'C720tau', 
+                                 'C721u', 'C721d', 'C721s', 'C721c', 'C721e', 'C721mu', 'C721tau', 
+                                 'C722u', 'C722d', 'C722s', 'C722c', 'C722e', 'C722mu', 'C722tau']
+
+            # The 4-flavor list for matching only
             self.wc_name_list_3f = ['C51', 'C52', 'C61u', 'C61d', 'C61s', 'C61e', 'C61mu', 'C61tau',
                                     'C62u', 'C62d', 'C62s', 'C62e', 'C62mu', 'C62tau',
-                                 'C63u', 'C63d', 'C63s', 'C63e', 'C63mu', 'C63tau',
-                                 'C64u', 'C64d', 'C64s', 'C64e', 'C64mu', 'C64tau',
-                                 'C71', 'C72', 'C73', 'C74',
-                                 'C75u', 'C75d', 'C75s', 'C75e', 'C75mu', 'C75tau',
-                                 'C76u', 'C76d', 'C76s', 'C76e', 'C76mu', 'C76tau',
-                                 'C77u', 'C77d', 'C77s', 'C77e', 'C77mu', 'C77tau',
-                                 'C78u', 'C78d', 'C78s', 'C78e', 'C78mu', 'C78tau',
-                                 'C79u', 'C79d', 'C79s', 'C79e', 'C79mu', 'C79tau',
-                                 'C710u', 'C710d', 'C710s', 'C710e', 'C710mu', 'C710tau']
+                                    'C63u', 'C63d', 'C63s', 'C63e', 'C63mu', 'C63tau',
+                                    'C64u', 'C64d', 'C64s', 'C64e', 'C64mu', 'C64tau',
+                                    'C71', 'C72', 'C73', 'C74',
+                                    'C75u', 'C75d', 'C75s', 'C75e', 'C75mu', 'C75tau',
+                                    'C76u', 'C76d', 'C76s', 'C76e', 'C76mu', 'C76tau',
+                                    'C77u', 'C77d', 'C77s', 'C77e', 'C77mu', 'C77tau',
+                                    'C78u', 'C78d', 'C78s', 'C78e', 'C78mu', 'C78tau',
+                                    'C79u', 'C79d', 'C79s', 'C79e', 'C79mu', 'C79tau',
+                                    'C710u', 'C710d', 'C710s', 'C710e', 'C710mu', 'C710tau',
+                                    'C711', 'C712', 'C713', 'C714',
+                                    'C715u', 'C715d', 'C715s', 'C715e', 'C715mu', 'C715tau', 
+                                    'C716u', 'C716d', 'C716s', 'C716e', 'C716mu', 'C716tau',
+                                    'C717u', 'C717d', 'C717s', 'C717e', 'C717mu', 'C717tau', 
+                                    'C718u', 'C718d', 'C718s', 'C718e', 'C718mu', 'C718tau',
+                                    'C719u', 'C719d', 'C719s', 'C719e', 'C719mu', 'C719tau', 
+                                    'C720u', 'C720d', 'C720s', 'C720e', 'C720mu', 'C720tau', 
+                                    'C721u', 'C721d', 'C721s', 'C721e', 'C721mu', 'C721tau', 
+                                    'C722u', 'C722d', 'C722s', 'C722e', 'C722mu', 'C722tau']
 
         if self.DM_type == "M":
             self.wc_name_list = ['C62u', 'C62d', 'C62s', 'C62c', 'C62e', 'C62mu', 'C62tau',
@@ -875,37 +1015,63 @@ class WC_4f(object):
                                  'C75u', 'C75d', 'C75s', 'C75c', 'C75e', 'C75mu', 'C75tau', 
                                  'C76u', 'C76d', 'C76s', 'C76c', 'C76e', 'C76mu', 'C76tau',
                                  'C77u', 'C77d', 'C77s', 'C77c', 'C77e', 'C77mu', 'C77tau', 
-                                 'C78u', 'C78d', 'C78s', 'C78c', 'C78e', 'C78mu', 'C78tau']
+                                 'C78u', 'C78d', 'C78s', 'C78c', 'C78e', 'C78mu', 'C78tau',
+                                 'C711', 'C712', 'C713', 'C714',
+                                 'C715u', 'C715d', 'C715s', 'C715c', 'C715e', 'C715mu', 'C715tau', 
+                                 'C716u', 'C716d', 'C716s', 'C716c', 'C716e', 'C716mu', 'C716tau',
+                                 'C717u', 'C717d', 'C717s', 'C717c', 'C717e', 'C717mu', 'C717tau', 
+                                 'C718u', 'C718d', 'C718s', 'C718c', 'C718e', 'C718mu', 'C718tau']
+
+            # The list of indices to be deleted from the QCD/QED ADM because of less operators
+            del_ind_list = [i for i in range(0,9)] + [i for i in range(16,23)] + [i for i in range(62,76)] + [i for i in range(108,136)]
+
+            # The 3-flavor list for matching only
             self.wc_name_list_3f = ['C62u', 'C62d', 'C62s', 'C62e', 'C62mu', 'C62tau',
                                     'C64u', 'C64d', 'C64s', 'C64e', 'C64mu', 'C64tau',
                                     'C71', 'C72', 'C73', 'C74',
                                     'C75u', 'C75d', 'C75s', 'C75e', 'C75mu', 'C75tau',
                                     'C76u', 'C76d', 'C76s', 'C76e', 'C76mu', 'C76tau',
                                     'C77u', 'C77d', 'C77s', 'C77e', 'C77mu', 'C77tau',
-                                    'C78u', 'C78d', 'C78s', 'C78e', 'C78mu', 'C78tau']
-            del_ind_list = [i for i in range(0,9)] + [i for i in range(16,23)] + [i for i in range(62,76)]
+                                    'C78u', 'C78d', 'C78s', 'C78e', 'C78mu', 'C78tau',
+                                    'C711', 'C712', 'C713', 'C714',
+                                    'C715u', 'C715d', 'C715s', 'C715e', 'C715mu', 'C715tau', 
+                                    'C716u', 'C716d', 'C716s', 'C716e', 'C716mu', 'C716tau',
+                                    'C717u', 'C717d', 'C717s', 'C717e', 'C717mu', 'C717tau', 
+                                    'C718u', 'C718d', 'C718s', 'C718e', 'C718mu', 'C718tau']
 
         if self.DM_type == "C":
             self.wc_name_list = ['C61u', 'C61d', 'C61s', 'C61c', 'C61e', 'C61mu', 'C61tau', 
                                  'C62u', 'C62d', 'C62s', 'C62c', 'C62e', 'C62mu', 'C62tau',
                                  'C65', 'C66',
                                  'C63u', 'C63d', 'C63s', 'C63c', 'C63e', 'C63mu', 'C63tau', 
-                                 'C64u', 'C64d', 'C64s', 'C64c', 'C64e', 'C64mu', 'C64tau']
+                                 'C64u', 'C64d', 'C64s', 'C64c', 'C64e', 'C64mu', 'C64tau',
+                                 'C67', 'C68']
+            # The list of indices to be deleted from the QCD/QED ADM because of less operators
+            del_ind_list = [0,1] + [i for i in range(9,16)] + [i for i in range(23,30)] + [31] + [33] + [i for i in range(41,48)]\
+                           + [i for i in range(55,76)] + [77] + [79] + [i for i in range(80,136)]
+
+            # The 3-flavor list for matching only
             self.wc_name_list_3f = ['C61u', 'C61d', 'C61s', 'C61e', 'C61mu', 'C61tau', 
                                     'C62u', 'C62d', 'C62s', 'C62e', 'C62mu', 'C62tau',
                                     'C65', 'C66',
                                     'C63u', 'C63d', 'C63s', 'C63e', 'C63mu', 'C63tau', 
-                                    'C64u', 'C64d', 'C64s', 'C64e', 'C64mu', 'C64tau']
-            del_ind_list = [0,1] + [i for i in range(9,16)] + [i for i in range(23,30)] + [31] + [33] + [i for i in range(41,48)] + [i for i in range(55,76)]
+                                    'C64u', 'C64d', 'C64s', 'C64e', 'C64mu', 'C64tau',
+                                    'C67', 'C68']
 
         if self.DM_type == "R":
             self.wc_name_list = ['C65', 'C66',
                                  'C64u', 'C64d', 'C64s', 'C64c', 'C64e', 'C64mu', 'C64tau',
-                                 'C63u', 'C63d', 'C63s', 'C63c', 'C63e', 'C63mu', 'C63tau']
+                                 'C63u', 'C63d', 'C63s', 'C63c', 'C63e', 'C63mu', 'C63tau',
+                                 'C67', 'C68']
+            # The list of indices to be deleted from the QCD/QED ADM because of less operators
+            del_ind_list = [i for i in range(0,30)] + [31] + [33] + [i for i in range(41,48)] + [i for i in range(55,76)]\
+                           + [77] + [79] + [i for i in range(80,136)]
+
+            # The 3-flavor list for matching only
             self.wc_name_list_3f = ['C65', 'C66',
                                     'C63u', 'C63d', 'C63s', 'C63e', 'C63mu', 'C63tau', 
-                                    'C64u', 'C64d', 'C64s', 'C64e', 'C64mu', 'C64tau']
-            del_ind_list = [i for i in range(0,30)] + [31] + [33] + [i for i in range(41,48)] + [i for i in range(55,76)]
+                                    'C64u', 'C64d', 'C64s', 'C64e', 'C64mu', 'C64tau',
+                                    'C67', 'C68']
 
 
         self.coeff_dict = {}
@@ -914,7 +1080,7 @@ class WC_4f(object):
             if wc_name in self.wc_name_list:
                 pass
             else:
-                warnings.warn('The key ' + wc_name + ' is not a default key value. Typo?')
+                warnings.warn('The key ' + wc_name + ' is not a valid key. Typo?')
         # Create the dictionary:
         for wc_name in self.wc_name_list:
             if wc_name in coeff_dict.keys():
@@ -931,18 +1097,22 @@ class WC_4f(object):
         #---------------------------#
         if self.DM_type == "D":
             self.gamma_QED = adm.ADM_QED(4)
+            self.gamma_QED2 = adm.ADM_QED2(4)
             self.gamma_QCD = adm.ADM_QCD(4)
             self.gamma_QCD2 = adm.ADM_QCD2(4)
         if self.DM_type == "M":
             self.gamma_QED = np.delete(np.delete(adm.ADM_QED(4), del_ind_list, 0), del_ind_list, 1)
+            self.gamma_QED2 = np.delete(np.delete(adm.ADM_QED2(4), del_ind_list, 0), del_ind_list, 1)
             self.gamma_QCD = np.delete(np.delete(adm.ADM_QCD(4), del_ind_list, 1), del_ind_list, 2)
             self.gamma_QCD2 = np.delete(np.delete(adm.ADM_QCD2(4), del_ind_list, 1), del_ind_list, 2)
         if self.DM_type == "C":
             self.gamma_QED = np.delete(np.delete(adm.ADM_QED(4), del_ind_list, 0), del_ind_list, 1)
+            self.gamma_QED2 = np.delete(np.delete(adm.ADM_QED2(4), del_ind_list, 0), del_ind_list, 1)
             self.gamma_QCD = np.delete(np.delete(adm.ADM_QCD(4), del_ind_list, 1), del_ind_list, 2)
             self.gamma_QCD2 = np.delete(np.delete(adm.ADM_QCD2(4), del_ind_list, 1), del_ind_list, 2)
         if self.DM_type == "R":
             self.gamma_QED = np.delete(np.delete(adm.ADM_QED(4), del_ind_list, 0), del_ind_list, 1)
+            self.gamma_QED2 = np.delete(np.delete(adm.ADM_QED2(4), del_ind_list, 0), del_ind_list, 1)
             self.gamma_QCD = np.delete(np.delete(adm.ADM_QCD(4), del_ind_list, 1), del_ind_list, 2)
             self.gamma_QCD2 = np.delete(np.delete(adm.ADM_QCD2(4), del_ind_list, 1), del_ind_list, 2)
 
@@ -952,10 +1122,10 @@ class WC_4f(object):
 
         Calculate the running from mb(mb) to mu_low [GeV; default 2 GeV] in the four-flavor theory. 
 
-        For dict = True, returns a dictionary of Wilson coefficients for the four-flavor Lagrangian
+        For dict=True return a dictionary of Wilson coefficients for the four-flavor Lagrangian
         at scale mu_low (this is the default).
 
-        For dict = False, returns a numpy array of Wilson coefficients for the four-flavor Lagrangian
+        For dict=False return a numpy array of Wilson coefficients for the four-flavor Lagrangian
         at scale mu_low.
         """
         if mu_low is None:
@@ -978,7 +1148,8 @@ class WC_4f(object):
 
         # Strictly speaking, mb should be defined at scale mu_low (however, this is a higher-order difference)
         C_at_mc_QCD = np.dot(evolve2.U0_as2(as41.run(mb),as41.run(mu_low)), np.dot(evolve1.U0(as41.run(mb),as41.run(mu_low)), self.coeff_list))
-        C_at_mc_QED = np.dot(self.coeff_list, self.gamma_QED) * np.log(mu_low/mb) * alpha_at_mc/(4*np.pi)
+        C_at_mc_QED = np.dot(self.coeff_list, self.gamma_QED) * np.log(mu_low/mb) * alpha_at_mc/(4*np.pi)\
+                      + np.dot(self.coeff_list, self.gamma_QED2) * np.log(mu_low/mb) * (alpha_at_mc/(4*np.pi))**2
 
         if dict:
             return list_to_dict(C_at_mc_QCD + C_at_mc_QED, self.wc_name_list)
@@ -991,10 +1162,10 @@ class WC_4f(object):
 
         Calculate the matching at mu [GeV; default 2 GeV].
 
-        For dict = True, returns a dictionary of Wilson coefficients for the three-flavor Lagrangian
+        For dict=True return a dictionary of Wilson coefficients for the three-flavor Lagrangian
         at scale mu (this is the default).
 
-        For dict = False, returns a numpy array of Wilson coefficients for the three-flavor Lagrangian
+        For dict=False return a numpy array of Wilson coefficients for the three-flavor Lagrangian
         at scale mu.
         """
         if mu is None:
@@ -1049,7 +1220,7 @@ class WC_4f(object):
         Mandatory arguments are the DM mass mchi (in GeV) and the momentum transfer q (in GeV) 
 
         <path> should be a string with the path (including the trailing "/") where the file should be saved
-        (default is '.')
+        (default is './')
 
         <filename> is the filename (default 'cNR.m')
         """
@@ -1062,7 +1233,7 @@ class WC_5f(object):
     def __init__(self, coeff_dict, DM_type=None):
         """ Class for Wilson coefficients in 5 flavor QCD x QED plus DM.
 
-        The argument should be a dictionary for the initial conditions of the 2 + 32 + 4 + 48 = 86 
+        The argument should be a dictionary for the initial conditions of the 2 + 32 + 4 + 48 + 4 + 64 = 154 
         dimension-five to dimension-seven four-flavor-QCD Wilson coefficients of the form
         {'C51' : value, 'C52' : value, ...}. 
         An arbitrary number of them can be given; the default values are zero. 
@@ -1084,7 +1255,16 @@ class WC_5f(object):
                              'C77u', 'C77d', 'C77s', 'C77c', 'C77b', 'C77e', 'C77mu', 'C77tau', 
                              'C78u', 'C78d', 'C78s', 'C78c', 'C78b', 'C78e', 'C78mu', 'C78tau',
                              'C79u', 'C79d', 'C79s', 'C79c', 'C79b', 'C79e', 'C79mu', 'C79tau', 
-                             'C710u', 'C710d', 'C710s', 'C710c', 'C710b', 'C710e', 'C710mu', 'C710tau'
+                             'C710u', 'C710d', 'C710s', 'C710c', 'C710b', 'C710e', 'C710mu', 'C710tau',
+                             'C711', 'C712', 'C713', 'C714',
+                             'C715u', 'C715d', 'C715s', 'C715c', 'C715b', 'C715e', 'C715mu', 'C715tau', 
+                             'C716u', 'C716d', 'C716s', 'C716c', 'C716b', 'C716e', 'C716mu', 'C716tau',
+                             'C717u', 'C717d', 'C717s', 'C717c', 'C717b', 'C717e', 'C717mu', 'C717tau', 
+                             'C718u', 'C718d', 'C718s', 'C718c', 'C718b', 'C718e', 'C718mu', 'C718tau',
+                             'C719u', 'C719d', 'C719s', 'C719c', 'C719b', 'C719e', 'C719mu', 'C719tau', 
+                             'C720u', 'C720d', 'C720s', 'C720c', 'C720b', 'C720e', 'C720mu', 'C720tau', 
+                             'C721u', 'C721d', 'C721s', 'C721c', 'C721b', 'C721e', 'C721mu', 'C721tau', 
+                             'C722u', 'C722d', 'C722s', 'C722c', 'C722b', 'C722e', 'C722mu', 'C722tau' 
 
         Majorana fermion:    'C62u', 'C62d', 'C62s', 'C62c', 'C62b', 'C62e', 'C62mu', 'C62tau',
                              'C64u', 'C64d', 'C64s', 'C64c', 'C64b', 'C64e', 'C64mu', 'C64tau',
@@ -1093,16 +1273,21 @@ class WC_5f(object):
                              'C76u', 'C76d', 'C76s', 'C76c', 'C76b', 'C76e', 'C76mu', 'C76tau',
                              'C77u', 'C77d', 'C77s', 'C77c', 'C77b', 'C77e', 'C77mu', 'C77tau', 
                              'C78u', 'C78d', 'C78s', 'C78c', 'C78b', 'C78e', 'C78mu', 'C78tau',
+                             'C711', 'C712', 'C713', 'C714',
+                             'C715u', 'C715d', 'C715s', 'C715c', 'C715b', 'C715e', 'C715mu', 'C715tau', 
+                             'C716u', 'C716d', 'C716s', 'C716c', 'C716b', 'C716e', 'C716mu', 'C716tau',
+                             'C717u', 'C717d', 'C717s', 'C717c', 'C717b', 'C717e', 'C717mu', 'C717tau', 
+                             'C718u', 'C718d', 'C718s', 'C718c', 'C718b', 'C718e', 'C718mu', 'C718tau'
 
         Complex Scalar:      'C61u', 'C61d', 'C61s', 'C61c', 'C61b', 'C61e', 'C61mu', 'C61tau', 
                              'C62u', 'C62d', 'C62s', 'C62c', 'C62b', 'C62e', 'C62mu', 'C62tau',
-                             'C65', 'C66',
-                             'C63u', 'C63d', 'C63s', 'C63c', 'C63b', 'C63e', 'C63mu', 'C63tau', 
-                             'C64u', 'C64d', 'C64s', 'C64c', 'C64b', 'C64e', 'C64mu', 'C64tau'
-
-        Real Scalar:         'C65', 'C66'
                              'C63u', 'C63d', 'C63s', 'C63c', 'C63b', 'C63e', 'C63mu', 'C63tau', 
                              'C64u', 'C64d', 'C64s', 'C64c', 'C64b', 'C64e', 'C64mu', 'C64tau',
+                             'C65', 'C66', 'C67', 'C68'
+
+        Real Scalar:         'C63u', 'C63d', 'C63s', 'C63c', 'C63b', 'C63e', 'C63mu', 'C63tau', 
+                             'C64u', 'C64d', 'C64s', 'C64c', 'C64b', 'C64e', 'C64mu', 'C64tau',
+                             'C65', 'C66', 'C67', 'C68'
 
         (the notation corresponds to the numbering in 1707.06998).
         The Wilson coefficients should be specified in the MS-bar scheme at MZ = 91.1876 GeV.
@@ -1111,22 +1296,22 @@ class WC_5f(object):
 
         run
         ---
-        Runs the Wilson from MZ = 91.1876 GeV to mu_low [GeV; default mb(mb)], with 5 active quark flavors
+        Run the Wilson from MZ = 91.1876 GeV to mu_low [GeV; default mb(mb)], with 5 active quark flavors
 
         match
         -----
-        Matches the Wilson coefficients from 5-flavor to 4-flavor QCD, at scale mu [GeV; default mu = mb(mb)]
+        Match the Wilson coefficients from 5-flavor to 4-flavor QCD, at scale mu [GeV; default mu = mb(mb)]
 
         cNR
         ---
-        Calculates the cNR coefficients as defined in 1308.6288
+        Calculate the cNR coefficients as defined in 1308.6288
 
         It has two mandatory arguments: The DM mass in GeV and the momentum transfer in GeV
 
 
         write_mma
         ---------
-        Writes an output file that can be loaded into mathematica, 
+        Write an output file that can be loaded into mathematica, 
         to be used in the DMFormFactor package [1308.6288].
         """
         if DM_type is None:
@@ -1144,7 +1329,17 @@ class WC_5f(object):
                                  'C77u', 'C77d', 'C77s', 'C77c', 'C77b', 'C77e', 'C77mu', 'C77tau', 
                                  'C78u', 'C78d', 'C78s', 'C78c', 'C78b', 'C78e', 'C78mu', 'C78tau',
                                  'C79u', 'C79d', 'C79s', 'C79c', 'C79b', 'C79e', 'C79mu', 'C79tau', 
-                                 'C710u', 'C710d', 'C710s', 'C710c', 'C710b', 'C710e', 'C710mu', 'C710tau']
+                                 'C710u', 'C710d', 'C710s', 'C710c', 'C710b', 'C710e', 'C710mu', 'C710tau',
+                                 'C711', 'C712', 'C713', 'C714',
+                                 'C715u', 'C715d', 'C715s', 'C715c', 'C715b', 'C715e', 'C715mu', 'C715tau', 
+                                 'C716u', 'C716d', 'C716s', 'C716c', 'C716b', 'C716e', 'C716mu', 'C716tau',
+                                 'C717u', 'C717d', 'C717s', 'C717c', 'C717b', 'C717e', 'C717mu', 'C717tau', 
+                                 'C718u', 'C718d', 'C718s', 'C718c', 'C718b', 'C718e', 'C718mu', 'C718tau',
+                                 'C719u', 'C719d', 'C719s', 'C719c', 'C719b', 'C719e', 'C719mu', 'C719tau', 
+                                 'C720u', 'C720d', 'C720s', 'C720c', 'C720b', 'C720e', 'C720mu', 'C720tau', 
+                                 'C721u', 'C721d', 'C721s', 'C721c', 'C721b', 'C721e', 'C721mu', 'C721tau', 
+                                 'C722u', 'C722d', 'C722s', 'C722c', 'C722b', 'C722e', 'C722mu', 'C722tau']
+
             self.wc_name_list_4f = ['C51', 'C52', 'C61u', 'C61d', 'C61s', 'C61c', 'C61e', 'C61mu', 'C61tau', 
                                     'C62u', 'C62d', 'C62s', 'C62c', 'C62e', 'C62mu', 'C62tau',
                                     'C63u', 'C63d', 'C63s', 'C63c', 'C63e', 'C63mu', 'C63tau', 
@@ -1155,7 +1350,16 @@ class WC_5f(object):
                                     'C77u', 'C77d', 'C77s', 'C77c', 'C77e', 'C77mu', 'C77tau', 
                                     'C78u', 'C78d', 'C78s', 'C78c', 'C78e', 'C78mu', 'C78tau',
                                     'C79u', 'C79d', 'C79s', 'C79c', 'C79e', 'C79mu', 'C79tau', 
-                                    'C710u', 'C710d', 'C710s', 'C710c', 'C710e', 'C710mu', 'C710tau']
+                                    'C710u', 'C710d', 'C710s', 'C710c', 'C710e', 'C710mu', 'C710tau',
+                                    'C711', 'C712', 'C713', 'C714',
+                                    'C715u', 'C715d', 'C715s', 'C715c', 'C715e', 'C715mu', 'C715tau', 
+                                    'C716u', 'C716d', 'C716s', 'C716c', 'C716e', 'C716mu', 'C716tau',
+                                    'C717u', 'C717d', 'C717s', 'C717c', 'C717e', 'C717mu', 'C717tau', 
+                                    'C718u', 'C718d', 'C718s', 'C718c', 'C718e', 'C718mu', 'C718tau',
+                                    'C719u', 'C719d', 'C719s', 'C719c', 'C719e', 'C719mu', 'C719tau', 
+                                    'C720u', 'C720d', 'C720s', 'C720c', 'C720e', 'C720mu', 'C720tau', 
+                                    'C721u', 'C721d', 'C721s', 'C721c', 'C721e', 'C721mu', 'C721tau', 
+                                    'C722u', 'C722d', 'C722s', 'C722c', 'C722e', 'C722mu', 'C722tau']
 
         if self.DM_type == "M":
             self.wc_name_list = ['C62u', 'C62d', 'C62s', 'C62c', 'C62b', 'C62e', 'C62mu', 'C62tau',
@@ -1164,37 +1368,65 @@ class WC_5f(object):
                                  'C75u', 'C75d', 'C75s', 'C75c', 'C75b', 'C75e', 'C75mu', 'C75tau', 
                                  'C76u', 'C76d', 'C76s', 'C76c', 'C76b', 'C76e', 'C76mu', 'C76tau',
                                  'C77u', 'C77d', 'C77s', 'C77c', 'C77b', 'C77e', 'C77mu', 'C77tau', 
-                                 'C78u', 'C78d', 'C78s', 'C78c', 'C78b', 'C78e', 'C78mu', 'C78tau']
+                                 'C78u', 'C78d', 'C78s', 'C78c', 'C78b', 'C78e', 'C78mu', 'C78tau',
+                                 'C711', 'C712', 'C713', 'C714',
+                                 'C715u', 'C715d', 'C715s', 'C715c', 'C715b', 'C715e', 'C715mu', 'C715tau', 
+                                 'C716u', 'C716d', 'C716s', 'C716c', 'C716b', 'C716e', 'C716mu', 'C716tau',
+                                 'C717u', 'C717d', 'C717s', 'C717c', 'C717b', 'C717e', 'C717mu', 'C717tau', 
+                                 'C718u', 'C718d', 'C718s', 'C718c', 'C718b', 'C718e', 'C718mu', 'C718tau']
+
+            # The list of indices to be deleted from the QCD/QED ADM because of less operators
+            del_ind_list = [i for i in range(0,10)] + [i for i in range(18,26)] + [i for i in range(70,86)] + [i for i in range(122,154)]
+
+            # The 4-flavor list for matching only
             self.wc_name_list_4f = ['C62u', 'C62d', 'C62s', 'C62c', 'C62e', 'C62mu', 'C62tau',
                                     'C64u', 'C64d', 'C64s', 'C64c', 'C64e', 'C64mu', 'C64tau',
                                     'C71', 'C72', 'C73', 'C74',
                                     'C75u', 'C75d', 'C75s', 'C75c', 'C75e', 'C75mu', 'C75tau', 
                                     'C76u', 'C76d', 'C76s', 'C76c', 'C76e', 'C76mu', 'C76tau',
                                     'C77u', 'C77d', 'C77s', 'C77c', 'C77e', 'C77mu', 'C77tau', 
-                                    'C78u', 'C78d', 'C78s', 'C78c', 'C78e', 'C78mu', 'C78tau']
-            del_ind_list = [i for i in range(0,10)] + [i for i in range(18,26)] + [i for i in range(70,86)]
+                                    'C78u', 'C78d', 'C78s', 'C78c', 'C78e', 'C78mu', 'C78tau',
+                                    'C711', 'C712', 'C713', 'C714',
+                                    'C715u', 'C715d', 'C715s', 'C715c', 'C715e', 'C715mu', 'C715tau', 
+                                    'C716u', 'C716d', 'C716s', 'C716c', 'C716e', 'C716mu', 'C716tau',
+                                    'C717u', 'C717d', 'C717s', 'C717c', 'C717e', 'C717mu', 'C717tau', 
+                                    'C718u', 'C718d', 'C718s', 'C718c', 'C718e', 'C718mu', 'C718tau']
 
         if self.DM_type == "C":
             self.wc_name_list = ['C61u', 'C61d', 'C61s', 'C61c', 'C61b', 'C61e', 'C61mu', 'C61tau', 
                                  'C62u', 'C62d', 'C62s', 'C62c', 'C62b', 'C62e', 'C62mu', 'C62tau',
                                  'C65', 'C66',
                                  'C64u', 'C64d', 'C64s', 'C64c', 'C64b', 'C64e', 'C64mu', 'C64tau',
-                                 'C63u', 'C63d', 'C63s', 'C63c', 'C63b', 'C63e', 'C63mu', 'C63tau']
+                                 'C63u', 'C63d', 'C63s', 'C63c', 'C63b', 'C63e', 'C63mu', 'C63tau',
+                                 'C66', 'C67']
+
+            # The list of indices to be deleted from the QCD/QED ADM because of less operators
+            del_ind_list = [0,1] + [i for i in range(10,18)] + [i for i in range(26,34)] + [35] + [37] + [i for i in range(46,54)]\
+                           + [i for i in range(62,86)] + [87] + [89] + [i for i in range(90,154)]
+
+            # The 4-flavor list for matching only
             self.wc_name_list_4f = ['C61u', 'C61d', 'C61s', 'C61c', 'C61e', 'C61mu', 'C61tau', 
                                     'C62u', 'C62d', 'C62s', 'C62c', 'C62e', 'C62mu', 'C62tau',
-                                    'C65', 'C66',
+                                    'C65', 'C66', 'C66', 'C67',
                                     'C63u', 'C63d', 'C63s', 'C63c', 'C63e', 'C63mu', 'C63tau', 
-                                    'C64u', 'C64d', 'C64s', 'C64c', 'C64e', 'C64mu', 'C64tau']
-            del_ind_list = [0,1] + [i for i in range(10,18)] + [i for i in range(26,34)] + [35] + [37] + [i for i in range(46,54)] + [i for i in range(62,86)]
+                                    'C64u', 'C64d', 'C64s', 'C64c', 'C64e', 'C64mu', 'C64tau',
+                                    'C66', 'C67']
 
         if self.DM_type == "R":
             self.wc_name_list = ['C65', 'C66',
                                  'C63u', 'C63d', 'C63s', 'C63c', 'C63b', 'C63e', 'C63mu', 'C63tau', 
-                                 'C64u', 'C64d', 'C64s', 'C64c', 'C64b', 'C64e', 'C64mu', 'C64tau']
+                                 'C64u', 'C64d', 'C64s', 'C64c', 'C64b', 'C64e', 'C64mu', 'C64tau',
+                                 'C66', 'C67']
+
+            # The list of indices to be deleted from the QCD/QED ADM because of less operators
+            del_ind_list = [i for i in range(0,34)] + [35] + [37] + [i for i in range(46,54)] + [i for i in range(62,86)]\
+                           + [87] + [89] + [i for i in range(90,154)]
+
+            # The 4-flavor list for matching only
             self.wc_name_list_4f = ['C65', 'C66',
                                     'C64u', 'C64d', 'C64s', 'C64c', 'C64e', 'C64mu', 'C64tau',
-                                    'C63u', 'C63d', 'C63s', 'C63c', 'C63e', 'C63mu', 'C63tau']
-            del_ind_list = [i for i in range(0,34)] + [35] + [37] + [i for i in range(46,54)] + [i for i in range(62,86)]
+                                    'C63u', 'C63d', 'C63s', 'C63c', 'C63e', 'C63mu', 'C63tau',
+                                    'C66', 'C67']
 
 
 
@@ -1204,7 +1436,7 @@ class WC_5f(object):
             if wc_name in self.wc_name_list:
                 pass
             else:
-                warnings.warn('The key ' + wc_name + ' is not a default key value. Typo?')
+                warnings.warn('The key ' + wc_name + ' is not a valid key. Typo?')
         # Create the dictionary:
         for wc_name in self.wc_name_list:
             if wc_name in coeff_dict.keys():
@@ -1221,18 +1453,22 @@ class WC_5f(object):
         #---------------------------#
         if self.DM_type == "D":
             self.gamma_QED = adm.ADM_QED(5)
+            self.gamma_QED2 = adm.ADM_QED2(5)
             self.gamma_QCD = adm.ADM_QCD(5)
             self.gamma_QCD2 = adm.ADM_QCD2(5)
         if self.DM_type == "M":
             self.gamma_QED = np.delete(np.delete(adm.ADM_QED(5), del_ind_list, 0), del_ind_list, 1)
+            self.gamma_QED2 = np.delete(np.delete(adm.ADM_QED2(5), del_ind_list, 0), del_ind_list, 1)
             self.gamma_QCD = np.delete(np.delete(adm.ADM_QCD(5), del_ind_list, 1), del_ind_list, 2)
             self.gamma_QCD2 = np.delete(np.delete(adm.ADM_QCD2(5), del_ind_list, 1), del_ind_list, 2)
         if self.DM_type == "C":
             self.gamma_QED = np.delete(np.delete(adm.ADM_QED(5), del_ind_list, 0), del_ind_list, 1)
+            self.gamma_QED2 = np.delete(np.delete(adm.ADM_QED2(5), del_ind_list, 0), del_ind_list, 1)
             self.gamma_QCD = np.delete(np.delete(adm.ADM_QCD(5), del_ind_list, 1), del_ind_list, 2)
             self.gamma_QCD2 = np.delete(np.delete(adm.ADM_QCD2(5), del_ind_list, 1), del_ind_list, 2)
         if self.DM_type == "R":
             self.gamma_QED = np.delete(np.delete(adm.ADM_QED(5), del_ind_list, 0), del_ind_list, 1)
+            self.gamma_QED2 = np.delete(np.delete(adm.ADM_QED2(5), del_ind_list, 0), del_ind_list, 1)
             self.gamma_QCD = np.delete(np.delete(adm.ADM_QCD(5), del_ind_list, 1), del_ind_list, 2)
             self.gamma_QCD2 = np.delete(np.delete(adm.ADM_QCD2(5), del_ind_list, 1), del_ind_list, 2)
 
@@ -1242,10 +1478,10 @@ class WC_5f(object):
 
         Calculate the running from MZ to mu_low [GeV; default mb(mb)] in the five-flavor theory. 
 
-        For dict = True, returns a dictionary of Wilson coefficients for the five-flavor Lagrangian
+        For dict=True return a dictionary of Wilson coefficients for the five-flavor Lagrangian
         at scale mu_low (this is the default).
 
-        For dict = False, returns a numpy array of Wilson coefficients for the five-flavor Lagrangian
+        For dict=False return a numpy array of Wilson coefficients for the five-flavor Lagrangian
         at scale mu_low.
         """
         ip = Num_input()
@@ -1268,7 +1504,8 @@ class WC_5f(object):
 
         # Strictly speaking, MZ and mb should be defined at the same scale (however, this is a higher-order difference)
         C_at_mb_QCD = np.dot(evolve2.U0_as2(as51.run(MZ),as51.run(mu_low)), np.dot(evolve1.U0(as51.run(MZ),as51.run(mu_low)), self.coeff_list))
-        C_at_mb_QED = np.dot(self.coeff_list, self.gamma_QED) * np.log(mu_low/MZ) * alpha_at_mb/(4*np.pi)
+        C_at_mb_QED = np.dot(self.coeff_list, self.gamma_QED) * np.log(mu_low/MZ) * alpha_at_mb/(4*np.pi)\
+                      + np.dot(self.coeff_list, self.gamma_QED2) * np.log(mu_low/MZ) * (alpha_at_mb/(4*np.pi))**2
 
         if dict:
             return list_to_dict(C_at_mb_QCD + C_at_mb_QED, self.wc_name_list)
@@ -1281,10 +1518,10 @@ class WC_5f(object):
 
         Calculate the matching at mu [GeV; default 4.18 GeV].
 
-        For dict = True, returns a dictionary of Wilson coefficients for the four-flavor Lagrangian
+        For dict=True return a dictionary of Wilson coefficients for the four-flavor Lagrangian
         at scale mu (this is the default).
 
-        For dict = False, returns a numpy array of Wilson coefficients for the four-flavor Lagrangian
+        For dict=False return a numpy array of Wilson coefficients for the four-flavor Lagrangian
         at scale mu.
         """
         ip = Num_input()
@@ -1339,7 +1576,7 @@ class WC_5f(object):
         Mandatory arguments are the DM mass mchi (in GeV) and the momentum transfer q (in GeV) 
 
         <path> should be a string with the path (including the trailing "/") where the file should be saved
-        (default is '.')
+        (default is './')
 
         <filename> is the filename (default 'cNR.m')
         """
