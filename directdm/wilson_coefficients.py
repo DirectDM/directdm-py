@@ -627,7 +627,7 @@ class WC_3f(object):
 
         mchi is the DM mass in GeV
 
-        RGE is a flag to turn RGE running on (True) or off (False). (Default True)
+        RGE is an optional argument to turn RGE running on (True) or off (False). (Default True)
 
         If NLO is set to True, the coherently enhanced NLO terms for Q_9^(7) are added. (Default False)
 
@@ -986,10 +986,12 @@ class WC_4f(object):
             return C_at_mc_QCD + C_at_mc_QED
 
 
-    def match(self, mu=None, dict=None):
+    def match(self, RGE=None, mu=None, dict=None):
         """ Match from four-flavor to three-flavor QCD
 
         Calculate the matching at mu [GeV; default 2 GeV].
+
+        RGE is an optional argument to turn RGE running on (True) or off (False). (Default True)
 
         For dict = True, returns a dictionary of Wilson coefficients for the three-flavor Lagrangian
         at scale mu (this is the default).
@@ -997,6 +999,8 @@ class WC_4f(object):
         For dict = False, returns a numpy array of Wilson coefficients for the three-flavor Lagrangian
         at scale mu.
         """
+        if RGE is None:
+            RGE=True
         if mu is None:
             mu=2
         if dict is None:
@@ -1004,7 +1008,10 @@ class WC_4f(object):
 
         # The new coefficients
         cdict3f = {}
-        cdold = self.run(mu)
+        if RGE:
+            cdold = self.run(mu)
+        else:
+            cdold = self.coeff_dict
 
         if self.DM_type == "D" or self.DM_type == "M":
             for wcn in self.wc_name_list_3f:
@@ -1035,11 +1042,11 @@ class WC_4f(object):
 
     def _my_cNR(self, mchi, RGE=None, dict=None, NLO=None):
         """ Calculate the NR coefficients from four-flavor theory with meson contributions split off (mainly for internal use) """
-        return WC_3f(self.match(), self.DM_type)._my_cNR(mchi, RGE, dict, NLO)
+        return WC_3f(self.match(RGE), self.DM_type)._my_cNR(mchi, RGE, dict, NLO)
 
     def cNR(self, mchi, qvec, RGE=None, dict=None, NLO=None):
         """ Calculate the NR coefficients from four-flavor theory """
-        return WC_3f(self.match(), self.DM_type).cNR(mchi, qvec, RGE, dict, NLO)
+        return WC_3f(self.match(RGE), self.DM_type).cNR(mchi, qvec, RGE, dict, NLO)
 
     def write_mma(self, mchi, q, RGE=None, NLO=None, path=None, filename=None):
         """ Write a text file with the NR coefficients that can be read into DMFormFactor 
@@ -1276,10 +1283,12 @@ class WC_5f(object):
             return C_at_mb_QCD + C_at_mb_QED
 
 
-    def match(self, mu=None, dict=None):
+    def match(self, RGE=None, mu=None, dict=None):
         """ Match from five-flavor to four-flavor QCD
 
         Calculate the matching at mu [GeV; default 4.18 GeV].
+
+        RGE is an optional argument to turn RGE running on (True) or off (False). (Default True)
 
         For dict = True, returns a dictionary of Wilson coefficients for the four-flavor Lagrangian
         at scale mu (this is the default).
@@ -1288,6 +1297,8 @@ class WC_5f(object):
         at scale mu.
         """
         ip = Num_input()
+        if RGE is None:
+            RGE=True
         if mu is None:
             mu=ip.mb_at_mb
         if dict is None:
@@ -1295,7 +1306,10 @@ class WC_5f(object):
 
         # The new coefficients
         cdict4f = {}
-        cdold = self.run(mu)
+        if RGE:
+            cdold = self.run(mu)
+        else:
+            cdold = self.coeff_dict
 
         if self.DM_type == "D" or self.DM_type == "M":
             for wcn in self.wc_name_list_4f:
@@ -1325,11 +1339,11 @@ class WC_5f(object):
 
     def _my_cNR(self, mchi, RGE=None, dict=None, NLO=None):
         """ Calculate the NR coefficients from four-flavor theory with meson contributions split off (mainly for internal use) """
-        return WC_4f(self.match(), self.DM_type)._my_cNR(mchi, RGE, dict, NLO)
+        return WC_4f(self.match(RGE), self.DM_type)._my_cNR(mchi, RGE, dict, NLO)
 
     def cNR(self, mchi, qvec, RGE=None, dict=None, NLO=None):
         """ Calculate the NR coefficients from four-flavor theory """
-        return WC_4f(self.match(), self.DM_type).cNR(mchi, qvec, RGE, dict, NLO)
+        return WC_4f(self.match(RGE), self.DM_type).cNR(mchi, qvec, RGE, dict, NLO)
 
     def write_mma(self, mchi, q, RGE=None, NLO=None, path=None, filename=None):
         """ Write a text file with the NR coefficients that can be read into DMFormFactor 
