@@ -1060,8 +1060,8 @@ class WC_4f(object):
 
         if self.DM_type == "R":
             self.wc_name_list = ['C65', 'C66',
-                                 'C64u', 'C64d', 'C64s', 'C64c', 'C64e', 'C64mu', 'C64tau',
                                  'C63u', 'C63d', 'C63s', 'C63c', 'C63e', 'C63mu', 'C63tau',
+                                 'C64u', 'C64d', 'C64s', 'C64c', 'C64e', 'C64mu', 'C64tau',
                                  'C67', 'C68']
             # The list of indices to be deleted from the QCD/QED ADM because of less operators
             del_ind_list = [i for i in range(0,30)] + [31] + [33] + [i for i in range(41,48)] + [i for i in range(55,76)]\
@@ -1403,9 +1403,9 @@ class WC_5f(object):
             self.wc_name_list = ['C61u', 'C61d', 'C61s', 'C61c', 'C61b', 'C61e', 'C61mu', 'C61tau', 
                                  'C62u', 'C62d', 'C62s', 'C62c', 'C62b', 'C62e', 'C62mu', 'C62tau',
                                  'C65', 'C66',
-                                 'C64u', 'C64d', 'C64s', 'C64c', 'C64b', 'C64e', 'C64mu', 'C64tau',
                                  'C63u', 'C63d', 'C63s', 'C63c', 'C63b', 'C63e', 'C63mu', 'C63tau',
-                                 'C66', 'C67']
+                                 'C64u', 'C64d', 'C64s', 'C64c', 'C64b', 'C64e', 'C64mu', 'C64tau',
+                                 'C67', 'C68']
 
             # The list of indices to be deleted from the QCD/QED ADM because of less operators
             del_ind_list = [0,1] + [i for i in range(10,18)] + [i for i in range(26,34)] + [35] + [37] + [i for i in range(46,54)]\
@@ -1414,16 +1414,16 @@ class WC_5f(object):
             # The 4-flavor list for matching only
             self.wc_name_list_4f = ['C61u', 'C61d', 'C61s', 'C61c', 'C61e', 'C61mu', 'C61tau', 
                                     'C62u', 'C62d', 'C62s', 'C62c', 'C62e', 'C62mu', 'C62tau',
-                                    'C65', 'C66', 'C66', 'C67',
+                                    'C65', 'C66',
                                     'C63u', 'C63d', 'C63s', 'C63c', 'C63e', 'C63mu', 'C63tau', 
                                     'C64u', 'C64d', 'C64s', 'C64c', 'C64e', 'C64mu', 'C64tau',
-                                    'C66', 'C67']
+                                    'C67', 'C68']
 
         if self.DM_type == "R":
             self.wc_name_list = ['C65', 'C66',
                                  'C63u', 'C63d', 'C63s', 'C63c', 'C63b', 'C63e', 'C63mu', 'C63tau', 
                                  'C64u', 'C64d', 'C64s', 'C64c', 'C64b', 'C64e', 'C64mu', 'C64tau',
-                                 'C66', 'C67']
+                                 'C67', 'C68']
 
             # The list of indices to be deleted from the QCD/QED ADM because of less operators
             del_ind_list = [i for i in range(0,34)] + [35] + [37] + [i for i in range(46,54)] + [i for i in range(62,86)]\
@@ -1431,9 +1431,9 @@ class WC_5f(object):
 
             # The 4-flavor list for matching only
             self.wc_name_list_4f = ['C65', 'C66',
-                                    'C64u', 'C64d', 'C64s', 'C64c', 'C64e', 'C64mu', 'C64tau',
                                     'C63u', 'C63d', 'C63s', 'C63c', 'C63e', 'C63mu', 'C63tau',
-                                    'C66', 'C67']
+                                    'C64u', 'C64d', 'C64s', 'C64c', 'C64e', 'C64mu', 'C64tau',
+                                    'C67', 'C68']
 
 
 
