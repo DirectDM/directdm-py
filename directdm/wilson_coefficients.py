@@ -730,7 +730,7 @@ class WC_3f(object):
 
         # The traditional coefficients, where different from above
         cNR_dict = {}
-        my_cNR = self._my_cNR(mchi, RGE, True, NLO)
+        my_cNR = self._my_cNR(mchi, RGE, NLO)
 
         # Add meson- / photon-pole contributions
         cNR_dict['cNR1p'] = my_cNR['cNR1p'] + qsq * my_cNR['cNR100p']
@@ -1137,7 +1137,7 @@ class WC_4f(object):
         # The new coefficients
         cdict3f = {}
         if RGE:
-            cdold = self._run(mu)
+            cdold = self.run(mu)
         else:
             cdold = self.coeff_dict
 
