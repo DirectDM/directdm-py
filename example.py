@@ -52,28 +52,18 @@ wc3f = ddm.WC_3f(dict1, "D")
 # The main method is to output the NR coefficients. 
 #
 # The mandatory arguments are the DM mass and the momentum transfer in units of GeV.
+#
+# Optional arguments are RGE and NLO which take the Boolean values "True" or "False". 
+#
+# The defaults are RGE=True, NLO=False.
+#
+# RGE=False switches off QCD and QED running.
+# NLO=True includes the coherently enhanced NLO terms for the tensor operators.
 
 print('The NR coefficients :\n')
 print(wc3f.cNR(100, 50e-3))
 print('\n')
 
-
-# Optional arguments are RGE, dict, NLO which take the Boolean values "True" or "False". 
-#
-# The defaults are RGE=True, dict=True, NLO=False.
-#
-# RGE=False switches off QCD and QED running.
-# NLO=True includes the coherently enhanced NLO terms for the tensor operators.
-# dict=False returns a numpy array instead of a python dictionary:
-
-print('The NR coefficients as a np.array:\n')
-print(wc3f.cNR(100, 50e-3, dict=False))
-print('\n')
-
-# The entries correspond to the following keys (in that order): 
-
-print('The entries in the array correspond to\n')
-print(wc3f.cNR_name_list)
 
 # Finally, you can write a list of NR coefficients that can be loaded into the Mathematica package "DMFormFactor" [arxiv:1308.6288]:
 

@@ -172,16 +172,6 @@ class WC_3f(object):
             del_ind_list = [i for i in range(0,26)] + [27] + [29] + [i for i in range(36,42)] + [i for i in range(48,66)]\
                            + [67] + [69] + [i for i in range(70,118)]
 
-        self._my_cNR_name_list = ['cNR1p', 'cNR1n', 'cNR2p', 'cNR2n', 'cNR3p', 'cNR3n', 'cNR4p', 'cNR4n', 'cNR5p', 'cNR5n',
-                                 'cNR6p', 'cNR6n', 'cNR7p', 'cNR7n', 'cNR8p', 'cNR8n', 'cNR9p', 'cNR9n', 'cNR10p', 'cNR10n',
-                                 'cNR11p', 'cNR11n', 'cNR12p', 'cNR12n', 'cNR13p', 'cNR13n', 'cNR14p', 'cNR14n', 'cNR15p', 'cNR15n',
-                                 'cNR16p', 'cNR16n', 'cNR17p', 'cNR17n', 'cNR18p', 'cNR18n', 'cNR19p', 'cNR19n', 'cNR20p', 'cNR20n',
-                                 'cNR21p', 'cNR21n', 'cNR22p', 'cNR22n', 'cNR23p', 'cNR23n', 'cNR100p', 'cNR100n', 'cNR104p', 'cNR104n']
-
-        self.cNR_name_list = ['cNR1p', 'cNR1n', 'cNR2p', 'cNR2n', 'cNR3p', 'cNR3n', 'cNR4p', 'cNR4n', 'cNR5p', 'cNR5n',
-                              'cNR6p', 'cNR6n', 'cNR7p', 'cNR7n', 'cNR8p', 'cNR8n', 'cNR9p', 'cNR9n', 'cNR10p', 'cNR10n',
-                              'cNR11p', 'cNR11n', 'cNR12p', 'cNR12n']
-
         self.coeff_dict = {}
         # Issue a user warning if a key is not defined:
         for wc_name in coeff_dict.keys():
@@ -225,21 +215,16 @@ class WC_3f(object):
             self.gamma_QCD2 = np.delete(np.delete(adm.ADM_QCD2(3), del_ind_list, 1), del_ind_list, 2)
 
 
-    def run(self, mu_low=None, dict=None):
+    def run(self, mu_low=None):
         """ Running of 3-flavor Wilson coefficients
 
         Calculate the running from 2 GeV to mu_low [GeV; default 2 GeV] in the three-flavor theory. 
 
-        For dict=True return a dictionary of Wilson coefficients for the three-flavor Lagrangian
+        Return a dictionary of Wilson coefficients for the three-flavor Lagrangian
         at scale mu_low (this is the default).
-
-        For dict=False return a numpy array of Wilson coefficients for the three-flavor Lagrangian
-        at scale mu_low.
         """
         if mu_low is None:
             mu_low=2
-        if dict is None:
-            dict = True
 
         #-------------#
         # The running #
@@ -256,13 +241,10 @@ class WC_3f(object):
         C_at_mu_QED = np.dot(self.coeff_list, self.gamma_QED) * np.log(mu_low/2) * alpha_at_mu/(4*np.pi)\
                       + np.dot(self.coeff_list, self.gamma_QED2) * np.log(mu_low/2) * (alpha_at_mu/(4*np.pi))**2
 
-        if dict:
-            return list_to_dict(C_at_mu_QCD + C_at_mu_QED, self.wc_name_list)
-        else:
-            return C_at_mu_QCD + C_at_mu_QED
+        return list_to_dict(C_at_mu_QCD + C_at_mu_QED, self.wc_name_list)
 
 
-    def _my_cNR(self, mchi, RGE=None, dict=None, NLO=None):
+    def _my_cNR(self, mchi, RGE=None, NLO=None):
         """Calculate the coefficients of the NR operators, with momentum dependence factored out.
     
         mchi is the DM mass in GeV
@@ -271,7 +253,7 @@ class WC_3f(object):
 
         If NLO is set to True, the coherently enhanced NLO terms for Q_9^(7) are added. (Default False)
 
-        For dict = True (default), returns a dictionary of coefficients for the NR Lagrangian, 
+        Returns a dictionary of coefficients for the NR Lagrangian, 
         as in 1308.6288, plus coefficients c13 -- c23, c100 for "spurious" long-distance operators
 
         The possible names are
@@ -281,13 +263,9 @@ class WC_3f(object):
          'cNR11p', 'cNR11n', 'cNR12p', 'cNR12n', 'cNR13p', 'cNR13n', 'cNR14p', 'cNR14n', 'cNR15p', 'cNR15n',
          'cNR16p', 'cNR16n', 'cNR17p', 'cNR17n', 'cNR18p', 'cNR18n', 'cNR19p', 'cNR19n', 'cNR20p', 'cNR20n',
          'cNR21p', 'cNR21n', 'cNR22p', 'cNR22n', 'cNR23p', 'cNR23n', 'cNR100p', 'cNR100n', 'cNR104p', 'cNR104n']
-
-        For dict = False, returns a numpy array of values according to the list above.
         """
         if RGE is None:
             RGE = True
-        if dict is None:
-            dict = True
         if NLO is None:
             NLO = False
 
@@ -718,13 +696,10 @@ class WC_3f(object):
             }
 
 
-        if dict:
-            return my_cNR_dict
-        else:
-            return np.array(dict_to_list(my_cNR_dict, self._my_cNR_name_list))
+        return my_cNR_dict
 
 
-    def cNR(self, mchi, q, RGE=None, dict=None, NLO=None):
+    def cNR(self, mchi, q, RGE=None, NLO=None):
         """ The operator coefficients of O_1^N -- O_12^N as in 1308.6288 -- multiply by propagators and sum up contributions 
 
         mchi is the DM mass in GeV
@@ -733,7 +708,7 @@ class WC_3f(object):
 
         If NLO is set to True, the coherently enhanced NLO terms for Q_9^(7) are added. (Default False)
 
-        For dict = True (default), returns a dictionary of coefficients for the NR Lagrangian, 
+        Returns a dictionary of coefficients for the NR Lagrangian, 
         cNR1 -- cNR12, as in 1308.6288
 
         The possible names are
@@ -741,13 +716,9 @@ class WC_3f(object):
         ['cNR1p', 'cNR1n', 'cNR2p', 'cNR2n', 'cNR3p', 'cNR3n', 'cNR4p', 'cNR4n', 'cNR5p', 'cNR5n',
          'cNR6p', 'cNR6n', 'cNR7p', 'cNR7n', 'cNR8p', 'cNR8n', 'cNR9p', 'cNR9n', 'cNR10p', 'cNR10n',
          'cNR11p', 'cNR11n', 'cNR12p', 'cNR12n']
-
-        For dict = False, returns a numpy array of values according to the list above.
         """
         if RGE is None:
             RGE = True
-        if dict is None:
-            dict = True
         if NLO is None:
             NLO = False
 
@@ -806,10 +777,7 @@ class WC_3f(object):
         cNR_dict['cNR11n'] = my_cNR['cNR11n'] + 1/qsq * my_cNR['cNR23n']
         cNR_dict['cNR12n'] = my_cNR['cNR12n']
 
-        if dict:
-            return cNR_dict
-        else:
-            return np.array(dict_to_list(cNR_dict, self.cNR_name_list))
+        return cNR_dict
 
 
     def write_mma(self, mchi, q, RGE=None, NLO=None, path=None, filename=None):
@@ -838,7 +806,7 @@ class WC_3f(object):
         if filename is None:
             filename = 'cNR.m'
 
-        val = self.cNR(mchi, q, RGE, True, NLO)
+        val = self.cNR(mchi, q, RGE, NLO)
         self.cNR_list_mma = '{' + str(val['cNR1p']) + ', '\
                             + str(val['cNR2p']) + ', '\
                             + str(val['cNR3p']) + ', '\
@@ -868,6 +836,8 @@ class WC_3f(object):
 
         with open(output_file,'w') as f:
             f.write(self.cNR_list_mma)
+
+
 
 class WC_4f(object):
     def __init__(self, coeff_dict, DM_type=None):
@@ -1117,21 +1087,16 @@ class WC_4f(object):
             self.gamma_QCD2 = np.delete(np.delete(adm.ADM_QCD2(4), del_ind_list, 1), del_ind_list, 2)
 
 
-    def run(self, mu_low=None, dict=None):
+    def run(self, mu_low=None):
         """ Running of 4-flavor Wilson coefficients
 
         Calculate the running from mb(mb) to mu_low [GeV; default 2 GeV] in the four-flavor theory. 
 
-        For dict=True return a dictionary of Wilson coefficients for the four-flavor Lagrangian
-        at scale mu_low (this is the default).
-
-        For dict=False return a numpy array of Wilson coefficients for the four-flavor Lagrangian
+        Return a dictionary of Wilson coefficients for the four-flavor Lagrangian
         at scale mu_low.
         """
         if mu_low is None:
             mu_low=2
-        if dict is None:
-            dict = True
 
         #-------------#
         # The running #
@@ -1151,36 +1116,28 @@ class WC_4f(object):
         C_at_mc_QED = np.dot(self.coeff_list, self.gamma_QED) * np.log(mu_low/mb) * alpha_at_mc/(4*np.pi)\
                       + np.dot(self.coeff_list, self.gamma_QED2) * np.log(mu_low/mb) * (alpha_at_mc/(4*np.pi))**2
 
-        if dict:
-            return list_to_dict(C_at_mc_QCD + C_at_mc_QED, self.wc_name_list)
-        else:
-            return C_at_mc_QCD + C_at_mc_QED
+        return list_to_dict(C_at_mc_QCD + C_at_mc_QED, self.wc_name_list)
 
 
-    def match(self, RGE=None, mu=None, dict=None):
+    def match(self, RGE=None, mu=None):
         """ Match from four-flavor to three-flavor QCD
 
         Calculate the matching at mu [GeV; default 2 GeV].
 
-        RGE is an optional argument to turn RGE running on (True) or off (False). (Default True)
-
-        For dict = True, returns a dictionary of Wilson coefficients for the three-flavor Lagrangian
-        at scale mu (this is the default).
-
-        For dict=False return a numpy array of Wilson coefficients for the three-flavor Lagrangian
+        Returns a dictionary of Wilson coefficients for the three-flavor Lagrangian
         at scale mu.
+
+        RGE is an optional argument to turn RGE running on (True) or off (False). (Default True)
         """
         if RGE is None:
             RGE=True
         if mu is None:
             mu=2
-        if dict is None:
-            dict=True
 
         # The new coefficients
         cdict3f = {}
         if RGE:
-            cdold = self.run(mu)
+            cdold = self._run(mu)
         else:
             cdold = self.coeff_dict
 
@@ -1206,18 +1163,16 @@ class WC_4f(object):
 
 
         # return the 3-flavor coefficients
-        if dict:
-            return cdict3f
-        else:
-            return np.array(dict_to_list(cdict3f, self.wc_name_list_3f))
+        return cdict3f
 
-    def _my_cNR(self, mchi, RGE=None, dict=None, NLO=None):
+
+    def _my_cNR(self, mchi, RGE=None, NLO=None):
         """ Calculate the NR coefficients from four-flavor theory with meson contributions split off (mainly for internal use) """
-        return WC_3f(self.match(RGE), self.DM_type)._my_cNR(mchi, RGE, dict, NLO)
+        return WC_3f(self.match(RGE), self.DM_type)._my_cNR(mchi, RGE, NLO)
 
-    def cNR(self, mchi, qvec, RGE=None, dict=None, NLO=None):
+    def cNR(self, mchi, qvec, RGE=None, NLO=None):
         """ Calculate the NR coefficients from four-flavor theory """
-        return WC_3f(self.match(RGE), self.DM_type).cNR(mchi, qvec, RGE, dict, NLO)
+        return WC_3f(self.match(RGE), self.DM_type).cNR(mchi, qvec, RGE, NLO)
 
     def write_mma(self, mchi, q, RGE=None, NLO=None, path=None, filename=None):
         """ Write a text file with the NR coefficients that can be read into DMFormFactor 
@@ -1480,22 +1435,17 @@ class WC_5f(object):
             self.gamma_QCD2 = np.delete(np.delete(adm.ADM_QCD2(5), del_ind_list, 1), del_ind_list, 2)
 
 
-    def run(self, mu_low=None, dict=None):
+    def run(self, mu_low=None):
         """ Running of 5-flavor Wilson coefficients
 
         Calculate the running from MZ to mu_low [GeV; default mb(mb)] in the five-flavor theory. 
 
-        For dict=True return a dictionary of Wilson coefficients for the five-flavor Lagrangian
-        at scale mu_low (this is the default).
-
-        For dict=False return a numpy array of Wilson coefficients for the five-flavor Lagrangian
+        Return a dictionary of Wilson coefficients for the five-flavor Lagrangian
         at scale mu_low.
         """
         ip = Num_input()
         if mu_low is None:
             mu_low=ip.mb_at_mb
-        if dict is None:
-            dict = True
 
 
         #-------------#
@@ -1514,32 +1464,24 @@ class WC_5f(object):
         C_at_mb_QED = np.dot(self.coeff_list, self.gamma_QED) * np.log(mu_low/MZ) * alpha_at_mb/(4*np.pi)\
                       + np.dot(self.coeff_list, self.gamma_QED2) * np.log(mu_low/MZ) * (alpha_at_mb/(4*np.pi))**2
 
-        if dict:
-            return list_to_dict(C_at_mb_QCD + C_at_mb_QED, self.wc_name_list)
-        else:
-            return C_at_mb_QCD + C_at_mb_QED
+        return list_to_dict(C_at_mb_QCD + C_at_mb_QED, self.wc_name_list)
 
 
-    def match(self, RGE=None, mu=None, dict=None):
+    def match(self, RGE=None, mu=None):
         """ Match from five-flavor to four-flavor QCD
 
         Calculate the matching at mu [GeV; default 4.18 GeV].
 
-        RGE is an optional argument to turn RGE running on (True) or off (False). (Default True)
-
-        For dict = True, returns a dictionary of Wilson coefficients for the four-flavor Lagrangian
-        at scale mu (this is the default).
-
-        For dict=False return a numpy array of Wilson coefficients for the four-flavor Lagrangian
+        Returns a dictionary of Wilson coefficients for the four-flavor Lagrangian
         at scale mu.
+
+        RGE is an optional argument to turn RGE running on (True) or off (False). (Default True)
         """
         ip = Num_input()
         if RGE is None:
             RGE=True
         if mu is None:
             mu=ip.mb_at_mb
-        if dict is None:
-            dict=True
 
         # The new coefficients
         cdict4f = {}
@@ -1569,18 +1511,16 @@ class WC_5f(object):
             cdict4f['C66'] = cdold['C66'] + cdold['C64b']
 
         # return the 4-flavor coefficients
-        if dict:
-            return cdict4f
-        else:
-            return np.array(dict_to_list(cdict4f, self.wc_name_list_4f))
+        return cdict4f
 
-    def _my_cNR(self, mchi, RGE=None, dict=None, NLO=None):
+
+    def _my_cNR(self, mchi, RGE=None, NLO=None):
         """ Calculate the NR coefficients from four-flavor theory with meson contributions split off (mainly for internal use) """
-        return WC_4f(self.match(RGE), self.DM_type)._my_cNR(mchi, RGE, dict, NLO)
+        return WC_4f(self.match(RGE), self.DM_type)._my_cNR(mchi, RGE, NLO)
 
-    def cNR(self, mchi, qvec, RGE=None, dict=None, NLO=None):
+    def cNR(self, mchi, qvec, RGE=None, NLO=None):
         """ Calculate the NR coefficients from four-flavor theory """
-        return WC_4f(self.match(RGE), self.DM_type).cNR(mchi, qvec, RGE, dict, NLO)
+        return WC_4f(self.match(RGE), self.DM_type).cNR(mchi, qvec, RGE, NLO)
 
     def write_mma(self, mchi, q, RGE=None, NLO=None, path=None, filename=None):
         """ Write a text file with the NR coefficients that can be read into DMFormFactor 
