@@ -102,11 +102,11 @@ class Num_input(object):
         self.mup = 2.79
         self.mun = -1.91
 
-        self.muup = 1.84
-        self.mudp = -1.03
+        self.muup = 1.8045
+        self.mudp = -1.097
         self.mudn = self.muup
         self.muun = self.mudp
-        self.mus = -0.073
+        self.mus = -0.064
 
         self.ap = 1.793
         self.an = -1.913
