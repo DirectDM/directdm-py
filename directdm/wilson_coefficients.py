@@ -277,7 +277,7 @@ class WC_3f(object):
         mn = ip.mneutron
         mN = (mp+mn)/2
 
-        alpha = 1/ip.amtauinv
+        alpha = 1/ip.alowinv
 
         # Quark masses at 2GeV
         mu = ip.mu_at_2GeV
