@@ -15,7 +15,7 @@ from directdm.num.num_input import FF0
 #----------------------------------------------#
 
 def dict_to_list(dictionary, order_list):
-    """ Create a list from dictionary, according to ordering in oerder_list """
+    """ Create a list from dictionary, according to ordering in order_list """
     #assert sorted(order_list) == sorted(dictionary.keys())
     wc_list = []
     for wc_name in order_list:
