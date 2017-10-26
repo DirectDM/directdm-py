@@ -100,8 +100,8 @@ class Num_input(object):
         self.dB0ms = 0.003
 
         # nuclear dipole moments
-        self.mup = 2.79
-        self.mun = -1.91
+        self.mup = 2.793
+        self.mun = -1.913
 
         self.muup = 1.8045
         self.mudp = -1.097
