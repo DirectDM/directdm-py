@@ -478,7 +478,7 @@ class WC_3f(object):
 
 
             'cNR1n' :   F1un*c3mu_dict['C61u'] + F1dn*c3mu_dict['C61d'] + FGn*c3mu_dict['C71']\
-                      + FSun*c3mu_dict['C75u'] + FSdn*c3mu_dict['C75u'] + FSsn*c3mu_dict['C75s']\
+                      + FSun*c3mu_dict['C75u'] + FSdn*c3mu_dict['C75d'] + FSsn*c3mu_dict['C75s']\
                       + 2*mchi * (F1un*c3mu_dict['C715u'] + F1dn*c3mu_dict['C715d'] + F1sn*c3mu_dict['C715s']),
             'cNR2n' : 0,
             'cNR3n' : 0,
@@ -579,7 +579,7 @@ class WC_3f(object):
 
 
             'cNR1n' :   FGn*c3mu_dict['C71']\
-                      + FSun*c3mu_dict['C75u'] + FSdn*c3mu_dict['C75u'] + FSsn*c3mu_dict['C75s']\
+                      + FSun*c3mu_dict['C75u'] + FSdn*c3mu_dict['C75d'] + FSsn*c3mu_dict['C75s']\
                       + 2*mchi * (F1un*c3mu_dict['C715u'] + F1dn*c3mu_dict['C715d'] + F1sn*c3mu_dict['C715s']),
             'cNR2n' : 0,
             'cNR3n' : 0,
