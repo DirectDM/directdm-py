@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
 ## [Unreleased]
+### Added
+- The module `single_nucleon_form_factors.py` with the classes for the single-nucleon form factors
+
+### Fixed
+- A bug in cNR11n and cNR12n
+- A bug in the NLO value for cNR5
+
+### Changed
+- All expressions for the cNR are now given directly in terms of form factors
+- Updated Input values for nuclear magnetic moments
 
 ## [1.1.0] - 2017-10-24
 ### Added

@@ -38,6 +38,7 @@ class Num_input(object):
         self.dmproton = 0.000021e-3
         self.mneutron = 939.565379e-3
         self.dmneutron = 0.000021e-3
+        self.mN = (self.mproton+self.mneutron)/2
 
         # Meson masses
         self.mpi0 = 134.98e-3
@@ -99,8 +100,8 @@ class Num_input(object):
         self.dB0ms = 0.003
 
         # nuclear dipole moments
-        self.mup = 2.79
-        self.mun = -1.91
+        self.mup = 2.793
+        self.mun = -1.913
 
         self.muup = 1.8045
         self.mudp = -1.097
@@ -120,12 +121,6 @@ class Num_input(object):
         self.dgTu = 0.015
         self.dgTd = 0.008
         self.dgTs = 8.6e-4
-
-        self.FT0up = self.mu_at_2GeV * self.gTu
-        self.FT0dp = self.md_at_2GeV * self.gTd
-        self.FT0un = self.FT0dp
-        self.FT0dn = self.FT0up
-
 
         self.BT10up = 3.0
         self.BT10dp = 0.24
@@ -156,83 +151,3 @@ class Num_input(object):
         self.vearth = 244
 
 
-
-
-
-class FF0(object):
-    def __init__(self, Ftype, quark, nucleon):
-        """ The nuclear form factors at zero momentum transfer
-
-        Return the various nuclear form factors, evaluated at zero momentum transfer.
-
-        Ftype = '1', '2', 'A' determines the type of form factor
-
-        quark = 'u', 'd', 's'
-
-        nucleon = 'p', 'n'
-        """
-        self.Ftype = Ftype
-        self.quark = quark
-        self.nucleon = nucleon
-
-    def value(self):
-        """ Return the value of the form factor, expanded in the momentum transfer q^2. 
-
-        power = 0, 1 is the power of q^2.
-        """
-        ip = Num_input()
-
-        # Vector
-        if self.Ftype == '1':
-            if self.nucleon == 'p':
-                if self.quark == 'u':
-                    return 2
-                if self.quark == 'd':
-                    return 1
-                if self.quark == 's':
-                    return 0
-            if self.nucleon == 'n':
-                if self.quark == 'u':
-                    return 1
-                if self.quark == 'd':
-                    return 2
-                if self.quark == 's':
-                    return 0
-
-        if self.Ftype == '2':
-            if self.nucleon == 'p':
-                if self.quark == 'u':
-                    return 2*ip.ap + ip.an + ip.F2sp
-                if self.quark == 'd':
-                    return 2*ip.an + ip.ap + ip.F2sp
-                if self.quark == 's':
-                    return ip.F2sp
-            if self.nucleon == 'n':
-                if self.quark == 'u':
-                    return 2*ip.an + ip.ap + ip.F2sp
-                if self.quark == 'd':
-                    return 2*ip.ap + ip.an + ip.F2sp
-                if self.quark == 's':
-                    return ip.F2sp
-
-        if self.Ftype == 'A':
-            if self.nucleon == 'p':
-                if self.quark == 'u':
-                    return ip.Deltaup
-                if self.quark == 'd':
-                    return ip.Deltadp
-                if self.quark == 's':
-                    return ip.Deltas
-            if self.nucleon == 'n':
-                if self.quark == 'u':
-                    return ip.Deltaun
-                if self.quark == 'd':
-                    return ip.Deltadn
-                if self.quark == 's':
-                    return ip.Deltas
-
-
-
-#print(2*(FF0('1', 'u', 'p').value() + FF0('2', 'u', 'p').value())/4)
-#print(2*(FF0('1', 'd', 'p').value() + FF0('2', 'd', 'p').value())/2)
-#sys.exit()
