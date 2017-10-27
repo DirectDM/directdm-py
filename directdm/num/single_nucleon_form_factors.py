@@ -384,9 +384,9 @@ class FGtilde(object):
         ip = Num_input()
 
         if self.nucleon == 'p':
-            return ip.mN * ip.mtilde * ip.gA * (1/ip.mu_at_2GeV + 1/ip.md_at_2GeV) / 2
+            return ip.mN * ip.mtilde * ip.gA * (1/ip.mu_at_2GeV - 1/ip.md_at_2GeV) / 2
         if self.nucleon == 'n':
-            return ip.mN * ip.mtilde * ip.gA * (1/ip.mu_at_2GeV + 1/ip.md_at_2GeV) / 2
+            return - ip.mN * ip.mtilde * ip.gA * (1/ip.mu_at_2GeV - 1/ip.md_at_2GeV) / 2
 
     def value_eta_pole(self):
         """ Return the coefficient of the eta pole
