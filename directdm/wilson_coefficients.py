@@ -446,7 +446,7 @@ class WC_3f(object):
                        -2*mN/mchi * (FT0up*c3mu_dict['C710u'] + FT0dp*c3mu_dict['C710d'] + FT0sp*c3mu_dict['C710s']),
             'cNR11p' : - mN/mchi * (FSup*c3mu_dict['C76u'] + FSdp*c3mu_dict['C76d'] + FSsp*c3mu_dict['C76s'])\
                        - mN/mchi * FGp * c3mu_dict['C72']\
-                        + 2*((FT0up-FT1up)*c3mu_dict['C710u'] + (FT0dp-FT1dp)*c3mu_dict['C710d'] + (FT0sp-FT1dp)*c3mu_dict['C710s'])\
+                        + 2*((FT0up-FT1up)*c3mu_dict['C710u'] + (FT0dp-FT1dp)*c3mu_dict['C710d'] + (FT0sp-FT1sp)*c3mu_dict['C710s'])\
                         - 2*mN * (  F1up*(c3mu_dict['C716u']+c3mu_dict['C720u'])\
                                   + F1dp*(c3mu_dict['C716d']+c3mu_dict['C720d'])\
                                   + F1sp*(c3mu_dict['C716s']+c3mu_dict['C720s'])),
