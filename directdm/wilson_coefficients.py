@@ -1673,9 +1673,9 @@ class WC_EW(object):
                 pass
             else:
                 if self.Jchi == 0:
-                    warnings.warn('The key ' + wc_name + ' is not a default key value. Typo; or belongs to an operator that is redundant for Jchi = 0?')
+                    warnings.warn('The key ' + wc_name + ' is not a valid key. Typo; or belongs to an operator that is redundant for Jchi = 0?')
                 else:
-                    warnings.warn('The key ' + wc_name + ' is not a default key value. Typo?')
+                    warnings.warn('The key ' + wc_name + ' is not a valid key. Typo?')
 
         self.coeff_dict = {}
         # Create the dictionary:
