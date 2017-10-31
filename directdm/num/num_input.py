@@ -38,6 +38,7 @@ class Num_input(object):
         self.dmproton = 0.000021e-3
         self.mneutron = 939.565379e-3
         self.dmneutron = 0.000021e-3
+        self.mN = (self.mproton+self.mneutron)/2
 
         # Meson masses
         self.mpi0 = 134.98e-3
@@ -101,14 +102,18 @@ class Num_input(object):
         self.dB0ms = 0.003
 
         # nuclear dipole moments
-        self.mup = 2.79
-        self.mun = -1.91
+        self.mup = 2.793
+        self.mun = -1.913
 
-        self.muup = 1.84
-        self.mudp = -1.03
+        self.muup = 1.8045
+        self.mudp = -1.097
         self.mudn = self.muup
         self.muun = self.mudp
-        self.mus = -0.073
+        self.mus = -0.064
+
+        self.ap = 1.793
+        self.an = -1.913
+        self.F2sp = -0.064
 
         # nuclear tensor charges (at 2 GeV)
         self.gTu = 0.794
@@ -118,12 +123,6 @@ class Num_input(object):
         self.dgTu = 0.015
         self.dgTd = 0.008
         self.dgTs = 8.6e-4
-
-        self.FT0up = self.mu_at_2GeV * self.gTu
-        self.FT0dp = self.md_at_2GeV * self.gTd
-        self.FT0un = self.FT0dp
-        self.FT0dn = self.FT0up
-
 
         self.BT10up = 3.0
         self.BT10dp = 0.24
@@ -152,10 +151,5 @@ class Num_input(object):
         self.vescape = 544
         # velocity of earth [km/s]:
         self.vearth = 244
-
-
-
-
-
 
 

@@ -13,7 +13,7 @@ After cloning this repository, you can easily install `directdm` by using the `p
 
 ```
 python3 setup.py sdist
-pip install dist/directdm-1.0.0.tar.gz
+pip install dist/directdm-1.1.1.tar.gz
 ```
 
 (You might need root permissions to execute the second command, 
