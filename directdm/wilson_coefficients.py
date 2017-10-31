@@ -1693,7 +1693,7 @@ class WC_EW(object):
     # Running #
     #---------#
 
-    def run(self, muz=None, resum=None, dict=None):
+    def run(self, muz=None, resum=None):
         """Calculate the e/w running from scale Lambda to scale muz [muz = MZ by default].
 
         resum = True yields full resummation (default)
@@ -1705,8 +1705,6 @@ class WC_EW(object):
             resum=True
         if muz is None:
             muz = ip.Mz
-        if dict is None:
-            dict = True
 
         # Some abbeviations
         nsu2 = 2*self.Jchi + 1
@@ -1746,29 +1744,25 @@ class WC_EW(object):
             for wc_name in self.wc_name_list_dim_6:
                 C_at_muz_dict[wc_name] = C6_at_muz_dict[wc_name]
 
-            if dict:
-                return C_at_muz_dict
-            else:
-                raise Exception("Currently, only a dictionary can be returned.")
+            return C_at_muz_dict
+
         else:
             ADM5 = g1**2*adm.ADM5(self.Ychi, self.Jchi)[0] + g2**2*adm.ADM5(self.Ychi, self.Jchi)[1] + yt**2*adm.ADM5(self.Ychi, self.Jchi)[3]
             C5_at_muz = self.coeff_list_dim_5 + np.log(muz**2/self.Lambda**2)/(16*np.pi**2) * np.dot(self.coeff_list_dim_5, ADM5) 
             ADM6 = g1**2*adm.ADM6(self.Ychi, self.Jchi)[0] + g2**2*adm.ADM6(self.Ychi, self.Jchi)[1] + yt**2*adm.ADM6(self.Ychi, self.Jchi)[3]
             C6_at_muz = C6_at_Lambda + np.log(muz**2/self.Lambda**2)/(16*np.pi**2) * np.dot(C6_at_Lambda, ADM6)
 
-            if dict:
-                dict56 = list_to_dict(C5_at_muz, self.wc_name_list_dim_5)
-                dict6 = list_to_dict(C6_at_muz, self.wc_name_list_dim_6)
-                dict56.update(dict6)
-                return dict56
-            else:
-                raise Exception("Currently, only a dictionary can be returned.")
+            dict56 = list_to_dict(C5_at_muz, self.wc_name_list_dim_5)
+            dict6 = list_to_dict(C6_at_muz, self.wc_name_list_dim_6)
+            dict56.update(dict6)
+            return dict56
+
 
     #----------#
     # Matching #
     #----------#
 
-    def match(self, mchi, mchi_threshold=None, RUN_EW=None, dict=None, DIM4=None):
+    def match(self, mchi, mchi_threshold=None, RUN_EW=None, DIM4=None):
         """Calculate the matching from the relativistic theory to the five-flavor theory at scale MZ
 
         mchi is the DM mass, as it appears in the UV Lagrangian. It is not the physical DM mass after EWSB. 
@@ -1806,9 +1800,6 @@ class WC_EW(object):
             mchi_threshold = 40 # GeV
         self.mchi_threshold = mchi_threshold
 
-        if dict is None:
-            dict = True
-
         if DIM4 is None:
             DIM4 = 1
         else:
@@ -1829,9 +1820,9 @@ class WC_EW(object):
 
         # The Wilson coefficients in the "UV" EFT at scale MZ
         if RUN_EW == 'FULL':
-            wcew_dict = self.run(muz=ip.Mz, resum=True, dict=True)
+            wcew_dict = self.run(muz=ip.Mz, resum=True)
         elif RUN_EW == 'LL':
-            wcew_dict = self.run(muz=ip.Mz, resum=False, dict=True)
+            wcew_dict = self.run(muz=ip.Mz, resum=False)
         elif RUN_EW == 'OFF':
             wcew_dict = self.coeff_dict
         else:
@@ -2255,13 +2246,13 @@ class WC_EW(object):
         return coeff_dict_5f
 
 
-    def _my_cNR(self, mchi, RGE=None, dict=None, NLO=None, mchi_threshold=None, RUN_EW=None, DIM4=None):
+    def _my_cNR(self, mchi, RGE=None, NLO=None, mchi_threshold=None, RUN_EW=None, DIM4=None):
         """ Calculate the NR coefficients from four-flavor theory with meson contributions split off (mainly for internal use) """
-        return WC_5f(self.match(mchi, mchi_threshold, RUN_EW, True, DIM4), self.DM_type)._my_cNR(self.mchi_phys, RGE, dict, NLO)
+        return WC_5f(self.match(mchi, mchi_threshold, RUN_EW, DIM4), self.DM_type)._my_cNR(self.mchi_phys, RGE, NLO)
 
-    def cNR(self, mchi, qvec, RGE=None, dict=None, NLO=None, mchi_threshold=None, RUN_EW=None, DIM4=None):
+    def cNR(self, mchi, qvec, RGE=None, NLO=None, mchi_threshold=None, RUN_EW=None, DIM4=None):
         """ Calculate the NR coefficients from four-flavor theory """
-        return WC_5f(self.match(mchi, mchi_threshold, RUN_EW, True, DIM4), self.DM_type).cNR(mchi, qvec, RGE, dict, NLO)
+        return WC_5f(self.match(mchi, mchi_threshold, RUN_EW, DIM4), self.DM_type).cNR(mchi, qvec, RGE, NLO)
 
     def write_mma(self, mchi, qvector, RGE=None, NLO=None, mchi_threshold=None, RUN_EW=None, DIM4=None, path=None, filename=None):
         """ Write a text file with the NR coefficients that can be read into DMFormFactor 
@@ -2275,7 +2266,7 @@ class WC_EW(object):
 
         <filename> is the filename (default 'cNR.m')
         """
-        WC_5f(self.match(mchi, mchi_threshold, RUN_EW, True, DIM4), self.DM_type).write_mma(mchi, qvector, RGE, NLO, path, filename)
+        WC_5f(self.match(mchi, mchi_threshold, RUN_EW, DIM4), self.DM_type).write_mma(mchi, qvector, RGE, NLO, path, filename)
 
 
 
