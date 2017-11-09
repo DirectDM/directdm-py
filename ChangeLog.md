@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
 ## [Unreleased]
 
+### Added
+- The class `WC_EW` for the Wilson coefficients above the electroweak scale
+- The class `CmuEW` for the electroweak RG evolution
+- The files `full_adm_g1.py`, `full_adm_g2.py`,  `full_adm_yt.py` with the electroweak anomalous dimensions
+
 ## [1.1.1] - 2017-10-27
 ### Added
 - The module `single_nucleon_form_factors.py` with the classes for the single-nucleon form factors
