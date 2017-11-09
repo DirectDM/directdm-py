@@ -167,7 +167,7 @@ class RGE(object):
 
 
 class CmuEW(object):
-    def __init__(self, Wilson, ADM, muh, mul, Y, J, s1, s2, s3, st):
+    def __init__(self, Wilson, ADM, muh, mul, Y, d, s1, s2, s3, st):
         """ Calculate the running of the Wilson coefficients in the unbroken EW theory
 
         The running takes into account the gauge coupling g1, g2, g3, and the top Yukawa yt.
@@ -187,7 +187,7 @@ class CmuEW(object):
         self.muh = muh
         self.mul = mul
         self.Y = Y
-        self.J = J
+        self.d = d
         self.s1 = s1
         self.s2 = s2
         self.s3 = s3
@@ -214,25 +214,25 @@ class CmuEW(object):
         self.ginit = [self.g1*self.s1, self.g2*self.s2, self.gs*self.s3, self.yt*self.st]
 
 
-    def _dgdmu(self, g, mu, Y, J):
+    def _dgdmu(self, g, mu, Y, d):
         """ Calculate the log derivative of the couplings g1, g2, g3, yt w.r.t. to mu, at scale mu
         
         Takes a 4-vector (list) of couplings g = [g1,g2,g3,yt]
 
-        Takes the DM quantum numbers J, Y (so far only 1 multiplet)
+        Takes the DM quantum numbers d, Y (so far only 1 multiplet)
 
         Returns the derivative -- again a 4-vector
         """
         N = 1
         # The 4x4 matrix of beta functions (Arason et al., Phys.Rev. D46 (1992) 3945-3965, and our calculation)
-        beta = [[-41/6-Y**2*(2*J+1)*N/3,0,0,0],
-                [0,19/6-4*J*(J+1)*(2*J+1)*N/9,0,0],
+        beta = [[-41/6-Y**2*d*N/3,0,0,0],
+                [0,19/6-4*(d**2-1)/4*d*N/9,0,0],
                 [0,0,7,0],
                 [17/12,9/4,8,-9/2]]
         deriv_list = [sum([ -g[k]*beta[k][i]*g[i]**2 / mu / (4*np.pi)**2 for i in range(4)]) for k in range(4)]
         return deriv_list
 
-    def _alphai(self, g_init, mu_init, mu2, Y, J):
+    def _alphai(self, g_init, mu_init, mu2, Y, d):
         """ Calculate the one-loop running of alpha1, alpha2, alpha3, alphat in 6-flavor theory
         
         Run from mu_init to mu2. ginit are the couplings defined at scale mu_init.
@@ -241,13 +241,13 @@ class CmuEW(object):
         """
 
         def deriv(g,mu):
-            return self._dgdmu(g, mu, Y, J)
+            return self._dgdmu(g, mu, Y, d)
         r = odeint(deriv, g_init, np.array([mu_init, mu2]))
         # Now take just final numbers and make alpha's out of the g's
         alpha = list(map(lambda x: x**2/4/np.pi, r[1]))
         return alpha
 
-    def _alphai_interpolate(self, g_init, mu_init, mu1, mu2, mu0, Y, J):
+    def _alphai_interpolate(self, g_init, mu_init, mu1, mu2, mu0, Y, d):
         """ Calculate the one-loop running of alpha1, alpha2, alpha3, alphat in 6-flavor theory as an interpolating function from mu1 to mu2
         
         Interpolate the running between mu1 and mu2 at mu0. ginit are the couplings defined at scale mu_init.
@@ -255,7 +255,7 @@ class CmuEW(object):
         Careful, it takes g's as input and returns alpha's
         """
         def deriv(g,mu):
-            return self._dgdmu(g, mu, Y, J)
+            return self._dgdmu(g, mu, Y, d)
         def domain(mu):
             return np.array([mu_init, mu])
         points = 50
@@ -267,6 +267,6 @@ class CmuEW(object):
 
     def run(self):
         def deriv(C, mu):
-            return sum([np.dot(C,self.ADM[k])*self._alphai(self.ginit, self.MZ, mu, self.Y, self.J)[k]/4/np.pi/mu for k in range(4)])
+            return sum([np.dot(C,self.ADM[k])*self._alphai(self.ginit, self.MZ, mu, self.Y, self.d)[k]/4/np.pi/mu for k in range(4)])
         r = odeint(deriv, self.Wilson, np.array([self.muh, self.mul]), full_output=1)
         return list(r)

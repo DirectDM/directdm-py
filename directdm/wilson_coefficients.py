@@ -1604,7 +1604,7 @@ class WC_5f(object):
 
 
 class WC_EW(object):
-    def __init__(self, coeff_dict, Lambda, Ychi, Jchi, DM_type=None, DM_mass_scale=None):
+    def __init__(self, coeff_dict, Lambda, Ychi, dchi, DM_type=None, DM_mass_scale=None):
         """ Class for DM Wilson coefficients in the SM unbroken phase
 
         The first argument should be a dictionary for the initial conditions of the 8 
@@ -1634,7 +1634,7 @@ class WC_EW(object):
          'C616', 'C618'
         
         Lambda is the NP scale in GeV
-        Jchi is the DM weak isospin
+        dchi is the dimension of the DM SU2 representation
         Ychi is the DM hypercharge such that Q = I^3 + Y/2
 
         The second-to-last argument is the DM type; it is optional and can take the following values: 
@@ -1648,10 +1648,10 @@ class WC_EW(object):
 
         self.Lambda = Lambda
         self.Ychi = Ychi
-        self.Jchi = Jchi
+        self.dchi = dchi
 
         if self.DM_type == "D":
-            if self.Jchi == 0:
+            if self.dchi == 1:
                 self.wc_name_list_dim_5 = ['C51', 'C53', 'C55', 'C57']
                 self.wc_name_list_dim_6 = ['C621', 'C631', 'C641', 'C661', 'C671', 'C681', 'C6101', 'C6111', 'C6131', 'C6141',\
                                            'C622', 'C632', 'C642', 'C662', 'C672', 'C682', 'C6102', 'C6112', 'C6132', 'C6142',\
@@ -1672,8 +1672,8 @@ class WC_EW(object):
             elif wc_name in self.wc_name_list_dim_6:
                 pass
             else:
-                if self.Jchi == 0:
-                    warnings.warn('The key ' + wc_name + ' is not a valid key. Typo; or belongs to an operator that is redundant for Jchi = 0?')
+                if self.Jchi == 1:
+                    warnings.warn('The key ' + wc_name + ' is not a valid key. Typo; or belongs to an operator that is redundant for dchi = 1?')
                 else:
                     warnings.warn('The key ' + wc_name + ' is not a valid key. Typo?')
 
@@ -1706,13 +1706,6 @@ class WC_EW(object):
         if muz is None:
             muz = ip.Mz
 
-        # Some abbeviations
-        nsu2 = 2*self.Jchi + 1
-        jj1 = self.Jchi*(self.Jchi+1)
-
-        # Number of colors
-        nc = 3
-
         # Input parameters
         ip = Num_input()
 
@@ -1728,12 +1721,12 @@ class WC_EW(object):
         yt = np.sqrt(2)*ip.mt_pole/246.
 
 
-        # Add entries for unphysical operators
-        C6_at_Lambda = np.concatenate((self.coeff_list_dim_6, np.array([0 for i in range(130)])))
+        # Add zero entries for SM-SM operators
+        C6_at_Lambda = np.concatenate((self.coeff_list_dim_6, np.array([0 for i in range(127)])))
 
         if resum:
-            C5_at_muz = rge.CmuEW(self.coeff_list_dim_5, adm.ADM5(self.Ychi, self.Jchi), self.Lambda, muz, self.Ychi, self.Jchi, 1, 1, 1, 1)
-            C6_at_muz = rge.CmuEW(C6_at_Lambda, adm.ADM6(self.Ychi, self.Jchi), self.Lambda, muz, self.Ychi, self.Jchi, 1, 1, 1, 1)
+            C5_at_muz = rge.CmuEW(self.coeff_list_dim_5, adm.ADM5(self.Ychi, self.dchi), self.Lambda, muz, self.Ychi, self.dchi, 1, 1, 1, 1)
+            C6_at_muz = rge.CmuEW(C6_at_Lambda, adm.ADM6(self.Ychi, self.dchi), self.Lambda, muz, self.Ychi, self.dchi, 1, 1, 1, 1)
 
             C5_at_muz_dict = list_to_dict(C5_at_muz.run()[0][1], self.wc_name_list_dim_5)
             C6_at_muz_dict = list_to_dict(C6_at_muz.run()[0][1], self.wc_name_list_dim_6)
@@ -1747,9 +1740,9 @@ class WC_EW(object):
             return C_at_muz_dict
 
         else:
-            ADM5 = g1**2*adm.ADM5(self.Ychi, self.Jchi)[0] + g2**2*adm.ADM5(self.Ychi, self.Jchi)[1] + yt**2*adm.ADM5(self.Ychi, self.Jchi)[3]
+            ADM5 = g1**2*adm.ADM5(self.Ychi, self.dchi)[0] + g2**2*adm.ADM5(self.Ychi, self.dchi)[1] + yt**2*adm.ADM5(self.Ychi, self.dchi)[3]
             C5_at_muz = self.coeff_list_dim_5 + np.log(muz**2/self.Lambda**2)/(16*np.pi**2) * np.dot(self.coeff_list_dim_5, ADM5) 
-            ADM6 = g1**2*adm.ADM6(self.Ychi, self.Jchi)[0] + g2**2*adm.ADM6(self.Ychi, self.Jchi)[1] + yt**2*adm.ADM6(self.Ychi, self.Jchi)[3]
+            ADM6 = g1**2*adm.ADM6(self.Ychi, self.dchi)[0] + g2**2*adm.ADM6(self.Ychi, self.dchi)[1] + yt**2*adm.ADM6(self.Ychi, self.dchi)[3]
             C6_at_muz = C6_at_Lambda + np.log(muz**2/self.Lambda**2)/(16*np.pi**2) * np.dot(C6_at_Lambda, ADM6)
 
             dict56 = list_to_dict(C5_at_muz, self.wc_name_list_dim_5)
@@ -1833,7 +1826,7 @@ class WC_EW(object):
         # and the corresponding shift in the dimension-five Wilson coefficients.
 
         if mchi > mchi_threshold:
-            if self.Jchi == 0:
+            if self.dchi == 1:
                 self.mchi_phys = mchi - vev**2/2/self.Lambda * wcew_dict['C53']
                 wc5_dict_shifted = {}
 
@@ -1864,7 +1857,7 @@ class WC_EW(object):
                                           - vev**2/2/self.Lambda/mchi * (wcew_dict['C57'] + self.Ychi/4 * wcew_dict['C58']) * wcew_dict['C54']
 
         else:
-            if self.Jchi == 0:
+            if self.dchi == 1:
                 cosphi = np.sqrt((wcew_dict['C53'] - 2*mchi*self.Lambda/vev**2)**2/\
                                  ((wcew_dict['C53'] - 2*mchi*self.Lambda/vev**2)**2 + wcew_dict['C57']**2))
                 sinphi = np.sqrt((wcew_dict['C57'])**2/\
@@ -1932,10 +1925,10 @@ class WC_EW(object):
         # The Higgs penguin function. 
         # The result is valid for all input values and gives (in principle) a real output.
         # Note that currently there is no distinction between e/w and light DM, as the two-loop function for light DM is unknown.
-        def higgs_penguin_fermion(Ychi,Jchi):
-            return Higgspenguin(Ychi, Jchi).oneloop_ew(self.mchi_phys)
-        def higgs_penguin_gluon(Ychi,Jchi):
-            return Higgspenguin(Ychi, Jchi).twoloop_ew_fa(self.mchi_phys) + Higgspenguin(Ychi, Jchi).hisano_fbc(self.mchi_phys)
+        def higgs_penguin_fermion(Ychi,dchi):
+            return Higgspenguin(Ychi, dchi).oneloop_ew(self.mchi_phys)
+        def higgs_penguin_gluon(Ychi,dchi):
+            return Higgspenguin(Ychi, dchi).twoloop_ew_fa(self.mchi_phys) + Higgspenguin(Ychi, dchi).hisano_fbc(self.mchi_phys)
 
 
         #-----------------------#
@@ -1946,7 +1939,7 @@ class WC_EW(object):
 
         coeff_dict_5f = {}
 
-        if self.Jchi == 0:
+        if self.dchi == 1:
             coeff_dict_5f['C51'] = 1/(4*np.pi*alpha)*(cw**2 * coeff_dict_shifted['C51'])/self.Lambda
             coeff_dict_5f['C52'] = 1/(4*np.pi*alpha)*(cw**2 * coeff_dict_shifted['C55'])/self.Lambda
 
@@ -2035,25 +2028,25 @@ class WC_EW(object):
                     - 1/2 * coeff_dict_shifted['C618'])/self.Lambda**2
 
             coeff_dict_5f['C71'] = (1/Mh**2 * (coeff_dict_shifted['C53']))/self.Lambda\
-                                   + higgs_penguin_gluon(self.Ychi,self.Jchi) * DIM4
+                                   + higgs_penguin_gluon(self.Ychi,self.dchi) * DIM4
             coeff_dict_5f['C72'] = (1/Mh**2 * (coeff_dict_shifted['C57']))/self.Lambda
 
             coeff_dict_5f['C75u'] = - 1/Mh**2 * (coeff_dict_shifted['C53'])/self.Lambda\
-                                    + higgs_penguin_fermion(self.Ychi,self.Jchi) * DIM4
+                                    + higgs_penguin_fermion(self.Ychi,self.dchi) * DIM4
             coeff_dict_5f['C75d'] = - 1/Mh**2 * (coeff_dict_shifted['C53'])/self.Lambda\
-                                    + higgs_penguin_fermion(self.Ychi,self.Jchi) * DIM4
+                                    + higgs_penguin_fermion(self.Ychi,self.dchi) * DIM4
             coeff_dict_5f['C75s'] = - 1/Mh**2 * (coeff_dict_shifted['C53'])/self.Lambda\
-                                    + higgs_penguin_fermion(self.Ychi,self.Jchi) * DIM4
+                                    + higgs_penguin_fermion(self.Ychi,self.dchi) * DIM4
             coeff_dict_5f['C75c'] = - 1/Mh**2 * (coeff_dict_shifted['C53'])/self.Lambda\
-                                    + higgs_penguin_fermion(self.Ychi,self.Jchi) * DIM4
+                                    + higgs_penguin_fermion(self.Ychi,self.dchi) * DIM4
             coeff_dict_5f['C75b'] = - 1/Mh**2 * (coeff_dict_shifted['C53'])/self.Lambda\
-                                    + higgs_penguin_fermion(self.Ychi,self.Jchi) * DIM4
+                                    + higgs_penguin_fermion(self.Ychi,self.dchi) * DIM4
             coeff_dict_5f['C75e'] = - 1/Mh**2 * (coeff_dict_shifted['C53'])/self.Lambda\
-                                    + higgs_penguin_fermion(self.Ychi,self.Jchi) * DIM4
+                                    + higgs_penguin_fermion(self.Ychi,self.dchi) * DIM4
             coeff_dict_5f['C75mu'] = - 1/Mh**2 * (coeff_dict_shifted['C53'])/self.Lambda\
-                                    + higgs_penguin_fermion(self.Ychi,self.Jchi) * DIM4
+                                    + higgs_penguin_fermion(self.Ychi,self.dchi) * DIM4
             coeff_dict_5f['C61tau'] = - 1/Mh**2 * (coeff_dict_shifted['C53'])/self.Lambda\
-                                    + higgs_penguin_fermion(self.Ychi,self.Jchi) * DIM4
+                                    + higgs_penguin_fermion(self.Ychi,self.dchi) * DIM4
 
             coeff_dict_5f['C76u'] = - 1/Mh**2 * (coeff_dict_shifted['C57'])/self.Lambda
             coeff_dict_5f['C76d'] = - 1/Mh**2 * (coeff_dict_shifted['C57'])/self.Lambda
@@ -2184,25 +2177,25 @@ class WC_EW(object):
                     - 1/2 * coeff_dict_shifted['C618'])/self.Lambda**2
 
             coeff_dict_5f['C71'] = (1/Mh**2 * (coeff_dict_shifted['C53'] + self.Ychi/4 * coeff_dict_shifted['C54']))/self.Lambda\
-                                   + higgs_penguin_gluon(self.Ychi,self.Jchi) * DIM4
+                                   + higgs_penguin_gluon(self.Ychi,self.dchi) * DIM4
             coeff_dict_5f['C72'] = (1/Mh**2 * (coeff_dict_shifted['C57'] + self.Ychi/4 * coeff_dict_shifted['C58']))/self.Lambda
 
             coeff_dict_5f['C75u'] = - 1/Mh**2 * (coeff_dict_shifted['C53'] + self.Ychi/4 * coeff_dict_shifted['C54'])/self.Lambda\
-                                    + higgs_penguin_fermion(self.Ychi,self.Jchi) * DIM4
+                                    + higgs_penguin_fermion(self.Ychi,self.dchi) * DIM4
             coeff_dict_5f['C75d'] = - 1/Mh**2 * (coeff_dict_shifted['C53'] + self.Ychi/4 * coeff_dict_shifted['C54'])/self.Lambda\
-                                    + higgs_penguin_fermion(self.Ychi,self.Jchi) * DIM4
+                                    + higgs_penguin_fermion(self.Ychi,self.dchi) * DIM4
             coeff_dict_5f['C75s'] = - 1/Mh**2 * (coeff_dict_shifted['C53'] + self.Ychi/4 * coeff_dict_shifted['C54'])/self.Lambda\
-                                    + higgs_penguin_fermion(self.Ychi,self.Jchi) * DIM4
+                                    + higgs_penguin_fermion(self.Ychi,self.dchi) * DIM4
             coeff_dict_5f['C75c'] = - 1/Mh**2 * (coeff_dict_shifted['C53'] + self.Ychi/4 * coeff_dict_shifted['C54'])/self.Lambda\
-                                    + higgs_penguin_fermion(self.Ychi,self.Jchi) * DIM4
+                                    + higgs_penguin_fermion(self.Ychi,self.dchi) * DIM4
             coeff_dict_5f['C75b'] = - 1/Mh**2 * (coeff_dict_shifted['C53'] + self.Ychi/4 * coeff_dict_shifted['C54'])/self.Lambda\
-                                    + higgs_penguin_fermion(self.Ychi,self.Jchi) * DIM4
+                                    + higgs_penguin_fermion(self.Ychi,self.dchi) * DIM4
             coeff_dict_5f['C75e'] = - 1/Mh**2 * (coeff_dict_shifted['C53'] + self.Ychi/4 * coeff_dict_shifted['C54'])/self.Lambda\
-                                    + higgs_penguin_fermion(self.Ychi,self.Jchi) * DIM4
+                                    + higgs_penguin_fermion(self.Ychi,self.dchi) * DIM4
             coeff_dict_5f['C75mu'] = - 1/Mh**2 * (coeff_dict_shifted['C53'] + self.Ychi/4 * coeff_dict_shifted['C54'])/self.Lambda\
-                                    + higgs_penguin_fermion(self.Ychi,self.Jchi) * DIM4
+                                    + higgs_penguin_fermion(self.Ychi,self.dchi) * DIM4
             coeff_dict_5f['C61tau'] = - 1/Mh**2 * (coeff_dict_shifted['C53'] + self.Ychi/4 * coeff_dict_shifted['C54'])/self.Lambda\
-                                    + higgs_penguin_fermion(self.Ychi,self.Jchi) * DIM4
+                                    + higgs_penguin_fermion(self.Ychi,self.dchi) * DIM4
 
             coeff_dict_5f['C76u'] = - 1/Mh**2 * (coeff_dict_shifted['C57'] + self.Ychi/4 * coeff_dict_shifted['C58'])/self.Lambda
             coeff_dict_5f['C76d'] = - 1/Mh**2 * (coeff_dict_shifted['C57'] + self.Ychi/4 * coeff_dict_shifted['C58'])/self.Lambda
