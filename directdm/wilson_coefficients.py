@@ -244,10 +244,10 @@ class WC_3f(object):
         return list_to_dict(C_at_mu_QCD + C_at_mu_QED, self.wc_name_list)
 
 
-    def _my_cNR(self, mchi, RGE=None, NLO=None):
+    def _my_cNR(self, DM_mass, RGE=None, NLO=None):
         """Calculate the coefficients of the NR operators, with momentum dependence factored out.
     
-        mchi is the DM mass in GeV
+        DM_mass is the DM mass in GeV
 
         RGE is a flag to turn RGE running on (True) or off (False). (Default True)
 
@@ -426,41 +426,41 @@ class WC_3f(object):
             my_cNR_dict = {
             'cNR1p' :   F1up*c3mu_dict['C61u'] + F1dp*c3mu_dict['C61d'] + FGp*c3mu_dict['C71']\
                       + FSup*c3mu_dict['C75u'] + FSdp*c3mu_dict['C75d'] + FSsp*c3mu_dict['C75s']\
-                      - alpha/(2*np.pi*mchi)*c3mu_dict['C51']\
-                      + 2*mchi * (F1up*c3mu_dict['C715u'] + F1dp*c3mu_dict['C715d'] + F1sp*c3mu_dict['C715s']),
+                      - alpha/(2*np.pi*DM_mass)*c3mu_dict['C51']\
+                      + 2*DM_mass * (F1up*c3mu_dict['C715u'] + F1dp*c3mu_dict['C715d'] + F1sp*c3mu_dict['C715s']),
             'cNR2p' : 0,
             'cNR3p' : 0,
             'cNR4p' : - 4*(FAup*c3mu_dict['C64u'] + FAdp*c3mu_dict['C64d'] + FAsp*c3mu_dict['C64s'])\
                       - 2*alpha/np.pi * ip.mup/mN * c3mu_dict['C51']\
                       + 8*(FT0up*c3mu_dict['C79u'] + FT0dp*c3mu_dict['C79d'] + FT0sp*c3mu_dict['C79s']),
             'cNR5p' : - 2*mN * (F1up*c3mu_dict['C719u'] + F1dp*c3mu_dict['C719d'] + F1sp*c3mu_dict['C719s']),
-            'cNR6p' : mN/mchi * FGtildep * c3mu_dict['C74']\
+            'cNR6p' : mN/DM_mass * FGtildep * c3mu_dict['C74']\
                       -2*mN*((F1up+F2up)*c3mu_dict['C719u'] + (F1dp+F2dp)*c3mu_dict['C719d'] + (F1sp+F2dp)*c3mu_dict['C719s']),
             'cNR7p' : - 2*(FAup*c3mu_dict['C63u'] + FAdp*c3mu_dict['C63d'] + FAsp*c3mu_dict['C63s'])\
-                      - 4*mchi * (FAup*c3mu_dict['C717u'] + FAdp*c3mu_dict['C717d'] + FAsp*c3mu_dict['C717s']),
+                      - 4*DM_mass * (FAup*c3mu_dict['C717u'] + FAdp*c3mu_dict['C717d'] + FAsp*c3mu_dict['C717s']),
             'cNR8p' : 2*(F1up*c3mu_dict['C62u'] + F1dp*c3mu_dict['C62d']),
             'cNR9p' : 2*((F1up+F2up)*c3mu_dict['C62u'] + (F1dp+F2dp)*c3mu_dict['C62d'] + (F1sp+F2sp)*c3mu_dict['C62s'])\
-                      + 2*mN*(FAup*c3mu_dict['C63u'] + FAdp*c3mu_dict['C63d'] + FAsp*c3mu_dict['C63s'])/mchi\
+                      + 2*mN*(FAup*c3mu_dict['C63u'] + FAdp*c3mu_dict['C63d'] + FAsp*c3mu_dict['C63s'])/DM_mass\
                       - 4*mN * (FAup*c3mu_dict['C721u'] + FAdp*c3mu_dict['C721d'] + FAsp*c3mu_dict['C721s']),
             'cNR10p' : FGtildep * c3mu_dict['C73']\
-                       -2*mN/mchi * (FT0up*c3mu_dict['C710u'] + FT0dp*c3mu_dict['C710d'] + FT0sp*c3mu_dict['C710s']),
-            'cNR11p' : - mN/mchi * (FSup*c3mu_dict['C76u'] + FSdp*c3mu_dict['C76d'] + FSsp*c3mu_dict['C76s'])\
-                       - mN/mchi * FGp * c3mu_dict['C72']\
+                       -2*mN/DM_mass * (FT0up*c3mu_dict['C710u'] + FT0dp*c3mu_dict['C710d'] + FT0sp*c3mu_dict['C710s']),
+            'cNR11p' : - mN/DM_mass * (FSup*c3mu_dict['C76u'] + FSdp*c3mu_dict['C76d'] + FSsp*c3mu_dict['C76s'])\
+                       - mN/DM_mass * FGp * c3mu_dict['C72']\
                         + 2*((FT0up-FT1up)*c3mu_dict['C710u'] + (FT0dp-FT1dp)*c3mu_dict['C710d'] + (FT0sp-FT1sp)*c3mu_dict['C710s'])\
                         - 2*mN * (  F1up*(c3mu_dict['C716u']+c3mu_dict['C720u'])\
                                   + F1dp*(c3mu_dict['C716d']+c3mu_dict['C720d'])\
                                   + F1sp*(c3mu_dict['C716s']+c3mu_dict['C720s'])),
             'cNR12p' : -8*(FT0up*c3mu_dict['C710u'] + FT0dp*c3mu_dict['C710d'] + FT0sp*c3mu_dict['C710s']),
     
-            'cNR13p' : mN/mchi * (FPup_pion*c3mu_dict['C78u'] + FPdp_pion*c3mu_dict['C78d'])\
+            'cNR13p' : mN/DM_mass * (FPup_pion*c3mu_dict['C78u'] + FPdp_pion*c3mu_dict['C78d'])\
                        + FPpup_pion*c3mu_dict['C64u'] + FPpdp_pion*c3mu_dict['C64d'],
-            'cNR14p' : mN/mchi * (FPup_eta*c3mu_dict['C78u'] + FPdp_eta*c3mu_dict['C78d'] + FPsp_eta*c3mu_dict['C78s'])\
+            'cNR14p' : mN/DM_mass * (FPup_eta*c3mu_dict['C78u'] + FPdp_eta*c3mu_dict['C78d'] + FPsp_eta*c3mu_dict['C78s'])\
                        + FPpup_eta*c3mu_dict['C64u'] + FPpdp_eta*c3mu_dict['C64d'] + FPpsp_eta*c3mu_dict['C64s']\
                        + 4*mN * (  FAup*(c3mu_dict['C718u']+c3mu_dict['C722u'])\
                                  + FAdp*(c3mu_dict['C718d']+c3mu_dict['C722d'])\
                                  + FAsp*(c3mu_dict['C718s']+c3mu_dict['C722s'])),
-            'cNR15p' : mN/mchi * FGtildep_pion * c3mu_dict['C74'],
-            'cNR16p' : mN/mchi * FGtildep_eta * c3mu_dict['C74'],
+            'cNR15p' : mN/DM_mass * FGtildep_pion * c3mu_dict['C74'],
+            'cNR16p' : mN/DM_mass * FGtildep_eta * c3mu_dict['C74'],
     
             'cNR17p' : FPup_pion*c3mu_dict['C77u'] + FPdp_pion*c3mu_dict['C77d'],
             'cNR18p' : FPup_eta*c3mu_dict['C77u'] + FPdp_eta*c3mu_dict['C77d'] + FPsp_eta*c3mu_dict['C77s'],
@@ -471,7 +471,7 @@ class WC_3f(object):
             'cNR22p' : -mN**2* (- 2*alpha/np.pi * ip.mup/mN * c3mu_dict['C51']),
             'cNR23p' : mN* (2*alpha/np.pi*c3mu_dict['C52']),
 
-            'cNR100p' : (F1up*c3mu_dict['C719u'] + F1dp*c3mu_dict['C719d'] + F1sp*c3mu_dict['C719s'])/(2*mchi),
+            'cNR100p' : (F1up*c3mu_dict['C719u'] + F1dp*c3mu_dict['C719d'] + F1sp*c3mu_dict['C719s'])/(2*DM_mass),
             'cNR104p' : 2*((F1up+F2up)*c3mu_dict['C719u'] + (F1dp+F2dp)*c3mu_dict['C719d'] + (F1sp+F2dp)*c3mu_dict['C719s'])/mN,
 
 
@@ -479,40 +479,40 @@ class WC_3f(object):
 
             'cNR1n' :   F1un*c3mu_dict['C61u'] + F1dn*c3mu_dict['C61d'] + FGn*c3mu_dict['C71']\
                       + FSun*c3mu_dict['C75u'] + FSdn*c3mu_dict['C75d'] + FSsn*c3mu_dict['C75s']\
-                      + 2*mchi * (F1un*c3mu_dict['C715u'] + F1dn*c3mu_dict['C715d'] + F1sn*c3mu_dict['C715s']),
+                      + 2*DM_mass * (F1un*c3mu_dict['C715u'] + F1dn*c3mu_dict['C715d'] + F1sn*c3mu_dict['C715s']),
             'cNR2n' : 0,
             'cNR3n' : 0,
             'cNR4n' : - 4*(FAun*c3mu_dict['C64u'] + FAdn*c3mu_dict['C64d'] + FAsn*c3mu_dict['C64s'])\
                       - 2*alpha/np.pi * ip.mun/mN * c3mu_dict['C51']\
                       + 8*(FT0un*c3mu_dict['C79u'] + FT0dn*c3mu_dict['C79d'] + FT0sn*c3mu_dict['C79s']),
             'cNR5n' : - 2*mN * (F1un*c3mu_dict['C719u'] + F1dn*c3mu_dict['C719d'] + F1sn*c3mu_dict['C719s']),
-            'cNR6n' : mN/mchi * FGtilden * c3mu_dict['C74']\
+            'cNR6n' : mN/DM_mass * FGtilden * c3mu_dict['C74']\
                       -2*mN*((F1un+F2un)*c3mu_dict['C719u'] + (F1dn+F2dn)*c3mu_dict['C719d'] + (F1sn+F2dn)*c3mu_dict['C719s']),
             'cNR7n' : - 2*(FAun*c3mu_dict['C63u'] + FAdn*c3mu_dict['C63d'] + FAsn*c3mu_dict['C63s'])\
-                      - 4*mchi * (FAun*c3mu_dict['C717u'] + FAdn*c3mu_dict['C717d']+ FAsn*c3mu_dict['C717s']),
+                      - 4*DM_mass * (FAun*c3mu_dict['C717u'] + FAdn*c3mu_dict['C717d']+ FAsn*c3mu_dict['C717s']),
             'cNR8n' : 2*(F1un*c3mu_dict['C62u'] + F1dn*c3mu_dict['C62d']),
             'cNR9n' : 2*((F1un+F2un)*c3mu_dict['C62u'] + (F1dn+F2dn)*c3mu_dict['C62d'] + (F1sn+F2sn)*c3mu_dict['C62s'])\
-                      + 2*mN*(FAun*c3mu_dict['C63u'] + FAdn*c3mu_dict['C63d'] + FAsn*c3mu_dict['C63s'])/mchi\
+                      + 2*mN*(FAun*c3mu_dict['C63u'] + FAdn*c3mu_dict['C63d'] + FAsn*c3mu_dict['C63s'])/DM_mass\
                       - 4*mN * (FAun*c3mu_dict['C721u'] + FAdn*c3mu_dict['C721d'] + FAsn*c3mu_dict['C721s']),
             'cNR10n' : FGtilden * c3mu_dict['C73']\
-                     -2*mN/mchi * (FT0un*c3mu_dict['C710u'] + FT0dn*c3mu_dict['C710d'] + FT0sn*c3mu_dict['C710s']),
-            'cNR11n' : - mN/mchi * (FSun*c3mu_dict['C76u'] + FSdn*c3mu_dict['C76d'] + FSsn*c3mu_dict['C76s'])\
-                       - mN/mchi * FGn * c3mu_dict['C72']\
+                     -2*mN/DM_mass * (FT0un*c3mu_dict['C710u'] + FT0dn*c3mu_dict['C710d'] + FT0sn*c3mu_dict['C710s']),
+            'cNR11n' : - mN/DM_mass * (FSun*c3mu_dict['C76u'] + FSdn*c3mu_dict['C76d'] + FSsn*c3mu_dict['C76s'])\
+                       - mN/DM_mass * FGn * c3mu_dict['C72']\
                        + 2*((FT0un-FT1un)*c3mu_dict['C710u'] + (FT0dn-FT1dn)*c3mu_dict['C710d'] + (FT0sn-FT1sn)*c3mu_dict['C710s'])\
                        - 2*mN * (  F1un*(c3mu_dict['C716u']+c3mu_dict['C720u'])\
                                  + F1dn*(c3mu_dict['C716d']+c3mu_dict['C720d'])\
                                  + F1sn*(c3mu_dict['C716s']+c3mu_dict['C720s'])),
             'cNR12n' : -8*(FT0un*c3mu_dict['C710u'] + FT0dn*c3mu_dict['C710d'] + FT0sn*c3mu_dict['C710s']),
     
-            'cNR13n' : mN/mchi * (FPun_pion*c3mu_dict['C78u'] + FPdn_pion*c3mu_dict['C78d'])\
+            'cNR13n' : mN/DM_mass * (FPun_pion*c3mu_dict['C78u'] + FPdn_pion*c3mu_dict['C78d'])\
                        + FPpun_pion*c3mu_dict['C64u'] + FPpdn_pion*c3mu_dict['C64d'],
-            'cNR14n' : mN/mchi * (FPun_eta*c3mu_dict['C78u'] + FPdn_eta*c3mu_dict['C78d'] + FPsn_eta*c3mu_dict['C78s'])\
+            'cNR14n' : mN/DM_mass * (FPun_eta*c3mu_dict['C78u'] + FPdn_eta*c3mu_dict['C78d'] + FPsn_eta*c3mu_dict['C78s'])\
                        + FPpun_eta*c3mu_dict['C64u'] + FPpdn_eta*c3mu_dict['C64d'] + FPpsn_eta*c3mu_dict['C64s']\
                        + 4*mN * (  FAun*(c3mu_dict['C718u']+c3mu_dict['C722u'])\
                                  + FAdn*(c3mu_dict['C718d']+c3mu_dict['C722d'])\
                                  + FAsn*(c3mu_dict['C718s']+c3mu_dict['C722s'])),
-            'cNR15n' : mN/mchi * FGtilden_pion * c3mu_dict['C74'],
-            'cNR16n' : mN/mchi * FGtilden_eta * c3mu_dict['C74'],
+            'cNR15n' : mN/DM_mass * FGtilden_pion * c3mu_dict['C74'],
+            'cNR16n' : mN/DM_mass * FGtilden_eta * c3mu_dict['C74'],
     
             'cNR17n' : FPun_pion*c3mu_dict['C77u'] + FPdn_pion*c3mu_dict['C77d'],
             'cNR18n' : FPun_eta*c3mu_dict['C77u'] + FPdn_eta*c3mu_dict['C77d'] + FPsn_eta*c3mu_dict['C77s'],
@@ -523,45 +523,45 @@ class WC_3f(object):
             'cNR22n' : -mN**2 * (- 2*alpha/np.pi * ip.mun/mN * c3mu_dict['C51']),
             'cNR23n' : 0,
 
-            'cNR100n' : (F1un*c3mu_dict['C719u'] + F1dn*c3mu_dict['C719d'] + F1sn*c3mu_dict['C719s'])/(2*mchi),
+            'cNR100n' : (F1un*c3mu_dict['C719u'] + F1dn*c3mu_dict['C719d'] + F1sn*c3mu_dict['C719s'])/(2*DM_mass),
             'cNR104n' : 2*((F1un+F2un)*c3mu_dict['C719u'] + (F1dn+F2dn)*c3mu_dict['C719d'] + (F1sn+F2dn)*c3mu_dict['C719s'])/mN
             }
 
             if NLO:
                 my_cNR_dict['cNR5p'] = - 2*mN * (F1un*c3mu_dict['C719u'] + F1dn*c3mu_dict['C719d'] + F1sn*c3mu_dict['C719s'])\
                                        + 2*((FT0up-FT1up)*c3mu_dict['C79u'] + (FT0dp-FT1dp)*c3mu_dict['C79d'] + (FT0sp-FT1sp)*c3mu_dict['C79s'])
-                my_cNR_dict['cNR100p'] = - ((FT0up-FT1up)*c3mu_dict['C79u'] + (FT0dp-FT1dp)*c3mu_dict['C79d'] + (FT0sp-FT1sp)*c3mu_dict['C79s'])/(2*mchi*mN)
+                my_cNR_dict['cNR100p'] = - ((FT0up-FT1up)*c3mu_dict['C79u'] + (FT0dp-FT1dp)*c3mu_dict['C79d'] + (FT0sp-FT1sp)*c3mu_dict['C79s'])/(2*DM_mass*mN)
                 my_cNR_dict['cNR5n'] = - 2*mN * (F1un*c3mu_dict['C719u'] + F1dn*c3mu_dict['C719d'] + F1sn*c3mu_dict['C719s'])\
                                        + 2*((FT0un-FT1un)*c3mu_dict['C79u'] + (FT0dn-FT1dn)*c3mu_dict['C79d'] + (FT0sn-FT1sn)*c3mu_dict['C79s'])
-                my_cNR_dict['cNR100n'] = - ((FT0un-FT1un)*c3mu_dict['C79u'] + (FT0dn-FT1dn)*c3mu_dict['C79d'] + (FT0sn-FT1sn)*c3mu_dict['C79s'])/(2*mchi*mN)
+                my_cNR_dict['cNR100n'] = - ((FT0un-FT1un)*c3mu_dict['C79u'] + (FT0dn-FT1dn)*c3mu_dict['C79d'] + (FT0sn-FT1sn)*c3mu_dict['C79s'])/(2*DM_mass*mN)
 
 
         if self.DM_type == "M":
             my_cNR_dict = {
             'cNR1p' : FGp*c3mu_dict['C71']\
                       + FSup*c3mu_dict['C75u'] + FSdp*c3mu_dict['C75d'] + FSsp*c3mu_dict['C75s']\
-                      + 2*mchi * (F1up*c3mu_dict['C715u'] + F1dp*c3mu_dict['C715d'] + F1sp*c3mu_dict['C715s']),
+                      + 2*DM_mass * (F1up*c3mu_dict['C715u'] + F1dp*c3mu_dict['C715d'] + F1sp*c3mu_dict['C715s']),
             'cNR2p' : 0,
             'cNR3p' : 0,
             'cNR4p' : - 4*(FAup*c3mu_dict['C64u'] + FAdp*c3mu_dict['C64d'] + FAsp*c3mu_dict['C64s']),
             'cNR5p' : 0,
-            'cNR6p' : mN/mchi * FGtildep * c3mu_dict['C74'],
-            'cNR7p' : - 4*mchi * (FAup*c3mu_dict['C717u'] + FAdp*c3mu_dict['C717d'] + FAsp*c3mu_dict['C717s']),
+            'cNR6p' : mN/DM_mass * FGtildep * c3mu_dict['C74'],
+            'cNR7p' : - 4*DM_mass * (FAup*c3mu_dict['C717u'] + FAdp*c3mu_dict['C717d'] + FAsp*c3mu_dict['C717s']),
             'cNR8p' : 2*(F1up*c3mu_dict['C62u'] + F1dp*c3mu_dict['C62d']),
             'cNR9p' : 2*((F1up+F2up)*c3mu_dict['C62u'] + (F1dp+F2dp)*c3mu_dict['C62d'] + (F1sp+F2sp)*c3mu_dict['C62s']),
             'cNR10p' : FGtildep * c3mu_dict['C73'],
-            'cNR11p' : - mN/mchi * (FSup*c3mu_dict['C76u'] + FSdp*c3mu_dict['C76d'] + FSsp*c3mu_dict['C76s'])\
-                       - mN/mchi * FGp * c3mu_dict['C72']\
+            'cNR11p' : - mN/DM_mass * (FSup*c3mu_dict['C76u'] + FSdp*c3mu_dict['C76d'] + FSsp*c3mu_dict['C76s'])\
+                       - mN/DM_mass * FGp * c3mu_dict['C72']\
                        - 2*mN * (  F1up*c3mu_dict['C716u'] + F1dp*c3mu_dict['C716d'] + F1sp*c3mu_dict['C716s']),
             'cNR12p' : 0,
     
-            'cNR13p' : mN/mchi * (FPup_pion*c3mu_dict['C78u'] + FPdp_pion*c3mu_dict['C78d'])\
+            'cNR13p' : mN/DM_mass * (FPup_pion*c3mu_dict['C78u'] + FPdp_pion*c3mu_dict['C78d'])\
                        + FPpup_pion*c3mu_dict['C64u'] + FPpdp_pion*c3mu_dict['C64d'],
-            'cNR14p' : mN/mchi * (FPup_eta*c3mu_dict['C78u'] + FPdp_eta*c3mu_dict['C78d'] + FPsp_eta*c3mu_dict['C78s'])\
+            'cNR14p' : mN/DM_mass * (FPup_eta*c3mu_dict['C78u'] + FPdp_eta*c3mu_dict['C78d'] + FPsp_eta*c3mu_dict['C78s'])\
                        + FPpup_eta*c3mu_dict['C64u'] + FPpdp_eta*c3mu_dict['C64d'] + FPpsp_eta*c3mu_dict['C64s']\
                        + 4*mN * (FAup*c3mu_dict['C718u'] + FAdp*c3mu_dict['C718d'] + FAsp*c3mu_dict['C718s']),
-            'cNR15p' : mN/mchi * FGtildep_pion * c3mu_dict['C74'],
-            'cNR16p' : mN/mchi * FGtildep_eta * c3mu_dict['C74'],
+            'cNR15p' : mN/DM_mass * FGtildep_pion * c3mu_dict['C74'],
+            'cNR16p' : mN/DM_mass * FGtildep_eta * c3mu_dict['C74'],
     
             'cNR17p' : FPup_pion*c3mu_dict['C77u'] + FPdp_pion*c3mu_dict['C77d'],
             'cNR18p' : FPup_eta*c3mu_dict['C77u'] + FPdp_eta*c3mu_dict['C77d'] + FPsp_eta*c3mu_dict['C77s'],
@@ -580,28 +580,28 @@ class WC_3f(object):
 
             'cNR1n' :   FGn*c3mu_dict['C71']\
                       + FSun*c3mu_dict['C75u'] + FSdn*c3mu_dict['C75d'] + FSsn*c3mu_dict['C75s']\
-                      + 2*mchi * (F1un*c3mu_dict['C715u'] + F1dn*c3mu_dict['C715d'] + F1sn*c3mu_dict['C715s']),
+                      + 2*DM_mass * (F1un*c3mu_dict['C715u'] + F1dn*c3mu_dict['C715d'] + F1sn*c3mu_dict['C715s']),
             'cNR2n' : 0,
             'cNR3n' : 0,
             'cNR4n' : - 4*(FAun*c3mu_dict['C64u'] + FAdn*c3mu_dict['C64d'] + FAsn*c3mu_dict['C64s']),
             'cNR5n' : 0,
-            'cNR6n' : mN/mchi * FGtilden * c3mu_dict['C74'],
-            'cNR7n' : - 4*mchi * (FAun*c3mu_dict['C717u'] + FAdn*c3mu_dict['C717d'] + FAsn*c3mu_dict['C717s']),
+            'cNR6n' : mN/DM_mass * FGtilden * c3mu_dict['C74'],
+            'cNR7n' : - 4*DM_mass * (FAun*c3mu_dict['C717u'] + FAdn*c3mu_dict['C717d'] + FAsn*c3mu_dict['C717s']),
             'cNR8n' : 2*(F1un*c3mu_dict['C62u'] + F1dn*c3mu_dict['C62d']),
             'cNR9n' : 2*((F1un+F2un)*c3mu_dict['C62u'] + (F1dn+F2dn)*c3mu_dict['C62d'] + (F1sn+F2sn)*c3mu_dict['C62s']),
             'cNR10n' : FGtilden * c3mu_dict['C73'],
-            'cNR11n' : - mN/mchi * (FSun*c3mu_dict['C76u'] + FSdn*c3mu_dict['C76d'] + FSsn*c3mu_dict['C76s'])\
-                       - mN/mchi * FGn * c3mu_dict['C72']\
+            'cNR11n' : - mN/DM_mass * (FSun*c3mu_dict['C76u'] + FSdn*c3mu_dict['C76d'] + FSsn*c3mu_dict['C76s'])\
+                       - mN/DM_mass * FGn * c3mu_dict['C72']\
                        - 2*mN * (  F1un*c3mu_dict['C716u'] + F1dn*c3mu_dict['C716d'] + F1sn*c3mu_dict['C716s']),
             'cNR12n' : 0,
     
-            'cNR13n' : mN/mchi * (FPun_pion*c3mu_dict['C78u'] + FPdn_pion*c3mu_dict['C78d'])\
+            'cNR13n' : mN/DM_mass * (FPun_pion*c3mu_dict['C78u'] + FPdn_pion*c3mu_dict['C78d'])\
                        + FPpun_pion*c3mu_dict['C64u'] + FPpdn_pion*c3mu_dict['C64d'],
-            'cNR14n' : mN/mchi * (FPun_eta*c3mu_dict['C78u'] + FPdn_eta*c3mu_dict['C78d'] + FPsn_eta*c3mu_dict['C78s'])\
+            'cNR14n' : mN/DM_mass * (FPun_eta*c3mu_dict['C78u'] + FPdn_eta*c3mu_dict['C78d'] + FPsn_eta*c3mu_dict['C78s'])\
                        + FPpun_eta*c3mu_dict['C64u'] + FPpdn_eta*c3mu_dict['C64d'] + FPpsn_eta*c3mu_dict['C64s']\
                        + 4*mN * (FAun*c3mu_dict['C718u'] + FAdn*c3mu_dict['C718d'] + FAsn*c3mu_dict['C718s']),
-            'cNR15n' : mN/mchi * FGtilden_pion * c3mu_dict['C74'],
-            'cNR16n' : mN/mchi * FGtilden_eta * c3mu_dict['C74'],
+            'cNR15n' : mN/DM_mass * FGtilden_pion * c3mu_dict['C74'],
+            'cNR16n' : mN/DM_mass * FGtilden_eta * c3mu_dict['C74'],
     
             'cNR17n' : FPun_pion*c3mu_dict['C77u'] + FPdn_pion*c3mu_dict['C77d'],
             'cNR18n' : FPun_eta*c3mu_dict['C77u'] + FPdn_eta*c3mu_dict['C77d'] + FPsn_eta*c3mu_dict['C77s'],
@@ -619,14 +619,14 @@ class WC_3f(object):
 
         if self.DM_type == "C":
             my_cNR_dict = {
-            'cNR1p' :   2*mchi*(F1up*c3mu_dict['C61u'] + F1un*c3mu_dict['C61d']) + FGp*c3mu_dict['C65']\
+            'cNR1p' :   2*DM_mass*(F1up*c3mu_dict['C61u'] + F1un*c3mu_dict['C61d']) + FGp*c3mu_dict['C65']\
                       + FSup*c3mu_dict['C63u'] + FSdp*c3mu_dict['C63d'] + FSsp*c3mu_dict['C63s'],
             'cNR2p' : 0,
             'cNR3p' : 0,
             'cNR4p' : 0,
             'cNR5p' : 0,
             'cNR6p' : 0,
-            'cNR7p' : -4*mchi*(FAup*c3mu_dict['C62u'] + FAdp*c3mu_dict['C62d'] + FAsp*c3mu_dict['C62s']),
+            'cNR7p' : -4*DM_mass*(FAup*c3mu_dict['C62u'] + FAdp*c3mu_dict['C62d'] + FAsp*c3mu_dict['C62s']),
             'cNR8p' : 0,
             'cNR9p' : 0,
             'cNR10p' : FGtildep * c3mu_dict['C66'],
@@ -653,14 +653,14 @@ class WC_3f(object):
 
 
 
-            'cNR1n' :   2*mchi*(F1un*c3mu_dict['C61u'] + F1dn*c3mu_dict['C61d']) + FGn*c3mu_dict['C65']\
+            'cNR1n' :   2*DM_mass*(F1un*c3mu_dict['C61u'] + F1dn*c3mu_dict['C61d']) + FGn*c3mu_dict['C65']\
                       + FSun*c3mu_dict['C63u'] + FSdn*c3mu_dict['C63d'] + FSsn*c3mu_dict['C63s'],
             'cNR2n' : 0,
             'cNR3n' : 0,
             'cNR4n' : 0,
             'cNR5n' : 0,
             'cNR6n' : 0,
-            'cNR7n' : -4*mchi*(FAun*c3mu_dict['C62u'] + FAdn*c3mu_dict['C62d'] + FAsn*c3mu_dict['C62s']),
+            'cNR7n' : -4*DM_mass*(FAun*c3mu_dict['C62u'] + FAdn*c3mu_dict['C62d'] + FAsn*c3mu_dict['C62s']),
             'cNR8n' : 0,
             'cNR9n' : 0,
             'cNR10n' : FGtilden * c3mu_dict['C66'],
@@ -756,10 +756,10 @@ class WC_3f(object):
         return my_cNR_dict
 
 
-    def cNR(self, mchi, q, RGE=None, NLO=None):
+    def cNR(self, DM_mass, q, RGE=None, NLO=None):
         """ The operator coefficients of O_1^N -- O_12^N as in 1308.6288 -- multiply by propagators and sum up contributions 
 
-        mchi is the DM mass in GeV
+        DM_mass is the DM mass in GeV
 
         RGE is an optional argument to turn RGE running on (True) or off (False). (Default True)
 
@@ -787,7 +787,7 @@ class WC_3f(object):
 
         # The traditional coefficients, where different from above
         cNR_dict = {}
-        my_cNR = self._my_cNR(mchi, RGE, NLO)
+        my_cNR = self._my_cNR(DM_mass, RGE, NLO)
 
         # Add meson- / photon-pole contributions
         cNR_dict['cNR1p'] = my_cNR['cNR1p'] + qsq * my_cNR['cNR100p']
@@ -837,12 +837,12 @@ class WC_3f(object):
         return cNR_dict
 
 
-    def write_mma(self, mchi, q, RGE=None, NLO=None, path=None, filename=None):
+    def write_mma(self, DM_mass, q, RGE=None, NLO=None, path=None, filename=None):
         """ Write a text file with the NR coefficients that can be read into DMFormFactor 
 
         The order is {cNR1p, cNR2p, ... , cNR1n, cNR1n, ... }
 
-        Mandatory arguments are the DM mass mchi (in GeV) and the momentum transfer q (in GeV) 
+        Mandatory arguments are the DM mass DM_mass (in GeV) and the momentum transfer q (in GeV) 
 
         <path> should be a string with the path (including the trailing "/") where the file should be saved
         (default is './')
@@ -863,7 +863,7 @@ class WC_3f(object):
         if filename is None:
             filename = 'cNR.m'
 
-        val = self.cNR(mchi, q, RGE, NLO)
+        val = self.cNR(DM_mass, q, RGE, NLO)
         self.cNR_list_mma = '{' + str(val['cNR1p']) + ', '\
                             + str(val['cNR2p']) + ', '\
                             + str(val['cNR3p']) + ', '\
@@ -1223,27 +1223,27 @@ class WC_4f(object):
         return cdict3f
 
 
-    def _my_cNR(self, mchi, RGE=None, NLO=None):
+    def _my_cNR(self, DM_mass, RGE=None, NLO=None):
         """ Calculate the NR coefficients from four-flavor theory with meson contributions split off (mainly for internal use) """
-        return WC_3f(self.match(RGE), self.DM_type)._my_cNR(mchi, RGE, NLO)
+        return WC_3f(self.match(RGE), self.DM_type)._my_cNR(DM_mass, RGE, NLO)
 
-    def cNR(self, mchi, qvec, RGE=None, NLO=None):
+    def cNR(self, DM_mass, qvec, RGE=None, NLO=None):
         """ Calculate the NR coefficients from four-flavor theory """
-        return WC_3f(self.match(RGE), self.DM_type).cNR(mchi, qvec, RGE, NLO)
+        return WC_3f(self.match(RGE), self.DM_type).cNR(DM_mass, qvec, RGE, NLO)
 
-    def write_mma(self, mchi, q, RGE=None, NLO=None, path=None, filename=None):
+    def write_mma(self, DM_mass, q, RGE=None, NLO=None, path=None, filename=None):
         """ Write a text file with the NR coefficients that can be read into DMFormFactor 
 
         The order is {cNR1p, cNR2p, ... , cNR1n, cNR1n, ... }
 
-        Mandatory arguments are the DM mass mchi (in GeV) and the momentum transfer q (in GeV) 
+        Mandatory arguments are the DM mass DM_mass (in GeV) and the momentum transfer q (in GeV) 
 
         <path> should be a string with the path (including the trailing "/") where the file should be saved
         (default is './')
 
         <filename> is the filename (default 'cNR.m')
         """
-        WC_3f(self.match(), self.DM_type).write_mma(mchi, q, RGE, NLO, path, filename)
+        WC_3f(self.match(), self.DM_type).write_mma(DM_mass, q, RGE, NLO, path, filename)
 
 
 
@@ -1571,25 +1571,25 @@ class WC_5f(object):
         return cdict4f
 
 
-    def _my_cNR(self, mchi, RGE=None, NLO=None):
+    def _my_cNR(self, DM_mass, RGE=None, NLO=None):
         """ Calculate the NR coefficients from four-flavor theory with meson contributions split off (mainly for internal use) """
-        return WC_4f(self.match(RGE), self.DM_type)._my_cNR(mchi, RGE, NLO)
+        return WC_4f(self.match(RGE), self.DM_type)._my_cNR(DM_mass, RGE, NLO)
 
-    def cNR(self, mchi, qvec, RGE=None, NLO=None):
+    def cNR(self, DM_mass, qvec, RGE=None, NLO=None):
         """ Calculate the NR coefficients from four-flavor theory """
-        return WC_4f(self.match(RGE), self.DM_type).cNR(mchi, qvec, RGE, NLO)
+        return WC_4f(self.match(RGE), self.DM_type).cNR(DM_mass, qvec, RGE, NLO)
 
-    def write_mma(self, mchi, q, RGE=None, NLO=None, path=None, filename=None):
+    def write_mma(self, DM_mass, q, RGE=None, NLO=None, path=None, filename=None):
         """ Write a text file with the NR coefficients that can be read into DMFormFactor 
 
         The order is {cNR1p, cNR2p, ... , cNR1n, cNR1n, ... }
 
-        Mandatory arguments are the DM mass mchi (in GeV) and the momentum transfer q (in GeV) 
+        Mandatory arguments are the DM mass DM_mass (in GeV) and the momentum transfer q (in GeV) 
 
         <path> should be a string with the path (including the trailing "/") where the file should be saved
         (default is './')
 
         <filename> is the filename (default 'cNR.m')
         """
-        WC_4f(self.match(), self.DM_type).write_mma(mchi, q, RGE, NLO, path, filename)
+        WC_4f(self.match(), self.DM_type).write_mma(DM_mass, q, RGE, NLO, path, filename)
 
