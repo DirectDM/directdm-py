@@ -1253,8 +1253,8 @@ class WC_5f(object):
         """ Class for Wilson coefficients in 5 flavor QCD x QED plus DM.
 
         The argument should be a dictionary for the initial conditions of the 2 + 32 + 4 + 48 + 4 + 64 = 154 
-        dimension-five to dimension-seven four-flavor-QCD Wilson coefficients of the form
-        {'C51' : value, 'C52' : value, ...}. 
+        dimension-five to dimension-seven four-flavor-QCD Wilson coefficients (for Dirac DM) of the form
+        {'C51' : value, 'C52' : value, ...}. For other DM types there will be less coefficients.
         An arbitrary number of them can be given; the default values are zero. 
         The possible name are (with an hopefully obvious notation):
 
@@ -1332,6 +1332,31 @@ class WC_5f(object):
         ---------
         Write an output file that can be loaded into mathematica, 
         to be used in the DMFormFactor package [1308.6288].
+
+
+        Inclusion of electroweak logarithms 
+        -----------------------------------
+
+        In order to resum the leading QCD logs arising from second-order e/w corrections, 
+        we define a combined basis of a subset of 100 + 6 = 106 dim.6 SM and dim.8 DM operator 
+        (please consult arxiv:XXXX.YYYYY for details):
+        
+        ['P61ud', 'P62ud', 'P63ud', 'P63du', 'P64ud', 'P65ud', 'P66ud', 'P66du', 
+         'P61us', 'P62us', 'P63us', 'P63su', 'P64us', 'P65us', 'P66us', 'P66su', 
+         'P61uc', 'P62uc', 'P63uc', 'P63cu', 'P64uc', 'P65uc', 'P66uc', 'P66cu', 
+         'P61ub', 'P62ub', 'P63ub', 'P63bu', 'P64ub', 'P65ub', 'P66ub', 'P66bu', 
+         'P61ds', 'P62ds', 'P63ds', 'P63sd', 'P64ds', 'P65ds', 'P66ds', 'P66sd', 
+         'P61dc', 'P62dc', 'P63dc', 'P63cd', 'P64dc', 'P65dc', 'P66dc', 'P66cd', 
+         'P61db', 'P62db', 'P63db', 'P63bd', 'P64db', 'P65db', 'P66db', 'P66bd', 
+         'P61sc', 'P62sc', 'P63sc', 'P63cs', 'P64sc', 'P65sc', 'P66sc', 'P66cs', 
+         'P61sb', 'P62sb', 'P63sb', 'P63bs', 'P64sb', 'P65sb', 'P66sb', 'P66bs', 
+         'P61cb', 'P62cb', 'P63cb', 'P63bc', 'P64cb', 'P65cb', 'P66cb', 'P66bc',
+         'P61u', 'P62u', 'P63u', 'P64u', 
+         'P61d', 'P62d', 'P63d', 'P64d', 
+         'P61s', 'P62s', 'P63s', 'P64s', 
+         'P61c', 'P62c', 'P63c', 'P64c', 
+         'P61b', 'P62b', 'P63b', 'P64b',
+         'C83u', 'C83d', 'C83s', 'C84u', 'C84d', 'C84s']
         """
         if DM_type is None:
             DM_type = "D"
@@ -1379,6 +1404,35 @@ class WC_5f(object):
                                     'C720u', 'C720d', 'C720s', 'C720c', 'C720e', 'C720mu', 'C720tau', 
                                     'C721u', 'C721d', 'C721s', 'C721c', 'C721e', 'C721mu', 'C721tau', 
                                     'C722u', 'C722d', 'C722s', 'C722c', 'C722e', 'C722mu', 'C722tau']
+
+            self.wc8_name_list = ['P61ud', 'P62ud', 'P63ud', 'P63du', 'P64ud', 'P65ud', 'P66ud', 'P66du', 
+                                  'P61us', 'P62us', 'P63us', 'P63su', 'P64us', 'P65us', 'P66us', 'P66su', 
+                                  'P61uc', 'P62uc', 'P63uc', 'P63cu', 'P64uc', 'P65uc', 'P66uc', 'P66cu', 
+                                  'P61ub', 'P62ub', 'P63ub', 'P63bu', 'P64ub', 'P65ub', 'P66ub', 'P66bu', 
+                                  'P61ds', 'P62ds', 'P63ds', 'P63sd', 'P64ds', 'P65ds', 'P66ds', 'P66sd', 
+                                  'P61dc', 'P62dc', 'P63dc', 'P63cd', 'P64dc', 'P65dc', 'P66dc', 'P66cd', 
+                                  'P61db', 'P62db', 'P63db', 'P63bd', 'P64db', 'P65db', 'P66db', 'P66bd', 
+                                  'P61sc', 'P62sc', 'P63sc', 'P63cs', 'P64sc', 'P65sc', 'P66sc', 'P66cs', 
+                                  'P61sb', 'P62sb', 'P63sb', 'P63bs', 'P64sb', 'P65sb', 'P66sb', 'P66bs', 
+                                  'P61cb', 'P62cb', 'P63cb', 'P63bc', 'P64cb', 'P65cb', 'P66cb', 'P66bc',
+                                  'P61u', 'P62u', 'P63u', 'P64u', 
+                                  'P61d', 'P62d', 'P63d', 'P64d', 
+                                  'P61s', 'P62s', 'P63s', 'P64s', 
+                                  'P61c', 'P62c', 'P63c', 'P64c', 
+                                  'P61b', 'P62b', 'P63b', 'P64b',
+                                  'C83u', 'C83d', 'C83s', 'C84u', 'C84d', 'C84s']
+
+            self.wc8_name_list_4f = ['P61ud', 'P62ud', 'P63ud', 'P63du', 'P64ud', 'P65ud', 'P66ud', 'P66du', 
+                                     'P61us', 'P62us', 'P63us', 'P63su', 'P64us', 'P65us', 'P66us', 'P66su', 
+                                     'P61uc', 'P62uc', 'P63uc', 'P63cu', 'P64uc', 'P65uc', 'P66uc', 'P66cu', 
+                                     'P61ds', 'P62ds', 'P63ds', 'P63sd', 'P64ds', 'P65ds', 'P66ds', 'P66sd', 
+                                     'P61dc', 'P62dc', 'P63dc', 'P63cd', 'P64dc', 'P65dc', 'P66dc', 'P66cd', 
+                                     'P61sc', 'P62sc', 'P63sc', 'P63cs', 'P64sc', 'P65sc', 'P66sc', 'P66cs', 
+                                     'P61u', 'P62u', 'P63u', 'P64u', 
+                                     'P61d', 'P62d', 'P63d', 'P64d', 
+                                     'P61s', 'P62s', 'P63s', 'P64s', 
+                                     'P61c', 'P62c', 'P63c', 'P64c', 
+                                     'C83u', 'C83d', 'C83s', 'C84u', 'C84d', 'C84s']
 
         if self.DM_type == "M":
             self.wc_name_list = ['C62u', 'C62d', 'C62s', 'C62c', 'C62b', 'C62e', 'C62mu', 'C62tau',
@@ -1492,6 +1546,8 @@ class WC_5f(object):
             self.gamma_QCD2 = np.delete(np.delete(adm.ADM_QCD2(5), del_ind_list, 1), del_ind_list, 2)
 
 
+
+
     def run(self, mu_low=None):
         """ Running of 5-flavor Wilson coefficients
 
@@ -1505,6 +1561,89 @@ class WC_5f(object):
             mu_low=ip.mb_at_mb
 
 
+        #--------------------------------------------------------------------#
+        # The initial conditions of the relevant SM and DM8 operators at MZ: #
+        #--------------------------------------------------------------------#
+
+        MW = ip.Mw
+        MZ = ip.Mz
+        cw = MW/MZ
+        sw = np.sqrt(1-cw**2)
+        vd = (-1/2 - 2*sw**2*(-1/3))/(2*sw*cw)
+        vu = (1/2 - 2*sw**2*(2/3))/(2*sw*cw)
+        ad = -(-1/2)/(2*sw*cw)
+        au = -(1/2)/(2*sw*cw)
+
+        SM_init_Z = np.array([vu*vd, au*ad, au*vd, ad*vu, 0, 0, 0, 0,\
+                              vu*vd, au*ad, au*vd, ad*vu, 0, 0, 0, 0,\
+                              vu*vu, au*au, au*vu, au*vu, 0, 0, 0, 0,\
+                              vu*vd, au*ad, au*vd, ad*vu, 0, 0, 0, 0,\
+                              vd*vd, ad*ad, ad*vd, ad*vd, 0, 0, 0, 0,\
+                              vd*vu, ad*au, ad*vu, au*vd, 0, 0, 0, 0,\
+                              vd*vd, ad*ad, ad*vd, ad*vd, 0, 0, 0, 0,\
+                              vd*vu, ad*au, ad*vu, au*vd, 0, 0, 0, 0,\
+                              vd*vd, ad*ad, ad*vd, ad*vd, 0, 0, 0, 0,\
+                              vu*vd, au*ad, au*vd, ad*vu, 0, 0, 0, 0,\
+                              (vu**2 + 2*au**2)/6, au**2/2, vu*au, (vu**2 - au**2)/2,\
+                              (vd**2 + 2*ad**2)/6, ad**2/2, vd*ad, (vd**2 - ad**2)/2,\
+                              (vd**2 + 2*ad**2)/6, ad**2/2, vd*ad, (vd**2 - ad**2)/2,\
+                              (vu**2 + 2*au**2)/6, au**2/2, vu*au, (vu**2 - au**2)/2,\
+                              (vd**2 + 2*ad**2)/6, ad**2/2, vd*ad, (vd**2 - ad**2)/2]) * 4*sw**2*cw**2
+
+        SM_init_W = np.array([-1/6, -1/6, 1/6, 1/6, -1, -1, 1, 1,\
+                              0, 0, 0, 0, 0, 0, 0, 0,\
+                              0, 0, 0, 0, 0, 0, 0, 0,\
+                              0, 0, 0, 0, 0, 0, 0, 0,\
+                              0, 0, 0, 0, 0, 0, 0, 0,\
+                              0, 0, 0, 0, 0, 0, 0, 0,\
+                              0, 0, 0, 0, 0, 0, 0, 0,\
+                              -1/6, -1/6, 1/6, 1/6, -1, -1, 1, 1,\
+                              0, 0, 0, 0, 0, 0, 0, 0,\
+                              0, 0, 0, 0, 0, 0, 0, 0,\
+                              0, 0, 0, 0,\
+                              0, 0, 0, 0,\
+                              0, 0, 0, 0,\
+                              0, 0, 0, 0,\
+                              0, 0, 0, 0])
+
+        SM_init = SM_init_Z + SM_init_W
+
+        # The initial condition of the DM8 operators at the electroweak scale is zero:
+
+        DM8_init = np.array([0, 0, 0, 0, 0, 0])
+
+        # And, finally, the combined initial conditions
+
+        SMDM8_init = np.hstack((SM_init, DM8_init))
+
+
+        #--------------------------------------------------------------------#
+        # The effective anomalous dimension for mixing into dimension eight: #
+        #--------------------------------------------------------------------#
+
+        # We need to contract the ADT with a subset of the dim.-6 Wilson coefficients
+        if self.DM_type == "D":
+            DM_dim6_init = np.delete(self.coeff_list, np.r_[np.s_[0:18], np.s_[23:26], np.s_[31:154]])
+
+        # The columns of ADM_eff correspond to SM6 operators; the rows of ADM_eff correspond to DM8 operators; 
+        C6_dot_ADM_hat = np.transpose(np.tensordot(DM_dim6_init, adm.ADT_QCD(5), (0,2)))
+        #C6_dot_ADM_hat = np.tensordot(DM_dim6_init, adm.ADT_QCD(5), (0,2))
+
+        # The running of the dim.-8 DM operators is determined by the factor mq^2/gs^2:
+
+        gammam = 8
+        beta0 = 2/3 * 5 - 11
+
+        ADM8 = 2*(gammam - beta0) * np.eye(6)
+
+        ADM_SM = adm.ADM_SM_QCD(5)
+
+        # The effective ADM
+        #
+        # Note that the mixing of the SM operators with four equal flavors does not contribute if we neglect yu, yd, ys! 
+
+        ADM_eff = [np.vstack((np.hstack((ADM_SM, np.vstack((C6_dot_ADM_hat, np.zeros((20,6)))))), np.hstack((np.zeros((6,100)), ADM8))))]
+
         #-------------#
         # The running #
         #-------------#
@@ -1515,13 +1654,19 @@ class WC_5f(object):
         as51 = rge.AlphaS(5,1)
         evolve1 = rge.RGE(self.gamma_QCD, 5)
         evolve2 = rge.RGE(self.gamma_QCD2, 5)
+        evolve8 = rge.RGE(ADM_eff, 5)
 
         # Strictly speaking, MZ and mb should be defined at the same scale (however, this is a higher-order difference)
         C_at_mb_QCD = np.dot(evolve2.U0_as2(as51.run(MZ),as51.run(mu_low)), np.dot(evolve1.U0(as51.run(MZ),as51.run(mu_low)), self.coeff_list))
         C_at_mb_QED = np.dot(self.coeff_list, self.gamma_QED) * np.log(mu_low/MZ) * alpha_at_mb/(4*np.pi)\
                       + np.dot(self.coeff_list, self.gamma_QED2) * np.log(mu_low/MZ) * (alpha_at_mb/(4*np.pi))**2
+        C8_at_mb = np.dot(evolve8.U0(as51.run(MZ),as51.run(mu_low)), SMDM8_init)
 
-        return list_to_dict(C_at_mb_QCD + C_at_mb_QED, self.wc_name_list)
+        dict_dim6 = list_to_dict(C_at_mb_QCD + C_at_mb_QED, self.wc_name_list)
+        dict_dim8 = list_to_dict(C8_at_mb, self.wc8_name_list)
+        dict_dim6.update(dict_dim8)
+
+        return dict_dim6
 
 
     def match(self, RGE=None, mu=None):
@@ -1592,4 +1737,6 @@ class WC_5f(object):
         <filename> is the filename (default 'cNR.m')
         """
         WC_4f(self.match(), self.DM_type).write_mma(DM_mass, q, RGE, NLO, path, filename)
+
+
 
