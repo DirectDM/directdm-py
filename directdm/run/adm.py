@@ -2,6 +2,8 @@
 
 import numpy as np
 from ..num.num_input import Num_input
+from .rge import QCD_beta
+from .rge import QCD_gamma
 
 
 #-----------------------------#
@@ -10,7 +12,7 @@ from ..num.num_input import Num_input
 
 
 def ADM_QED(nf):
-    """ Return the QED anomalous dimension for nf flavor EFT """
+    """ Return the QED anomalous dimension in the DM-SM sector for nf flavor EFT """
     Qu = 2/3
     Qd = -1/3
     Qe = -1
@@ -44,7 +46,7 @@ def ADM_QED(nf):
 
 
 def ADM_QED2(nf):
-    """ Return the QED anomalous dimension for nf flavor EFT at alpha^2 """
+    """ Return the QED anomalous dimension in the DM-SM sector for nf flavor EFT at alpha^2 """
 
     # Mixing of Q_{11}^(7) into Q_{5,f}^(7) and Q_{12}^(7) into Q_{6,f}^(7), adapted from Hill et al. [1409.8290]. 
     gamma_gf = -8
@@ -74,7 +76,7 @@ def ADM_QED2(nf):
 #------------------------------#
 
 def ADM_QCD(nf):
-    """ Return the QCD anomalous dimension for nf flavor EFT, when ADM starts at O(alphas) """
+    """ Return the QCD anomalous dimension in the DM-SM sector for nf flavor EFT, when ADM starts at O(alphas) """
     gamma_QCD_T = 32/3 * np.eye(5)
     gamma_QCD_1 = np.zeros((70,154))
     gamma_QCD_2 = np.hstack((np.zeros((5,70)),gamma_QCD_T,np.zeros((5,79))))
@@ -98,7 +100,7 @@ def ADM_QCD(nf):
 
 
 def ADM_QCD2(nf):
-    """ Return the QCD anomalous dimension for nf flavor EFT, when ADM starts at O(alphas^2) """
+    """ Return the QCD anomalous dimension in the DM-SM sector for nf flavor EFT, when ADM starts at O(alphas^2) """
     # Mixing of Q_1^(7) into Q_{5,q}^(7) and Q_2^(7) into Q_{6,q}^(7), from Hill et al. [1409.8290]. Note that we have different prefactors and signs. 
     gamma_gq = -32/3
     # Mixing of Q_3^(7) into Q_{7,q}^(7) and Q_4^(7) into Q_{8,q}^(7), from Hill et al. [1409.8290]. Note that we have different prefactors and signs. 
@@ -128,8 +130,21 @@ def ADM_QCD2(nf):
 
 
 
+
+def ADM_QCD_dim8(nf):
+    """ Return the QCD anomalous dimension in the DM-SM sector at dim.8, for nf flavor EFT """
+
+    beta0 = QCD_beta(nf, 1).trad()
+    gammam0 = QCD_gamma(nf, 1).trad()
+
+    ADM8 = 2*(gammam0 - beta0) * np.eye(6)
+
+    return ADM8
+
+
+
 def ADM_SM_QCD(nf):
-    """ Return the QCD anomalous dimension for nf flavor EFT, for a subset of SM dim.6 operators 
+    """ Return the QCD anomalous dimension in the SM-SM sector for nf flavor EFT, for a subset of SM dim.6 operators 
 
     The basis is spanned by a subset of 10*8 + 5*4 = 100 SM operators, with Wilson coefficients 
 
@@ -244,9 +259,9 @@ def ADM_SM_QCD(nf):
 
 
 def ADT_QCD(nf):
-    """ Return the QCD anomalous dimension tensor for nf flavor EFT, for double insertions of DMDM and DMSM operators 
+    """ Return the QCD anomalous dimension tensor for nf flavor EFT, for double insertions of DM-SM and SM-SM operators 
 
-    Just for including this effect, we extend our basis of operators below the electroweak scale by a set of 6 dimension-eight operators, 
+    Our basis of operators below the electroweak scale includes a set of 6 dimension-eight operators, 
     with Wilson coefficients for Dirac DM
  
     ['C83u', 'C83d', 'C83s', 'C84u', 'C84d', 'C84s']

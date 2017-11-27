@@ -48,6 +48,19 @@ class QCD_beta(object):
             return (2857/2 - 5033/18 * self.nf + 325/54 * self.nf**2)
 
 
+# The QCD anomalous dimension for the quark mass
+
+class QCD_gamma(object):
+    """ The QCD gamma function """
+    def __init__(self, nf, loop):
+        self.nf = nf
+        self.loop = loop
+
+    def trad(self):
+        if self.loop == 1:
+            return 8
+
+
 class AlphaS(object):
     """ The strong coupling constant """
 
