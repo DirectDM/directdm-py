@@ -964,6 +964,28 @@ class WC_4f(object):
         (the notation corresponds to the numbering in 1707.06998).
         The Wilson coefficients should be specified in the MS-bar scheme at mb = 4.18 GeV.
 
+
+        In order to calculate consistently to dim.8 in the EFT, we need also the dim.6 SM operators. 
+        The following subset of 10*8 + 5*4 = 100 operators is sufficient for our purposes:
+
+         'P61ud', 'P62ud', 'P63ud', 'P63du', 'P64ud', 'P65ud', 'P66ud', 'P66du', 
+         'P61us', 'P62us', 'P63us', 'P63su', 'P64us', 'P65us', 'P66us', 'P66su', 
+         'P61uc', 'P62uc', 'P63uc', 'P63cu', 'P64uc', 'P65uc', 'P66uc', 'P66cu', 
+         'P61ub', 'P62ub', 'P63ub', 'P63bu', 'P64ub', 'P65ub', 'P66ub', 'P66bu', 
+         'P61ds', 'P62ds', 'P63ds', 'P63sd', 'P64ds', 'P65ds', 'P66ds', 'P66sd', 
+         'P61dc', 'P62dc', 'P63dc', 'P63cd', 'P64dc', 'P65dc', 'P66dc', 'P66cd', 
+         'P61db', 'P62db', 'P63db', 'P63bd', 'P64db', 'P65db', 'P66db', 'P66bd', 
+         'P61sc', 'P62sc', 'P63sc', 'P63cs', 'P64sc', 'P65sc', 'P66sc', 'P66cs', 
+         'P61sb', 'P62sb', 'P63sb', 'P63bs', 'P64sb', 'P65sb', 'P66sb', 'P66bs', 
+         'P61cb', 'P62cb', 'P63cb', 'P63bc', 'P64cb', 'P65cb', 'P66cb', 'P66bc',
+         'P61u', 'P62u', 'P63u', 'P64u', 
+         'P61d', 'P62d', 'P63d', 'P64d', 
+         'P61s', 'P62s', 'P63s', 'P64s', 
+         'P61c', 'P62c', 'P63c', 'P64c', 
+         'P61b', 'P62b', 'P63b', 'P64b',
+
+
+
         The class has three methods: 
 
         run
@@ -985,31 +1007,13 @@ class WC_4f(object):
         ---------
         Writes an output file that can be loaded into mathematica, 
         to be used in the DMFormFactor package [1308.6288].
-
-
-        Inclusion of electroweak logarithms 
-        -----------------------------------
-
-        In order to resum the leading QCD logs arising from second-order e/w corrections, 
-        we define a combined basis of a subset of 64 + 6 = 70 dim.6 SM and dim.8 DM operators
-        (please consult arxiv:XXXX.YYYYY for details):
-        
-        ['P61ud', 'P62ud', 'P63ud', 'P63du', 'P64ud', 'P65ud', 'P66ud', 'P66du', 
-         'P61us', 'P62us', 'P63us', 'P63su', 'P64us', 'P65us', 'P66us', 'P66su', 
-         'P61uc', 'P62uc', 'P63uc', 'P63cu', 'P64uc', 'P65uc', 'P66uc', 'P66cu', 
-         'P61ds', 'P62ds', 'P63ds', 'P63sd', 'P64ds', 'P65ds', 'P66ds', 'P66sd', 
-         'P61dc', 'P62dc', 'P63dc', 'P63cd', 'P64dc', 'P65dc', 'P66dc', 'P66cd', 
-         'P61sc', 'P62sc', 'P63sc', 'P63cs', 'P64sc', 'P65sc', 'P66sc', 'P66cs', 
-         'P61u', 'P62u', 'P63u', 'P64u', 
-         'P61d', 'P62d', 'P63d', 'P64d', 
-         'P61s', 'P62s', 'P63s', 'P64s', 
-         'P61c', 'P62c', 'P63c', 'P64c', 
-         'C83u', 'C83d', 'C83s', 'C84u', 'C84d', 'C84s']
         """
         if DM_type is None:
             DM_type = "D"
         self.DM_type = DM_type
 
+
+        # First, we define a standard ordering for the Wilson coefficients, so that we can use arrays
 
         if self.DM_type == "D":
             self.wc_name_list = ['C51', 'C52', 'C61u', 'C61d', 'C61s', 'C61c', 'C61e', 'C61mu', 'C61tau', 
@@ -1243,28 +1247,6 @@ class WC_4f(object):
 
         return dict_dim6
 
-        ############################## OLD ###################
-
-        #-------------#
-        # The running #
-        #-------------#
-
-        ip = Num_input()
-
-        mb = ip.mb_at_mb
-        alpha_at_mc = 1/ip.aMZinv
-
-        as41 = rge.AlphaS(4,1)
-        evolve1 = rge.RGE(self.gamma_QCD, 4)
-        evolve2 = rge.RGE(self.gamma_QCD2, 4)
-
-        # Strictly speaking, mb should be defined at scale mu_low (however, this is a higher-order difference)
-        C_at_mc_QCD = np.dot(evolve2.U0_as2(as41.run(mb),as41.run(mu_low)), np.dot(evolve1.U0(as41.run(mb),as41.run(mu_low)), self.coeff_list))
-        C_at_mc_QED = np.dot(self.coeff_list, self.gamma_QED) * np.log(mu_low/mb) * alpha_at_mc/(4*np.pi)\
-                      + np.dot(self.coeff_list, self.gamma_QED2) * np.log(mu_low/mb) * (alpha_at_mc/(4*np.pi))**2
-
-        return list_to_dict(C_at_mc_QCD + C_at_mc_QED, self.wc_name_list)
-
 
     def match(self, RGE=None, mu=None):
         """ Match from four-flavor to three-flavor QCD
@@ -1446,6 +1428,7 @@ class WC_5f(object):
         Write an output file that can be loaded into mathematica, 
         to be used in the DMFormFactor package [1308.6288].
         """
+
         if DM_type is None:
             DM_type = "D"
         self.DM_type = DM_type
@@ -1609,6 +1592,8 @@ class WC_5f(object):
         # Create the dictionary. 
         #
         # First, the default values (0 for DM operators, SM values for SM operators):
+        #
+        # This is actually conceptually not so good. The SM initial conditions should be moved to a matching method above the e/w scale.
 
         for wc_name in self.wc_name_list:
             self.coeff_dict[wc_name] = 0.
