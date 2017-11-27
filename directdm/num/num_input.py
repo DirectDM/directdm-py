@@ -62,6 +62,13 @@ class Num_input(object):
         self.mc_at_3GeV = 0.986 # GeV
         self.dmc_at_3GeV = 0.013 # GeV
 
+        # Quark masses at MZ (at 1-loop )
+        self.mu_at_MZ = 1.4e-3
+        self.md_at_MZ = 3.1e-3
+        self.ms_at_MZ = 63e-3
+        self.mc_at_MZ = 0.78
+        self.mb_at_MZ = 3.1
+
 
 
         # Further low-energy input for pionless EFT

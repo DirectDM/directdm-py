@@ -137,7 +137,7 @@ def ADM_QCD_dim8(nf):
     beta0 = QCD_beta(nf, 1).trad()
     gammam0 = QCD_gamma(nf, 1).trad()
 
-    ADM8 = 2*(gammam0 - beta0) * np.eye(6)
+    ADM8 = 2*(gammam0 - beta0) * np.eye(12)
 
     return ADM8
 
@@ -250,8 +250,8 @@ def ADM_SM_QCD(nf):
     if nf == 5:
         return adm
     elif nf == 4:
-        return np.delete(np.delete(adm, np.r_[np.s_[24:32], np.s_[48:56], np.s_[64:80], np.s_[96:100]], 1),\
-                                        np.r_[np.s_[24:32], np.s_[48:56], np.s_[64:80], np.s_[96:100]], 2)
+        return np.delete(np.delete(adm, np.r_[np.s_[24:32], np.s_[48:56], np.s_[64:80], np.s_[96:100]], 0),\
+                                        np.r_[np.s_[24:32], np.s_[48:56], np.s_[64:80], np.s_[96:100]], 1)
     else:
         raise Exception("nf has to be 4 or 5")
 
@@ -261,10 +261,10 @@ def ADM_SM_QCD(nf):
 def ADT_QCD(nf):
     """ Return the QCD anomalous dimension tensor for nf flavor EFT, for double insertions of DM-SM and SM-SM operators 
 
-    Our basis of operators below the electroweak scale includes a set of 6 dimension-eight operators, 
+    Our basis of operators below the electroweak scale includes a set of 12 dimension-eight operators, 
     with Wilson coefficients for Dirac DM
  
-    ['C83u', 'C83d', 'C83s', 'C84u', 'C84d', 'C84s']
+    ['C81u', 'C81d', 'C81s', 'C82u', 'C82d', 'C82s', 'C83u', 'C83d', 'C83s', 'C84u', 'C84d', 'C84s']
 
     and by a subset of 10*8 = 80 SM operators, with Wilson coefficients 
 
@@ -287,13 +287,37 @@ def ADT_QCD(nf):
     """
 
     # As input for the quark-mass ratios, we use the quark masses at MZ
-    mu = 1.4e-3
-    md = 3.1e-3
-    ms = 63e-3
-    mc = 0.78
-    mb = 3.1
+    ip = Num_input()
+
+    mu = ip.mu_at_MZ
+    md = ip.md_at_MZ
+    ms = ip.ms_at_MZ
+    mc = ip.mc_at_MZ
+    mb = ip.mb_at_MZ
 
     # Create the ADT:
+
+    gamma_hat_P63uc_Q81u = np.hstack((np.zeros(3), -48 * mc**2/mu**2, np.zeros(6)))
+    gamma_hat_P63ub_Q81u = np.hstack((np.zeros(4), -48 * mb**2/mu**2, np.zeros(5)))
+
+    gamma_hat_P63dc_Q81d = np.hstack((np.zeros(3), -48 * mc**2/md**2, np.zeros(6)))
+    gamma_hat_P63db_Q81d = np.hstack((np.zeros(4), -48 * mb**2/md**2, np.zeros(5)))
+
+    gamma_hat_P63sc_Q81s = np.hstack((np.zeros(3), -48 * mc**2/ms**2, np.zeros(6)))
+    gamma_hat_P63sb_Q81s = np.hstack((np.zeros(4), -48 * mb**2/ms**2, np.zeros(5)))
+
+
+
+    gamma_hat_P63uc_Q82u = np.hstack((np.zeros(8), -48 * mc**2/mu**2, np.zeros(1)))
+    gamma_hat_P63ub_Q82u = np.hstack((np.zeros(9), -48 * mb**2/mu**2))
+
+    gamma_hat_P63dc_Q82d = np.hstack((np.zeros(8), -48 * mc**2/md**2, np.zeros(1)))
+    gamma_hat_P63db_Q82d = np.hstack((np.zeros(9), -48 * mb**2/md**2))
+
+    gamma_hat_P63sc_Q82s = np.hstack((np.zeros(8), -48 * mc**2/ms**2, np.zeros(1)))
+    gamma_hat_P63sb_Q82s = np.hstack((np.zeros(9), -48 * mb**2/ms**2))
+
+
 
     gamma_hat_P62uc_Q83u = np.hstack((np.zeros(3), -48 * mc**2/mu**2, np.zeros(6)))
     gamma_hat_P62ub_Q83u = np.hstack((np.zeros(4), -48 * mb**2/mu**2, np.zeros(5)))
@@ -317,6 +341,14 @@ def ADT_QCD(nf):
 
 
 
+    gamma_hat_Q81u = np.vstack((np.zeros((18,10)), gamma_hat_P63uc_Q81u, np.zeros((7,10)), gamma_hat_P63ub_Q81u, np.zeros((53,10))))
+    gamma_hat_Q81d = np.vstack((np.zeros((42,10)), gamma_hat_P63dc_Q81d, np.zeros((7,10)), gamma_hat_P63db_Q81d, np.zeros((29,10))))
+    gamma_hat_Q81s = np.vstack((np.zeros((58,10)), gamma_hat_P63sc_Q81s, np.zeros((7,10)), gamma_hat_P63sb_Q81s, np.zeros((13,10))))
+
+    gamma_hat_Q82u = np.vstack((np.zeros((18,10)), gamma_hat_P63uc_Q82u, np.zeros((7,10)), gamma_hat_P63ub_Q82u, np.zeros((53,10))))
+    gamma_hat_Q82d = np.vstack((np.zeros((42,10)), gamma_hat_P63dc_Q82d, np.zeros((7,10)), gamma_hat_P63db_Q82d, np.zeros((29,10))))
+    gamma_hat_Q82s = np.vstack((np.zeros((58,10)), gamma_hat_P63sc_Q82s, np.zeros((7,10)), gamma_hat_P63sb_Q82s, np.zeros((13,10))))
+
     gamma_hat_Q83u = np.vstack((np.zeros((17,10)), gamma_hat_P62uc_Q83u, np.zeros((7,10)), gamma_hat_P62ub_Q83u, np.zeros((54,10))))
     gamma_hat_Q83d = np.vstack((np.zeros((41,10)), gamma_hat_P62dc_Q83d, np.zeros((7,10)), gamma_hat_P62db_Q83d, np.zeros((30,10))))
     gamma_hat_Q83s = np.vstack((np.zeros((57,10)), gamma_hat_P62sc_Q83s, np.zeros((7,10)), gamma_hat_P62sb_Q83s, np.zeros((14,10))))
@@ -327,7 +359,8 @@ def ADT_QCD(nf):
 
 
 
-    gamma_hat = np.array([gamma_hat_Q83u, gamma_hat_Q83d, gamma_hat_Q83s, gamma_hat_Q84u, gamma_hat_Q84d, gamma_hat_Q84s])
+    gamma_hat = np.array([gamma_hat_Q81u, gamma_hat_Q81d, gamma_hat_Q81s, gamma_hat_Q82u, gamma_hat_Q82d, gamma_hat_Q82s,
+                          gamma_hat_Q83u, gamma_hat_Q83d, gamma_hat_Q83s, gamma_hat_Q84u, gamma_hat_Q84d, gamma_hat_Q84s])
 
 
     # Return the tensor for given number of active quark flavors
