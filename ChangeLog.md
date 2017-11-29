@@ -7,6 +7,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 ### Changed
 - replaced argument name `mchi` by `DM_mass`
 
+### Fixed
+- A bug in `write_mma` (RG evolution was not switched of by optional argument `RGE=False`)
+
 ## [1.1.1] - 2017-10-27
 ### Added
 - The module `single_nucleon_form_factors.py` with the classes for the single-nucleon form factors

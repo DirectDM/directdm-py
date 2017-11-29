@@ -1243,7 +1243,7 @@ class WC_4f(object):
 
         <filename> is the filename (default 'cNR.m')
         """
-        WC_3f(self.match(), self.DM_type).write_mma(DM_mass, q, RGE, NLO, path, filename)
+        WC_3f(self.match(RGE), self.DM_type).write_mma(DM_mass, q, RGE, NLO, path, filename)
 
 
 
@@ -1591,5 +1591,5 @@ class WC_5f(object):
 
         <filename> is the filename (default 'cNR.m')
         """
-        WC_4f(self.match(), self.DM_type).write_mma(DM_mass, q, RGE, NLO, path, filename)
+        WC_4f(self.match(RGE), self.DM_type).write_mma(DM_mass, q, RGE, NLO, path, filename)
 
