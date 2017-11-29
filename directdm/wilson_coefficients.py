@@ -1264,7 +1264,7 @@ class WC_4f(object):
         self.ADM_SM = adm.ADM_SM_QCD(4)
 
 
-    def run(self, mu_low=None):
+    def run(self, mu_low=None, double_QCD=None):
         """ Running of 4-flavor Wilson coefficients
 
         Calculate the running from mb(mb) to mu_low [GeV; default 2 GeV] in the four-flavor theory. 
@@ -1274,6 +1274,8 @@ class WC_4f(object):
         """
         if mu_low is None:
             mu_low=2
+        if double_QCD is None:
+            double_QCD=True
 
 
         #--------------------------------------------------------------------#
@@ -1291,7 +1293,12 @@ class WC_4f(object):
         #
         # Note that the mixing of the SM operators with four equal flavors does not contribute if we neglect yu, yd, ys! 
 
-        ADM_eff = [np.vstack((np.hstack((self.ADM_SM, np.vstack((C6_dot_ADM_hat, np.zeros((16,12)))))), np.hstack((np.zeros((12,64)), self.gamma_QCD_dim8))))]
+        if double_QCD:
+            ADM_eff = [np.vstack((np.hstack((self.ADM_SM, np.vstack((C6_dot_ADM_hat, np.zeros((16,12)))))),\
+                                  np.hstack((np.zeros((12,64)), self.gamma_QCD_dim8))))]
+        else:
+            ADM_eff = [np.vstack((np.hstack((np.zeros((64,64)), np.vstack((C6_dot_ADM_hat, np.zeros((16,12)))))),\
+                                  np.hstack((np.zeros((12,64)), self.gamma_QCD_dim8))))]
 
 
         #-------------#
@@ -1334,7 +1341,7 @@ class WC_4f(object):
 
 
 
-    def match(self, RGE=None, mu=None):
+    def match(self, mu=None, RGE=None, double_QCD=None):
         """ Match from four-flavor to three-flavor QCD
 
         Calculate the matching at mu [GeV; default 2 GeV].
@@ -1344,15 +1351,17 @@ class WC_4f(object):
 
         RGE is an optional argument to turn RGE running on (True) or off (False). (Default True)
         """
-        if RGE is None:
-            RGE=True
         if mu is None:
             mu=2
+        if RGE is None:
+            RGE=True
+        if double_QCD is None:
+            double_QCD=True
 
         # The new coefficients
         cdict3f = {}
         if RGE:
-            cdold = self.run(mu)
+            cdold = self.run(mu, double_QCD)
         else:
             cdold = self.coeff_dict
 
@@ -1383,15 +1392,15 @@ class WC_4f(object):
         return cdict3f
 
 
-    def _my_cNR(self, DM_mass, RGE=None, NLO=None):
+    def _my_cNR(self, DM_mass, RGE=None, NLO=None, double_QCD=None):
         """ Calculate the NR coefficients from four-flavor theory with meson contributions split off (mainly for internal use) """
-        return WC_3f(self.match(RGE), self.DM_type)._my_cNR(DM_mass, RGE, NLO)
+        return WC_3f(self.match(RGE, double_QCD), self.DM_type)._my_cNR(DM_mass, RGE, NLO)
 
-    def cNR(self, DM_mass, qvec, RGE=None, NLO=None):
+    def cNR(self, DM_mass, qvec, RGE=None, NLO=None, double_QCD=None):
         """ Calculate the NR coefficients from four-flavor theory """
-        return WC_3f(self.match(RGE), self.DM_type).cNR(DM_mass, qvec, RGE, NLO)
+        return WC_3f(self.match(RGE, double_QCD), self.DM_type).cNR(DM_mass, qvec, RGE, NLO)
 
-    def write_mma(self, DM_mass, q, RGE=None, NLO=None, path=None, filename=None):
+    def write_mma(self, DM_mass, q, RGE=None, NLO=None, double_QCD=None, path=None, filename=None):
         """ Write a text file with the NR coefficients that can be read into DMFormFactor 
 
         The order is {cNR1p, cNR2p, ... , cNR1n, cNR1n, ... }
@@ -1403,7 +1412,7 @@ class WC_4f(object):
 
         <filename> is the filename (default 'cNR.m')
         """
-        WC_3f(self.match(RGE), self.DM_type).write_mma(DM_mass, q, RGE, NLO, path, filename)
+        WC_3f(self.match(RGE, double_QCD), self.DM_type).write_mma(DM_mass, q, RGE, NLO, path, filename)
 
 
 
@@ -1871,7 +1880,7 @@ class WC_5f(object):
 
 
 
-    def run(self, mu_low=None):
+    def run(self, mu_low=None, double_QCD=None):
         """ Running of 5-flavor Wilson coefficients
 
         Calculate the running from MZ to mu_low [GeV; default mb(mb)] in the five-flavor theory. 
@@ -1883,6 +1892,8 @@ class WC_5f(object):
         ip = Num_input()
         if mu_low is None:
             mu_low=ip.mb_at_mb
+        if double_QCD is None:
+            double_QCD=True
 
 
         #--------------------------------------------------------------------#
@@ -1900,7 +1911,12 @@ class WC_5f(object):
         #
         # Note that the mixing of the SM operators with four equal flavors does not contribute if we neglect yu, yd, ys! 
 
-        ADM_eff = [np.vstack((np.hstack((self.ADM_SM, np.vstack((C6_dot_ADM_hat, np.zeros((20,12)))))), np.hstack((np.zeros((12,100)), self.gamma_QCD_dim8))))]
+        if double_QCD:
+            ADM_eff = [np.vstack((np.hstack((self.ADM_SM, np.vstack((C6_dot_ADM_hat, np.zeros((20,12)))))),\
+                                  np.hstack((np.zeros((12,100)), self.gamma_QCD_dim8))))]
+        else:
+            ADM_eff = [np.vstack((np.hstack((np.zeros((100,100)), np.vstack((C6_dot_ADM_hat, np.zeros((20,12)))))),\
+                                  np.hstack((np.zeros((12,100)), self.gamma_QCD_dim8))))]
 
         #-------------#
         # The running #
@@ -1939,7 +1955,7 @@ class WC_5f(object):
         return dict_coeff_mb
 
 
-    def match(self, RGE=None, mu=None):
+    def match(self, mu=None, RGE=None, double_QCD=None):
         """ Match from five-flavor to four-flavor QCD
 
         Calculate the matching at mu [GeV; default 4.18 GeV].
@@ -1954,11 +1970,13 @@ class WC_5f(object):
             RGE=True
         if mu is None:
             mu=ip.mb_at_mb
+        if double_QCD is None:
+            double_QCD=True
 
         # The new coefficients
         cdict4f = {}
         if RGE:
-            cdold = self.run(mu)
+            cdold = self.run(mu, double_QCD)
         else:
             cdold = self.coeff_dict
 
@@ -1990,15 +2008,15 @@ class WC_5f(object):
         return cdict4f
 
 
-    def _my_cNR(self, DM_mass, RGE=None, NLO=None):
+    def _my_cNR(self, DM_mass, RGE=None, NLO=None, double_QCD=None):
         """ Calculate the NR coefficients from four-flavor theory with meson contributions split off (mainly for internal use) """
-        return WC_4f(self.match(RGE), self.DM_type)._my_cNR(DM_mass, RGE, NLO)
+        return WC_4f(self.match(RGE, double_QCD), self.DM_type)._my_cNR(DM_mass, RGE, NLO, double_QCD)
 
-    def cNR(self, DM_mass, qvec, RGE=None, NLO=None):
+    def cNR(self, DM_mass, qvec, RGE=None, NLO=None, double_QCD=None):
         """ Calculate the NR coefficients from four-flavor theory """
-        return WC_4f(self.match(RGE), self.DM_type).cNR(DM_mass, qvec, RGE, NLO)
+        return WC_4f(self.match(RGE, double_QCD), self.DM_type).cNR(DM_mass, qvec, RGE, NLO, double_QCD)
 
-    def write_mma(self, DM_mass, q, RGE=None, NLO=None, path=None, filename=None):
+    def write_mma(self, DM_mass, q, RGE=None, NLO=None, double_QCD=None, path=None, filename=None):
         """ Write a text file with the NR coefficients that can be read into DMFormFactor 
 
         The order is {cNR1p, cNR2p, ... , cNR1n, cNR1n, ... }
@@ -2010,7 +2028,7 @@ class WC_5f(object):
 
         <filename> is the filename (default 'cNR.m')
         """
-        WC_4f(self.match(RGE), self.DM_type).write_mma(DM_mass, q, RGE, NLO, path, filename)
+        WC_4f(self.match(RGE, double_QCD), self.DM_type).write_mma(DM_mass, q, RGE, NLO, double_QCD, path, filename)
 
 
 
