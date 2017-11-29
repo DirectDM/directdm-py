@@ -308,7 +308,7 @@ class WC_3f(object):
         mN = (mp+mn)/2
 
         alpha = 1/ip.alowinv
-        GF = ip.GF
+        GF = ip.GF/16/np.pi
 
         # Quark masses at 2GeV
         mu = ip.mu_at_2GeV
