@@ -1797,30 +1797,30 @@ class WC_5f(object):
         self.coeff_dict['P66cb'] = 0
         self.coeff_dict['P66bc'] = 0
 
-        self.coeff_dict['P61u'] = (vu**2 + 2*au**2)/6 * 4*sw**2*cw**2
-        self.coeff_dict['P62u'] = au**2/2 * 4*sw**2*cw**2
+        self.coeff_dict['P61u'] = vu**2 * 2*sw**2*cw**2
+        self.coeff_dict['P62u'] = au**2 * 2*sw**2*cw**2
         self.coeff_dict['P63u'] = vu*au * 4*sw**2*cw**2
-        self.coeff_dict['P64u'] = (vu**2 - au**2)/2 * 4*sw**2*cw**2
+        self.coeff_dict['P64u'] = 0
 
-        self.coeff_dict['P61d'] = (vd**2 + 2*ad**2)/6 * 4*sw**2*cw**2
-        self.coeff_dict['P62d'] = ad**2/2 * 4*sw**2*cw**2
+        self.coeff_dict['P61d'] = vd**2 * 2*sw**2*cw**2
+        self.coeff_dict['P62d'] = ad**2 * 2*sw**2*cw**2
         self.coeff_dict['P63d'] = vd*ad * 4*sw**2*cw**2
-        self.coeff_dict['P64d'] = (vd**2 - ad**2)/2 * 4*sw**2*cw**2
+        self.coeff_dict['P64d'] = 0
 
-        self.coeff_dict['P61s'] = (vd**2 + 2*ad**2)/6 * 4*sw**2*cw**2
-        self.coeff_dict['P62s'] = ad**2/2 * 4*sw**2*cw**2
+        self.coeff_dict['P61s'] = vd**2 * 2*sw**2*cw**2
+        self.coeff_dict['P62s'] = ad**2 * 2*sw**2*cw**2
         self.coeff_dict['P63s'] = vd*ad * 4*sw**2*cw**2
-        self.coeff_dict['P64s'] = (vd**2 - ad**2)/2 * 4*sw**2*cw**2
+        self.coeff_dict['P64s'] = 0
 
-        self.coeff_dict['P61c'] = (vu**2 + 2*au**2)/6 * 4*sw**2*cw**2
-        self.coeff_dict['P62c'] = au**2/2 * 4*sw**2*cw**2
+        self.coeff_dict['P61c'] = vu**2 * 2*sw**2*cw**2
+        self.coeff_dict['P62c'] = au**2 * 2*sw**2*cw**2
         self.coeff_dict['P63c'] = vu*au * 4*sw**2*cw**2
-        self.coeff_dict['P64c'] = (vu**2 - au**2)/2 * 4*sw**2*cw**2
+        self.coeff_dict['P64c'] = 0
 
-        self.coeff_dict['P61b'] = (vd**2 + 2*ad**2)/6 * 4*sw**2*cw**2
-        self.coeff_dict['P62b'] = ad**2/2 * 4*sw**2*cw**2
+        self.coeff_dict['P61b'] = vd**2 * 2*sw**2*cw**2
+        self.coeff_dict['P62b'] = ad**2 * 2*sw**2*cw**2
         self.coeff_dict['P63b'] = vd*ad * 4*sw**2*cw**2
-        self.coeff_dict['P64b'] = (vd**2 - ad**2)/2 * 4*sw**2*cw**2
+        self.coeff_dict['P64b'] = 0
 
         # Now update with the user-specified values, if defined
 
