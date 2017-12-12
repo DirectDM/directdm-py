@@ -183,6 +183,33 @@ def ADM_SM_QCD(nf):
                              [0, 0, 0, 0, 0, 0, 4/3, 0],
                              [0, 0, 0, 0, 0, 0, 0, 0]])
 
+    adm_qpq_qppq = np.array([[0, 0, 0, 0, 0, 0, 0, 0],
+                             [0, 0, 0, 0, 0, 0, 0, 0],
+                             [0, 0, 0, 0, 0, 0, 0, 0],
+                             [0, 0, 0, 0, 0, 0, 0, 0],
+                             [0, 0, 0, 0, 4/3, 0, 0, 0],
+                             [0, 0, 0, 0, 0, 0, 0, 0],
+                             [0, 0, 0, 0, 0, 0, 0, 0],
+                             [0, 0, 0, 0, 0, 0, 0, 4/3]])
+
+    adm_qqp_qppq = np.array([[0, 0, 0, 0, 0, 0, 0, 0],
+                             [0, 0, 0, 0, 0, 0, 0, 0],
+                             [0, 0, 0, 0, 0, 0, 0, 0],
+                             [0, 0, 0, 0, 0, 0, 0, 0],
+                             [0, 0, 0, 0, 4/3, 0, 0, 0],
+                             [0, 0, 0, 0, 0, 0, 0, 0],
+                             [0, 0, 0, 0, 0, 0, 0, 4/3],
+                             [0, 0, 0, 0, 0, 0, 0, 0]])
+
+    adm_qpq_qqpp = np.array([[0, 0, 0, 0, 0, 0, 0, 0],
+                             [0, 0, 0, 0, 0, 0, 0, 0],
+                             [0, 0, 0, 0, 0, 0, 0, 0],
+                             [0, 0, 0, 0, 0, 0, 0, 0],
+                             [0, 0, 0, 0, 4/3, 0, 0, 0],
+                             [0, 0, 0, 0, 0, 0, 0, 0],
+                             [0, 0, 0, 0, 0, 0, 0, 0],
+                             [0, 0, 0, 0, 0, 0, 4/3, 0]])
+
     adm_q_q = np.array([[4, 4, 0, - 28/3],
                         [0, 0, 0, 44/3],
                         [0, 0, 44/9, 0],
@@ -197,52 +224,67 @@ def ADM_SM_QCD(nf):
                           [0, 0, 4/9, 0],
                           [0, 0, 0, 0]])
 
+
+    adm_qpq_q = np.array([[0, 0, 0, 0],
+                          [0, 0, 0, 0],
+                          [0, 0, 0, 0],
+                          [0, 0, 0, 0],
+                          [0, 0, 0, 4/3],
+                          [0, 0, 0, 0],
+                          [0, 0, 0, 0],
+                          [0, 0, 4/9, 0]])
+
     adm_q_qqp = np.array([[0, 0, 0, 0, 8/3, 0, 0, 0],
                           [0, 0, 0, 0, 8/3, 0, 0, 0],
                           [0, 0, 0, 0, 0, 0, 8/3, 0],
                           [0, 0, 0, 0, 20/9, 0, 0, 0]])
 
-    adm_ud = np.hstack((adm_qqp_qqp, adm_qqp_qqpp, adm_qqp_qqpp, adm_qqp_qqpp, adm_qqp_qqpp, adm_qqp_qqpp,\
-                        adm_qqp_qqpp, np.zeros((8, 24)), adm_qqp_q, adm_qqp_q, np.zeros((8,12))))
+    adm_q_qpq = np.array([[0, 0, 0, 0, 8/3, 0, 0, 0],
+                          [0, 0, 0, 0, 8/3, 0, 0, 0],
+                          [0, 0, 0, 0, 0, 0, 0, 8/3],
+                          [0, 0, 0, 0, 20/9, 0, 0, 0]])
 
-    adm_us = np.hstack((adm_qqp_qqpp, adm_qqp_qqp, adm_qqp_qqpp, adm_qqp_qqpp, adm_qqp_qqpp, np.zeros((8,16)),\
-                        adm_qqp_qqpp, adm_qqp_qqpp, np.zeros((8, 8)), adm_qqp_q, np.zeros((8,4)), adm_qqp_q, np.zeros((8,8))))
+    adm_ud = np.hstack((adm_qqp_qqp, adm_qqp_qqpp, adm_qqp_qqpp, adm_qqp_qqpp, adm_qpq_qqpp, adm_qpq_qqpp,\
+                        adm_qpq_qqpp, np.zeros((8, 24)), adm_qqp_q, adm_qpq_q, np.zeros((8,12))))
 
-    adm_uc = np.hstack((adm_qqp_qqpp, adm_qqp_qqpp, adm_qqp_qqp, adm_qqp_qqpp, np.zeros((8,8)), adm_qqp_qqpp,\
-                        np.zeros((8,8)), adm_qqp_qqpp, np.zeros((8, 8)), adm_qqp_qqpp, adm_qqp_q, np.zeros((8,8)), adm_qqp_q, np.zeros((8,4))))
+    adm_us = np.hstack((adm_qqp_qqpp, adm_qqp_qqp, adm_qqp_qqpp, adm_qqp_qqpp, adm_qpq_qppq, np.zeros((8,16)),\
+                        adm_qpq_qqpp, adm_qpq_qqpp, np.zeros((8, 8)), adm_qqp_q, np.zeros((8,4)), adm_qpq_q, np.zeros((8,8))))
 
-    adm_ub = np.hstack((adm_qqp_qqpp, adm_qqp_qqpp, adm_qqp_qqpp, adm_qqp_qqp, np.zeros((8,16)), adm_qqp_qqpp,\
-                        np.zeros((8,8)), adm_qqp_qqpp, adm_qqp_qqpp, adm_qqp_q, np.zeros((8,12)), adm_qqp_q))
+    adm_uc = np.hstack((adm_qqp_qqpp, adm_qqp_qqpp, adm_qqp_qqp, adm_qqp_qqpp, np.zeros((8,8)), adm_qpq_qppq,\
+                        np.zeros((8,8)), adm_qpq_qppq, np.zeros((8, 8)), adm_qpq_qqpp, adm_qqp_q, np.zeros((8,8)), adm_qpq_q, np.zeros((8,4))))
 
-    adm_ds = np.hstack((adm_qqp_qqpp, adm_qqp_qqpp, np.zeros((8,16)), adm_qqp_qqp, adm_qqp_qqpp, adm_qqp_qqpp,\
-                        adm_qqp_qqpp, adm_qqp_qqpp, np.zeros((8,8)), np.zeros((8,4)), adm_qqp_q, adm_qqp_q, np.zeros((8,8))))
+    adm_ub = np.hstack((adm_qqp_qqpp, adm_qqp_qqpp, adm_qqp_qqpp, adm_qqp_qqp, np.zeros((8,16)), adm_qpq_qppq,\
+                        np.zeros((8,8)), adm_qpq_qppq, adm_qpq_qppq, adm_qqp_q, np.zeros((8,12)), adm_qpq_q))
 
-    adm_dc = np.hstack((adm_qqp_qqpp, np.zeros((8,8)), adm_qqp_qqpp, np.zeros((8,8)), adm_qqp_qqpp, adm_qqp_qqp, adm_qqp_qqpp,\
-                        adm_qqp_qqpp, np.zeros((8,8)), adm_qqp_qqpp, np.zeros((8,4)), adm_qqp_q, np.zeros((8,4)), adm_qqp_q, np.zeros((8,4))))
+    adm_ds = np.hstack((adm_qqp_qppq, adm_qpq_qppq, np.zeros((8,16)), adm_qqp_qqp, adm_qqp_qqpp, adm_qqp_qqpp,\
+                        adm_qpq_qqpp, adm_qpq_qqpp, np.zeros((8,8)), np.zeros((8,4)), adm_qqp_q, adm_qpq_q, np.zeros((8,8))))
 
-    adm_db = np.hstack((adm_qqp_qqpp, np.zeros((8,16)), adm_qqp_qqpp, adm_qqp_qqpp, adm_qqp_qqpp, adm_qqp_qqp,\
-                        np.zeros((8,8)), adm_qqp_qqpp, adm_qqp_qqpp, np.zeros((8,4)), adm_qqp_q, np.zeros((8,8)), adm_qqp_q))
+    adm_dc = np.hstack((adm_qqp_qppq, np.zeros((8,8)), adm_qpq_qppq, np.zeros((8,8)), adm_qqp_qqpp, adm_qqp_qqp, adm_qqp_qqpp,\
+                        adm_qpq_qppq, np.zeros((8,8)), adm_qpq_qqpp, np.zeros((8,4)), adm_qqp_q, np.zeros((8,4)), adm_qpq_q, np.zeros((8,4))))
 
-    adm_sc = np.hstack((np.zeros((8,8)), adm_qqp_qqpp, adm_qqp_qqpp, np.zeros((8,8)), adm_qqp_qqpp, adm_qqp_qqpp, np.zeros((8,8)),\
-                        adm_qqp_qqp, adm_qqp_qqpp, adm_qqp_qqpp, np.zeros((8,8)), adm_qqp_q, adm_qqp_q, np.zeros((8,4))))
+    adm_db = np.hstack((adm_qqp_qppq, np.zeros((8,16)), adm_qpq_qppq, adm_qqp_qqpp, adm_qqp_qqpp, adm_qqp_qqp,\
+                        np.zeros((8,8)), adm_qpq_qppq, adm_qpq_qppq, np.zeros((8,4)), adm_qqp_q, np.zeros((8,8)), adm_qpq_q))
 
-    adm_sb = np.hstack((np.zeros((8,8)), adm_qqp_qqpp, np.zeros((8,8)), adm_qqp_qqpp, adm_qqp_qqpp, np.zeros((8,8)), adm_qqp_qqpp,\
-                        adm_qqp_qqpp, adm_qqp_qqp, adm_qqp_qqpp, np.zeros((8,8)), adm_qqp_q, np.zeros((8,4)), adm_qqp_q))
+    adm_sc = np.hstack((np.zeros((8,8)), adm_qqp_qppq, adm_qpq_qppq, np.zeros((8,8)), adm_qqp_qppq, adm_qpq_qppq, np.zeros((8,8)),\
+                        adm_qqp_qqp, adm_qqp_qqpp, adm_qpq_qqpp, np.zeros((8,8)), adm_qqp_q, adm_qpq_q, np.zeros((8,4))))
 
-    adm_cb = np.hstack((np.zeros((8,16)), adm_qqp_qqpp, adm_qqp_qqpp, np.zeros((8,8)), adm_qqp_qqpp, adm_qqp_qqpp,\
-                        adm_qqp_qqpp, adm_qqp_qqpp, adm_qqp_qqp, np.zeros((8,12)), adm_qqp_q, adm_qqp_q))
+    adm_sb = np.hstack((np.zeros((8,8)), adm_qqp_qppq, np.zeros((8,8)), adm_qpq_qppq, adm_qqp_qppq, np.zeros((8,8)), adm_qpq_qppq,\
+                        adm_qqp_qqpp, adm_qqp_qqp, adm_qpq_qppq, np.zeros((8,8)), adm_qqp_q, np.zeros((8,4)), adm_qpq_q))
+
+    adm_cb = np.hstack((np.zeros((8,16)), adm_qqp_qppq, adm_qpq_qppq, np.zeros((8,8)), adm_qqp_qppq, adm_qpq_qppq,\
+                        adm_qqp_qppq, adm_qpq_qppq, adm_qqp_qqp, np.zeros((8,12)), adm_qqp_q, adm_qpq_q))
 
     adm_u = np.hstack((adm_q_qqp, adm_q_qqp, adm_q_qqp, adm_q_qqp, np.zeros((4,48)), adm_q_q, np.zeros((4,16))))
 
-    adm_d = np.hstack((adm_q_qqp, np.zeros((4,24)), adm_q_qqp, adm_q_qqp, adm_q_qqp, np.zeros((4,24)), np.zeros((4,4)), adm_q_q, np.zeros((4,12))))
+    adm_d = np.hstack((adm_q_qpq, np.zeros((4,24)), adm_q_qqp, adm_q_qqp, adm_q_qqp, np.zeros((4,24)), np.zeros((4,4)), adm_q_q, np.zeros((4,12))))
 
-    adm_s = np.hstack((np.zeros((4,8)), adm_q_qqp, np.zeros((4,16)), adm_q_qqp, np.zeros((4,16)), adm_q_qqp, adm_q_qqp, np.zeros((4,8)),\
+    adm_s = np.hstack((np.zeros((4,8)), adm_q_qpq, np.zeros((4,16)), adm_q_qpq, np.zeros((4,16)), adm_q_qqp, adm_q_qqp, np.zeros((4,8)),\
                        np.zeros((4,8)), adm_q_q, np.zeros((4,8))))
 
-    adm_c = np.hstack((np.zeros((4,16)), adm_q_qqp, np.zeros((4,16)), adm_q_qqp, np.zeros((4,8)), adm_q_qqp, np.zeros((4,8)), adm_q_qqp,\
+    adm_c = np.hstack((np.zeros((4,16)), adm_q_qpq, np.zeros((4,16)), adm_q_qpq, np.zeros((4,8)), adm_q_qpq, np.zeros((4,8)), adm_q_qqp,\
                        np.zeros((4,12)), adm_q_q, np.zeros((4,4))))
 
-    adm_b = np.hstack((np.zeros((4,24)), adm_q_qqp, np.zeros((4,16)), adm_q_qqp, np.zeros((4,8)), adm_q_qqp, adm_q_qqp, np.zeros((4,16)), adm_q_q))
+    adm_b = np.hstack((np.zeros((4,24)), adm_q_qpq, np.zeros((4,16)), adm_q_qpq, np.zeros((4,8)), adm_q_qpq, adm_q_qpq, np.zeros((4,16)), adm_q_q))
 
 
     adm = np.vstack((adm_ud, adm_us, adm_uc, adm_ub, adm_ds, adm_dc, adm_db, adm_sc, adm_sb, adm_cb, adm_u, adm_d, adm_s, adm_c, adm_b))
