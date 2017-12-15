@@ -51,6 +51,8 @@ class Num_input(object):
         # PDG
         self.mb_at_mb = 4.18 #GeV
         self.dmb_at_mb = 0.04 #GeV
+        self.mc_at_mc = 1.28 #GeV
+        self.dmc_at_mc = 0.03 #GeV
 
         # Light-quark masses from PDG. MSbar scheme at 2 GeV
         self.ms_at_2GeV = 0.096 #GeV
