@@ -339,25 +339,25 @@ def ADT_QCD(nf):
 
     # Create the ADT:
 
-    gamma_hat_P63uc_Q81u = np.hstack((np.zeros(3), -48 * mc**2/mu**2, np.zeros(6)))
-    gamma_hat_P63ub_Q81u = np.hstack((np.zeros(4), -48 * mb**2/mu**2, np.zeros(5)))
+    gamma_hat_P63cu_Q81u = np.hstack((np.zeros(3), -48 * mc**2/mu**2, np.zeros(6)))
+    gamma_hat_P63bu_Q81u = np.hstack((np.zeros(4), -48 * mb**2/mu**2, np.zeros(5)))
 
-    gamma_hat_P63dc_Q81d = np.hstack((np.zeros(3), -48 * mc**2/md**2, np.zeros(6)))
-    gamma_hat_P63db_Q81d = np.hstack((np.zeros(4), -48 * mb**2/md**2, np.zeros(5)))
+    gamma_hat_P63cd_Q81d = np.hstack((np.zeros(3), -48 * mc**2/md**2, np.zeros(6)))
+    gamma_hat_P63bd_Q81d = np.hstack((np.zeros(4), -48 * mb**2/md**2, np.zeros(5)))
 
-    gamma_hat_P63sc_Q81s = np.hstack((np.zeros(3), -48 * mc**2/ms**2, np.zeros(6)))
-    gamma_hat_P63sb_Q81s = np.hstack((np.zeros(4), -48 * mb**2/ms**2, np.zeros(5)))
+    gamma_hat_P63cs_Q81s = np.hstack((np.zeros(3), -48 * mc**2/ms**2, np.zeros(6)))
+    gamma_hat_P63bs_Q81s = np.hstack((np.zeros(4), -48 * mb**2/ms**2, np.zeros(5)))
 
 
 
-    gamma_hat_P63uc_Q82u = np.hstack((np.zeros(8), -48 * mc**2/mu**2, np.zeros(1)))
-    gamma_hat_P63ub_Q82u = np.hstack((np.zeros(9), -48 * mb**2/mu**2))
+    gamma_hat_P63cu_Q82u = np.hstack((np.zeros(8), -48 * mc**2/mu**2, np.zeros(1)))
+    gamma_hat_P63bu_Q82u = np.hstack((np.zeros(9), -48 * mb**2/mu**2))
 
-    gamma_hat_P63dc_Q82d = np.hstack((np.zeros(8), -48 * mc**2/md**2, np.zeros(1)))
-    gamma_hat_P63db_Q82d = np.hstack((np.zeros(9), -48 * mb**2/md**2))
+    gamma_hat_P63cd_Q82d = np.hstack((np.zeros(8), -48 * mc**2/md**2, np.zeros(1)))
+    gamma_hat_P63bd_Q82d = np.hstack((np.zeros(9), -48 * mb**2/md**2))
 
-    gamma_hat_P63sc_Q82s = np.hstack((np.zeros(8), -48 * mc**2/ms**2, np.zeros(1)))
-    gamma_hat_P63sb_Q82s = np.hstack((np.zeros(9), -48 * mb**2/ms**2))
+    gamma_hat_P63cs_Q82s = np.hstack((np.zeros(8), -48 * mc**2/ms**2, np.zeros(1)))
+    gamma_hat_P63bs_Q82s = np.hstack((np.zeros(9), -48 * mb**2/ms**2))
 
 
 
@@ -383,13 +383,13 @@ def ADT_QCD(nf):
 
 
 
-    gamma_hat_Q81u = np.vstack((np.zeros((18,10)), gamma_hat_P63uc_Q81u, np.zeros((7,10)), gamma_hat_P63ub_Q81u, np.zeros((53,10))))
-    gamma_hat_Q81d = np.vstack((np.zeros((42,10)), gamma_hat_P63dc_Q81d, np.zeros((7,10)), gamma_hat_P63db_Q81d, np.zeros((29,10))))
-    gamma_hat_Q81s = np.vstack((np.zeros((58,10)), gamma_hat_P63sc_Q81s, np.zeros((7,10)), gamma_hat_P63sb_Q81s, np.zeros((13,10))))
+    gamma_hat_Q81u = np.vstack((np.zeros((19,10)), gamma_hat_P63cu_Q81u, np.zeros((7,10)), gamma_hat_P63bu_Q81u, np.zeros((52,10))))
+    gamma_hat_Q81d = np.vstack((np.zeros((43,10)), gamma_hat_P63cd_Q81d, np.zeros((7,10)), gamma_hat_P63bd_Q81d, np.zeros((28,10))))
+    gamma_hat_Q81s = np.vstack((np.zeros((59,10)), gamma_hat_P63cs_Q81s, np.zeros((7,10)), gamma_hat_P63bs_Q81s, np.zeros((12,10))))
 
-    gamma_hat_Q82u = np.vstack((np.zeros((18,10)), gamma_hat_P63uc_Q82u, np.zeros((7,10)), gamma_hat_P63ub_Q82u, np.zeros((53,10))))
-    gamma_hat_Q82d = np.vstack((np.zeros((42,10)), gamma_hat_P63dc_Q82d, np.zeros((7,10)), gamma_hat_P63db_Q82d, np.zeros((29,10))))
-    gamma_hat_Q82s = np.vstack((np.zeros((58,10)), gamma_hat_P63sc_Q82s, np.zeros((7,10)), gamma_hat_P63sb_Q82s, np.zeros((13,10))))
+    gamma_hat_Q82u = np.vstack((np.zeros((19,10)), gamma_hat_P63cu_Q82u, np.zeros((7,10)), gamma_hat_P63bu_Q82u, np.zeros((52,10))))
+    gamma_hat_Q82d = np.vstack((np.zeros((43,10)), gamma_hat_P63cd_Q82d, np.zeros((7,10)), gamma_hat_P63bd_Q82d, np.zeros((28,10))))
+    gamma_hat_Q82s = np.vstack((np.zeros((59,10)), gamma_hat_P63cs_Q82s, np.zeros((7,10)), gamma_hat_P63bs_Q82s, np.zeros((12,10))))
 
     gamma_hat_Q83u = np.vstack((np.zeros((17,10)), gamma_hat_P62uc_Q83u, np.zeros((7,10)), gamma_hat_P62ub_Q83u, np.zeros((54,10))))
     gamma_hat_Q83d = np.vstack((np.zeros((41,10)), gamma_hat_P62dc_Q83d, np.zeros((7,10)), gamma_hat_P62db_Q83d, np.zeros((30,10))))
