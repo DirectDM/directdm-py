@@ -1264,19 +1264,6 @@ class WC_4f(object):
         self.ADM_SM = adm.ADM_SM_QCD(4)
 
 
-    def run(self, mu_low=None, double_QCD=None):
-        """ Running of 4-flavor Wilson coefficients
-
-        Calculate the running from mb(mb) to mu_low [GeV; default 2 GeV] in the four-flavor theory. 
-
-        Return a dictionary of Wilson coefficients for the four-flavor Lagrangian
-        at scale mu_low.
-        """
-        if mu_low is None:
-            mu_low=2
-        if double_QCD is None:
-            double_QCD=True
-
 
         #--------------------------------------------------------------------#
         # The effective anomalous dimension for mixing into dimension eight: #
@@ -1293,12 +1280,24 @@ class WC_4f(object):
         #
         # Note that the mixing of the SM operators with four equal flavors does not contribute if we neglect yu, yd, ys! 
 
-        if double_QCD:
-            ADM_eff = [np.vstack((np.hstack((self.ADM_SM, np.vstack((C6_dot_ADM_hat, np.zeros((16,12)))))),\
-                                  np.hstack((np.zeros((12,64)), self.gamma_QCD_dim8))))]
-        else:
-            ADM_eff = [np.vstack((np.hstack((np.zeros((64,64)), np.vstack((C6_dot_ADM_hat, np.zeros((16,12)))))),\
-                                  np.hstack((np.zeros((12,64)), self.gamma_QCD_dim8))))]
+        self.ADM_eff = [np.vstack((np.hstack((self.ADM_SM, np.vstack((C6_dot_ADM_hat, np.zeros((16,12)))))),\
+                              np.hstack((np.zeros((12,64)), self.gamma_QCD_dim8))))]
+
+
+
+
+    def run(self, mu_low=None, double_QCD=None):
+        """ Running of 4-flavor Wilson coefficients
+
+        Calculate the running from mb(mb) to mu_low [GeV; default 2 GeV] in the four-flavor theory. 
+
+        Return a dictionary of Wilson coefficients for the four-flavor Lagrangian
+        at scale mu_low.
+        """
+        if mu_low is None:
+            mu_low=2
+        if double_QCD is None:
+            double_QCD=True
 
 
         #-------------#
@@ -1310,10 +1309,16 @@ class WC_4f(object):
         mb = ip.mb_at_mb
         alpha_at_mc = 1/ip.aMZinv
 
+        if double_QCD:
+            adm_eff = self.ADM_eff
+        else:
+            projector = np.vstack((np.hstack((np.zeros((64,64)), np.ones((64,12)))), np.zeros((12,76))))
+            adm_eff = [np.multiply(projector, self.ADM_eff[0])]
+
         as41 = rge.AlphaS(4,1)
         evolve1 = rge.RGE(self.gamma_QCD, 4)
         evolve2 = rge.RGE(self.gamma_QCD2, 4)
-        evolve8 = rge.RGE(ADM_eff, 4)
+        evolve8 = rge.RGE(adm_eff, 4)
 
         # Mixing in the dim.6 DM-SM sector
         #
@@ -1707,14 +1712,14 @@ class WC_5f(object):
         ad = -(-1/2)/(2*sw*cw)
         au = -(1/2)/(2*sw*cw)
 
-        self.coeff_dict['P61ud'] = vu*vd * 4*sw**2*cw**2 - 1/6
-        self.coeff_dict['P62ud'] = au*ad * 4*sw**2*cw**2 - 1/6
-        self.coeff_dict['P63ud'] = au*vd * 4*sw**2*cw**2 + 1/6
-        self.coeff_dict['P63du'] = ad*vu * 4*sw**2*cw**2 + 1/6
-        self.coeff_dict['P64ud'] = -1
-        self.coeff_dict['P65ud'] = -1
-        self.coeff_dict['P66ud'] = 1
-        self.coeff_dict['P66du'] = 1
+        self.coeff_dict['P61ud'] = vu*vd * 4*sw**2*cw**2 + 1/6
+        self.coeff_dict['P62ud'] = au*ad * 4*sw**2*cw**2 + 1/6
+        self.coeff_dict['P63ud'] = au*vd * 4*sw**2*cw**2 - 1/6
+        self.coeff_dict['P63du'] = ad*vu * 4*sw**2*cw**2 - 1/6
+        self.coeff_dict['P64ud'] = 1
+        self.coeff_dict['P65ud'] = 1
+        self.coeff_dict['P66ud'] = -1
+        self.coeff_dict['P66du'] = -1
 
         self.coeff_dict['P61us'] = vu*vd * 4*sw**2*cw**2
         self.coeff_dict['P62us'] = au*ad * 4*sw**2*cw**2
@@ -1770,14 +1775,14 @@ class WC_5f(object):
         self.coeff_dict['P66db'] = 0
         self.coeff_dict['P66bd'] = 0
 
-        self.coeff_dict['P61sc'] = vd*vu * 4*sw**2*cw**2 - 1/6
-        self.coeff_dict['P62sc'] = ad*au * 4*sw**2*cw**2 - 1/6
-        self.coeff_dict['P63sc'] = ad*vu * 4*sw**2*cw**2 + 1/6
-        self.coeff_dict['P63cs'] = au*vd * 4*sw**2*cw**2 + 1/6
-        self.coeff_dict['P64sc'] = -1
-        self.coeff_dict['P65sc'] = -1
-        self.coeff_dict['P66sc'] = 1
-        self.coeff_dict['P66cs'] = 1
+        self.coeff_dict['P61sc'] = vd*vu * 4*sw**2*cw**2 + 1/6
+        self.coeff_dict['P62sc'] = ad*au * 4*sw**2*cw**2 + 1/6
+        self.coeff_dict['P63sc'] = ad*vu * 4*sw**2*cw**2 - 1/6
+        self.coeff_dict['P63cs'] = au*vd * 4*sw**2*cw**2 - 1/6
+        self.coeff_dict['P64sc'] = 1
+        self.coeff_dict['P65sc'] = 1
+        self.coeff_dict['P66sc'] = -1
+        self.coeff_dict['P66cs'] = -1
 
         self.coeff_dict['P61sb'] = vd*vd * 4*sw**2*cw**2
         self.coeff_dict['P62sb'] = ad*ad * 4*sw**2*cw**2
@@ -1878,6 +1883,25 @@ class WC_5f(object):
 
         self.ADM_SM = adm.ADM_SM_QCD(5)
 
+        #--------------------------------------------------------------------#
+        # The effective anomalous dimension for mixing into dimension eight: #
+        #--------------------------------------------------------------------#
+
+        # We need to contract the ADT with a subset of the dim.-6 Wilson coefficients
+        if self.DM_type == "D":
+            DM_dim6_init = np.delete(self.coeff_list_dm_dim6_dim7, np.r_[np.s_[0:18], np.s_[23:26], np.s_[31:154]])
+
+        # The columns of ADM_eff correspond to SM6 operators; the rows of ADM_eff correspond to DM8 operators; 
+        C6_dot_ADM_hat = np.transpose(np.tensordot(DM_dim6_init, self.gamma_hat, (0,2)))
+
+        # The effective ADM
+        #
+        # Note that the mixing of the SM operators with four equal flavors does not contribute if we neglect yu, yd, ys! 
+
+        self.ADM_eff = [np.vstack((np.hstack((self.ADM_SM, np.vstack((C6_dot_ADM_hat, np.zeros((20,12)))))),\
+                              np.hstack((np.zeros((12,100)), self.gamma_QCD_dim8))))]
+
+
 
 
     def run(self, mu_low=None, double_QCD=None):
@@ -1895,29 +1919,6 @@ class WC_5f(object):
         if double_QCD is None:
             double_QCD=True
 
-
-        #--------------------------------------------------------------------#
-        # The effective anomalous dimension for mixing into dimension eight: #
-        #--------------------------------------------------------------------#
-
-        # We need to contract the ADT with a subset of the dim.-6 Wilson coefficients
-        if self.DM_type == "D":
-            DM_dim6_init = np.delete(self.coeff_list_dm_dim6_dim7, np.r_[np.s_[0:18], np.s_[23:26], np.s_[31:154]])
-
-        # The columns of ADM_eff correspond to SM6 operators; the rows of ADM_eff correspond to DM8 operators; 
-        C6_dot_ADM_hat = np.transpose(np.tensordot(DM_dim6_init, self.gamma_hat, (0,2)))
-
-        # The effective ADM
-        #
-        # Note that the mixing of the SM operators with four equal flavors does not contribute if we neglect yu, yd, ys! 
-
-        if double_QCD:
-            ADM_eff = [np.vstack((np.hstack((self.ADM_SM, np.vstack((C6_dot_ADM_hat, np.zeros((20,12)))))),\
-                                  np.hstack((np.zeros((12,100)), self.gamma_QCD_dim8))))]
-        else:
-            ADM_eff = [np.vstack((np.hstack((np.zeros((100,100)), np.vstack((C6_dot_ADM_hat, np.zeros((20,12)))))),\
-                                  np.hstack((np.zeros((12,100)), self.gamma_QCD_dim8))))]
-
         #-------------#
         # The running #
         #-------------#
@@ -1925,10 +1926,16 @@ class WC_5f(object):
         MZ = ip.Mz
         alpha_at_mb = 1/ip.aMZinv
 
+        if double_QCD:
+            adm_eff = self.ADM_eff
+        else:
+            projector = np.vstack((np.hstack((np.zeros((100,100)), np.ones((100,12)))), np.zeros((12,112))))
+            adm_eff = [np.multiply(projector, self.ADM_eff[0])]
+
         as51 = rge.AlphaS(5,1)
         evolve1 = rge.RGE(self.gamma_QCD, 5)
         evolve2 = rge.RGE(self.gamma_QCD2, 5)
-        evolve8 = rge.RGE(ADM_eff, 5)
+        evolve8 = rge.RGE(adm_eff, 5)
 
         # Mixing in the dim.6 DM-SM sector
         #
