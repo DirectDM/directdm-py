@@ -8,7 +8,7 @@ class Num_input(object):
     def __init__(self):
     # numerical input. All masses in GeV.
 
-        # couplings
+        # couplings etc.
         self.asMZ = 0.1181
         self.dasMZ = 0.0011
         self.GF = 1.166367*10**(-5)
@@ -19,6 +19,8 @@ class Num_input(object):
         self.damtauinv = 0.016
         self.alowinv = 137.035999139
         self.dalowinv = 0.000000031
+        self.sw_MSbar = 0.23129
+        self.dsw_MSbar = 0.00005
 
         # Boson masses
         self.Mz = 91.1876
