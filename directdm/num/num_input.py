@@ -19,8 +19,8 @@ class Num_input(object):
         self.damtauinv = 0.016
         self.alowinv = 137.035999139
         self.dalowinv = 0.000000031
-        self.sw_MSbar = 0.23129
-        self.dsw_MSbar = 0.00005
+        self.sw2_MSbar = 0.23129
+        self.dsw2_MSbar = 0.00005
 
         # Boson masses
         self.Mz = 91.1876

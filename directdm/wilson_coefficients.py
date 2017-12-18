@@ -1705,10 +1705,8 @@ class WC_5f(object):
 
         ip = Num_input()
 
-        MW = ip.Mw
-        MZ = ip.Mz
-        cw = MW/MZ
-        sw = np.sqrt(1-cw**2)
+        sw = np.sqrt(ip.sw2_MSbar)
+        cw = np.sqrt(1-sw**2)
         vd = (-1/2 - 2*sw**2*(-1/3))/(2*sw*cw)
         vu = (1/2 - 2*sw**2*(2/3))/(2*sw*cw)
         ad = -(-1/2)/(2*sw*cw)
