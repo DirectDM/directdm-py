@@ -36,10 +36,10 @@ class Num_input(object):
         self.me = 0.000510998928
 
         # Baryon masses
-        self.mproton = 938.272046e-3
-        self.dmproton = 0.000021e-3
-        self.mneutron = 939.565379e-3
-        self.dmneutron = 0.000021e-3
+        self.mproton = 938.272081e-3
+        self.dmproton = 0.000006e-3
+        self.mneutron = 939.565413e-3
+        self.dmneutron = 0.000006e-3
         self.mN = (self.mproton+self.mneutron)/2
 
         # Meson masses
@@ -67,11 +67,11 @@ class Num_input(object):
         self.dmc_at_3GeV = 0.013 # GeV
 
         # Quark masses at MZ (at 1-loop )
-        self.mu_at_MZ = 1.4e-3
-        self.md_at_MZ = 3.1e-3
-        self.ms_at_MZ = 63e-3
-        self.mc_at_MZ = 0.78
-        self.mb_at_MZ = 3.1
+        self.mu_at_MZ = 1.4480486828689913e-3
+        self.md_at_MZ = 3.093558685557306e-3
+        self.ms_at_MZ = 63.187583673361705e-3
+        self.mc_at_MZ = 0.77668071703323294
+        self.mb_at_MZ = 3.0766883845975763
 
 
 
