@@ -205,7 +205,7 @@ class WC_3f(object):
                 self.coeff_dict[wc_name] = 0.
 
         # Create the np.array of coefficients:
-        self.coeff_list_dm_dim6_dim7 = np.array(dict_to_list(self.coeff_dict, self.wc_name_list))
+        self.coeff_list_dm_dim5_dim6_dim7 = np.array(dict_to_list(self.coeff_dict, self.wc_name_list))
         self.coeff_list_dm_dim8 = np.array(dict_to_list(self.coeff_dict, self.wc8_name_list))
 
 
@@ -259,9 +259,9 @@ class WC_3f(object):
         evolve2 = rge.RGE(self.gamma_QCD2, 3)
         evolve8 = rge.RGE([self.gamma_QCD_dim8], 3)
 
-        C_at_mu_QCD = np.dot(evolve2.U0_as2(as31.run(2),as31.run(mu_low)), np.dot(evolve1.U0(as31.run(2),as31.run(mu_low)), self.coeff_list_dm_dim6_dim7))
-        C_at_mu_QED = np.dot(self.coeff_list_dm_dim6_dim7, self.gamma_QED) * np.log(mu_low/2) * alpha_at_mu/(4*np.pi)\
-                      + np.dot(self.coeff_list_dm_dim6_dim7, self.gamma_QED2) * np.log(mu_low/2) * (alpha_at_mu/(4*np.pi))**2
+        C_at_mu_QCD = np.dot(evolve2.U0_as2(as31.run(2),as31.run(mu_low)), np.dot(evolve1.U0(as31.run(2),as31.run(mu_low)), self.coeff_list_dm_dim5_dim6_dim7))
+        C_at_mu_QED = np.dot(self.coeff_list_dm_dim5_dim6_dim7, self.gamma_QED) * np.log(mu_low/2) * alpha_at_mu/(4*np.pi)\
+                      + np.dot(self.coeff_list_dm_dim5_dim6_dim7, self.gamma_QED2) * np.log(mu_low/2) * (alpha_at_mu/(4*np.pi))**2
         C_dim8_at_mu = np.dot(evolve8.U0(as31.run(2),as31.run(mu_low)), self.coeff_list_dm_dim8)
 
         # Revert back to dictionary
@@ -1081,6 +1081,9 @@ class WC_4f(object):
                              'P61s', 'P62s', 'P63s', 'P64s', 
                              'P61c', 'P62c', 'P63c', 'P64c']
 
+        self.sm_lepton_name_list = ['P62ue', 'P62umu', 'P62utau', 'P62de', 'P62dmu', 'P62dtau', 'P62se', 'P62smu', 'P62stau', 
+                                    'P63eu', 'P63muu', 'P63tauu', 'P63ed', 'P63mud', 'P63taud', 'P63es', 'P63mus', 'P63taus']
+
         if self.DM_type == "D":
             self.wc_name_list = ['C51', 'C52', 'C61u', 'C61d', 'C61s', 'C61c', 'C61e', 'C61mu', 'C61tau', 
                                  'C62u', 'C62d', 'C62s', 'C62c', 'C62e', 'C62mu', 'C62tau',
@@ -1204,6 +1207,8 @@ class WC_4f(object):
                 pass
             elif wc_name in self.sm_name_list:
                 pass
+            elif wc_name in self.sm_lepton_name_list:
+                pass
             else:
                 warnings.warn('The key ' + wc_name + ' is not a valid key. Typo?')
 
@@ -1227,11 +1232,18 @@ class WC_4f(object):
             else:
                 self.coeff_dict[wc_name] = 0.
 
+        for wc_name in self.sm_lepton_name_list:
+            if wc_name in coeff_dict.keys():
+                self.coeff_dict[wc_name] = coeff_dict[wc_name]
+            else:
+                self.coeff_dict[wc_name] = 0.
+
 
         # Create the np.array of coefficients:
-        self.coeff_list_dm_dim6_dim7 = np.array(dict_to_list(self.coeff_dict, self.wc_name_list))
+        self.coeff_list_dm_dim5_dim6_dim7 = np.array(dict_to_list(self.coeff_dict, self.wc_name_list))
         self.coeff_list_dm_dim8 = np.array(dict_to_list(self.coeff_dict, self.wc8_name_list))
         self.coeff_list_sm_dim6 = np.array(dict_to_list(self.coeff_dict, self.sm_name_list))
+        self.coeff_list_sm_lepton_dim6 = np.array(dict_to_list(self.coeff_dict, self.sm_lepton_name_list))
 
 
 
@@ -1247,6 +1259,7 @@ class WC_4f(object):
             self.gamma_QCD2 = adm.ADM_QCD2(4)
             self.gamma_QCD_dim8 = adm.ADM_QCD_dim8(4)
             self.gamma_hat = adm.ADT_QCD(4)
+            self.gamma_hat_lepton = adm.ADT_QCD_LEPTON()
         if self.DM_type == "M":
             self.gamma_QED = np.delete(np.delete(adm.ADM_QED(4), del_ind_list, 0), del_ind_list, 1)
             self.gamma_QED2 = np.delete(np.delete(adm.ADM_QED2(4), del_ind_list, 0), del_ind_list, 1)
@@ -1273,7 +1286,7 @@ class WC_4f(object):
 
         # We need to contract the ADT with a subset of the dim.-6 Wilson coefficients
         if self.DM_type == "D":
-            DM_dim6_init = np.delete(self.coeff_list_dm_dim6_dim7, np.r_[np.s_[0:16], np.s_[20:23], np.s_[27:136]])
+            DM_dim6_init = np.delete(self.coeff_list_dm_dim5_dim6_dim7, np.r_[np.s_[0:16], np.s_[20:23], np.s_[27:136]])
 
         # The columns of ADM_eff correspond to SM6 operators; the rows of ADM_eff correspond to DM8 operators; 
         C6_dot_ADM_hat = np.transpose(np.tensordot(DM_dim6_init, self.gamma_hat, (0,2)))
@@ -1285,6 +1298,18 @@ class WC_4f(object):
         self.ADM_eff = [np.vstack((np.hstack((self.ADM_SM, np.vstack((C6_dot_ADM_hat, np.zeros((16,12)))))),\
                               np.hstack((np.zeros((12,64)), self.gamma_QCD_dim8))))]
 
+
+
+        #-------------------------------------------------------------------------------#
+        # The effective anomalous dimension for mixing into dimension eight -- leptons: #
+        #-------------------------------------------------------------------------------#
+
+        # We need to contract the ADT with a subset of the dim.-6 Wilson coefficients
+        if self.DM_type == "D":
+            DM_dim6_lepton_init = np.delete(self.coeff_list_dm_dim5_dim6_dim7, np.r_[np.s_[0:20], np.s_[23:27], np.s_[30:136]])
+
+        # The effective ADM -- the columns of ADM_eff correspond to SM6 operators; the rows of ADM_eff correspond to DM8 operators:
+        self.ADM_eff_lepton = np.transpose(np.tensordot(DM_dim6_lepton_init, self.gamma_hat_lepton, (0,2)))
 
 
 
@@ -1325,24 +1350,28 @@ class WC_4f(object):
         # Mixing in the dim.6 DM-SM sector
         #
         # Strictly speaking, mb should be defined at scale mu_low (however, this is a higher-order difference)
-        C_at_mc_QCD = np.dot(evolve2.U0_as2(as41.run(mb),as41.run(mu_low)), np.dot(evolve1.U0(as41.run(mb),as41.run(mu_low)), self.coeff_list_dm_dim6_dim7))
-        C_at_mc_QED = np.dot(self.coeff_list_dm_dim6_dim7, self.gamma_QED) * np.log(mu_low/mb) * alpha_at_mc/(4*np.pi)\
-                      + np.dot(self.coeff_list_dm_dim6_dim7, self.gamma_QED2) * np.log(mu_low/mb) * (alpha_at_mc/(4*np.pi))**2
+        C_at_mc_QCD = np.dot(evolve2.U0_as2(as41.run(mb),as41.run(mu_low)), np.dot(evolve1.U0(as41.run(mb),as41.run(mu_low)), self.coeff_list_dm_dim5_dim6_dim7))
+        C_at_mc_QED = np.dot(self.coeff_list_dm_dim5_dim6_dim7, self.gamma_QED) * np.log(mu_low/mb) * alpha_at_mc/(4*np.pi)\
+                      + np.dot(self.coeff_list_dm_dim5_dim6_dim7, self.gamma_QED2) * np.log(mu_low/mb) * (alpha_at_mc/(4*np.pi))**2
 
         # Mixing in the dim.6 SM-SM and dim.8 DM-SM sector
 
         DIM6_DIM8_init = np.hstack((self.coeff_list_sm_dim6, self.coeff_list_dm_dim8))
 
-        DIM6_DIM8_at_mb = np.dot(evolve8.U0(as41.run(mb),as41.run(mu_low)), DIM6_DIM8_init)
+        DIM6_DIM8_at_mb =   np.dot(evolve8.U0(as41.run(mb),as41.run(mu_low)), DIM6_DIM8_init)\
+                          + np.hstack((np.zeros(64), np.dot(self.coeff_list_sm_lepton_dim6, self.ADM_eff_lepton)\
+                            * np.log(mu_low/mb) * as41.run(mu_low)/4/np.pi))
 
         # Revert back to dictionary
 
         dict_coeff_mc = list_to_dict(C_at_mc_QCD + C_at_mc_QED, self.wc_name_list)
         dict_dm_dim8 = list_to_dict(np.delete(DIM6_DIM8_at_mb, np.s_[0:64]), self.wc8_name_list)
         dict_sm_dim6 = list_to_dict(np.delete(DIM6_DIM8_at_mb, np.s_[64:70]), self.sm_name_list)
+        dict_sm_lepton_dim6 = list_to_dict(self.coeff_list_sm_lepton_dim6, self.sm_lepton_name_list)
 
         dict_coeff_mc.update(dict_dm_dim8)
         dict_coeff_mc.update(dict_sm_dim6)
+        dict_coeff_mc.update(dict_sm_lepton_dim6)
 
         return dict_coeff_mc
 
@@ -1566,6 +1595,9 @@ class WC_5f(object):
                                 'P61s', 'P62s', 'P63s', 'P64s', 
                                 'P61c', 'P62c', 'P63c', 'P64c']
 
+        self.sm_lepton_name_list = ['P62ue', 'P62umu', 'P62utau', 'P62de', 'P62dmu', 'P62dtau', 'P62se', 'P62smu', 'P62stau', 
+                                    'P63eu', 'P63muu', 'P63tauu', 'P63ed', 'P63mud', 'P63taud', 'P63es', 'P63mus', 'P63taus']
+
         if self.DM_type == "D":
             self.wc_name_list = ['C51', 'C52', 'C61u', 'C61d', 'C61s', 'C61c', 'C61b', 'C61e', 'C61mu', 'C61tau', 
                                  'C62u', 'C62d', 'C62s', 'C62c', 'C62b', 'C62e', 'C62mu', 'C62tau',
@@ -1689,6 +1721,8 @@ class WC_5f(object):
                 pass
             elif wc_name in self.sm_name_list:
                 pass
+            elif wc_name in self.sm_lepton_name_list:
+                pass
             else:
                 warnings.warn('The key ' + wc_name + ' is not a valid key. Typo?')
 
@@ -1711,6 +1745,9 @@ class WC_5f(object):
         vu = (1/2 - 2*sw**2*(2/3))/(2*sw*cw)
         ad = -(-1/2)/(2*sw*cw)
         au = -(1/2)/(2*sw*cw)
+
+        vl = (-1/2 - 2*sw**2*(-1))/(2*sw*cw)
+        al = -(-1/2)/(2*sw*cw)
 
         self.coeff_dict['P61ud'] = vu*vd * 4*sw**2*cw**2 + 1/6
         self.coeff_dict['P62ud'] = au*ad * 4*sw**2*cw**2 + 1/6
@@ -1827,6 +1864,33 @@ class WC_5f(object):
         self.coeff_dict['P63b'] = vd*ad * 4*sw**2*cw**2
         self.coeff_dict['P64b'] = 0
 
+        # Leptons
+
+        self.coeff_dict['P62ue'] = au*al * 4*sw**2*cw**2
+        self.coeff_dict['P62umu'] = au*al * 4*sw**2*cw**2
+        self.coeff_dict['P62utau'] = au*al * 4*sw**2*cw**2
+
+        self.coeff_dict['P62de'] = ad*al * 4*sw**2*cw**2
+        self.coeff_dict['P62dmu'] = ad*al * 4*sw**2*cw**2
+        self.coeff_dict['P62dtau'] = ad*al * 4*sw**2*cw**2
+
+        self.coeff_dict['P62se'] = ad*al * 4*sw**2*cw**2
+        self.coeff_dict['P62smu'] = ad*al * 4*sw**2*cw**2
+        self.coeff_dict['P62stau'] = ad*al * 4*sw**2*cw**2
+
+        self.coeff_dict['P63eu'] = al*vu * 4*sw**2*cw**2
+        self.coeff_dict['P63muu'] = al*vu * 4*sw**2*cw**2
+        self.coeff_dict['P63tauu'] = al*vu * 4*sw**2*cw**2
+
+        self.coeff_dict['P63ed'] = al*vd * 4*sw**2*cw**2
+        self.coeff_dict['P63mud'] = al*vd * 4*sw**2*cw**2
+        self.coeff_dict['P63taud'] = al*vd * 4*sw**2*cw**2
+
+        self.coeff_dict['P63es'] = al*vd * 4*sw**2*cw**2
+        self.coeff_dict['P63mus'] = al*vd * 4*sw**2*cw**2
+        self.coeff_dict['P63taus'] = al*vd * 4*sw**2*cw**2
+
+
         # Now update with the user-specified values, if defined
 
         for wc_name in self.wc_name_list:
@@ -1847,11 +1911,18 @@ class WC_5f(object):
             else:
                 pass
 
+        for wc_name in self.sm_lepton_name_list:
+            if wc_name in coeff_dict.keys():
+                self.coeff_dict[wc_name] = coeff_dict[wc_name]
+            else:
+                pass
+
 
         # Create the np.array of coefficients:
-        self.coeff_list_dm_dim6_dim7 = np.array(dict_to_list(self.coeff_dict, self.wc_name_list))
+        self.coeff_list_dm_dim5_dim6_dim7 = np.array(dict_to_list(self.coeff_dict, self.wc_name_list))
         self.coeff_list_dm_dim8 = np.array(dict_to_list(self.coeff_dict, self.wc8_name_list))
         self.coeff_list_sm_dim6 = np.array(dict_to_list(self.coeff_dict, self.sm_name_list))
+        self.coeff_list_sm_lepton_dim6 = np.array(dict_to_list(self.coeff_dict, self.sm_lepton_name_list))
 
 
         #---------------------------#
@@ -1865,6 +1936,7 @@ class WC_5f(object):
             self.gamma_QCD2 = adm.ADM_QCD2(5)
             self.gamma_QCD_dim8 = adm.ADM_QCD_dim8(5)
             self.gamma_hat = adm.ADT_QCD(5)
+            self.gamma_hat_lepton = adm.ADT_QCD_LEPTON()
         if self.DM_type == "M":
             self.gamma_QED = np.delete(np.delete(adm.ADM_QED(5), del_ind_list, 0), del_ind_list, 1)
             self.gamma_QED2 = np.delete(np.delete(adm.ADM_QED2(5), del_ind_list, 0), del_ind_list, 1)
@@ -1889,9 +1961,9 @@ class WC_5f(object):
 
         # We need to contract the ADT with a subset of the dim.-6 Wilson coefficients
         if self.DM_type == "D":
-            DM_dim6_init = np.delete(self.coeff_list_dm_dim6_dim7, np.r_[np.s_[0:18], np.s_[23:26], np.s_[31:154]])
+            DM_dim6_init = np.delete(self.coeff_list_dm_dim5_dim6_dim7, np.r_[np.s_[0:18], np.s_[23:26], np.s_[31:154]])
 
-        # The columns of ADM_eff correspond to SM6 operators; the rows of ADM_eff correspond to DM8 operators; 
+        # The columns of ADM_eff correspond to SM6 operators; the rows of ADM_eff correspond to DM8 operators:
         C6_dot_ADM_hat = np.transpose(np.tensordot(DM_dim6_init, self.gamma_hat, (0,2)))
 
         # The effective ADM
@@ -1899,8 +1971,20 @@ class WC_5f(object):
         # Note that the mixing of the SM operators with four equal flavors does not contribute if we neglect yu, yd, ys! 
 
         self.ADM_eff = [np.vstack((np.hstack((self.ADM_SM, np.vstack((C6_dot_ADM_hat, np.zeros((20,12)))))),\
-                              np.hstack((np.zeros((12,100)), self.gamma_QCD_dim8))))]
+                        np.hstack((np.zeros((12,100)), self.gamma_QCD_dim8))))]
 
+
+
+        #-------------------------------------------------------------------------------#
+        # The effective anomalous dimension for mixing into dimension eight -- leptons: #
+        #-------------------------------------------------------------------------------#
+
+        # We need to contract the ADT with a subset of the dim.-6 Wilson coefficients
+        if self.DM_type == "D":
+            DM_dim6_lepton_init = np.delete(self.coeff_list_dm_dim5_dim6_dim7, np.r_[np.s_[0:23], np.s_[26:31], np.s_[34:154]])
+
+        # The effective ADM -- the columns of ADM_eff correspond to SM6 operators; the rows of ADM_eff correspond to DM8 operators:
+        self.ADM_eff_lepton = np.transpose(np.tensordot(DM_dim6_lepton_init, self.gamma_hat_lepton, (0,2)))
 
 
 
@@ -1940,24 +2024,29 @@ class WC_5f(object):
         # Mixing in the dim.6 DM-SM sector
         #
         # Strictly speaking, MZ and mb should be defined at the same scale (however, this is a higher-order difference)
-        C_at_mb_QCD = np.dot(evolve2.U0_as2(as51.run(MZ),as51.run(mu_low)), np.dot(evolve1.U0(as51.run(MZ),as51.run(mu_low)), self.coeff_list_dm_dim6_dim7))
-        C_at_mb_QED = np.dot(self.coeff_list_dm_dim6_dim7, self.gamma_QED) * np.log(mu_low/MZ) * alpha_at_mb/(4*np.pi)\
-                      + np.dot(self.coeff_list_dm_dim6_dim7, self.gamma_QED2) * np.log(mu_low/MZ) * (alpha_at_mb/(4*np.pi))**2
+        C_at_mb_QCD = np.dot(evolve2.U0_as2(as51.run(MZ),as51.run(mu_low)), np.dot(evolve1.U0(as51.run(MZ),as51.run(mu_low)), self.coeff_list_dm_dim5_dim6_dim7))
+        C_at_mb_QED = np.dot(self.coeff_list_dm_dim5_dim6_dim7, self.gamma_QED) * np.log(mu_low/MZ) * alpha_at_mb/(4*np.pi)\
+                      + np.dot(self.coeff_list_dm_dim5_dim6_dim7, self.gamma_QED2) * np.log(mu_low/MZ) * (alpha_at_mb/(4*np.pi))**2
 
         # Mixing in the dim.6 SM-SM and dim.8 DM-SM sector
 
         DIM6_DIM8_init = np.hstack((self.coeff_list_sm_dim6, self.coeff_list_dm_dim8))
 
-        DIM6_DIM8_at_mb = np.dot(evolve8.U0(as51.run(MZ),as51.run(mu_low)), DIM6_DIM8_init)
+        DIM6_DIM8_at_mb =   np.dot(evolve8.U0(as51.run(MZ),as51.run(mu_low)), DIM6_DIM8_init)\
+                          + np.hstack((np.zeros(100), np.dot(self.coeff_list_sm_lepton_dim6, self.ADM_eff_lepton)\
+                            * np.log(mu_low/MZ) * as51.run(mu_low)/4/np.pi))
+
 
         # Revert back to dictionary
 
         dict_coeff_mb = list_to_dict(C_at_mb_QCD + C_at_mb_QED, self.wc_name_list)
         dict_dm_dim8 = list_to_dict(np.delete(DIM6_DIM8_at_mb, np.s_[0:100]), self.wc8_name_list)
-        dict_sm_dim6 = list_to_dict(np.delete(DIM6_DIM8_at_mb, np.s_[100:106]), self.sm_name_list)
+        dict_sm_dim6 = list_to_dict(np.delete(DIM6_DIM8_at_mb, np.s_[100:112]), self.sm_name_list)
+        dict_sm_lepton_dim6 = list_to_dict(self.coeff_list_sm_lepton_dim6, self.sm_lepton_name_list)
 
         dict_coeff_mb.update(dict_dm_dim8)
         dict_coeff_mb.update(dict_sm_dim6)
+        dict_coeff_mb.update(dict_sm_lepton_dim6)
 
         return dict_coeff_mb
 
@@ -1993,6 +2082,8 @@ class WC_5f(object):
             for wcn in self.wc8_name_list:
                 cdict4f[wcn] = cdold[wcn]
             for wcn in self.sm_name_list_4f:
+                cdict4f[wcn] = cdold[wcn]
+            for wcn in self.sm_lepton_name_list:
                 cdict4f[wcn] = cdold[wcn]
             cdict4f['C71'] = cdold['C71'] - cdold['C75b']
             cdict4f['C72'] = cdold['C72'] - cdold['C76b']
