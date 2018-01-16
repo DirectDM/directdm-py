@@ -4,11 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
 ## [Unreleased]
+### Added
+- Weak mixing below the weak scale, as detailed in [this publication](https://arxiv.org/abs/1801.04240)
+
 ### Changed
-- replaced argument name `mchi` by `DM_mass`
+- Replaced argument name `mchi` by `DM_mass`
+- Updated nucleon masses from [PDG](http://pdg.lbl.gov/)
 
 ### Fixed
 - A bug in `write_mma` (RG evolution was not switched of by optional argument `RGE=False`)
+- The charm quark is now consistently integrated out at 2 GeV
 
 ## [1.1.1] - 2017-10-27
 ### Added
