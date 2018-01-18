@@ -153,8 +153,12 @@ class WC_3f(object):
                                  'C715u', 'C715d', 'C715s', 'C715e', 'C715mu', 'C715tau', 'C716u', 'C716d', 'C716s', 'C716e', 'C716mu', 'C716tau',
                                  'C717u', 'C717d', 'C717s', 'C717e', 'C717mu', 'C717tau', 'C718u', 'C718d', 'C718s', 'C718e', 'C718mu', 'C718tau']
 
+            self.wc8_name_list = ['C82u', 'C82d', 'C82s', 'C84u', 'C84d', 'C84s']
+
             # The list of indices to be deleted from the QCD/QED ADM because of less operators
-            del_ind_list = [i for i in range(0,8)] + [i for i in range(14,20)] + [i for i in range(54,66)] + [i for i in range(94,118)]
+            del_ind_list = np.r_[np.s_[0:8], np.s_[14:20], np.s_[54:66], np.s_[94:118]]
+            # The list of indices to be deleted from the dim.8 ADM because of less operators
+            del_ind_list_dim_8 = np.r_[np.s_[0:3], np.s_[6:9]]
 
         if self.DM_type == "C":
             self.wc_name_list = ['C61u', 'C61d', 'C61s', 'C61e', 'C61mu', 'C61tau', 
@@ -164,9 +168,13 @@ class WC_3f(object):
                                  'C64u', 'C64d', 'C64s', 'C64e', 'C64mu', 'C64tau',
                                  'C67', 'C68']
 
+            self.wc8_name_list = ['C81u', 'C81d', 'C81s', 'C82u', 'C82d', 'C82s']
+
             # The list of indices to be deleted from the QCD/QED ADM because of less operators
-            del_ind_list = [0,1] + [i for i in range(8,14)] + [i for i in range(20,26)] + [27] + [29] + [i for i in range(36,42)]\
-                           + [i for i in range(48,66)] + [67] + [69] + [i for i in range(70,118)]
+            del_ind_list = np.r_[np.s_[0:2], np.s_[8:14], np.s_[20:26], np.s_[27:28], np.s_[29:30],\
+                                 np.s_[36:42], np.s_[48:66], np.s_[67:68], np.s_[69:70], np.s_[70:118]]
+            # The list of indices to be deleted from the dim.8 ADM because of less operators
+            del_ind_list_dim_8 = np.r_[np.s_[0:3], np.s_[6:9]]
 
         if self.DM_type == "R":
             self.wc_name_list = ['C65', 'C66',
@@ -174,9 +182,10 @@ class WC_3f(object):
                                  'C64u', 'C64d', 'C64s', 'C64e', 'C64mu', 'C64tau',
                                  'C67', 'C68']
 
+            self.wc8_name_list = []
+
             # The list of indices to be deleted from the QCD/QED ADM because of less operators
-            del_ind_list = [i for i in range(0,26)] + [27] + [29] + [i for i in range(36,42)] + [i for i in range(48,66)]\
-                           + [67] + [69] + [i for i in range(70,118)]
+            del_ind_list = np.r_[np.s_[0:26], np.s_[27:28], np.s_[29:30], np.s_[36:42], np.s_[48:66], np.s_[67:68], np.s_[69:70], np.s_[70:118]]
 
         self.coeff_dict = {}
 
@@ -224,11 +233,13 @@ class WC_3f(object):
             self.gamma_QED2 = np.delete(np.delete(adm.ADM_QED2(3), del_ind_list, 0), del_ind_list, 1)
             self.gamma_QCD = np.delete(np.delete(adm.ADM_QCD(3), del_ind_list, 1), del_ind_list, 2)
             self.gamma_QCD2 = np.delete(np.delete(adm.ADM_QCD2(3), del_ind_list, 1), del_ind_list, 2)
+            self.gamma_QCD_dim8 = np.delete(np.delete(adm.ADM_QCD_dim8(3), del_ind_list_dim_8, 0), del_ind_list_dim_8, 1)
         if self.DM_type == "C":
             self.gamma_QED = np.delete(np.delete(adm.ADM_QED(3), del_ind_list, 0), del_ind_list, 1)
             self.gamma_QED2 = np.delete(np.delete(adm.ADM_QED2(3), del_ind_list, 0), del_ind_list, 1)
             self.gamma_QCD = np.delete(np.delete(adm.ADM_QCD(3), del_ind_list, 1), del_ind_list, 2)
             self.gamma_QCD2 = np.delete(np.delete(adm.ADM_QCD2(3), del_ind_list, 1), del_ind_list, 2)
+            self.gamma_QCD_dim8 = np.delete(np.delete(adm.ADM_QCD_dim8(3), del_ind_list_dim_8, 0), del_ind_list_dim_8, 1)
         if self.DM_type == "R":
             self.gamma_QED = np.delete(np.delete(adm.ADM_QED(3), del_ind_list, 0), del_ind_list, 1)
             self.gamma_QED2 = np.delete(np.delete(adm.ADM_QED2(3), del_ind_list, 0), del_ind_list, 1)
@@ -257,19 +268,27 @@ class WC_3f(object):
         as31 = rge.AlphaS(3,1)
         evolve1 = rge.RGE(self.gamma_QCD, 3)
         evolve2 = rge.RGE(self.gamma_QCD2, 3)
-        evolve8 = rge.RGE([self.gamma_QCD_dim8], 3)
+        if self.DM_type == "D" or self.DM_type == "M" or self.DM_type == "C":
+            evolve8 = rge.RGE([self.gamma_QCD_dim8], 3)
+        else:
+            pass
 
         C_at_mu_QCD = np.dot(evolve2.U0_as2(as31.run(2),as31.run(mu_low)), np.dot(evolve1.U0(as31.run(2),as31.run(mu_low)), self.coeff_list_dm_dim5_dim6_dim7))
         C_at_mu_QED = np.dot(self.coeff_list_dm_dim5_dim6_dim7, self.gamma_QED) * np.log(mu_low/2) * alpha_at_mu/(4*np.pi)\
                       + np.dot(self.coeff_list_dm_dim5_dim6_dim7, self.gamma_QED2) * np.log(mu_low/2) * (alpha_at_mu/(4*np.pi))**2
-        C_dim8_at_mu = np.dot(evolve8.U0(as31.run(2),as31.run(mu_low)), self.coeff_list_dm_dim8)
+        if self.DM_type == "D" or self.DM_type == "M" or self.DM_type == "C":
+            C_dim8_at_mu = np.dot(evolve8.U0(as31.run(2),as31.run(mu_low)), self.coeff_list_dm_dim8)
+        else:
+            pass
 
         # Revert back to dictionary
 
         dict_coeff_mu = list_to_dict(C_at_mu_QCD + C_at_mu_QED, self.wc_name_list)
-        dict_dm_dim8 = list_to_dict(C_dim8_at_mu, self.wc8_name_list)
-
-        dict_coeff_mu.update(dict_dm_dim8)
+        if self.DM_type == "D" or self.DM_type == "M" or self.DM_type == "C":
+            dict_dm_dim8 = list_to_dict(C_dim8_at_mu, self.wc8_name_list)
+            dict_coeff_mu.update(dict_dm_dim8)
+        else:
+            pass
 
         return dict_coeff_mu
 
@@ -602,12 +621,17 @@ class WC_3f(object):
                       + 2*DM_mass * (F1up*c3mu_dict['C715u'] + F1dp*c3mu_dict['C715d'] + F1sp*c3mu_dict['C715s']),
             'cNR2p' : 0,
             'cNR3p' : 0,
-            'cNR4p' : - 4*(FAup*c3mu_dict['C64u'] + FAdp*c3mu_dict['C64d'] + FAsp*c3mu_dict['C64s']),
+            'cNR4p' : - 4*(  FAup*(c3mu_dict['C64u'] - np.sqrt(2)*GF*mu**2 / gs2_2GeV * c3mu_dict['C84u'])\
+                           + FAdp*(c3mu_dict['C64d'] - np.sqrt(2)*GF*md**2 / gs2_2GeV * c3mu_dict['C84d'])\
+                           + FAsp*(c3mu_dict['C64s'] - np.sqrt(2)*GF*ms**2 / gs2_2GeV * c3mu_dict['C84s'])),
             'cNR5p' : 0,
             'cNR6p' : mN/DM_mass * FGtildep * c3mu_dict['C74'],
             'cNR7p' : - 4*DM_mass * (FAup*c3mu_dict['C717u'] + FAdp*c3mu_dict['C717d'] + FAsp*c3mu_dict['C717s']),
-            'cNR8p' : 2*(F1up*c3mu_dict['C62u'] + F1dp*c3mu_dict['C62d']),
-            'cNR9p' : 2*((F1up+F2up)*c3mu_dict['C62u'] + (F1dp+F2dp)*c3mu_dict['C62d'] + (F1sp+F2sp)*c3mu_dict['C62s']),
+            'cNR8p' : 2*(  F1up*(c3mu_dict['C62u'] - np.sqrt(2)*GF*mu**2 / gs2_2GeV * c3mu_dict['C82u'])\
+                         + F1dp*(c3mu_dict['C62d'] - np.sqrt(2)*GF*md**2 / gs2_2GeV * c3mu_dict['C82d'])),
+            'cNR9p' : 2*(  (F1up+F2up)*(c3mu_dict['C62u'] - np.sqrt(2)*GF*mu**2 / gs2_2GeV * c3mu_dict['C82u'])\
+                         + (F1dp+F2dp)*(c3mu_dict['C62d'] - np.sqrt(2)*GF*md**2 / gs2_2GeV * c3mu_dict['C82d'])\
+                         + (F1sp+F2sp)*(c3mu_dict['C62s'] - np.sqrt(2)*GF*ms**2 / gs2_2GeV * c3mu_dict['C82s'])),
             'cNR10p' : FGtildep * c3mu_dict['C73'],
             'cNR11p' : - mN/DM_mass * (FSup*c3mu_dict['C76u'] + FSdp*c3mu_dict['C76d'] + FSsp*c3mu_dict['C76s'])\
                        - mN/DM_mass * FGp * c3mu_dict['C72']\
@@ -615,9 +639,12 @@ class WC_3f(object):
             'cNR12p' : 0,
     
             'cNR13p' : mN/DM_mass * (FPup_pion*c3mu_dict['C78u'] + FPdp_pion*c3mu_dict['C78d'])\
-                       + FPpup_pion*c3mu_dict['C64u'] + FPpdp_pion*c3mu_dict['C64d'],
+                       + FPpup_pion*(c3mu_dict['C64u'] - np.sqrt(2)*GF*mu**2 / gs2_2GeV * c3mu_dict['C84u'])\
+                       + FPpdp_pion*(c3mu_dict['C64d'] - np.sqrt(2)*GF*md**2 / gs2_2GeV * c3mu_dict['C84d']),
             'cNR14p' : mN/DM_mass * (FPup_eta*c3mu_dict['C78u'] + FPdp_eta*c3mu_dict['C78d'] + FPsp_eta*c3mu_dict['C78s'])\
-                       + FPpup_eta*c3mu_dict['C64u'] + FPpdp_eta*c3mu_dict['C64d'] + FPpsp_eta*c3mu_dict['C64s']\
+                       + FPpup_eta*(c3mu_dict['C64u'] - np.sqrt(2)*GF*mu**2 / gs2_2GeV * c3mu_dict['C84u'])\
+                       + FPpdp_eta*(c3mu_dict['C64d'] - np.sqrt(2)*GF*md**2 / gs2_2GeV * c3mu_dict['C84d'])\
+                       + FPpsp_eta*(c3mu_dict['C64s'] - np.sqrt(2)*GF*ms**2 / gs2_2GeV * c3mu_dict['C84s'])\
                        + 4*mN * (FAup*c3mu_dict['C718u'] + FAdp*c3mu_dict['C718d'] + FAsp*c3mu_dict['C718s']),
             'cNR15p' : mN/DM_mass * FGtildep_pion * c3mu_dict['C74'],
             'cNR16p' : mN/DM_mass * FGtildep_eta * c3mu_dict['C74'],
@@ -642,12 +669,17 @@ class WC_3f(object):
                       + 2*DM_mass * (F1un*c3mu_dict['C715u'] + F1dn*c3mu_dict['C715d'] + F1sn*c3mu_dict['C715s']),
             'cNR2n' : 0,
             'cNR3n' : 0,
-            'cNR4n' : - 4*(FAun*c3mu_dict['C64u'] + FAdn*c3mu_dict['C64d'] + FAsn*c3mu_dict['C64s']),
+            'cNR4n' : - 4*(  FAun*(c3mu_dict['C64u'] - np.sqrt(2)*GF*mu**2 / gs2_2GeV * c3mu_dict['C84u'])\
+                           + FAdn*(c3mu_dict['C64d'] - np.sqrt(2)*GF*md**2 / gs2_2GeV * c3mu_dict['C84d'])\
+                           + FAsn*(c3mu_dict['C64s'] - np.sqrt(2)*GF*ms**2 / gs2_2GeV * c3mu_dict['C84s'])),
             'cNR5n' : 0,
             'cNR6n' : mN/DM_mass * FGtilden * c3mu_dict['C74'],
             'cNR7n' : - 4*DM_mass * (FAun*c3mu_dict['C717u'] + FAdn*c3mu_dict['C717d'] + FAsn*c3mu_dict['C717s']),
-            'cNR8n' : 2*(F1un*c3mu_dict['C62u'] + F1dn*c3mu_dict['C62d']),
-            'cNR9n' : 2*((F1un+F2un)*c3mu_dict['C62u'] + (F1dn+F2dn)*c3mu_dict['C62d'] + (F1sn+F2sn)*c3mu_dict['C62s']),
+            'cNR8n' : 2*(  F1un*(c3mu_dict['C62u'] - np.sqrt(2)*GF*mu**2 / gs2_2GeV * c3mu_dict['C82u'])\
+                         + F1dn*(c3mu_dict['C62d'] - np.sqrt(2)*GF*md**2 / gs2_2GeV * c3mu_dict['C82d'])),
+            'cNR9n' : 2*(  (F1un+F2un)*(c3mu_dict['C62u'] - np.sqrt(2)*GF*mu**2 / gs2_2GeV * c3mu_dict['C82u'])\
+                         + (F1dn+F2dn)*(c3mu_dict['C62d'] - np.sqrt(2)*GF*md**2 / gs2_2GeV * c3mu_dict['C82d'])\
+                         + (F1sn+F2sn)*(c3mu_dict['C62s'] - np.sqrt(2)*GF*ms**2 / gs2_2GeV * c3mu_dict['C82s'])),
             'cNR10n' : FGtilden * c3mu_dict['C73'],
             'cNR11n' : - mN/DM_mass * (FSun*c3mu_dict['C76u'] + FSdn*c3mu_dict['C76d'] + FSsn*c3mu_dict['C76s'])\
                        - mN/DM_mass * FGn * c3mu_dict['C72']\
@@ -655,9 +687,12 @@ class WC_3f(object):
             'cNR12n' : 0,
     
             'cNR13n' : mN/DM_mass * (FPun_pion*c3mu_dict['C78u'] + FPdn_pion*c3mu_dict['C78d'])\
-                       + FPpun_pion*c3mu_dict['C64u'] + FPpdn_pion*c3mu_dict['C64d'],
+                       + FPpun_pion*(c3mu_dict['C64u'] - np.sqrt(2)*GF*mu**2 / gs2_2GeV * c3mu_dict['C84u'])\
+                       + FPpdn_pion*(c3mu_dict['C64d'] - np.sqrt(2)*GF*md**2 / gs2_2GeV * c3mu_dict['C84d']),
             'cNR14n' : mN/DM_mass * (FPun_eta*c3mu_dict['C78u'] + FPdn_eta*c3mu_dict['C78d'] + FPsn_eta*c3mu_dict['C78s'])\
-                       + FPpun_eta*c3mu_dict['C64u'] + FPpdn_eta*c3mu_dict['C64d'] + FPpsn_eta*c3mu_dict['C64s']\
+                       + FPpun_eta*(c3mu_dict['C64u'] - np.sqrt(2)*GF*mu**2 / gs2_2GeV * c3mu_dict['C84u'])\
+                       + FPpdn_eta*(c3mu_dict['C64d'] - np.sqrt(2)*GF*md**2 / gs2_2GeV * c3mu_dict['C84d'])\
+                       + FPpsn_eta*(c3mu_dict['C64s'] - np.sqrt(2)*GF*ms**2 / gs2_2GeV * c3mu_dict['C84s'])\
                        + 4*mN * (FAun*c3mu_dict['C718u'] + FAdn*c3mu_dict['C718d'] + FAsn*c3mu_dict['C718s']),
             'cNR15n' : mN/DM_mass * FGtilden_pion * c3mu_dict['C74'],
             'cNR16n' : mN/DM_mass * FGtilden_eta * c3mu_dict['C74'],
@@ -678,14 +713,18 @@ class WC_3f(object):
 
         if self.DM_type == "C":
             my_cNR_dict = {
-            'cNR1p' :   2*DM_mass*(F1up*c3mu_dict['C61u'] + F1un*c3mu_dict['C61d']) + FGp*c3mu_dict['C65']\
+            'cNR1p' :   2*DM_mass*(  F1up * (c3mu_dict['C61u'] - np.sqrt(2)*GF*mu**2 / gs2_2GeV * c3mu_dict['C81u'])\
+                                   + F1dp * (c3mu_dict['C61d'] - np.sqrt(2)*GF*mu**2 / gs2_2GeV * c3mu_dict['C81d']))\
+                      + FGp*c3mu_dict['C65']\
                       + FSup*c3mu_dict['C63u'] + FSdp*c3mu_dict['C63d'] + FSsp*c3mu_dict['C63s'],
             'cNR2p' : 0,
             'cNR3p' : 0,
             'cNR4p' : 0,
             'cNR5p' : 0,
             'cNR6p' : 0,
-            'cNR7p' : -4*DM_mass*(FAup*c3mu_dict['C62u'] + FAdp*c3mu_dict['C62d'] + FAsp*c3mu_dict['C62s']),
+            'cNR7p' : -4*DM_mass*(  FAup * (c3mu_dict['C62u'] - np.sqrt(2)*GF*mu**2 / gs2_2GeV * c3mu_dict['C82u'])\
+                                  + FAdp * (c3mu_dict['C62d'] - np.sqrt(2)*GF*mu**2 / gs2_2GeV * c3mu_dict['C82d'])\
+                                  + FAsp * (c3mu_dict['C62s'] - np.sqrt(2)*GF*mu**2 / gs2_2GeV * c3mu_dict['C82s'])),
             'cNR8p' : 0,
             'cNR9p' : 0,
             'cNR10p' : FGtildep * c3mu_dict['C66'],
@@ -712,14 +751,18 @@ class WC_3f(object):
 
 
 
-            'cNR1n' :   2*DM_mass*(F1un*c3mu_dict['C61u'] + F1dn*c3mu_dict['C61d']) + FGn*c3mu_dict['C65']\
+            'cNR1n' :   2*DM_mass*(  F1un * (c3mu_dict['C61u'] - np.sqrt(2)*GF*mu**2 / gs2_2GeV * c3mu_dict['C81u'])\
+                                   + F1dn * (c3mu_dict['C61d'] - np.sqrt(2)*GF*mu**2 / gs2_2GeV * c3mu_dict['C81d']))\
+                      + FGn*c3mu_dict['C65']\
                       + FSun*c3mu_dict['C63u'] + FSdn*c3mu_dict['C63d'] + FSsn*c3mu_dict['C63s'],
             'cNR2n' : 0,
             'cNR3n' : 0,
             'cNR4n' : 0,
             'cNR5n' : 0,
             'cNR6n' : 0,
-            'cNR7n' : -4*DM_mass*(FAun*c3mu_dict['C62u'] + FAdn*c3mu_dict['C62d'] + FAsn*c3mu_dict['C62s']),
+            'cNR7n' : -4*DM_mass*(  FAun * (c3mu_dict['C62u'] - np.sqrt(2)*GF*mu**2 / gs2_2GeV * c3mu_dict['C82u'])\
+                                  + FAdn * (c3mu_dict['C62d'] - np.sqrt(2)*GF*mu**2 / gs2_2GeV * c3mu_dict['C82d'])\
+                                  + FAsn * (c3mu_dict['C62s'] - np.sqrt(2)*GF*mu**2 / gs2_2GeV * c3mu_dict['C82s'])),
             'cNR8n' : 0,
             'cNR9n' : 0,
             'cNR10n' : FGtilden * c3mu_dict['C66'],
@@ -1041,7 +1084,7 @@ class WC_4f(object):
 
 
 
-        The class has three methods: 
+        The class has four methods: 
 
         run
         ---
@@ -1144,8 +1187,15 @@ class WC_4f(object):
                                  'C717u', 'C717d', 'C717s', 'C717c', 'C717e', 'C717mu', 'C717tau', 
                                  'C718u', 'C718d', 'C718s', 'C718c', 'C718e', 'C718mu', 'C718tau']
 
+            self.wc8_name_list = ['C82u', 'C82d', 'C82s', 'C84u', 'C84d', 'C84s']
+
             # The list of indices to be deleted from the QCD/QED ADM because of less operators
-            del_ind_list = [i for i in range(0,9)] + [i for i in range(16,23)] + [i for i in range(62,76)] + [i for i in range(108,136)]
+            del_ind_list = np.r_[np.s_[0:9], np.s_[16:23], np.s_[62:76], np.s_[108:136]]
+            # The list of indices to be deleted from the dim.8 ADM because of less operators
+            del_ind_list_dim_8 = np.r_[np.s_[0:3], np.s_[6:9]]
+            # The list of indices to be deleted from the ADT because of less operators (dim.6 part)
+            del_ind_list_adt_quark = np.r_[np.s_[0:4]]
+            del_ind_list_adt_lepton = np.r_[np.s_[0:3]]
 
             # The 3-flavor list for matching only
             self.wc_name_list_3f = ['C62u', 'C62d', 'C62s', 'C62e', 'C62mu', 'C62tau',
@@ -1168,9 +1218,17 @@ class WC_4f(object):
                                  'C63u', 'C63d', 'C63s', 'C63c', 'C63e', 'C63mu', 'C63tau', 
                                  'C64u', 'C64d', 'C64s', 'C64c', 'C64e', 'C64mu', 'C64tau',
                                  'C67', 'C68']
+
+            self.wc8_name_list = ['C81u', 'C81d', 'C81s', 'C82u', 'C82d', 'C82s']
+
             # The list of indices to be deleted from the QCD/QED ADM because of less operators
             del_ind_list = [0,1] + [i for i in range(9,16)] + [i for i in range(23,30)] + [31] + [33] + [i for i in range(41,48)]\
                            + [i for i in range(55,76)] + [77] + [79] + [i for i in range(80,136)]
+            # The list of indices to be deleted from the dim.8 ADM because of less operators
+            del_ind_list_dim_8 = np.r_[np.s_[0:3], np.s_[6:9]]
+            # The list of indices to be deleted from the ADT because of less operators (dim.6 part)
+            del_ind_list_adt_quark = np.r_[np.s_[0:4]]
+            del_ind_list_adt_lepton = np.r_[np.s_[0:3]]
 
             # The 3-flavor list for matching only
             self.wc_name_list_3f = ['C61u', 'C61d', 'C61s', 'C61e', 'C61mu', 'C61tau', 
@@ -1185,6 +1243,9 @@ class WC_4f(object):
                                  'C63u', 'C63d', 'C63s', 'C63c', 'C63e', 'C63mu', 'C63tau',
                                  'C64u', 'C64d', 'C64s', 'C64c', 'C64e', 'C64mu', 'C64tau',
                                  'C67', 'C68']
+
+            self.wc8_name_list = []
+
             # The list of indices to be deleted from the QCD/QED ADM because of less operators
             del_ind_list = [i for i in range(0,30)] + [31] + [33] + [i for i in range(41,48)] + [i for i in range(55,76)]\
                            + [77] + [79] + [i for i in range(80,136)]
@@ -1265,11 +1326,17 @@ class WC_4f(object):
             self.gamma_QED2 = np.delete(np.delete(adm.ADM_QED2(4), del_ind_list, 0), del_ind_list, 1)
             self.gamma_QCD = np.delete(np.delete(adm.ADM_QCD(4), del_ind_list, 1), del_ind_list, 2)
             self.gamma_QCD2 = np.delete(np.delete(adm.ADM_QCD2(4), del_ind_list, 1), del_ind_list, 2)
+            self.gamma_QCD_dim8 = np.delete(np.delete(adm.ADM_QCD_dim8(4), del_ind_list_dim_8, 0), del_ind_list_dim_8, 1)
+            self.gamma_hat = np.delete(np.delete(adm.ADT_QCD(4), del_ind_list_dim_8, 0), del_ind_list_adt_quark, 2)
+            self.gamma_hat_lepton = np.delete(np.delete(adm.ADT_QCD_LEPTON(), del_ind_list_dim_8, 0), del_ind_list_adt_lepton, 2)
         if self.DM_type == "C":
             self.gamma_QED = np.delete(np.delete(adm.ADM_QED(4), del_ind_list, 0), del_ind_list, 1)
             self.gamma_QED2 = np.delete(np.delete(adm.ADM_QED2(4), del_ind_list, 0), del_ind_list, 1)
             self.gamma_QCD = np.delete(np.delete(adm.ADM_QCD(4), del_ind_list, 1), del_ind_list, 2)
             self.gamma_QCD2 = np.delete(np.delete(adm.ADM_QCD2(4), del_ind_list, 1), del_ind_list, 2)
+            self.gamma_QCD_dim8 = np.delete(np.delete(adm.ADM_QCD_dim8(4), del_ind_list_dim_8, 0), del_ind_list_dim_8, 1)
+            self.gamma_hat = np.delete(np.delete(adm.ADT_QCD(4), del_ind_list_dim_8, 0), del_ind_list_adt_quark, 2)
+            self.gamma_hat_lepton = np.delete(np.delete(adm.ADT_QCD_LEPTON(), del_ind_list_dim_8, 0), del_ind_list_adt_lepton, 2)
         if self.DM_type == "R":
             self.gamma_QED = np.delete(np.delete(adm.ADM_QED(4), del_ind_list, 0), del_ind_list, 1)
             self.gamma_QED2 = np.delete(np.delete(adm.ADM_QED2(4), del_ind_list, 0), del_ind_list, 1)
@@ -1280,24 +1347,31 @@ class WC_4f(object):
 
 
 
-        #--------------------------------------------------------------------#
-        # The effective anomalous dimension for mixing into dimension eight: #
-        #--------------------------------------------------------------------#
+        #------------------------------------------------------------------------------#
+        # The effective anomalous dimension for mixing into dimension eight -- quarks: #
+        #------------------------------------------------------------------------------#
 
-        # We need to contract the ADT with a subset of the dim.-6 Wilson coefficients
+        # We need to contract the ADT with a subset of the dim.-6 DM Wilson coefficients
         if self.DM_type == "D":
             DM_dim6_init = np.delete(self.coeff_list_dm_dim5_dim6_dim7, np.r_[np.s_[0:16], np.s_[20:23], np.s_[27:136]])
+        elif self.DM_type == "M":
+            DM_dim6_init = np.delete(self.coeff_list_dm_dim5_dim6_dim7, np.r_[np.s_[0:7], np.s_[11:78]])
+        elif self.DM_type == "C":
+            DM_dim6_init = np.delete(self.coeff_list_dm_dim5_dim6_dim7, np.r_[np.s_[0:7], np.s_[11:32]])
 
-        # The columns of ADM_eff correspond to SM6 operators; the rows of ADM_eff correspond to DM8 operators; 
-        C6_dot_ADM_hat = np.transpose(np.tensordot(DM_dim6_init, self.gamma_hat, (0,2)))
 
-        # The effective ADM
-        #
-        # Note that the mixing of the SM operators with four equal flavors does not contribute if we neglect yu, yd, ys! 
 
-        self.ADM_eff = [np.vstack((np.hstack((self.ADM_SM, np.vstack((C6_dot_ADM_hat, np.zeros((16,12)))))),\
-                              np.hstack((np.zeros((12,64)), self.gamma_QCD_dim8))))]
+        if self.DM_type == "D" or self.DM_type == "M" or self.DM_type == "C":
+            # The columns of ADM_eff correspond to SM6 operators; the rows of ADM_eff correspond to DM8 operators; 
+            C6_dot_ADM_hat = np.transpose(np.tensordot(DM_dim6_init, self.gamma_hat, (0,2)))
 
+            # The effective ADM
+            #
+            # Note that the mixing of the SM operators with four equal flavors does not contribute if we neglect yu, yd, ys! 
+            self.ADM_eff = [np.vstack((np.hstack((self.ADM_SM, np.vstack((C6_dot_ADM_hat, np.zeros((16, len(self.gamma_QCD_dim8))))))),\
+                                       np.hstack((np.zeros((len(self.gamma_QCD_dim8), len(self.coeff_list_sm_dim6))), self.gamma_QCD_dim8))))]
+        if self.DM_type == "R":
+            pass
 
 
         #-------------------------------------------------------------------------------#
@@ -1307,9 +1381,16 @@ class WC_4f(object):
         # We need to contract the ADT with a subset of the dim.-6 Wilson coefficients
         if self.DM_type == "D":
             DM_dim6_lepton_init = np.delete(self.coeff_list_dm_dim5_dim6_dim7, np.r_[np.s_[0:20], np.s_[23:27], np.s_[30:136]])
+        if self.DM_type == "M":
+            DM_dim6_lepton_init = np.delete(self.coeff_list_dm_dim5_dim6_dim7, np.r_[np.s_[0:11], np.s_[14:78]])
+        if self.DM_type == "C":
+            DM_dim6_lepton_init = np.delete(self.coeff_list_dm_dim5_dim6_dim7, np.r_[np.s_[0:11], np.s_[14:32]])
 
-        # The effective ADM -- the columns of ADM_eff correspond to SM6 operators; the rows of ADM_eff correspond to DM8 operators:
-        self.ADM_eff_lepton = np.transpose(np.tensordot(DM_dim6_lepton_init, self.gamma_hat_lepton, (0,2)))
+        if self.DM_type == "D" or self.DM_type == "M" or self.DM_type == "C":
+            # The effective ADM -- the columns of ADM_eff correspond to SM6 operators; the rows of ADM_eff correspond to DM8 operators:
+            self.ADM_eff_lepton = np.transpose(np.tensordot(DM_dim6_lepton_init, self.gamma_hat_lepton, (0,2)))
+        if self.DM_type == "R":
+            pass
 
 
 
@@ -1323,8 +1404,11 @@ class WC_4f(object):
         """
         if mu_low is None:
             mu_low=2
-        if double_QCD is None:
-            double_QCD=True
+        if self.DM_type == "D" or self.DM_type == "M" or self.DM_type == "C":
+            if double_QCD is None:
+                double_QCD=True
+        else:
+            double_QCD=False
 
 
         #-------------#
@@ -1336,16 +1420,22 @@ class WC_4f(object):
         mb = ip.mb_at_mb
         alpha_at_mc = 1/ip.aMZinv
 
-        if double_QCD:
-            adm_eff = self.ADM_eff
+        if self.DM_type == "D" or self.DM_type == "M" or self.DM_type == "C":
+            if double_QCD:
+                adm_eff = self.ADM_eff
+            else:
+                projector = np.vstack((np.hstack((np.zeros((64,64)), np.ones((64,12)))), np.zeros((12,76))))
+                adm_eff = [np.multiply(projector, self.ADM_eff[0])]
         else:
-            projector = np.vstack((np.hstack((np.zeros((64,64)), np.ones((64,12)))), np.zeros((12,76))))
-            adm_eff = [np.multiply(projector, self.ADM_eff[0])]
+            pass
 
         as41 = rge.AlphaS(4,1)
         evolve1 = rge.RGE(self.gamma_QCD, 4)
         evolve2 = rge.RGE(self.gamma_QCD2, 4)
-        evolve8 = rge.RGE(adm_eff, 4)
+        if self.DM_type == "D" or self.DM_type == "M" or self.DM_type == "C":
+            evolve8 = rge.RGE(adm_eff, 4)
+        else:
+            pass
 
         # Mixing in the dim.6 DM-SM sector
         #
@@ -1354,24 +1444,26 @@ class WC_4f(object):
         C_at_mc_QED = np.dot(self.coeff_list_dm_dim5_dim6_dim7, self.gamma_QED) * np.log(mu_low/mb) * alpha_at_mc/(4*np.pi)\
                       + np.dot(self.coeff_list_dm_dim5_dim6_dim7, self.gamma_QED2) * np.log(mu_low/mb) * (alpha_at_mc/(4*np.pi))**2
 
-        # Mixing in the dim.6 SM-SM and dim.8 DM-SM sector
+        if self.DM_type == "D" or self.DM_type == "M" or self.DM_type == "C":
+            # Mixing in the dim.6 SM-SM and dim.8 DM-SM sector
 
-        DIM6_DIM8_init = np.hstack((self.coeff_list_sm_dim6, self.coeff_list_dm_dim8))
+            DIM6_DIM8_init = np.hstack((self.coeff_list_sm_dim6, self.coeff_list_dm_dim8))
 
-        DIM6_DIM8_at_mb =   np.dot(evolve8.U0(as41.run(mb),as41.run(mu_low)), DIM6_DIM8_init)\
-                          + np.hstack((np.zeros(64), np.dot(self.coeff_list_sm_lepton_dim6, self.ADM_eff_lepton)\
-                            * np.log(mu_low/mb) * as41.run(mu_low)/4/np.pi))
+            DIM6_DIM8_at_mb =   np.dot(evolve8.U0(as41.run(mb),as41.run(mu_low)), DIM6_DIM8_init)\
+                              + np.hstack((np.zeros(64), np.dot(self.coeff_list_sm_lepton_dim6, self.ADM_eff_lepton)\
+                                * np.log(mu_low/mb) * as41.run(mu_low)/4/np.pi))
 
         # Revert back to dictionary
 
         dict_coeff_mc = list_to_dict(C_at_mc_QCD + C_at_mc_QED, self.wc_name_list)
-        dict_dm_dim8 = list_to_dict(np.delete(DIM6_DIM8_at_mb, np.s_[0:64]), self.wc8_name_list)
-        dict_sm_dim6 = list_to_dict(np.delete(DIM6_DIM8_at_mb, np.s_[64:70]), self.sm_name_list)
-        dict_sm_lepton_dim6 = list_to_dict(self.coeff_list_sm_lepton_dim6, self.sm_lepton_name_list)
+        if self.DM_type == "D" or self.DM_type == "M" or self.DM_type == "C":
+            dict_dm_dim8 = list_to_dict(np.delete(DIM6_DIM8_at_mb, np.s_[0:64]), self.wc8_name_list)
+            dict_sm_dim6 = list_to_dict(np.delete(DIM6_DIM8_at_mb, np.s_[64:70]), self.sm_name_list)
+            dict_sm_lepton_dim6 = list_to_dict(self.coeff_list_sm_lepton_dim6, self.sm_lepton_name_list)
 
-        dict_coeff_mc.update(dict_dm_dim8)
-        dict_coeff_mc.update(dict_sm_dim6)
-        dict_coeff_mc.update(dict_sm_lepton_dim6)
+            dict_coeff_mc.update(dict_dm_dim8)
+            dict_coeff_mc.update(dict_sm_dim6)
+            dict_coeff_mc.update(dict_sm_lepton_dim6)
 
         return dict_coeff_mc
 
@@ -1413,6 +1505,8 @@ class WC_4f(object):
 
         if self.DM_type == "C":
             for wcn in self.wc_name_list_3f:
+                cdict3f[wcn] = cdold[wcn]
+            for wcn in self.wc8_name_list:
                 cdict3f[wcn] = cdold[wcn]
             cdict3f['C65'] = cdold['C65'] - cdold['C63c']
             cdict3f['C66'] = cdold['C66'] + cdold['C64c']
@@ -1539,7 +1633,7 @@ class WC_5f(object):
 
 
 
-        The class has three methods: 
+        The class has four methods: 
 
         run
         ---
@@ -1657,8 +1751,15 @@ class WC_5f(object):
                                  'C717u', 'C717d', 'C717s', 'C717c', 'C717b', 'C717e', 'C717mu', 'C717tau', 
                                  'C718u', 'C718d', 'C718s', 'C718c', 'C718b', 'C718e', 'C718mu', 'C718tau']
 
+            self.wc8_name_list = ['C82u', 'C82d', 'C82s', 'C84u', 'C84d', 'C84s']
+
             # The list of indices to be deleted from the QCD/QED ADM because of less operators
             del_ind_list = [i for i in range(0,10)] + [i for i in range(18,26)] + [i for i in range(70,86)] + [i for i in range(122,154)]
+            # The list of indices to be deleted from the dim.8 ADM because of less operators
+            del_ind_list_dim_8 = np.r_[np.s_[0:3], np.s_[6:9]]
+            # The list of indices to be deleted from the ADT because of less operators (dim.6 part)
+            del_ind_list_adt_quark = np.r_[np.s_[0:5]]
+            del_ind_list_adt_lepton = np.r_[np.s_[0:3]]
 
             # The 4-flavor list for matching only
             self.wc_name_list_4f = ['C62u', 'C62d', 'C62s', 'C62c', 'C62e', 'C62mu', 'C62tau',
@@ -1682,9 +1783,16 @@ class WC_5f(object):
                                  'C64u', 'C64d', 'C64s', 'C64c', 'C64b', 'C64e', 'C64mu', 'C64tau',
                                  'C67', 'C68']
 
+            self.wc8_name_list = ['C81u', 'C81d', 'C81s', 'C82u', 'C82d', 'C82s']
+
             # The list of indices to be deleted from the QCD/QED ADM because of less operators
             del_ind_list = [0,1] + [i for i in range(10,18)] + [i for i in range(26,34)] + [35] + [37] + [i for i in range(46,54)]\
                            + [i for i in range(62,86)] + [87] + [89] + [i for i in range(90,154)]
+            # The list of indices to be deleted from the dim.8 ADM because of less operators
+            del_ind_list_dim_8 = np.r_[np.s_[0:3], np.s_[6:9]]
+            # The list of indices to be deleted from the ADT because of less operators (dim.6 part)
+            del_ind_list_adt_quark = np.r_[np.s_[0:5]]
+            del_ind_list_adt_lepton = np.r_[np.s_[0:3]]
 
             # The 4-flavor list for matching only
             self.wc_name_list_4f = ['C61u', 'C61d', 'C61s', 'C61c', 'C61e', 'C61mu', 'C61tau', 
@@ -1699,6 +1807,8 @@ class WC_5f(object):
                                  'C63u', 'C63d', 'C63s', 'C63c', 'C63b', 'C63e', 'C63mu', 'C63tau', 
                                  'C64u', 'C64d', 'C64s', 'C64c', 'C64b', 'C64e', 'C64mu', 'C64tau',
                                  'C67', 'C68']
+
+            self.wc8_name_list = []
 
             # The list of indices to be deleted from the QCD/QED ADM because of less operators
             del_ind_list = [i for i in range(0,34)] + [35] + [37] + [i for i in range(46,54)] + [i for i in range(62,86)]\
@@ -1942,11 +2052,17 @@ class WC_5f(object):
             self.gamma_QED2 = np.delete(np.delete(adm.ADM_QED2(5), del_ind_list, 0), del_ind_list, 1)
             self.gamma_QCD = np.delete(np.delete(adm.ADM_QCD(5), del_ind_list, 1), del_ind_list, 2)
             self.gamma_QCD2 = np.delete(np.delete(adm.ADM_QCD2(5), del_ind_list, 1), del_ind_list, 2)
+            self.gamma_QCD_dim8 = np.delete(np.delete(adm.ADM_QCD_dim8(5), del_ind_list_dim_8, 0), del_ind_list_dim_8, 1)
+            self.gamma_hat = np.delete(np.delete(adm.ADT_QCD(5), del_ind_list_dim_8, 0), del_ind_list_adt_quark, 2)
+            self.gamma_hat_lepton = np.delete(np.delete(adm.ADT_QCD_LEPTON(), del_ind_list_dim_8, 0), del_ind_list_adt_lepton, 2)
         if self.DM_type == "C":
             self.gamma_QED = np.delete(np.delete(adm.ADM_QED(5), del_ind_list, 0), del_ind_list, 1)
             self.gamma_QED2 = np.delete(np.delete(adm.ADM_QED2(5), del_ind_list, 0), del_ind_list, 1)
             self.gamma_QCD = np.delete(np.delete(adm.ADM_QCD(5), del_ind_list, 1), del_ind_list, 2)
             self.gamma_QCD2 = np.delete(np.delete(adm.ADM_QCD2(5), del_ind_list, 1), del_ind_list, 2)
+            self.gamma_QCD_dim8 = np.delete(np.delete(adm.ADM_QCD_dim8(5), del_ind_list_dim_8, 0), del_ind_list_dim_8, 1)
+            self.gamma_hat = np.delete(np.delete(adm.ADT_QCD(5), del_ind_list_dim_8, 0), del_ind_list_adt_quark, 2)
+            self.gamma_hat_lepton = np.delete(np.delete(adm.ADT_QCD_LEPTON(), del_ind_list_dim_8, 0), del_ind_list_adt_lepton, 2)
         if self.DM_type == "R":
             self.gamma_QED = np.delete(np.delete(adm.ADM_QED(5), del_ind_list, 0), del_ind_list, 1)
             self.gamma_QED2 = np.delete(np.delete(adm.ADM_QED2(5), del_ind_list, 0), del_ind_list, 1)
@@ -1955,6 +2071,8 @@ class WC_5f(object):
 
         self.ADM_SM = adm.ADM_SM_QCD(5)
 
+
+
         #--------------------------------------------------------------------#
         # The effective anomalous dimension for mixing into dimension eight: #
         #--------------------------------------------------------------------#
@@ -1962,16 +2080,24 @@ class WC_5f(object):
         # We need to contract the ADT with a subset of the dim.-6 Wilson coefficients
         if self.DM_type == "D":
             DM_dim6_init = np.delete(self.coeff_list_dm_dim5_dim6_dim7, np.r_[np.s_[0:18], np.s_[23:26], np.s_[31:154]])
+        elif self.DM_type == "M":
+            DM_dim6_init = np.delete(self.coeff_list_dm_dim5_dim6_dim7, np.r_[np.s_[0:8], np.s_[13:88]])
+        elif self.DM_type == "C":
+            DM_dim6_init = np.delete(self.coeff_list_dm_dim5_dim6_dim7, np.r_[np.s_[0:8], np.s_[13:36]])
 
-        # The columns of ADM_eff correspond to SM6 operators; the rows of ADM_eff correspond to DM8 operators:
-        C6_dot_ADM_hat = np.transpose(np.tensordot(DM_dim6_init, self.gamma_hat, (0,2)))
 
-        # The effective ADM
-        #
-        # Note that the mixing of the SM operators with four equal flavors does not contribute if we neglect yu, yd, ys! 
+        if self.DM_type == "D" or self.DM_type == "M" or self.DM_type == "C":
+            # The columns of ADM_eff correspond to SM6 operators; the rows of ADM_eff correspond to DM8 operators:
+            C6_dot_ADM_hat = np.transpose(np.tensordot(DM_dim6_init, self.gamma_hat, (0,2)))
 
-        self.ADM_eff = [np.vstack((np.hstack((self.ADM_SM, np.vstack((C6_dot_ADM_hat, np.zeros((20,12)))))),\
-                        np.hstack((np.zeros((12,100)), self.gamma_QCD_dim8))))]
+            # The effective ADM
+            #
+            # Note that the mixing of the SM operators with four equal flavors does not contribute if we neglect yu, yd, ys! 
+
+            self.ADM_eff = [np.vstack((np.hstack((self.ADM_SM, np.vstack((C6_dot_ADM_hat, np.zeros((20, len(self.gamma_QCD_dim8))))))),\
+                            np.hstack((np.zeros((len(self.gamma_QCD_dim8), len(self.coeff_list_sm_dim6))), self.gamma_QCD_dim8))))]
+        if self.DM_type == "R":
+            pass
 
 
 
@@ -1982,9 +2108,16 @@ class WC_5f(object):
         # We need to contract the ADT with a subset of the dim.-6 Wilson coefficients
         if self.DM_type == "D":
             DM_dim6_lepton_init = np.delete(self.coeff_list_dm_dim5_dim6_dim7, np.r_[np.s_[0:23], np.s_[26:31], np.s_[34:154]])
+        if self.DM_type == "M":
+            DM_dim6_lepton_init = np.delete(self.coeff_list_dm_dim5_dim6_dim7, np.r_[np.s_[0:13], np.s_[16:88]])
+        if self.DM_type == "C":
+            DM_dim6_lepton_init = np.delete(self.coeff_list_dm_dim5_dim6_dim7, np.r_[np.s_[0:13], np.s_[16:36]])
 
-        # The effective ADM -- the columns of ADM_eff correspond to SM6 operators; the rows of ADM_eff correspond to DM8 operators:
-        self.ADM_eff_lepton = np.transpose(np.tensordot(DM_dim6_lepton_init, self.gamma_hat_lepton, (0,2)))
+        if self.DM_type == "D" or self.DM_type == "M" or self.DM_type == "C":
+            # The effective ADM -- the columns of ADM_eff correspond to SM6 operators; the rows of ADM_eff correspond to DM8 operators:
+            self.ADM_eff_lepton = np.transpose(np.tensordot(DM_dim6_lepton_init, self.gamma_hat_lepton, (0,2)))
+        if self.DM_type == "R":
+            pass
 
 
 
@@ -2000,8 +2133,12 @@ class WC_5f(object):
         ip = Num_input()
         if mu_low is None:
             mu_low=ip.mb_at_mb
-        if double_QCD is None:
-            double_QCD=True
+        if self.DM_type == "D" or self.DM_type == "M" or self.DM_type == "C":
+            if double_QCD is None:
+                double_QCD=True
+        else:
+            double_QCD=False
+
 
         #-------------#
         # The running #
@@ -2010,16 +2147,22 @@ class WC_5f(object):
         MZ = ip.Mz
         alpha_at_mb = 1/ip.aMZinv
 
-        if double_QCD:
-            adm_eff = self.ADM_eff
+        if self.DM_type == "D" or self.DM_type == "M" or self.DM_type == "C":
+            if double_QCD:
+                adm_eff = self.ADM_eff
+            else:
+                projector = np.vstack((np.hstack((np.zeros((100,100)), np.ones((100,12)))), np.zeros((12,112))))
+                adm_eff = [np.multiply(projector, self.ADM_eff[0])]
         else:
-            projector = np.vstack((np.hstack((np.zeros((100,100)), np.ones((100,12)))), np.zeros((12,112))))
-            adm_eff = [np.multiply(projector, self.ADM_eff[0])]
+            double_QCD=False
 
         as51 = rge.AlphaS(5,1)
         evolve1 = rge.RGE(self.gamma_QCD, 5)
         evolve2 = rge.RGE(self.gamma_QCD2, 5)
-        evolve8 = rge.RGE(adm_eff, 5)
+        if self.DM_type == "D" or self.DM_type == "M" or self.DM_type == "C":
+            evolve8 = rge.RGE(adm_eff, 5)
+        else:
+            pass
 
         # Mixing in the dim.6 DM-SM sector
         #
@@ -2028,25 +2171,27 @@ class WC_5f(object):
         C_at_mb_QED = np.dot(self.coeff_list_dm_dim5_dim6_dim7, self.gamma_QED) * np.log(mu_low/MZ) * alpha_at_mb/(4*np.pi)\
                       + np.dot(self.coeff_list_dm_dim5_dim6_dim7, self.gamma_QED2) * np.log(mu_low/MZ) * (alpha_at_mb/(4*np.pi))**2
 
-        # Mixing in the dim.6 SM-SM and dim.8 DM-SM sector
+        if self.DM_type == "D" or self.DM_type == "M" or self.DM_type == "C":
+            # Mixing in the dim.6 SM-SM and dim.8 DM-SM sector
 
-        DIM6_DIM8_init = np.hstack((self.coeff_list_sm_dim6, self.coeff_list_dm_dim8))
+            DIM6_DIM8_init = np.hstack((self.coeff_list_sm_dim6, self.coeff_list_dm_dim8))
 
-        DIM6_DIM8_at_mb =   np.dot(evolve8.U0(as51.run(MZ),as51.run(mu_low)), DIM6_DIM8_init)\
-                          + np.hstack((np.zeros(100), np.dot(self.coeff_list_sm_lepton_dim6, self.ADM_eff_lepton)\
-                            * np.log(mu_low/MZ) * as51.run(mu_low)/4/np.pi))
+            DIM6_DIM8_at_mb =   np.dot(evolve8.U0(as51.run(MZ),as51.run(mu_low)), DIM6_DIM8_init)\
+                              + np.hstack((np.zeros(100), np.dot(self.coeff_list_sm_lepton_dim6, self.ADM_eff_lepton)\
+                                * np.log(mu_low/MZ) * as51.run(mu_low)/4/np.pi))
 
 
         # Revert back to dictionary
 
         dict_coeff_mb = list_to_dict(C_at_mb_QCD + C_at_mb_QED, self.wc_name_list)
-        dict_dm_dim8 = list_to_dict(np.delete(DIM6_DIM8_at_mb, np.s_[0:100]), self.wc8_name_list)
-        dict_sm_dim6 = list_to_dict(np.delete(DIM6_DIM8_at_mb, np.s_[100:112]), self.sm_name_list)
-        dict_sm_lepton_dim6 = list_to_dict(self.coeff_list_sm_lepton_dim6, self.sm_lepton_name_list)
+        if self.DM_type == "D" or self.DM_type == "M" or self.DM_type == "C":
+            dict_dm_dim8 = list_to_dict(np.delete(DIM6_DIM8_at_mb, np.s_[0:100]), self.wc8_name_list)
+            dict_sm_dim6 = list_to_dict(np.delete(DIM6_DIM8_at_mb, np.s_[100:112]), self.sm_name_list)
+            dict_sm_lepton_dim6 = list_to_dict(self.coeff_list_sm_lepton_dim6, self.sm_lepton_name_list)
 
-        dict_coeff_mb.update(dict_dm_dim8)
-        dict_coeff_mb.update(dict_sm_dim6)
-        dict_coeff_mb.update(dict_sm_lepton_dim6)
+            dict_coeff_mb.update(dict_dm_dim8)
+            dict_coeff_mb.update(dict_sm_dim6)
+            dict_coeff_mb.update(dict_sm_lepton_dim6)
 
         return dict_coeff_mb
 
@@ -2092,6 +2237,12 @@ class WC_5f(object):
 
         if self.DM_type == "C":
             for wcn in self.wc_name_list_4f:
+                cdict4f[wcn] = cdold[wcn]
+            for wcn in self.wc8_name_list:
+                cdict4f[wcn] = cdold[wcn]
+            for wcn in self.sm_name_list_4f:
+                cdict4f[wcn] = cdold[wcn]
+            for wcn in self.sm_lepton_name_list:
                 cdict4f[wcn] = cdold[wcn]
             cdict4f['C65'] = cdold['C65'] - cdold['C63b']
             cdict4f['C66'] = cdold['C66'] + cdold['C64b']

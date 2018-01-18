@@ -14,6 +14,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 ### Fixed
 - A bug in `write_mma` (RG evolution was not switched of by optional argument `RGE=False`)
 - The charm quark is now consistently integrated out at 2 GeV
+- A bug in c1p for complex scalar DM
 
 ## [1.1.1] - 2017-10-27
 ### Added
