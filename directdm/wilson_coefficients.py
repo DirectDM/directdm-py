@@ -1124,8 +1124,8 @@ class WC_4f(object):
                              'D61s', 'D62s', 'D63s', 'D64s', 
                              'D61c', 'D62c', 'D63c', 'D64c']
 
-        self.sm_lepton_name_list = ['D62ue', 'D62umu', 'D62utau', 'D62de', 'D62dmu', 'D62dtau', 'D62se', 'D62smu', 'D62stau', 
-                                    'D63eu', 'D63muu', 'D63tauu', 'D63ed', 'D63mud', 'D63taud', 'D63es', 'D63mus', 'D63taus']
+        self.sm_lepton_name_list = ['D63eu', 'D63muu', 'D63tauu', 'D63ed', 'D63mud', 'D63taud', 'D63es', 'D63mus', 'D63taus',
+                                    'D62ue', 'D62umu', 'D62utau', 'D62de', 'D62dmu', 'D62dtau', 'D62se', 'D62smu', 'D62stau']
 
         if self.DM_type == "D":
             self.wc_name_list = ['C51', 'C52', 'C61u', 'C61d', 'C61s', 'C61c', 'C61e', 'C61mu', 'C61tau', 
@@ -1689,8 +1689,8 @@ class WC_5f(object):
                                 'D61s', 'D62s', 'D63s', 'D64s', 
                                 'D61c', 'D62c', 'D63c', 'D64c']
 
-        self.sm_lepton_name_list = ['D62ue', 'D62umu', 'D62utau', 'D62de', 'D62dmu', 'D62dtau', 'D62se', 'D62smu', 'D62stau', 
-                                    'D63eu', 'D63muu', 'D63tauu', 'D63ed', 'D63mud', 'D63taud', 'D63es', 'D63mus', 'D63taus']
+        self.sm_lepton_name_list = ['D63eu', 'D63muu', 'D63tauu', 'D63ed', 'D63mud', 'D63taud', 'D63es', 'D63mus', 'D63taus',
+                                    'D62ue', 'D62umu', 'D62utau', 'D62de', 'D62dmu', 'D62dtau', 'D62se', 'D62smu', 'D62stau']
 
         if self.DM_type == "D":
             self.wc_name_list = ['C51', 'C52', 'C61u', 'C61d', 'C61s', 'C61c', 'C61b', 'C61e', 'C61mu', 'C61tau', 
