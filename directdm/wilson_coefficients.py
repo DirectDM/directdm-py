@@ -1071,16 +1071,16 @@ class WC_4f(object):
         In order to calculate consistently to dim.8 in the EFT, we need also the dim.6 SM operators. 
         The following subset of 6*8 + 4*4 = 64 operators is sufficient for our purposes:
 
-         'P61ud', 'P62ud', 'P63ud', 'P63du', 'P64ud', 'P65ud', 'P66ud', 'P66du', 
-         'P61us', 'P62us', 'P63us', 'P63su', 'P64us', 'P65us', 'P66us', 'P66su', 
-         'P61uc', 'P62uc', 'P63uc', 'P63cu', 'P64uc', 'P65uc', 'P66uc', 'P66cu', 
-         'P61ds', 'P62ds', 'P63ds', 'P63sd', 'P64ds', 'P65ds', 'P66ds', 'P66sd', 
-         'P61dc', 'P62dc', 'P63dc', 'P63cd', 'P64dc', 'P65dc', 'P66dc', 'P66cd', 
-         'P61sc', 'P62sc', 'P63sc', 'P63cs', 'P64sc', 'P65sc', 'P66sc', 'P66cs', 
-         'P61u', 'P62u', 'P63u', 'P64u', 
-         'P61d', 'P62d', 'P63d', 'P64d', 
-         'P61s', 'P62s', 'P63s', 'P64s', 
-         'P61c', 'P62c', 'P63c', 'P64c' 
+         'D61ud', 'D62ud', 'D63ud', 'D63du', 'D64ud', 'D65ud', 'D66ud', 'D66du', 
+         'D61us', 'D62us', 'D63us', 'D63su', 'D64us', 'D65us', 'D66us', 'D66su', 
+         'D61uc', 'D62uc', 'D63uc', 'D63cu', 'D64uc', 'D65uc', 'D66uc', 'D66cu', 
+         'D61ds', 'D62ds', 'D63ds', 'D63sd', 'D64ds', 'D65ds', 'D66ds', 'D66sd', 
+         'D61dc', 'D62dc', 'D63dc', 'D63cd', 'D64dc', 'D65dc', 'D66dc', 'D66cd', 
+         'D61sc', 'D62sc', 'D63sc', 'D63cs', 'D64sc', 'D65sc', 'D66sc', 'D66cs', 
+         'D61u', 'D62u', 'D63u', 'D64u', 
+         'D61d', 'D62d', 'D63d', 'D64d', 
+         'D61s', 'D62s', 'D63s', 'D64s', 
+         'D61c', 'D62c', 'D63c', 'D64c' 
 
 
 
@@ -1113,19 +1113,19 @@ class WC_4f(object):
 
         # First, we define a standard ordering for the Wilson coefficients, so that we can use arrays
 
-        self.sm_name_list = ['P61ud', 'P62ud', 'P63ud', 'P63du', 'P64ud', 'P65ud', 'P66ud', 'P66du', 
-                             'P61us', 'P62us', 'P63us', 'P63su', 'P64us', 'P65us', 'P66us', 'P66su', 
-                             'P61uc', 'P62uc', 'P63uc', 'P63cu', 'P64uc', 'P65uc', 'P66uc', 'P66cu', 
-                             'P61ds', 'P62ds', 'P63ds', 'P63sd', 'P64ds', 'P65ds', 'P66ds', 'P66sd', 
-                             'P61dc', 'P62dc', 'P63dc', 'P63cd', 'P64dc', 'P65dc', 'P66dc', 'P66cd', 
-                             'P61sc', 'P62sc', 'P63sc', 'P63cs', 'P64sc', 'P65sc', 'P66sc', 'P66cs', 
-                             'P61u', 'P62u', 'P63u', 'P64u', 
-                             'P61d', 'P62d', 'P63d', 'P64d', 
-                             'P61s', 'P62s', 'P63s', 'P64s', 
-                             'P61c', 'P62c', 'P63c', 'P64c']
+        self.sm_name_list = ['D61ud', 'D62ud', 'D63ud', 'D63du', 'D64ud', 'D65ud', 'D66ud', 'D66du', 
+                             'D61us', 'D62us', 'D63us', 'D63su', 'D64us', 'D65us', 'D66us', 'D66su', 
+                             'D61uc', 'D62uc', 'D63uc', 'D63cu', 'D64uc', 'D65uc', 'D66uc', 'D66cu', 
+                             'D61ds', 'D62ds', 'D63ds', 'D63sd', 'D64ds', 'D65ds', 'D66ds', 'D66sd', 
+                             'D61dc', 'D62dc', 'D63dc', 'D63cd', 'D64dc', 'D65dc', 'D66dc', 'D66cd', 
+                             'D61sc', 'D62sc', 'D63sc', 'D63cs', 'D64sc', 'D65sc', 'D66sc', 'D66cs', 
+                             'D61u', 'D62u', 'D63u', 'D64u', 
+                             'D61d', 'D62d', 'D63d', 'D64d', 
+                             'D61s', 'D62s', 'D63s', 'D64s', 
+                             'D61c', 'D62c', 'D63c', 'D64c']
 
-        self.sm_lepton_name_list = ['P62ue', 'P62umu', 'P62utau', 'P62de', 'P62dmu', 'P62dtau', 'P62se', 'P62smu', 'P62stau', 
-                                    'P63eu', 'P63muu', 'P63tauu', 'P63ed', 'P63mud', 'P63taud', 'P63es', 'P63mus', 'P63taus']
+        self.sm_lepton_name_list = ['D62ue', 'D62umu', 'D62utau', 'D62de', 'D62dmu', 'D62dtau', 'D62se', 'D62smu', 'D62stau', 
+                                    'D63eu', 'D63muu', 'D63tauu', 'D63ed', 'D63mud', 'D63taud', 'D63es', 'D63mus', 'D63taus']
 
         if self.DM_type == "D":
             self.wc_name_list = ['C51', 'C52', 'C61u', 'C61d', 'C61s', 'C61c', 'C61e', 'C61mu', 'C61tau', 
@@ -1615,21 +1615,21 @@ class WC_5f(object):
         In order to calculate consistently to dim.8 in the EFT, we need also the dim.6 SM operators. 
         The following subset of 10*8 + 5*4 = 100 operators is sufficient for our purposes:
 
-         'P61ud', 'P62ud', 'P63ud', 'P63du', 'P64ud', 'P65ud', 'P66ud', 'P66du', 
-         'P61us', 'P62us', 'P63us', 'P63su', 'P64us', 'P65us', 'P66us', 'P66su', 
-         'P61uc', 'P62uc', 'P63uc', 'P63cu', 'P64uc', 'P65uc', 'P66uc', 'P66cu', 
-         'P61ub', 'P62ub', 'P63ub', 'P63bu', 'P64ub', 'P65ub', 'P66ub', 'P66bu', 
-         'P61ds', 'P62ds', 'P63ds', 'P63sd', 'P64ds', 'P65ds', 'P66ds', 'P66sd', 
-         'P61dc', 'P62dc', 'P63dc', 'P63cd', 'P64dc', 'P65dc', 'P66dc', 'P66cd', 
-         'P61db', 'P62db', 'P63db', 'P63bd', 'P64db', 'P65db', 'P66db', 'P66bd', 
-         'P61sc', 'P62sc', 'P63sc', 'P63cs', 'P64sc', 'P65sc', 'P66sc', 'P66cs', 
-         'P61sb', 'P62sb', 'P63sb', 'P63bs', 'P64sb', 'P65sb', 'P66sb', 'P66bs', 
-         'P61cb', 'P62cb', 'P63cb', 'P63bc', 'P64cb', 'P65cb', 'P66cb', 'P66bc',
-         'P61u', 'P62u', 'P63u', 'P64u', 
-         'P61d', 'P62d', 'P63d', 'P64d', 
-         'P61s', 'P62s', 'P63s', 'P64s', 
-         'P61c', 'P62c', 'P63c', 'P64c', 
-         'P61b', 'P62b', 'P63b', 'P64b'
+         'D61ud', 'D62ud', 'D63ud', 'D63du', 'D64ud', 'D65ud', 'D66ud', 'D66du', 
+         'D61us', 'D62us', 'D63us', 'D63su', 'D64us', 'D65us', 'D66us', 'D66su', 
+         'D61uc', 'D62uc', 'D63uc', 'D63cu', 'D64uc', 'D65uc', 'D66uc', 'D66cu', 
+         'D61ub', 'D62ub', 'D63ub', 'D63bu', 'D64ub', 'D65ub', 'D66ub', 'D66bu', 
+         'D61ds', 'D62ds', 'D63ds', 'D63sd', 'D64ds', 'D65ds', 'D66ds', 'D66sd', 
+         'D61dc', 'D62dc', 'D63dc', 'D63cd', 'D64dc', 'D65dc', 'D66dc', 'D66cd', 
+         'D61db', 'D62db', 'D63db', 'D63bd', 'D64db', 'D65db', 'D66db', 'D66bd', 
+         'D61sc', 'D62sc', 'D63sc', 'D63cs', 'D64sc', 'D65sc', 'D66sc', 'D66cs', 
+         'D61sb', 'D62sb', 'D63sb', 'D63bs', 'D64sb', 'D65sb', 'D66sb', 'D66bs', 
+         'D61cb', 'D62cb', 'D63cb', 'D63bc', 'D64cb', 'D65cb', 'D66cb', 'D66bc',
+         'D61u', 'D62u', 'D63u', 'D64u', 
+         'D61d', 'D62d', 'D63d', 'D64d', 
+         'D61s', 'D62s', 'D63s', 'D64s', 
+         'D61c', 'D62c', 'D63c', 'D64c', 
+         'D61b', 'D62b', 'D63b', 'D64b'
 
 
 
@@ -1662,35 +1662,35 @@ class WC_5f(object):
 
         # First, we define a standard ordering for the Wilson coefficients, so that we can use arrays
 
-        self.sm_name_list = ['P61ud', 'P62ud', 'P63ud', 'P63du', 'P64ud', 'P65ud', 'P66ud', 'P66du', 
-                             'P61us', 'P62us', 'P63us', 'P63su', 'P64us', 'P65us', 'P66us', 'P66su', 
-                             'P61uc', 'P62uc', 'P63uc', 'P63cu', 'P64uc', 'P65uc', 'P66uc', 'P66cu', 
-                             'P61ub', 'P62ub', 'P63ub', 'P63bu', 'P64ub', 'P65ub', 'P66ub', 'P66bu', 
-                             'P61ds', 'P62ds', 'P63ds', 'P63sd', 'P64ds', 'P65ds', 'P66ds', 'P66sd', 
-                             'P61dc', 'P62dc', 'P63dc', 'P63cd', 'P64dc', 'P65dc', 'P66dc', 'P66cd', 
-                             'P61db', 'P62db', 'P63db', 'P63bd', 'P64db', 'P65db', 'P66db', 'P66bd', 
-                             'P61sc', 'P62sc', 'P63sc', 'P63cs', 'P64sc', 'P65sc', 'P66sc', 'P66cs', 
-                             'P61sb', 'P62sb', 'P63sb', 'P63bs', 'P64sb', 'P65sb', 'P66sb', 'P66bs', 
-                             'P61cb', 'P62cb', 'P63cb', 'P63bc', 'P64cb', 'P65cb', 'P66cb', 'P66bc',
-                             'P61u', 'P62u', 'P63u', 'P64u', 
-                             'P61d', 'P62d', 'P63d', 'P64d', 
-                             'P61s', 'P62s', 'P63s', 'P64s', 
-                             'P61c', 'P62c', 'P63c', 'P64c', 
-                             'P61b', 'P62b', 'P63b', 'P64b']
+        self.sm_name_list = ['D61ud', 'D62ud', 'D63ud', 'D63du', 'D64ud', 'D65ud', 'D66ud', 'D66du', 
+                             'D61us', 'D62us', 'D63us', 'D63su', 'D64us', 'D65us', 'D66us', 'D66su', 
+                             'D61uc', 'D62uc', 'D63uc', 'D63cu', 'D64uc', 'D65uc', 'D66uc', 'D66cu', 
+                             'D61ub', 'D62ub', 'D63ub', 'D63bu', 'D64ub', 'D65ub', 'D66ub', 'D66bu', 
+                             'D61ds', 'D62ds', 'D63ds', 'D63sd', 'D64ds', 'D65ds', 'D66ds', 'D66sd', 
+                             'D61dc', 'D62dc', 'D63dc', 'D63cd', 'D64dc', 'D65dc', 'D66dc', 'D66cd', 
+                             'D61db', 'D62db', 'D63db', 'D63bd', 'D64db', 'D65db', 'D66db', 'D66bd', 
+                             'D61sc', 'D62sc', 'D63sc', 'D63cs', 'D64sc', 'D65sc', 'D66sc', 'D66cs', 
+                             'D61sb', 'D62sb', 'D63sb', 'D63bs', 'D64sb', 'D65sb', 'D66sb', 'D66bs', 
+                             'D61cb', 'D62cb', 'D63cb', 'D63bc', 'D64cb', 'D65cb', 'D66cb', 'D66bc',
+                             'D61u', 'D62u', 'D63u', 'D64u', 
+                             'D61d', 'D62d', 'D63d', 'D64d', 
+                             'D61s', 'D62s', 'D63s', 'D64s', 
+                             'D61c', 'D62c', 'D63c', 'D64c', 
+                             'D61b', 'D62b', 'D63b', 'D64b']
 
-        self.sm_name_list_4f = ['P61ud', 'P62ud', 'P63ud', 'P63du', 'P64ud', 'P65ud', 'P66ud', 'P66du', 
-                                'P61us', 'P62us', 'P63us', 'P63su', 'P64us', 'P65us', 'P66us', 'P66su', 
-                                'P61uc', 'P62uc', 'P63uc', 'P63cu', 'P64uc', 'P65uc', 'P66uc', 'P66cu', 
-                                'P61ds', 'P62ds', 'P63ds', 'P63sd', 'P64ds', 'P65ds', 'P66ds', 'P66sd', 
-                                'P61dc', 'P62dc', 'P63dc', 'P63cd', 'P64dc', 'P65dc', 'P66dc', 'P66cd', 
-                                'P61sc', 'P62sc', 'P63sc', 'P63cs', 'P64sc', 'P65sc', 'P66sc', 'P66cs', 
-                                'P61u', 'P62u', 'P63u', 'P64u', 
-                                'P61d', 'P62d', 'P63d', 'P64d', 
-                                'P61s', 'P62s', 'P63s', 'P64s', 
-                                'P61c', 'P62c', 'P63c', 'P64c']
+        self.sm_name_list_4f = ['D61ud', 'D62ud', 'D63ud', 'D63du', 'D64ud', 'D65ud', 'D66ud', 'D66du', 
+                                'D61us', 'D62us', 'D63us', 'D63su', 'D64us', 'D65us', 'D66us', 'D66su', 
+                                'D61uc', 'D62uc', 'D63uc', 'D63cu', 'D64uc', 'D65uc', 'D66uc', 'D66cu', 
+                                'D61ds', 'D62ds', 'D63ds', 'D63sd', 'D64ds', 'D65ds', 'D66ds', 'D66sd', 
+                                'D61dc', 'D62dc', 'D63dc', 'D63cd', 'D64dc', 'D65dc', 'D66dc', 'D66cd', 
+                                'D61sc', 'D62sc', 'D63sc', 'D63cs', 'D64sc', 'D65sc', 'D66sc', 'D66cs', 
+                                'D61u', 'D62u', 'D63u', 'D64u', 
+                                'D61d', 'D62d', 'D63d', 'D64d', 
+                                'D61s', 'D62s', 'D63s', 'D64s', 
+                                'D61c', 'D62c', 'D63c', 'D64c']
 
-        self.sm_lepton_name_list = ['P62ue', 'P62umu', 'P62utau', 'P62de', 'P62dmu', 'P62dtau', 'P62se', 'P62smu', 'P62stau', 
-                                    'P63eu', 'P63muu', 'P63tauu', 'P63ed', 'P63mud', 'P63taud', 'P63es', 'P63mus', 'P63taus']
+        self.sm_lepton_name_list = ['D62ue', 'D62umu', 'D62utau', 'D62de', 'D62dmu', 'D62dtau', 'D62se', 'D62smu', 'D62stau', 
+                                    'D63eu', 'D63muu', 'D63tauu', 'D63ed', 'D63mud', 'D63taud', 'D63es', 'D63mus', 'D63taus']
 
         if self.DM_type == "D":
             self.wc_name_list = ['C51', 'C52', 'C61u', 'C61d', 'C61s', 'C61c', 'C61b', 'C61e', 'C61mu', 'C61tau', 
@@ -1859,146 +1859,146 @@ class WC_5f(object):
         vl = (-1/2 - 2*sw**2*(-1))/(2*sw*cw)
         al = -(-1/2)/(2*sw*cw)
 
-        self.coeff_dict['P61ud'] = vu*vd * 4*sw**2*cw**2 + 1/6
-        self.coeff_dict['P62ud'] = au*ad * 4*sw**2*cw**2 + 1/6
-        self.coeff_dict['P63ud'] = au*vd * 4*sw**2*cw**2 - 1/6
-        self.coeff_dict['P63du'] = ad*vu * 4*sw**2*cw**2 - 1/6
-        self.coeff_dict['P64ud'] = 1
-        self.coeff_dict['P65ud'] = 1
-        self.coeff_dict['P66ud'] = -1
-        self.coeff_dict['P66du'] = -1
+        self.coeff_dict['D61ud'] = vu*vd * 4*sw**2*cw**2 + 1/6
+        self.coeff_dict['D62ud'] = au*ad * 4*sw**2*cw**2 + 1/6
+        self.coeff_dict['D63ud'] = au*vd * 4*sw**2*cw**2 - 1/6
+        self.coeff_dict['D63du'] = ad*vu * 4*sw**2*cw**2 - 1/6
+        self.coeff_dict['D64ud'] = 1
+        self.coeff_dict['D65ud'] = 1
+        self.coeff_dict['D66ud'] = -1
+        self.coeff_dict['D66du'] = -1
 
-        self.coeff_dict['P61us'] = vu*vd * 4*sw**2*cw**2
-        self.coeff_dict['P62us'] = au*ad * 4*sw**2*cw**2
-        self.coeff_dict['P63us'] = au*vd * 4*sw**2*cw**2
-        self.coeff_dict['P63su'] = ad*vu * 4*sw**2*cw**2
-        self.coeff_dict['P64us'] = 0
-        self.coeff_dict['P65us'] = 0
-        self.coeff_dict['P66us'] = 0
-        self.coeff_dict['P66su'] = 0
+        self.coeff_dict['D61us'] = vu*vd * 4*sw**2*cw**2
+        self.coeff_dict['D62us'] = au*ad * 4*sw**2*cw**2
+        self.coeff_dict['D63us'] = au*vd * 4*sw**2*cw**2
+        self.coeff_dict['D63su'] = ad*vu * 4*sw**2*cw**2
+        self.coeff_dict['D64us'] = 0
+        self.coeff_dict['D65us'] = 0
+        self.coeff_dict['D66us'] = 0
+        self.coeff_dict['D66su'] = 0
 
-        self.coeff_dict['P61uc'] = vu*vu * 4*sw**2*cw**2
-        self.coeff_dict['P62uc'] = au*au * 4*sw**2*cw**2
-        self.coeff_dict['P63uc'] = au*vu * 4*sw**2*cw**2
-        self.coeff_dict['P63cu'] = au*vu * 4*sw**2*cw**2
-        self.coeff_dict['P64uc'] = 0
-        self.coeff_dict['P65uc'] = 0
-        self.coeff_dict['P66uc'] = 0
-        self.coeff_dict['P66cu'] = 0
+        self.coeff_dict['D61uc'] = vu*vu * 4*sw**2*cw**2
+        self.coeff_dict['D62uc'] = au*au * 4*sw**2*cw**2
+        self.coeff_dict['D63uc'] = au*vu * 4*sw**2*cw**2
+        self.coeff_dict['D63cu'] = au*vu * 4*sw**2*cw**2
+        self.coeff_dict['D64uc'] = 0
+        self.coeff_dict['D65uc'] = 0
+        self.coeff_dict['D66uc'] = 0
+        self.coeff_dict['D66cu'] = 0
 
-        self.coeff_dict['P61ub'] = vu*vd * 4*sw**2*cw**2
-        self.coeff_dict['P62ub'] = au*ad * 4*sw**2*cw**2
-        self.coeff_dict['P63ub'] = au*vd * 4*sw**2*cw**2
-        self.coeff_dict['P63bu'] = ad*vu * 4*sw**2*cw**2
-        self.coeff_dict['P64ub'] = 0
-        self.coeff_dict['P65ub'] = 0
-        self.coeff_dict['P66ub'] = 0
-        self.coeff_dict['P66bu'] = 0
+        self.coeff_dict['D61ub'] = vu*vd * 4*sw**2*cw**2
+        self.coeff_dict['D62ub'] = au*ad * 4*sw**2*cw**2
+        self.coeff_dict['D63ub'] = au*vd * 4*sw**2*cw**2
+        self.coeff_dict['D63bu'] = ad*vu * 4*sw**2*cw**2
+        self.coeff_dict['D64ub'] = 0
+        self.coeff_dict['D65ub'] = 0
+        self.coeff_dict['D66ub'] = 0
+        self.coeff_dict['D66bu'] = 0
 
-        self.coeff_dict['P61ds'] = vd*vd * 4*sw**2*cw**2
-        self.coeff_dict['P62ds'] = ad*ad * 4*sw**2*cw**2
-        self.coeff_dict['P63ds'] = ad*vd * 4*sw**2*cw**2
-        self.coeff_dict['P63sd'] = ad*vd * 4*sw**2*cw**2
-        self.coeff_dict['P64ds'] = 0
-        self.coeff_dict['P65ds'] = 0
-        self.coeff_dict['P66ds'] = 0
-        self.coeff_dict['P66sd'] = 0
+        self.coeff_dict['D61ds'] = vd*vd * 4*sw**2*cw**2
+        self.coeff_dict['D62ds'] = ad*ad * 4*sw**2*cw**2
+        self.coeff_dict['D63ds'] = ad*vd * 4*sw**2*cw**2
+        self.coeff_dict['D63sd'] = ad*vd * 4*sw**2*cw**2
+        self.coeff_dict['D64ds'] = 0
+        self.coeff_dict['D65ds'] = 0
+        self.coeff_dict['D66ds'] = 0
+        self.coeff_dict['D66sd'] = 0
 
-        self.coeff_dict['P61dc'] = vd*vu * 4*sw**2*cw**2
-        self.coeff_dict['P62dc'] = ad*au * 4*sw**2*cw**2
-        self.coeff_dict['P63dc'] = ad*vu * 4*sw**2*cw**2
-        self.coeff_dict['P63cd'] = au*vd * 4*sw**2*cw**2
-        self.coeff_dict['P64dc'] = 0
-        self.coeff_dict['P65dc'] = 0
-        self.coeff_dict['P66dc'] = 0
-        self.coeff_dict['P66cd'] = 0
+        self.coeff_dict['D61dc'] = vd*vu * 4*sw**2*cw**2
+        self.coeff_dict['D62dc'] = ad*au * 4*sw**2*cw**2
+        self.coeff_dict['D63dc'] = ad*vu * 4*sw**2*cw**2
+        self.coeff_dict['D63cd'] = au*vd * 4*sw**2*cw**2
+        self.coeff_dict['D64dc'] = 0
+        self.coeff_dict['D65dc'] = 0
+        self.coeff_dict['D66dc'] = 0
+        self.coeff_dict['D66cd'] = 0
 
-        self.coeff_dict['P61db'] = vd*vd * 4*sw**2*cw**2
-        self.coeff_dict['P62db'] = ad*ad * 4*sw**2*cw**2
-        self.coeff_dict['P63db'] = ad*vd * 4*sw**2*cw**2
-        self.coeff_dict['P63bd'] = ad*vd * 4*sw**2*cw**2
-        self.coeff_dict['P64db'] = 0
-        self.coeff_dict['P65db'] = 0
-        self.coeff_dict['P66db'] = 0
-        self.coeff_dict['P66bd'] = 0
+        self.coeff_dict['D61db'] = vd*vd * 4*sw**2*cw**2
+        self.coeff_dict['D62db'] = ad*ad * 4*sw**2*cw**2
+        self.coeff_dict['D63db'] = ad*vd * 4*sw**2*cw**2
+        self.coeff_dict['D63bd'] = ad*vd * 4*sw**2*cw**2
+        self.coeff_dict['D64db'] = 0
+        self.coeff_dict['D65db'] = 0
+        self.coeff_dict['D66db'] = 0
+        self.coeff_dict['D66bd'] = 0
 
-        self.coeff_dict['P61sc'] = vd*vu * 4*sw**2*cw**2 + 1/6
-        self.coeff_dict['P62sc'] = ad*au * 4*sw**2*cw**2 + 1/6
-        self.coeff_dict['P63sc'] = ad*vu * 4*sw**2*cw**2 - 1/6
-        self.coeff_dict['P63cs'] = au*vd * 4*sw**2*cw**2 - 1/6
-        self.coeff_dict['P64sc'] = 1
-        self.coeff_dict['P65sc'] = 1
-        self.coeff_dict['P66sc'] = -1
-        self.coeff_dict['P66cs'] = -1
+        self.coeff_dict['D61sc'] = vd*vu * 4*sw**2*cw**2 + 1/6
+        self.coeff_dict['D62sc'] = ad*au * 4*sw**2*cw**2 + 1/6
+        self.coeff_dict['D63sc'] = ad*vu * 4*sw**2*cw**2 - 1/6
+        self.coeff_dict['D63cs'] = au*vd * 4*sw**2*cw**2 - 1/6
+        self.coeff_dict['D64sc'] = 1
+        self.coeff_dict['D65sc'] = 1
+        self.coeff_dict['D66sc'] = -1
+        self.coeff_dict['D66cs'] = -1
 
-        self.coeff_dict['P61sb'] = vd*vd * 4*sw**2*cw**2
-        self.coeff_dict['P62sb'] = ad*ad * 4*sw**2*cw**2
-        self.coeff_dict['P63sb'] = ad*vd * 4*sw**2*cw**2
-        self.coeff_dict['P63bs'] = ad*vd * 4*sw**2*cw**2
-        self.coeff_dict['P64sb'] = 0
-        self.coeff_dict['P65sb'] = 0
-        self.coeff_dict['P66sb'] = 0
-        self.coeff_dict['P66bs'] = 0
+        self.coeff_dict['D61sb'] = vd*vd * 4*sw**2*cw**2
+        self.coeff_dict['D62sb'] = ad*ad * 4*sw**2*cw**2
+        self.coeff_dict['D63sb'] = ad*vd * 4*sw**2*cw**2
+        self.coeff_dict['D63bs'] = ad*vd * 4*sw**2*cw**2
+        self.coeff_dict['D64sb'] = 0
+        self.coeff_dict['D65sb'] = 0
+        self.coeff_dict['D66sb'] = 0
+        self.coeff_dict['D66bs'] = 0
 
-        self.coeff_dict['P61cb'] = vu*vd * 4*sw**2*cw**2
-        self.coeff_dict['P62cb'] = au*ad * 4*sw**2*cw**2
-        self.coeff_dict['P63cb'] = au*vd * 4*sw**2*cw**2
-        self.coeff_dict['P63bc'] = ad*vu * 4*sw**2*cw**2
-        self.coeff_dict['P64cb'] = 0
-        self.coeff_dict['P65cb'] = 0
-        self.coeff_dict['P66cb'] = 0
-        self.coeff_dict['P66bc'] = 0
+        self.coeff_dict['D61cb'] = vu*vd * 4*sw**2*cw**2
+        self.coeff_dict['D62cb'] = au*ad * 4*sw**2*cw**2
+        self.coeff_dict['D63cb'] = au*vd * 4*sw**2*cw**2
+        self.coeff_dict['D63bc'] = ad*vu * 4*sw**2*cw**2
+        self.coeff_dict['D64cb'] = 0
+        self.coeff_dict['D65cb'] = 0
+        self.coeff_dict['D66cb'] = 0
+        self.coeff_dict['D66bc'] = 0
 
-        self.coeff_dict['P61u'] = vu**2 * 2*sw**2*cw**2
-        self.coeff_dict['P62u'] = au**2 * 2*sw**2*cw**2
-        self.coeff_dict['P63u'] = vu*au * 4*sw**2*cw**2
-        self.coeff_dict['P64u'] = 0
+        self.coeff_dict['D61u'] = vu**2 * 2*sw**2*cw**2
+        self.coeff_dict['D62u'] = au**2 * 2*sw**2*cw**2
+        self.coeff_dict['D63u'] = vu*au * 4*sw**2*cw**2
+        self.coeff_dict['D64u'] = 0
 
-        self.coeff_dict['P61d'] = vd**2 * 2*sw**2*cw**2
-        self.coeff_dict['P62d'] = ad**2 * 2*sw**2*cw**2
-        self.coeff_dict['P63d'] = vd*ad * 4*sw**2*cw**2
-        self.coeff_dict['P64d'] = 0
+        self.coeff_dict['D61d'] = vd**2 * 2*sw**2*cw**2
+        self.coeff_dict['D62d'] = ad**2 * 2*sw**2*cw**2
+        self.coeff_dict['D63d'] = vd*ad * 4*sw**2*cw**2
+        self.coeff_dict['D64d'] = 0
 
-        self.coeff_dict['P61s'] = vd**2 * 2*sw**2*cw**2
-        self.coeff_dict['P62s'] = ad**2 * 2*sw**2*cw**2
-        self.coeff_dict['P63s'] = vd*ad * 4*sw**2*cw**2
-        self.coeff_dict['P64s'] = 0
+        self.coeff_dict['D61s'] = vd**2 * 2*sw**2*cw**2
+        self.coeff_dict['D62s'] = ad**2 * 2*sw**2*cw**2
+        self.coeff_dict['D63s'] = vd*ad * 4*sw**2*cw**2
+        self.coeff_dict['D64s'] = 0
 
-        self.coeff_dict['P61c'] = vu**2 * 2*sw**2*cw**2
-        self.coeff_dict['P62c'] = au**2 * 2*sw**2*cw**2
-        self.coeff_dict['P63c'] = vu*au * 4*sw**2*cw**2
-        self.coeff_dict['P64c'] = 0
+        self.coeff_dict['D61c'] = vu**2 * 2*sw**2*cw**2
+        self.coeff_dict['D62c'] = au**2 * 2*sw**2*cw**2
+        self.coeff_dict['D63c'] = vu*au * 4*sw**2*cw**2
+        self.coeff_dict['D64c'] = 0
 
-        self.coeff_dict['P61b'] = vd**2 * 2*sw**2*cw**2
-        self.coeff_dict['P62b'] = ad**2 * 2*sw**2*cw**2
-        self.coeff_dict['P63b'] = vd*ad * 4*sw**2*cw**2
-        self.coeff_dict['P64b'] = 0
+        self.coeff_dict['D61b'] = vd**2 * 2*sw**2*cw**2
+        self.coeff_dict['D62b'] = ad**2 * 2*sw**2*cw**2
+        self.coeff_dict['D63b'] = vd*ad * 4*sw**2*cw**2
+        self.coeff_dict['D64b'] = 0
 
         # Leptons
 
-        self.coeff_dict['P62ue'] = au*al * 4*sw**2*cw**2
-        self.coeff_dict['P62umu'] = au*al * 4*sw**2*cw**2
-        self.coeff_dict['P62utau'] = au*al * 4*sw**2*cw**2
+        self.coeff_dict['D62ue'] = au*al * 4*sw**2*cw**2
+        self.coeff_dict['D62umu'] = au*al * 4*sw**2*cw**2
+        self.coeff_dict['D62utau'] = au*al * 4*sw**2*cw**2
 
-        self.coeff_dict['P62de'] = ad*al * 4*sw**2*cw**2
-        self.coeff_dict['P62dmu'] = ad*al * 4*sw**2*cw**2
-        self.coeff_dict['P62dtau'] = ad*al * 4*sw**2*cw**2
+        self.coeff_dict['D62de'] = ad*al * 4*sw**2*cw**2
+        self.coeff_dict['D62dmu'] = ad*al * 4*sw**2*cw**2
+        self.coeff_dict['D62dtau'] = ad*al * 4*sw**2*cw**2
 
-        self.coeff_dict['P62se'] = ad*al * 4*sw**2*cw**2
-        self.coeff_dict['P62smu'] = ad*al * 4*sw**2*cw**2
-        self.coeff_dict['P62stau'] = ad*al * 4*sw**2*cw**2
+        self.coeff_dict['D62se'] = ad*al * 4*sw**2*cw**2
+        self.coeff_dict['D62smu'] = ad*al * 4*sw**2*cw**2
+        self.coeff_dict['D62stau'] = ad*al * 4*sw**2*cw**2
 
-        self.coeff_dict['P63eu'] = al*vu * 4*sw**2*cw**2
-        self.coeff_dict['P63muu'] = al*vu * 4*sw**2*cw**2
-        self.coeff_dict['P63tauu'] = al*vu * 4*sw**2*cw**2
+        self.coeff_dict['D63eu'] = al*vu * 4*sw**2*cw**2
+        self.coeff_dict['D63muu'] = al*vu * 4*sw**2*cw**2
+        self.coeff_dict['D63tauu'] = al*vu * 4*sw**2*cw**2
 
-        self.coeff_dict['P63ed'] = al*vd * 4*sw**2*cw**2
-        self.coeff_dict['P63mud'] = al*vd * 4*sw**2*cw**2
-        self.coeff_dict['P63taud'] = al*vd * 4*sw**2*cw**2
+        self.coeff_dict['D63ed'] = al*vd * 4*sw**2*cw**2
+        self.coeff_dict['D63mud'] = al*vd * 4*sw**2*cw**2
+        self.coeff_dict['D63taud'] = al*vd * 4*sw**2*cw**2
 
-        self.coeff_dict['P63es'] = al*vd * 4*sw**2*cw**2
-        self.coeff_dict['P63mus'] = al*vd * 4*sw**2*cw**2
-        self.coeff_dict['P63taus'] = al*vd * 4*sw**2*cw**2
+        self.coeff_dict['D63es'] = al*vd * 4*sw**2*cw**2
+        self.coeff_dict['D63mus'] = al*vd * 4*sw**2*cw**2
+        self.coeff_dict['D63taus'] = al*vd * 4*sw**2*cw**2
 
 
         # Now update with the user-specified values, if defined
