@@ -8,7 +8,7 @@ class Num_input(object):
     def __init__(self):
     # numerical input. All masses in GeV.
 
-        # couplings
+        # couplings etc.
         self.asMZ = 0.1181
         self.dasMZ = 0.0011
         self.GF = 1.166367*10**(-5)
@@ -19,6 +19,8 @@ class Num_input(object):
         self.damtauinv = 0.016
         self.alowinv = 137.035999139
         self.dalowinv = 0.000000031
+        self.sw2_MSbar = 0.23129
+        self.dsw2_MSbar = 0.00005
 
         # Boson masses
         self.Mz = 91.1876
@@ -34,10 +36,10 @@ class Num_input(object):
         self.me = 0.000510998928
 
         # Baryon masses
-        self.mproton = 938.272046e-3
-        self.dmproton = 0.000021e-3
-        self.mneutron = 939.565379e-3
-        self.dmneutron = 0.000021e-3
+        self.mproton = 938.272081e-3
+        self.dmproton = 0.000006e-3
+        self.mneutron = 939.565413e-3
+        self.dmneutron = 0.000006e-3
         self.mN = (self.mproton+self.mneutron)/2
 
         # Meson masses
@@ -49,6 +51,8 @@ class Num_input(object):
         # PDG
         self.mb_at_mb = 4.18 #GeV
         self.dmb_at_mb = 0.04 #GeV
+        self.mc_at_mc = 1.28 #GeV
+        self.dmc_at_mc = 0.03 #GeV
 
         # Light-quark masses from PDG. MSbar scheme at 2 GeV
         self.ms_at_2GeV = 0.096 #GeV
@@ -61,6 +65,13 @@ class Num_input(object):
         # mc(3 GeV) [0907.2110]:
         self.mc_at_3GeV = 0.986 # GeV
         self.dmc_at_3GeV = 0.013 # GeV
+
+        # Quark masses at MZ (at 1-loop )
+        self.mu_at_MZ = 1.4480486828689913e-3
+        self.md_at_MZ = 3.093558685557306e-3
+        self.ms_at_MZ = 63.187583673361705e-3
+        self.mc_at_MZ = 0.77668071703323294
+        self.mb_at_MZ = 3.0766883845975763
 
 
 
