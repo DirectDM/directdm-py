@@ -295,7 +295,7 @@ class WC_3f(object):
                         warnings.warn('The RG result for ' + wc_name + ' is incomplete, expect large uncertainties!')
                     else:
                         pass
-            elif DM_type == "D":
+            elif DM_type == "C":
                 for wc_name in ['C62e', 'C62mu']:
                     if self.coeff_dict[wc_name] != 0.:
                         warnings.warn('The RG result for ' + wc_name + ' is incomplete, expect large uncertainties!')
