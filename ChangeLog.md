@@ -3,7 +3,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
-## [Unreleased]
+## [1.2.0]
 ### Added
 - Weak mixing below the weak scale, as detailed in [this publication](https://arxiv.org/abs/1801.04240)
 - Note that the results for electrons and muons neglect potentially large contributions; hence, a warning is issued in these cases
