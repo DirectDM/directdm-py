@@ -1019,7 +1019,7 @@ class WC_3f(object):
         if self.DM_type == "C":
             my_cNR_dict = {
             'cNR1p' :   2*DM_mass*(  F1up * (c3mu_dict['C61u'] - np.sqrt(2)*GF*mu**2 / gs2_2GeV * c3mu_dict['C81u'])\
-                                   + F1dp * (c3mu_dict['C61d'] - np.sqrt(2)*GF*mu**2 / gs2_2GeV * c3mu_dict['C81d'])\
+                                   + F1dp * (c3mu_dict['C61d'] - np.sqrt(2)*GF*md**2 / gs2_2GeV * c3mu_dict['C81d'])\
                                    + F1up*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ) * c3mu_dict['C62e'] * c3mu_dict['D63eu'])\
                                    + F1dp*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ) * c3mu_dict['C62e'] * c3mu_dict['D63ed'])\
                                    + F1up*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ) * c3mu_dict['C62mu'] * c3mu_dict['D63muu'])\
@@ -1034,8 +1034,8 @@ class WC_3f(object):
             'cNR5p' : 0,
             'cNR6p' : 0,
             'cNR7p' : -4*DM_mass*(  FAup * (c3mu_dict['C62u'] - np.sqrt(2)*GF*mu**2 / gs2_2GeV * c3mu_dict['C82u'])\
-                                  + FAdp * (c3mu_dict['C62d'] - np.sqrt(2)*GF*mu**2 / gs2_2GeV * c3mu_dict['C82d'])\
-                                  + FAsp * (c3mu_dict['C62s'] - np.sqrt(2)*GF*mu**2 / gs2_2GeV * c3mu_dict['C82s'])\
+                                  + FAdp * (c3mu_dict['C62d'] - np.sqrt(2)*GF*md**2 / gs2_2GeV * c3mu_dict['C82d'])\
+                                  + FAsp * (c3mu_dict['C62s'] - np.sqrt(2)*GF*ms**2 / gs2_2GeV * c3mu_dict['C82s'])\
                                   + FAup*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ) * c3mu_dict['C62e'] * c3mu_dict['D62ue'])\
                                   + FAdp*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ) * c3mu_dict['C62e'] * c3mu_dict['D62de'])\
                                   + FAsp*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ) * c3mu_dict['C62e'] * c3mu_dict['D62se'])\
@@ -1072,7 +1072,7 @@ class WC_3f(object):
 
 
             'cNR1n' :   2*DM_mass*(  F1un * (c3mu_dict['C61u'] - np.sqrt(2)*GF*mu**2 / gs2_2GeV * c3mu_dict['C81u'])\
-                                   + F1dn * (c3mu_dict['C61d'] - np.sqrt(2)*GF*mu**2 / gs2_2GeV * c3mu_dict['C81d'])\
+                                   + F1dn * (c3mu_dict['C61d'] - np.sqrt(2)*GF*md**2 / gs2_2GeV * c3mu_dict['C81d'])\
                                    + F1un*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ) * c3mu_dict['C62e'] * c3mu_dict['D63eu'])\
                                    + F1dn*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ) * c3mu_dict['C62e'] * c3mu_dict['D63ed'])\
                                    + F1un*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ) * c3mu_dict['C62mu'] * c3mu_dict['D63muu'])\
@@ -1087,8 +1087,8 @@ class WC_3f(object):
             'cNR5n' : 0,
             'cNR6n' : 0,
             'cNR7n' : -4*DM_mass*(  FAun * (c3mu_dict['C62u'] - np.sqrt(2)*GF*mu**2 / gs2_2GeV * c3mu_dict['C82u'])\
-                                  + FAdn * (c3mu_dict['C62d'] - np.sqrt(2)*GF*mu**2 / gs2_2GeV * c3mu_dict['C82d'])\
-                                  + FAsn * (c3mu_dict['C62s'] - np.sqrt(2)*GF*mu**2 / gs2_2GeV * c3mu_dict['C82s'])\
+                                  + FAdn * (c3mu_dict['C62d'] - np.sqrt(2)*GF*md**2 / gs2_2GeV * c3mu_dict['C82d'])\
+                                  + FAsn * (c3mu_dict['C62s'] - np.sqrt(2)*GF*ms**2 / gs2_2GeV * c3mu_dict['C82s'])\
                                   + FAun*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ) * c3mu_dict['C62e'] * c3mu_dict['D62ue'])\
                                   + FAdn*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ) * c3mu_dict['C62e'] * c3mu_dict['D62de'])\
                                   + FAsn*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ) * c3mu_dict['C62e'] * c3mu_dict['D62se'])\
