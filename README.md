@@ -66,8 +66,9 @@ If you use `DirectDM` please cite us! To get the `BibTeX` entries, click on: [in
 ## Contributors
 
    * Fady Bishara (University of Oxford)
-   * Jure Zupan (University of Cincinnati)
    * Benjamin Grinstein (UC San Diego)
+   * Emmanuel Stamou (University of Chicago)
+   * Jure Zupan (University of Cincinnati)
 
 
 ## License
