@@ -48,6 +48,19 @@ class QCD_beta(object):
             return (2857/2 - 5033/18 * self.nf + 325/54 * self.nf**2)
 
 
+# The QCD anomalous dimension for the quark mass
+
+class QCD_gamma(object):
+    """ The QCD gamma function """
+    def __init__(self, nf, loop):
+        self.nf = nf
+        self.loop = loop
+
+    def trad(self):
+        if self.loop == 1:
+            return 8
+
+
 class AlphaS(object):
     """ The strong coupling constant """
 
@@ -62,7 +75,7 @@ class AlphaS(object):
         ip = Num_input()
         self.MZ = ip.Mz
         self.asMZ = ip.asMZ
-        self.mc_at_3GeV = ip.mc_at_3GeV #GeV
+        self.mc_at_2GeV = ip.mc_at_2GeV #GeV
         self.mb_at_mb = ip.mb_at_mb #GeV
 
     def decouple_down_MSbar(self, alphasatmu, mu, mh):
@@ -142,9 +155,9 @@ class AlphaS(object):
         if self.nf == 3:
             as5_mb = self.__solve_rge_nf(self.asMZ, self.MZ, self.mb_at_mb, 5)
             as4_mb = self.decouple_down_MSbar(as5_mb, self.mb_at_mb, self.mb_at_mb)
-            as4_mc = self.__solve_rge_nf(as4_mb, self.mb_at_mb, 3, 4)
-            as3_mc = self.decouple_down_MSbar(as4_mc, 3, self.mc_at_3GeV)
-            return self.__solve_rge_nf(as4_mc, 3, mu0, 3)
+            as4_mc = self.__solve_rge_nf(as4_mb, self.mb_at_mb, 2, 4)
+            as3_mc = self.decouple_down_MSbar(as4_mc, 2, self.mc_at_2GeV)
+            return self.__solve_rge_nf(as4_mc, 2, mu0, 3)
 
 ### Future: class should be C_QCD, given the Wilson coefficient at different scales
 
