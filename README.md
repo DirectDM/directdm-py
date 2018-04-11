@@ -13,11 +13,11 @@ After cloning this repository, you can easily install `directdm` by using the `p
 
 ```
 python3 setup.py sdist
-pip install dist/directdm-1.1.1.tar.gz
+pip install dist/directdm-x.y.z.tar.gz
 ```
 
 (You might need root permissions to execute the second command, 
-and `pip` might be called `pip3` on your system.)
+and `pip` might be called `pip3` on your system. `x.y.z` should be expanded to the desired version number.)
 
 **Note**: the package has been tested on a linux machine. Mac users using `homebrew` should be able to install `directdm` after executing
 
