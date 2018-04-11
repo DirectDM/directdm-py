@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
+## [Unreleased]
+### Added
+- The class `WC_EW` for the Wilson coefficients above the electroweak scale
+- The class `CmuEW` for the electroweak RG evolution
+- The files `full_adm_g1.py`, `full_adm_g2.py`,  `full_adm_yt.py` with the electroweak anomalous dimensions
+
 ## [1.2.0] - 2018-01-31
 ### Added
 - Weak mixing below the weak scale, as detailed in [this publication](https://arxiv.org/abs/1801.04240)
@@ -16,11 +22,6 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 - A bug in `write_mma` (RG evolution was not switched of by optional argument `RGE=False`)
 - The charm quark is now consistently integrated out at 2 GeV
 - A bug in c1p for complex scalar DM
-
-### Added
-- The class `WC_EW` for the Wilson coefficients above the electroweak scale
-- The class `CmuEW` for the electroweak RG evolution
-- The files `full_adm_g1.py`, `full_adm_g2.py`,  `full_adm_yt.py` with the electroweak anomalous dimensions
 
 ## [1.1.1] - 2017-10-27
 ### Added
