@@ -180,20 +180,19 @@ class RGE(object):
 
 
 class CmuEW(object):
-    def __init__(self, Wilson, ADM, muh, mul, Y, d, s1, s2, s3, st):
+    def __init__(self, Wilson, ADM, muh, mul, Y, d):
         """ Calculate the running of the Wilson coefficients in the unbroken EW theory
 
-        The running takes into account the gauge coupling g1, g2, g3, and the top Yukawa yt.
+        The running takes into account the gauge coupling g1, g2, g3,
+        the tau, bottom, and top Yukawas, ytau, yb, yt, and the Higgs self coupling lambda.
 
         Wilson should be a list of initial conditions for the Wilson coefficients.
 
-        ADM should be a list / array of four anomalous dimension matrices for g1, g2, g3, yt.
+        ADM should be a list / array of the seven DM anomalous dimension matrices proportional to g1^2, g2^2, g3^2, ytau^2, yb^2, yt^2, lambda.
 
         muh is the initial scale.
 
         mul is the final scale.
-
-        s1, s2, s3, st = 1 / 0 switches g1, g2, gs, yt on / off
         """
         self. Wilson = Wilson
         self.ADM = ADM
@@ -201,85 +200,114 @@ class CmuEW(object):
         self.mul = mul
         self.Y = Y
         self.d = d
-        self.s1 = s1
-        self.s2 = s2
-        self.s3 = s3
-        self.st = st
 
         # Input parameters
 
         ip = Num_input()
 
-        self.alpha = 1/ip.aMZinv
-        self.el = np.sqrt(4*np.pi*self.alpha)
-        self.MW = ip.Mw
-        self.MZ = ip.Mz
-        self.Mh = ip.Mh
-        self.cw = self.MW/self.MZ
-        self.sw = np.sqrt(1-self.cw**2)
-        self.g1 = self.el/self.cw
-        self.g2 = self.el/self.sw
-        self.asMZ = ip.asMZ
-        self.gs = np.sqrt(4*np.pi*self.asMZ)
-        self.yt = ip.mt_pole/246*np.sqrt(2)
+        self.alpha  = 1/ip.aMZinv
+        self.el     = np.sqrt(4*np.pi*self.alpha)
+        self.MW     = ip.Mw
+        self.MZ     = ip.Mz
+        self.Mh     = ip.Mh
+        self.cw     = self.MW/self.MZ
+        self.sw     = np.sqrt(1-self.cw**2)
+        self.g1     = self.el/self.cw
+        self.g2     = self.el/self.sw
+        self.asMZ   = ip.asMZ
+        self.gs     = np.sqrt(4*np.pi*self.asMZ)
+        self.ytau   = ip.mtau/246*np.sqrt(2)
+        self.yb     = ip.mb_at_MZ/246*np.sqrt(2)
+        self.yt     = ip.mt_pole/246*np.sqrt(2)
+        self.lam = self.g2**2 * self.Mh**2 / self.MW**2 / 2
 
         # The initial values of the couplings at MZ
-        self.ginit = [self.g1*self.s1, self.g2*self.s2, self.gs*self.s3, self.yt*self.st]
+        # Need to think more carefully what to use as input!!!
+        self.ginit = [self.g1, self.g2, self.gs, self.ytau, self.yb, self.yt, self.lam]
 
 
     def _dgdmu(self, g, mu, Y, d):
-        """ Calculate the log derivative of the couplings g1, g2, g3, yt w.r.t. to mu, at scale mu
+        """ Calculate the log derivative [i.e. dg/dlog(mu)] of the couplings g1, g2, g3, ytau, yb, yt, lam w.r.t. to mu, at scale mu
         
-        Takes a 4-vector (list) of couplings g = [g1,g2,g3,yt]
+        Take a 7-vector (list) of couplings g = [g1, g2, g3, ytau, yb, yt, lambda]
 
-        Takes the DM quantum numbers d, Y (so far only 1 multiplet)
+        Take the DM quantum numbers d, Y (so far only 1 multiplet)
 
-        Returns the derivative -- again a 4-vector
+        Return the derivative -- again a 7-vector
         """
         N = 1
-        # The 4x4 matrix of beta functions (Arason et al., Phys.Rev. D46 (1992) 3945-3965, and our calculation)
-        beta = [[-41/6-Y**2*d*N/3,0,0,0],
-                [0,19/6-4*(d**2-1)/4*d*N/9,0,0],
-                [0,0,7,0],
-                [17/12,9/4,8,-9/2]]
-        deriv_list = [sum([ -g[k]*beta[k][i]*g[i]**2 / mu / (4*np.pi)**2 for i in range(4)]) for k in range(4)]
+        # The 7x7 matrix of beta functions (Arason et al., Phys.Rev. D46 (1992) 3945-3965, and our calculation)
+        # Note the different sign and normalization conventions. 
+
+        # g1, g2, g3, ytau, yb, ty
+        g6 = np.array(g[:-1])
+        g6_squared = np.array(list(map(lambda x: x**2, g[:-1])))
+        beta = np.array([[41/6+Y**2*d*N/3, 0,                        0,  0,    0,    0  ],
+                         [0,               -19/6+4*(d**2-1)/4*d*N/9, 0,  0,    0,    0  ],
+                         [0,               0,                        -7, 0,    0,    0  ],
+                         [-15/4,           -9/4,                     0,  5/2,  3,    3  ],
+                         [-5/12,           -9/4,                     -8, 1,    9/2,  3/2],
+                         [-17/12,          -9/4,                     -8, 1,    3/2,  9/2]])
+
+        # g1, g2, g3, ytau, yb, ty, lambda
+        beta_lam_1 = np.array([-3, -9, 0, 4, 12, 12, 12])
+
+        # g1^2, g2^2, g3^2, ytau^2, yb^2, yt^2
+        beta_lam_2 = np.array([[3/4,  9/20, 0,  0,  0,   0],
+                               [9/20, 9/4,  0,  0,  0,   0],
+                               [0,    0,    0,  0,  0,   0],
+                               [0,    0,    0,  -4, 0,   0],
+                               [0,    0,    0,  0,  -12, 0],
+                               [0,    0,    0,  0,  0,   -12]])
+
+        deriv_list = np.hstack(( np.multiply(g6, np.dot(beta, g6_squared)),\
+                                 np.multiply(g[6], np.dot(beta_lam_1[:-1], g6_squared))\
+                                 + beta_lam_1[6]*g[6]**2 + np.dot(g6_squared, np.dot(beta_lam_2, g6_squared)) )) / mu / (4*np.pi)**2
+
         return deriv_list
 
     def _alphai(self, g_init, mu_init, mu2, Y, d):
-        """ Calculate the one-loop running of alpha1, alpha2, alpha3, alphat in 6-flavor theory
+        """ Calculate the one-loop running of alpha1, alpha2, alpha3, alphatau, alphab, alphat, lambda in the six-flavor theory
         
         Run from mu_init to mu2. ginit are the couplings defined at scale mu_init.
 
-        Careful, takes g's as input and returns alpha's
+        Take g's as input and return alpha's
         """
 
         def deriv(g,mu):
             return self._dgdmu(g, mu, Y, d)
         r = odeint(deriv, g_init, np.array([mu_init, mu2]))
-        # Now take just final numbers and make alpha's out of the g's
+        # Now take just final numbers and make alpha's out of the g's:
         alpha = list(map(lambda x: x**2/4/np.pi, r[1]))
         return alpha
 
-    def _alphai_interpolate(self, g_init, mu_init, mu1, mu2, mu0, Y, d):
-        """ Calculate the one-loop running of alpha1, alpha2, alpha3, alphat in 6-flavor theory as an interpolating function from mu1 to mu2
+    # def _alphai_interpolate(self, g_init, mu_init, mu1, mu2, mu0, Y, d):
+    #     """ Calculate the one-loop running of alpha1, alpha2, alpha3, alphatau, alphab, alphat, lam in the six-flavor theory 
+    #     as an interpolating function from mu1 to mu2
         
-        Interpolate the running between mu1 and mu2 at mu0. ginit are the couplings defined at scale mu_init.
+    #     Interpolate the running between mu1 and mu2 at mu0. ginit are the couplings defined at scale mu_init.
 
-        Careful, it takes g's as input and returns alpha's
-        """
-        def deriv(g,mu):
-            return self._dgdmu(g, mu, Y, d)
-        def domain(mu):
-            return np.array([mu_init, mu])
-        points = 50
-        assert mu1 != mu2, "This is alphai_interpolate: mu1 and mu2 have to be different!"
-        r = np.array([list(map(lambda x: x**2/4/np.pi, odeint(deriv, g_init, domain(mu))[1])) for mu in np.linspace(mu1, mu2, points)])
-        # Create interpolating function for the running couplings
-        int_fun_list = np.array([interp1d(np.linspace(mu1, mu2, points), r.T[k], kind='cubic')(mu0) for k in range(4)])
-        return int_fun_list
+    #     Take g's as input and return alpha's
+
+    #     I THINK THIS METHOD IS NOT USED ANYWHERE AND SHOULD BE REMOVED!!!
+    #     """
+    #     def deriv(g,mu):
+    #         return self._dgdmu(g, mu, Y, d)
+    #     def domain(mu):
+    #         return np.array([mu_init, mu])
+    #     # Maybe we should play with this:
+    #     points = 50
+
+    #     assert mu1 != mu2, "This is alphai_interpolate: mu1 and mu2 have to be different!"
+
+    #     r = np.array([list(map(lambda x: x**2/4/np.pi, odeint(deriv, g_init, domain(mu))[1])) for mu in np.linspace(mu1, mu2, points)])
+
+    #     # Create interpolating function for the running couplings
+    #     int_fun_list = np.array([interp1d(np.linspace(mu1, mu2, points), r.T[k], kind='cubic')(mu0) for k in range()])
+    #     return int_fun_list
 
     def run(self):
         def deriv(C, mu):
-            return sum([np.dot(C,self.ADM[k])*self._alphai(self.ginit, self.MZ, mu, self.Y, self.d)[k]/4/np.pi/mu for k in range(4)])
+            return sum([np.dot(C,self.ADM[k])*self._alphai(self.ginit, self.MZ, mu, self.Y, self.d)[k]/4/np.pi/mu for k in range(7)])
         r = odeint(deriv, self.Wilson, np.array([self.muh, self.mul]), full_output=1)
         return list(r)
