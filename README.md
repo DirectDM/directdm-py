@@ -9,15 +9,13 @@ You can get the latest version of `directdm` on [`github`](https://directdm.gith
 
 `directdm` needs `python3`, and the `python3` versions of `SciPy` and `NumPy`.
 
-After cloning this repository, you can easily install `directdm` by using the `python3` version of `pip`. In the base directory of the package, execute
+The latest release is available via the [Python Package Index](https://pypi.org/), so you can install it simply by executing
 
 ```
-python3 setup.py sdist
-pip install dist/directdm-1.1.1.tar.gz
+pip3 install directdm
 ```
 
-(You might need root permissions to execute the second command, 
-and `pip` might be called `pip3` on your system.)
+(You might need root permissions to execute the second command, and `pip3` might be called `pip` on your system.)
 
 **Note**: the package has been tested on a linux machine. Mac users using `homebrew` should be able to install `directdm` after executing
 
