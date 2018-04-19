@@ -15,7 +15,7 @@ The latest release is available via the [Python Package Index](https://pypi.org/
 pip3 install directdm
 ```
 
-(You might need root permissions to execute the second command, and `pip3` might be called `pip` on your system.)
+(You might need root permissions to execute this command, and `pip3` might be called `pip` on your system.)
 
 **Note**: the package has been tested on a linux machine. Mac users using `homebrew` should be able to install `directdm` after executing
 
