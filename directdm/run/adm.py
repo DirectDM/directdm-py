@@ -165,9 +165,13 @@ def ADM5(Ychi, dchi):
                         [0, 0, 0, 0, 0, (10*jj1-8)-2*b2, 12*jj1, 0],
                         [0, 0, 0, 0, 0, 0, (-9/2-6*jj1), 0],
                         [0, 0, 0, 0, 0, 0, 0, (3/2-6*jj1)]])
-    adm5_g3 = np.zeros((8,8))
-    adm5_yt = np.diag([0,0,6,6,0,0,6,6])
-    full_adm = np.array([adm5_g1, adm5_g2, adm5_g3, adm5_yt])
+    adm5_g3   = np.zeros((8,8))
+    adm5_yc   = np.zeros((8,8))
+    adm5_ytau = np.zeros((8,8))
+    adm5_yb   = np.zeros((8,8))
+    adm5_yt   = np.diag([0,0,6,6,0,0,6,6])
+    adm5_lam  = np.zeros((8,8))
+    full_adm  = np.array([adm5_g1, adm5_g2, adm5_g3, adm5_yc, adm5_ytau, adm5_yb, adm5_yt, adm5_lam])
     if dchi == 1:
         return np.delete(np.delete(full_adm, [1,3,5,7], 1), [1,3,5,7], 2)
     else:
@@ -178,10 +182,14 @@ def ADM5(Ychi, dchi):
 def ADM6(Ychi, dchi):
     """ The dimension-five anomalous dimension
     
-    Return a numpy array with the anomalous dimension matrices for g1, g2, g3, and yt 
-    The Higgs self coupling lambda is currently ignored. 
+    Return a numpy array with the anomalous dimension matrices for g1, g2, g3, ytau, yb, and yt 
+    The running due to the Higgs self coupling lambda is currently ignored. 
 
-    The operator basis is Q1-Q14 1st, 2nd, 3rd gen., S1-S18 (mixing of gen: 1-1, 1-2, 1-3, 2-2, 2-3, 3-3), S19-S25 1st, 2nd, 3rd gen., S26
+    The operator basis is Q1-Q14 1st, 2nd, 3rd gen.; S1-S17 (mixing of gen: 1-1, 2-2, 3-3, 1-2, 1-3, 2-3), 
+                          S18-S24 1st, 2nd, 3rd gen., S25; D1-D4. 
+
+    The explicit ordering of the operators, including flavor indices, is contained in the file 
+    "directdm/run/operator_ordering.txt"
 
     Variables
     ---------
@@ -202,14 +210,27 @@ def ADM6(Ychi, dchi):
                 adm.append(list(map(lambda x: eval(x, scope), line)))
             return adm
 
-    admg1 = load_adm(resource_filename("directdm", "run/full_adm_g1.py"))
-    admg2 = load_adm(resource_filename("directdm", "run/full_adm_g2.py"))
-    admg3 = np.zeros((173,173))
-    admyt = load_adm(resource_filename("directdm", "run/full_adm_yt.py"))
+    admg1    = load_adm(resource_filename("directdm", "run/full_adm_g1.py"))
+    admg2    = load_adm(resource_filename("directdm", "run/full_adm_g2.py"))
+    admg3    = np.zeros((207,207))
+    admyc    = load_adm(resource_filename("directdm", "run/full_adm_yc.py"))
+    admytau  = load_adm(resource_filename("directdm", "run/full_adm_ytau.py"))
+    admyb    = load_adm(resource_filename("directdm", "run/full_adm_yb.py"))
+    admyt    = load_adm(resource_filename("directdm", "run/full_adm_yt.py"))
+    admlam   = np.zeros((207,207))
 
-    full_adm = np.array([np.array(admg1), np.array(admg2), admg3, np.array(admyt)])
+    full_adm = np.array([np.array(admg1), np.array(admg2), admg3, np.array(admyc), np.array(admytau), np.array(admyb), np.array(admyt), np.array(admlam)])
     if dchi == 1:
-        return np.delete(np.delete(full_adm, [0,4,8,11,14,18,22,25,28,32,36,39,42,44], 1), [0,4,8,11,14,18,22,25,28,32,36,39,42,44], 2)
+        return np.delete(np.delete(full_adm, [0, 4, 8, 11, 14, 18, 22, 25, 28, 32, 36, 39,\
+                                              42, 44,\
+                                              46, 56, 63, 73, 80, 90, 97, 111, 112, 125, 139, 140, 153, 167, 168,\
+                                              181, 185, 188, 192, 195, 199,\
+                                              203, 204, 205, 206], 1),\
+                                             [0, 4, 8, 11, 14, 18, 22, 25, 28, 32, 36, 39,\
+                                              42, 44,\
+                                              46, 56, 63, 73, 80, 90, 97, 111, 112, 125, 139, 140, 153, 167, 168,\
+                                              181, 185, 188, 192, 195, 199,\
+                                              203, 204, 205, 206], 2)
     else:
         return full_adm
 

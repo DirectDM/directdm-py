@@ -1924,7 +1924,7 @@ class WC_5f(object):
 
 
         In order to calculate consistently to dim.8 in the EFT, we need also the dim.6 SM operators. 
-        The following subset of 10*8 + 5*4 = 100 operators is sufficient for our purposes:
+        The following subset of 10*8 + 5*4 = 100 operator coefficients are sufficient for our purposes:
 
          'D61ud', 'D62ud', 'D63ud', 'D63du', 'D64ud', 'D65ud', 'D66ud', 'D66du', 
          'D61us', 'D62us', 'D63us', 'D63su', 'D64us', 'D65us', 'D66us', 'D66su', 
@@ -2594,7 +2594,7 @@ class WC_EW(object):
         and the dimension-seven Wilson coefficient (currently not yet implemented).
         An arbitrary number of them can be given; the default values are zero. 
         
-        The possible keys are, for Jchi != 0:
+        The possible keys are, for dchi != 1:
 
          'C51', 'C52', 'C53', 'C54', 'C55', 'C56', 'C57', 'C58',
          'C611', 'C621', 'C631', 'C641', 'C651', 'C661', 'C671', 'C681', 'C691', 'C6101', 'C6111', 'C6121', 'C6131', 'C6141',
@@ -2602,20 +2602,73 @@ class WC_EW(object):
          'C613', 'C623', 'C633', 'C643', 'C653', 'C663', 'C673', 'C683', 'C693', 'C6103', 'C6113', 'C6123', 'C6133', 'C6143',
          'C615', 'C616', 'C617', 'C618'
         
-        The possible keys are, for Jchi = 0:
+        The possible keys are, for dchi = 1:
 
          'C51', 'C53', 'C55', 'C57',
          'C621', 'C631', 'C641', 'C661', 'C671', 'C681', 'C6101', 'C6111', 'C6131', 'C6141',
          'C622', 'C632', 'C642', 'C662', 'C672', 'C682', 'C6102', 'C6112', 'C6132', 'C6142',
          'C623', 'C633', 'C643', 'C663', 'C673', 'C683', 'C6103', 'C6113', 'C6133', 'C6143',
          'C616', 'C618'
+
+        The following set of 3*17 + 3*6 + 6*11 + 3*7 + 1 = 157 SM operator coefficients are also taken into account.
+        They are generated, from the DM-SM operators, through mixing via penguin insertions. 
+        Note that any mixing within the SM sector is neglected. For this reason, the values after running are not returned. 
+
+        The possible keys are 
+
+        'SM6111', 'SM6211', 'SM6311', 'SM6411', 'SM6511', 'SM6611', 'SM6711', 'SM6811', 'SM6911', 'SM61011', 
+        'SM61111', 'SM61211', 'SM61311', 'SM61411', 'SM61511', 'SM61611', 'SM617711', 
+
+        'SM6122', 'SM6222', 'SM6322', 'SM6422', 'SM6522', 'SM6622', 'SM6722', 'SM6822', 'SM6922', 'SM61022', 
+        'SM61122', 'SM61222', 'SM61322', 'SM61422', 'SM61522', 'SM61622', 'SM617722', 
+
+        'SM6133', 'SM6233', 'SM6333', 'SM6433', 'SM6533', 'SM6633', 'SM6733', 'SM6833', 'SM6933', 'SM61033', 
+        'SM61133', 'SM61233', 'SM61333', 'SM61433', 'SM61533', 'SM61633', 'SM617733', 
+
+        'SM6112', 'SM6212', 'SM6312', 'SM6321', 'SM6412', 'SM6421', 'SM6512', 'SM6612', 'SM6621', 'SM6712', 
+        'SM6812', 'SM6912', 'SM6921', 'SM61012', 'SM61112', 'SM61121', 'SM61212', 'SM61221', 'SM61312', 'SM61321', 
+        'SM61412', 'SM61421', 'SM61512', 'SM61521', 'SM61612', 'SM61621', 'SM617712', 'SM617721', 
+
+        'SM6113', 'SM6213', 'SM6313', 'SM6331', 'SM6413', 'SM6431', 'SM6513', 'SM6613', 'SM6631', 'SM6713', 
+        'SM6813', 'SM6913', 'SM6931', 'SM61013', 'SM61113', 'SM61131', 'SM61213', 'SM61231', 'SM61313', 'SM61331', 
+        'SM61413', 'SM61431', 'SM61513', 'SM61531', 'SM61613', 'SM61631', 'SM617713', 'SM617731', 
+
+        'SM6123', 'SM6223', 'SM6323', 'SM6332', 'SM6423', 'SM6432', 'SM6523', 'SM6623', 'SM6632', 'SM6723', 
+        'SM6823', 'SM6923', 'SM6932', 'SM61023', 'SM61123', 'SM61132', 'SM61223', 'SM61232', 'SM61323', 'SM61332', 
+        'SM61423', 'SM61432', 'SM61523', 'SM61532', 'SM61623', 'SM61632', 'SM617723', 'SM617732', 
+
+        'SM6181', 'SM6191', 'SM6201', 'SM6211', 'SM6221', 'SM6231', 'SM6241', 
+
+        'SM6182', 'SM6192', 'SM6202', 'SM6212', 'SM6222', 'SM6232', 'SM6242', 
+
+        'SM6183', 'SM6193', 'SM6203', 'SM6213', 'SM6223', 'SM6233', 'SM6243', 
+
+        'SM625'
+
+        Unless specified otherwise by the user, the tree-level initial conditions are set to zero. 
+
+        Finally, four DM operator coefficients are also taken into account.
+        They are generated, from the DM-SM operators, through mixing via penguin insertions. 
+        Note that any mixing within the DM sector is neglected. For this reason, the values after running are not returned. 
+
+        The possible keys are 
+
+        'DM61', 'DM62', 'DM63', 'DM64'
+
+        Unless specified otherwise by the user, the tree-level initial conditions are set to zero. 
+        Note that the numbering scheme for these coefficients is likely to change in the future. 
+
         
-        Lambda is the NP scale in GeV
-        dchi is the dimension of the DM SU2 representation
+        Lambda is the NP scale in GeV. It is the starting scale of the RG evolution, 
+        and the matching conditions to the 5-flavor EFT depend on Lambda. 
+
+        dchi is the dimension of the DM SU2 representation.
+
         Ychi is the DM hypercharge such that Q = I^3 + Y/2
 
         The second-to-last argument is the DM type; it is optional and can take the following values: 
             "D" (Dirac fermion; this is the default)
+        Other DM types might be implemented in the future. 
 
         The last argument is currently ignored.
         """
@@ -2640,6 +2693,25 @@ class WC_EW(object):
                                            'C612', 'C622', 'C632', 'C642', 'C652', 'C662', 'C672', 'C682', 'C692', 'C6102', 'C6112', 'C6122', 'C6132', 'C6142',\
                                            'C613', 'C623', 'C633', 'C643', 'C653', 'C663', 'C673', 'C683', 'C693', 'C6103', 'C6113', 'C6123', 'C6133', 'C6143',\
                                            'C615', 'C616', 'C617', 'C618']
+            self.sm_name_list_dim_6 = ['SM6111', 'SM6211', 'SM6311', 'SM6411', 'SM6511', 'SM6611', 'SM6711', 'SM6811', 'SM6911', 'SM61011',\
+                                       'SM61111', 'SM61211', 'SM61311', 'SM61411', 'SM61511', 'SM61611', 'SM617711',\
+                                       'SM6122', 'SM6222', 'SM6322', 'SM6422', 'SM6522', 'SM6622', 'SM6722', 'SM6822', 'SM6922', 'SM61022',\
+                                       'SM61122', 'SM61222', 'SM61322', 'SM61422', 'SM61522', 'SM61622', 'SM617722',\
+                                       'SM6133', 'SM6233', 'SM6333', 'SM6433', 'SM6533', 'SM6633', 'SM6733', 'SM6833', 'SM6933', 'SM61033',\
+                                       'SM61133', 'SM61233', 'SM61333', 'SM61433', 'SM61533', 'SM61633', 'SM617733',\
+                                       'SM6112', 'SM6212', 'SM6312', 'SM6321', 'SM6412', 'SM6421', 'SM6512', 'SM6612', 'SM6621', 'SM6712',\
+                                       'SM6812', 'SM6912', 'SM6921', 'SM61012', 'SM61112', 'SM61121', 'SM61212', 'SM61221', 'SM61312', 'SM61321',\
+                                       'SM61412', 'SM61421', 'SM61512', 'SM61521', 'SM61612', 'SM61621', 'SM617712', 'SM617721',\
+                                       'SM6113', 'SM6213', 'SM6313', 'SM6331', 'SM6413', 'SM6431', 'SM6513', 'SM6613', 'SM6631', 'SM6713',\
+                                       'SM6813', 'SM6913', 'SM6931', 'SM61013', 'SM61113', 'SM61131', 'SM61213', 'SM61231', 'SM61313', 'SM61331',\
+                                       'SM61413', 'SM61431', 'SM61513', 'SM61531', 'SM61613', 'SM61631', 'SM617713', 'SM617731',\
+                                       'SM6123', 'SM6223', 'SM6323', 'SM6332', 'SM6423', 'SM6432', 'SM6523', 'SM6623', 'SM6632', 'SM6723',\
+                                       'SM6823', 'SM6923', 'SM6932', 'SM61023', 'SM61123', 'SM61132', 'SM61223', 'SM61232', 'SM61323', 'SM61332',\
+                                       'SM61423', 'SM61432', 'SM61523', 'SM61532', 'SM61623', 'SM61632', 'SM617723', 'SM617732',\
+                                       'SM6181', 'SM6191', 'SM6201', 'SM6211', 'SM6221', 'SM6231', 'SM6241',\
+                                       'SM6182', 'SM6192', 'SM6202', 'SM6212', 'SM6222', 'SM6232', 'SM6242',\
+                                       'SM6183', 'SM6193', 'SM6203', 'SM6213', 'SM6223', 'SM6233', 'SM6243', 'SM625']
+            self.dm_name_list_dim_6 = ['DM61', 'DM62', 'DM63', 'DM64']
 
 
         # Issue a user warning if a key is not defined or belongs to a redundant operator:
@@ -2648,23 +2720,32 @@ class WC_EW(object):
                 pass
             elif wc_name in self.wc_name_list_dim_6:
                 pass
+            elif wc_name in self.sm_name_list_dim_6:
+                pass
+            elif wc_name in self.dm_name_list_dim_6:
+                pass
             else:
-                if self.Jchi == 1:
+                if self.dchi == 1:
                     warnings.warn('The key ' + wc_name + ' is not a valid key. Typo; or belongs to an operator that is redundant for dchi = 1?')
                 else:
                     warnings.warn('The key ' + wc_name + ' is not a valid key. Typo?')
 
+
         self.coeff_dict = {}
         # Create the dictionary:
-        for wc_name in (self.wc_name_list_dim_5 + self.wc_name_list_dim_6):
+        for wc_name in (self.wc_name_list_dim_5 + self.wc_name_list_dim_6 + self.sm_name_list_dim_6 + self.dm_name_list_dim_6):
             if wc_name in coeff_dict.keys():
                 self.coeff_dict[wc_name] = coeff_dict[wc_name]
             else:
                 self.coeff_dict[wc_name] = 0.
 
         # Create the np.array of coefficients:
-        self.coeff_list_dim_5 = np.array(dict_to_list(self.coeff_dict, self.wc_name_list_dim_5))
-        self.coeff_list_dim_6 = np.array(dict_to_list(self.coeff_dict, self.wc_name_list_dim_6))
+        self.coeff_list_dim_5    = np.array(dict_to_list(self.coeff_dict, self.wc_name_list_dim_5))
+        self.coeff_list_dim_6    = np.array(dict_to_list(self.coeff_dict, self.wc_name_list_dim_6))
+        self.coeff_list_sm_dim_6 = np.array(dict_to_list(self.coeff_dict, self.sm_name_list_dim_6))
+        self.coeff_list_dm_dim_6 = np.array(dict_to_list(self.coeff_dict, self.dm_name_list_dim_6))
+
+
 
     #---------#
     # Running #
@@ -2681,32 +2762,18 @@ class WC_EW(object):
         if resum is None:
             resum=True
         if muz is None:
-            muz = ip.Mz
-
-        # Input parameters
-        ip = Num_input()
-
-        alpha = 1/ip.aMZinv
-        el = np.sqrt(4*np.pi*alpha)
-        MW = ip.Mw
-        MZ = ip.Mz
-        Mh = ip.Mh
-        cw = MW/MZ
-        sw = np.sqrt(1-cw**2)
-        g1 = el/cw
-        g2 = el/sw
-        yt = np.sqrt(2)*ip.mt_pole/246.
+            muz = ip.Mz+0.01
 
 
-        # Add zero entries for SM-SM operators
-        C6_at_Lambda = np.concatenate((self.coeff_list_dim_6, np.array([0 for i in range(127)])))
+        # The full vector of dim.-6 Wilson coefficients
+        C6_at_Lambda = np.concatenate((self.coeff_list_dim_6, self.coeff_list_sm_dim_6, self.coeff_list_dm_dim_6))
 
         if resum:
-            C5_at_muz = rge.CmuEW(self.coeff_list_dim_5, adm.ADM5(self.Ychi, self.dchi), self.Lambda, muz, self.Ychi, self.dchi, 1, 1, 1, 1)
-            C6_at_muz = rge.CmuEW(C6_at_Lambda, adm.ADM6(self.Ychi, self.dchi), self.Lambda, muz, self.Ychi, self.dchi, 1, 1, 1, 1)
+            C5_at_muz = rge.CmuEW(self.coeff_list_dim_5, adm.ADM5(self.Ychi, self.dchi), self.Lambda, muz, self.Ychi, self.dchi)
+            C6_at_muz = rge.CmuEW(C6_at_Lambda,          adm.ADM6(self.Ychi, self.dchi), self.Lambda, muz, self.Ychi, self.dchi)
 
-            C5_at_muz_dict = list_to_dict(C5_at_muz.run()[0][1], self.wc_name_list_dim_5)
-            C6_at_muz_dict = list_to_dict(C6_at_muz.run()[0][1], self.wc_name_list_dim_6)
+            C5_at_muz_dict = list_to_dict(C5_at_muz.run(), self.wc_name_list_dim_5)
+            C6_at_muz_dict = list_to_dict(C6_at_muz.run(), self.wc_name_list_dim_6)
 
             C_at_muz_dict = {}
             for wc_name in self.wc_name_list_dim_5:
@@ -2717,6 +2784,21 @@ class WC_EW(object):
             return C_at_muz_dict
 
         else:
+
+        # Input parameters
+            ip = Num_input()
+
+            alpha = 1/ip.aMZinv
+            el = np.sqrt(4*np.pi*alpha)
+            MW = ip.Mw
+            MZ = ip.Mz
+            Mh = ip.Mh
+            cw = MW/MZ
+            sw = np.sqrt(1-cw**2)
+            g1 = el/cw
+            g2 = el/sw
+            yt = np.sqrt(2)*ip.mt_pole/246.
+
             ADM5 = g1**2*adm.ADM5(self.Ychi, self.dchi)[0] + g2**2*adm.ADM5(self.Ychi, self.dchi)[1] + yt**2*adm.ADM5(self.Ychi, self.dchi)[3]
             C5_at_muz = self.coeff_list_dim_5 + np.log(muz**2/self.Lambda**2)/(16*np.pi**2) * np.dot(self.coeff_list_dim_5, ADM5) 
             ADM6 = g1**2*adm.ADM6(self.Ychi, self.dchi)[0] + g2**2*adm.ADM6(self.Ychi, self.dchi)[1] + yt**2*adm.ADM6(self.Ychi, self.dchi)[3]
@@ -2741,13 +2823,13 @@ class WC_EW(object):
 
         RUN_EW can have three values: 
 
-         - RUN_EW = 'FULL'  does the full leading-logarithm resummation (this is the default)
+         - RUN_EW = 'FULL'  does the full leading-logarithmic resummation (this is the default)
          - RUN_EW = 'LL'    keeps only the linear e/w logarithm
          - RUN_EW = 'OFF'   no electroweak running
 
-        DIM4 multiplies the dimension-four matching contributions. To be considered as an "analysis tool", might be removed
+        DIM4 multiplies the dimension-four matching contributions. To be considered as an "checking tool", will be removed in the future
 
-        Returns a dictionary of Wilson coefficients for the five-flavor Lagrangian, 
+        Return a dictionary of Wilson coefficients for the five-flavor Lagrangian, 
         with the following keys (only Dirac DM is implemented so far):
 
         Dirac fermion:       'C51', 'C52', 'C61u', 'C61d', 'C61s', 'C61c', 'C61b', 'C61e', 'C61mu', 'C61tau', 
