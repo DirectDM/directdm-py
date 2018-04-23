@@ -2788,20 +2788,28 @@ class WC_EW(object):
         # Input parameters
             ip = Num_input()
 
-            alpha = 1/ip.aMZinv
-            el = np.sqrt(4*np.pi*alpha)
-            MW = ip.Mw
-            MZ = ip.Mz
-            Mh = ip.Mh
-            cw = MW/MZ
-            sw = np.sqrt(1-cw**2)
-            g1 = el/cw
-            g2 = el/sw
-            yt = np.sqrt(2)*ip.mt_pole/246.
+            g1   = ip.g1_at_MZ
+            g2   = ip.g2_at_MZ
+            gs   = ip.g3_at_MZ
+            ytau = ip.ytau_at_MZ
+            yc   = ip.yc_at_MZ
+            yb   = ip.yb_at_MZ
+            yt   = ip.yt_at_MZ
 
-            ADM5 = g1**2*adm.ADM5(self.Ychi, self.dchi)[0] + g2**2*adm.ADM5(self.Ychi, self.dchi)[1] + yt**2*adm.ADM5(self.Ychi, self.dchi)[3]
-            C5_at_muz = self.coeff_list_dim_5 + np.log(muz**2/self.Lambda**2)/(16*np.pi**2) * np.dot(self.coeff_list_dim_5, ADM5) 
-            ADM6 = g1**2*adm.ADM6(self.Ychi, self.dchi)[0] + g2**2*adm.ADM6(self.Ychi, self.dchi)[1] + yt**2*adm.ADM6(self.Ychi, self.dchi)[3]
+            ADM5 =   g1**2   * adm.ADM5(self.Ychi, self.dchi)[0]\
+                   + g2**2   * adm.ADM5(self.Ychi, self.dchi)[1]\
+                   + yc**2   * adm.ADM5(self.Ychi, self.dchi)[3]\
+                   + ytau**2 * adm.ADM5(self.Ychi, self.dchi)[4]\
+                   + yb**2   * adm.ADM5(self.Ychi, self.dchi)[5]\
+                   + yt**2   * adm.ADM5(self.Ychi, self.dchi)[6]
+            C5_at_muz = self.coeff_list_dim_5 + np.log(muz**2/self.Lambda**2)/(16*np.pi**2) * np.dot(self.coeff_list_dim_5, ADM5)
+
+            ADM6 =   g1**2   * adm.ADM6(self.Ychi, self.dchi)[0]\
+                   + g2**2   * adm.ADM6(self.Ychi, self.dchi)[1]\
+                   + yc**2   * adm.ADM6(self.Ychi, self.dchi)[3]\
+                   + ytau**2 * adm.ADM6(self.Ychi, self.dchi)[4]\
+                   + yc**2   * adm.ADM6(self.Ychi, self.dchi)[5]\
+                   + yt**2   * adm.ADM6(self.Ychi, self.dchi)[6]
             C6_at_muz = C6_at_Lambda + np.log(muz**2/self.Lambda**2)/(16*np.pi**2) * np.dot(C6_at_Lambda, ADM6)
 
             dict56 = list_to_dict(C5_at_muz, self.wc_name_list_dim_5)
