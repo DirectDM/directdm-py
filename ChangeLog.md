@@ -8,6 +8,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 - The class `WC_EW` for the Wilson coefficients above the electroweak scale
 - The class `CmuEW` for the electroweak RG evolution
 - The files `full_adm_g1.py`, `full_adm_g2.py`,  `full_adm_yt.py` with the electroweak anomalous dimensions
+- 
+## [1.2.2] - 2018-05-03
+### Fixed
+- Typos in README
+- Bug in matching methods (wrong order of optional arguments)
+
+## [1.2.1] - 2018-04-18
+### Added
+- Uploaded package to the [Python Package Index](https://pypi.org/)
 
 ## [1.2.0] - 2018-01-31
 ### Added
