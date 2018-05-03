@@ -3,7 +3,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
-## [Unreleased]
+## [1.2.2] - 2018-05-03
 ### Fixed
 - Typos in README
 - Bug in matching methods (wrong order of optional arguments)
