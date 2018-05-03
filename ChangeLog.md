@@ -6,6 +6,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 ## [Unreleased]
 ### Fixed
 - Typos in README
+- Bug in matching methods (wrong order of optional arguments)
 
 ## [1.2.1] - 2018-04-18
 ### Added
