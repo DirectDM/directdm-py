@@ -1779,7 +1779,7 @@ class WC_4f(object):
 
 
 
-    def match(self, mu=None, RGE=None, double_QCD=None):
+    def match(self, RGE=None, double_QCD=None, mu=None):
         """ Match from four-flavor to three-flavor QCD
 
         Calculate the matching at mu [GeV; default 2 GeV].
@@ -2485,7 +2485,7 @@ class WC_5f(object):
         return dict_coeff_mb
 
 
-    def match(self, mu=None, RGE=None, double_QCD=None):
+    def match(self, RGE=None, double_QCD=None, mu=None):
         """ Match from five-flavor to four-flavor QCD
 
         Calculate the matching at mu [GeV; default 4.18 GeV].
