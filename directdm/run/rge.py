@@ -212,10 +212,7 @@ class CmuEW(object):
         self.yc   = ip.yc_at_MZ
         self.yb   = ip.yb_at_MZ
         self.yt   = ip.yt_at_MZ
-        # This one is not precise, but we don't use it
-        self.MH   = ip.Mh
-        self.MW   = ip.Mw
-        self.lam  = self.g2**2 * self.MH**2 / self.MW**2 / 2
+        self.lam  = ip.lam_at_MZ
 
         # The initial values of the couplings at MZ
         self.MZ    = ip.Mz
@@ -233,25 +230,25 @@ class CmuEW(object):
         """
         N = 1
         # The 8x8 matrix of beta functions (Arason et al., Phys.Rev. D46 (1992) 3945-3965, and our calculation)
-        # Note the different sign and normalization conventions. (g1_Arason = 5/3 * g1_Denner; lambda_Arason = 1/2 * lambda_Denner)
+        # Note the different sign and normalization conventions. (g1_Arason = 5/3 * g1_Denner; lambda_Arason = 1/4 * lambda_Denner)
 
-        # g1, g2, g3, yc, ytau, yb, ty
+        # g1, g2, g3, yc, ytau, yb, yt
         g7 = np.array(g[:-1])
         g7_squared = np.array(list(map(lambda x: x**2, g[:-1])))
-        beta = np.array([[41/6+Y**2*d*N/3, 0,                        0,  0,   0,    0,    0  ],
-                         [0,               -19/6+4*(d**2-1)/4*d*N/9, 0,  0,   0,    0,    0  ],
+        beta = np.array([[41/6+Y**2*d*N/3, 0,                         0,  0,   0,    0,    0  ],
+                         [0,               -19/6+4*(d**2-1)/4*d*N/9,  0,  0,   0,    0,    0  ],
                          [0,               0,                        -7, 0,   0,    0,    0  ],
                          [-17/12,          -9/4,                     -8, 9/2, 1,    3/2,  9/2],
-                         [-15/4,           -9/4,                     0,  3,   5/2,  3,    3  ],
+                         [-15/4,           -9/4,                      0,  3,   5/2,  3,    3  ],
                          [-5/12,           -9/4,                     -8, 3/2, 1,    9/2,  3/2],
                          [-17/12,          -9/4,                     -8, 9/2, 1,    3/2,  9/2]])
 
-        # g1, g2, g3, yc, ytau, yb, ty, lambda
-        beta_lam_1 = np.array([-3/2, -9/2, 0, 6, 2, 6, 6, 4])
+        # g1, g2, g3, yc, ytau, yb, yt, lambda
+        beta_lam_1 = np.array([-3/4, -9/4, 0, 3, 1, 3, 3, 3/4])
 
         # g1^2, g2^2, g3^2, yc^2, ytau^2, yb^2, yt^2
-        beta_lam_2 = np.array([[3/4,  9/20, 0,  0,   0,  0,   0  ],
-                               [9/20, 9/4,  0,  0,   0,  0,   0  ],
+        beta_lam_2 = np.array([[3/4,  3/4,  0,  0,   0,  0,   0  ],
+                               [3/4,  9/4,  0,  0,   0,  0,   0  ],
                                [0,    0,    0,  0,   0,  0,   0  ],
                                [0,    0,    0,  -12, 0,  0,   0  ],
                                [0,    0,    0,  0,   -4, 0,   0  ],
@@ -278,11 +275,15 @@ class CmuEW(object):
             return self._dgdmu(g, mu, Y, d)
         g0, mu0 = g_init, mu_init
         dmu = mu2 - mu_init
+#        r = ode(deriv).set_integrator('lsoda')
         r = ode(deriv).set_integrator('dopri5')
+#        r = ode(deriv).set_integrator('dop853')
         r.set_initial_value(g0, mu0)
-        alpha = np.array(list(map(lambda x: x**2/4/np.pi, r.integrate(r.t+dmu))))
+        solution = r.integrate(r.t+dmu)
+        alpha = np.hstack((np.array(list(map(lambda x: x**2/4/np.pi, solution[:-1]))), np.array([solution[-1]/4/np.pi])))
 
         return alpha
+
 
     def run(self):
 
