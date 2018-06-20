@@ -166,11 +166,11 @@ def ADM5(Ychi, dchi):
                         [0, 0, 0, 0, 0, 0, (-9/2-6*jj1), 0],
                         [0, 0, 0, 0, 0, 0, 0, (3/2-6*jj1)]])
     adm5_g3   = np.zeros((8,8))
-    adm5_yc   = np.zeros((8,8))
-    adm5_ytau = np.zeros((8,8))
-    adm5_yb   = np.zeros((8,8))
+    adm5_yc   = np.diag([0,0,6,6,0,0,6,6])
+    adm5_ytau = np.diag([0,0,2,2,0,0,2,2])
+    adm5_yb   = np.diag([0,0,6,6,0,0,6,6])
     adm5_yt   = np.diag([0,0,6,6,0,0,6,6])
-    adm5_lam  = np.zeros((8,8))
+    adm5_lam  = np.diag([0,0,3,1,0,0,3,1])
     full_adm  = np.array([adm5_g1, adm5_g2, adm5_g3, adm5_yc, adm5_ytau, adm5_yb, adm5_yt, adm5_lam])
     if dchi == 1:
         return np.delete(np.delete(full_adm, [1,3,5,7], 1), [1,3,5,7], 2)
