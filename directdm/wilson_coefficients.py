@@ -2751,16 +2751,12 @@ class WC_EW(object):
     # Running #
     #---------#
 
-    def run(self, muz=None, resum=None):
+    def run(self, muz=None):
         """Calculate the e/w running from scale Lambda to scale muz [muz = MZ by default].
 
-        resum = True yields full resummation (default)
-        resum = False gives only the linear log 
         """
         ip = Num_input()
 
-        if resum is None:
-            resum=True
         if muz is None:
             muz = ip.Mz+0.01
 
@@ -2768,54 +2764,66 @@ class WC_EW(object):
         # The full vector of dim.-6 Wilson coefficients
         C6_at_Lambda = np.concatenate((self.coeff_list_dim_6, self.coeff_list_sm_dim_6, self.coeff_list_dm_dim_6))
 
-        if resum:
-            C5_at_muz = rge.CmuEW(self.coeff_list_dim_5, adm.ADM5(self.Ychi, self.dchi), self.Lambda, muz, self.Ychi, self.dchi)
-            C6_at_muz = rge.CmuEW(C6_at_Lambda,          adm.ADM6(self.Ychi, self.dchi), self.Lambda, muz, self.Ychi, self.dchi)
+        # The vector of rescaled dim.-5 Wilson coefficients
+        #
+        # The e/w dipole operators are defined with a prefactor g_{1,2}/(8*pi^2).
+        # The ADM are calculated in a basis with prefactors 1/g_{1,2}. 
+        # Therefore, we need to rescale the Wilson coefficients by g_{1,2}(Lambda)^2/(8*pi^2) at mu=Lambda, 
+        # and then again by (8*pi^2)/g_{1,2}(MZ)^2 at mu=MZ. 
 
-            C5_at_muz_dict = list_to_dict(C5_at_muz.run(), self.wc_name_list_dim_5)
-            C6_at_muz_dict = list_to_dict(C6_at_muz.run(), self.wc_name_list_dim_6)
+        alpha1_at_Lambda = rge.CmuEW([], [], self.Lambda, muz, self.Ychi, self.dchi)._alphai(rge.CmuEW([], [], self.Lambda, muz, self.Ychi, self.dchi).ginit,\
+                                     ip.Mz, self.Lambda, self.Ychi, self.dchi)[0]
+        alpha2_at_Lambda = rge.CmuEW([], [], self.Lambda, muz, self.Ychi, self.dchi)._alphai(rge.CmuEW([], [], self.Lambda, muz, self.Ychi, self.dchi).ginit,\
+                                     ip.Mz, self.Lambda, self.Ychi, self.dchi)[1]
 
-            C_at_muz_dict = {}
-            for wc_name in self.wc_name_list_dim_5:
-                C_at_muz_dict[wc_name] = C5_at_muz_dict[wc_name]
-            for wc_name in self.wc_name_list_dim_6:
-                C_at_muz_dict[wc_name] = C6_at_muz_dict[wc_name]
-
-            return C_at_muz_dict
-
+        if self.dchi == 1:
+            C5_at_Lambda_rescaled = self.coeff_list_dim_5 * np.array([alpha1_at_Lambda/(2*np.pi), 1,\
+                                                                      alpha1_at_Lambda/(2*np.pi), 1])
         else:
+            C5_at_Lambda_rescaled = self.coeff_list_dim_5 * np.array([alpha1_at_Lambda/(2*np.pi), alpha2_at_Lambda/(2*np.pi), 1, 1,\
+                                                                      alpha1_at_Lambda/(2*np.pi), alpha2_at_Lambda/(2*np.pi), 1, 1])
 
-        # Input parameters
-            ip = Num_input()
 
-            g1   = ip.g1_at_MZ
-            g2   = ip.g2_at_MZ
-            gs   = ip.g3_at_MZ
-            ytau = ip.ytau_at_MZ
-            yc   = ip.yc_at_MZ
-            yb   = ip.yb_at_MZ
-            yt   = ip.yt_at_MZ
 
-            ADM5 =   g1**2   * adm.ADM5(self.Ychi, self.dchi)[0]\
-                   + g2**2   * adm.ADM5(self.Ychi, self.dchi)[1]\
-                   + yc**2   * adm.ADM5(self.Ychi, self.dchi)[3]\
-                   + ytau**2 * adm.ADM5(self.Ychi, self.dchi)[4]\
-                   + yb**2   * adm.ADM5(self.Ychi, self.dchi)[5]\
-                   + yt**2   * adm.ADM5(self.Ychi, self.dchi)[6]
-            C5_at_muz = self.coeff_list_dim_5 + np.log(muz**2/self.Lambda**2)/(16*np.pi**2) * np.dot(self.coeff_list_dim_5, ADM5)
+        # The actual running 
 
-            ADM6 =   g1**2   * adm.ADM6(self.Ychi, self.dchi)[0]\
-                   + g2**2   * adm.ADM6(self.Ychi, self.dchi)[1]\
-                   + yc**2   * adm.ADM6(self.Ychi, self.dchi)[3]\
-                   + ytau**2 * adm.ADM6(self.Ychi, self.dchi)[4]\
-                   + yc**2   * adm.ADM6(self.Ychi, self.dchi)[5]\
-                   + yt**2   * adm.ADM6(self.Ychi, self.dchi)[6]
-            C6_at_muz = C6_at_Lambda + np.log(muz**2/self.Lambda**2)/(16*np.pi**2) * np.dot(C6_at_Lambda, ADM6)
+        C5_at_muz = rge.CmuEW(C5_at_Lambda_rescaled, adm.ADM5(self.Ychi, self.dchi), self.Lambda, muz, self.Ychi, self.dchi).run()
+        C6_at_muz = rge.CmuEW(C6_at_Lambda,          adm.ADM6(self.Ychi, self.dchi), self.Lambda, muz, self.Ychi, self.dchi).run()
 
-            dict56 = list_to_dict(C5_at_muz, self.wc_name_list_dim_5)
-            dict6 = list_to_dict(C6_at_muz, self.wc_name_list_dim_6)
-            dict56.update(dict6)
-            return dict56
+
+
+        # Rescaling back to original normalization of dim.-5 Wilson coefficients
+
+        alpha1_at_muz = rge.CmuEW([], [], self.Lambda, muz, self.Ychi, self.dchi)._alphai(rge.CmuEW([], [], self.Lambda, muz, self.Ychi, self.dchi).ginit,\
+                                     ip.Mz, muz, self.Ychi, self.dchi)[0]
+        alpha2_at_muz = rge.CmuEW([], [], self.Lambda, muz, self.Ychi, self.dchi)._alphai(rge.CmuEW([], [], self.Lambda, muz, self.Ychi, self.dchi).ginit,\
+                                     ip.Mz, muz, self.Ychi, self.dchi)[1]
+
+
+        if self.dchi == 1:
+            C5_at_muz_rescaled = C5_at_muz * np.array([(2*np.pi)/alpha1_at_muz, 1,\
+                                                       (2*np.pi)/alpha1_at_muz, 1])
+        else:
+            C5_at_muz_rescaled = C5_at_muz * np.array([(2*np.pi)/alpha1_at_muz, (2*np.pi)/alpha2_at_Lambda, 1, 1,\
+                                                       (2*np.pi)/alpha1_at_muz, (2*np.pi)/alpha2_at_Lambda, 1, 1])
+
+
+
+        # Convert arrays to dictionaries
+
+        C5_at_muz_dict = list_to_dict(C5_at_muz_rescaled, self.wc_name_list_dim_5)
+        C6_at_muz_dict = list_to_dict(C6_at_muz,          self.wc_name_list_dim_6)
+
+        C_at_muz_dict = {}
+        for wc_name in self.wc_name_list_dim_5:
+            C_at_muz_dict[wc_name] = C5_at_muz_dict[wc_name]
+        for wc_name in self.wc_name_list_dim_6:
+            C_at_muz_dict[wc_name] = C6_at_muz_dict[wc_name]
+
+        return C_at_muz_dict
+
+
+
 
 
     #----------#
@@ -2832,7 +2840,6 @@ class WC_EW(object):
         RUN_EW can have three values: 
 
          - RUN_EW = 'FULL'  does the full leading-logarithmic resummation (this is the default)
-         - RUN_EW = 'LL'    keeps only the linear e/w logarithm
          - RUN_EW = 'OFF'   no electroweak running
 
         DIM4 multiplies the dimension-four matching contributions. To be considered as an "checking tool", will be removed in the future
@@ -2880,13 +2887,11 @@ class WC_EW(object):
 
         # The Wilson coefficients in the "UV" EFT at scale MZ
         if RUN_EW == 'FULL':
-            wcew_dict = self.run(muz=ip.Mz, resum=True)
-        elif RUN_EW == 'LL':
-            wcew_dict = self.run(muz=ip.Mz, resum=False)
+            wcew_dict = self.run(muz=ip.Mz)
         elif RUN_EW == 'OFF':
             wcew_dict = self.coeff_dict
         else:
-            raise Exception("RUN_EW can only be set to \'FULL\', \'LL\', or \'OFF\'.")
+            raise Exception("RUN_EW can only be set to \'FULL\' or \'OFF\'.")
 
 
         # Calculate the physical DM mass in terms of mchi and the Wilson coefficients, 
@@ -3007,8 +3012,8 @@ class WC_EW(object):
         coeff_dict_5f = {}
 
         if self.dchi == 1:
-            coeff_dict_5f['C51'] = 1/(4*np.pi*alpha)*(cw**2 * coeff_dict_shifted['C51'])/self.Lambda
-            coeff_dict_5f['C52'] = 1/(4*np.pi*alpha)*(cw**2 * coeff_dict_shifted['C55'])/self.Lambda
+            coeff_dict_5f['C51'] = coeff_dict_shifted['C51']/self.Lambda
+            coeff_dict_5f['C52'] = coeff_dict_shifted['C55']/self.Lambda
 
             coeff_dict_5f['C61u'] = (coeff_dict_shifted['C621']/2 + coeff_dict_shifted['C631']/2\
                   - (3-8*sw**2)/6 * coeff_dict_shifted['C616']\
@@ -3124,8 +3129,8 @@ class WC_EW(object):
             coeff_dict_5f['C76mu'] = - 1/Mh**2 * (coeff_dict_shifted['C57'])/self.Lambda
             coeff_dict_5f['C76tau'] = - 1/Mh**2 * (coeff_dict_shifted['C57'])/self.Lambda
         else:
-            coeff_dict_5f['C51'] = 1/(4*np.pi*alpha)*(cw**2 * coeff_dict_shifted['C51'] + sw**2 * self.Ychi/2 * coeff_dict_shifted['C52'])/self.Lambda
-            coeff_dict_5f['C52'] = 1/(4*np.pi*alpha)*(cw**2 * coeff_dict_shifted['C55'] + sw**2 * self.Ychi/2 * coeff_dict_shifted['C56'])/self.Lambda
+            coeff_dict_5f['C51'] = (coeff_dict_shifted['C51'] + self.Ychi/2 * coeff_dict_shifted['C52'])/self.Lambda
+            coeff_dict_5f['C52'] = (coeff_dict_shifted['C55'] + self.Ychi/2 * coeff_dict_shifted['C56'])/self.Lambda
 
             coeff_dict_5f['C61u'] = (- self.Ychi/8 * coeff_dict_shifted['C611'] + coeff_dict_shifted['C621']/2 + coeff_dict_shifted['C631']/2\
                   - self.Ychi * (3-8*sw**2)/24 * coeff_dict_shifted['C615']\
