@@ -2805,8 +2805,9 @@ class WC_EW(object):
             C5_at_muz_rescaled = C5_at_muz * np.array([(2*np.pi)/alpha1_at_muz, 1,\
                                                        (2*np.pi)/alpha1_at_muz, 1])
         else:
-            C5_at_muz_rescaled = C5_at_muz * np.array([(2*np.pi)/alpha1_at_muz, (2*np.pi)/alpha2_at_Lambda, 1, 1,\
-                                                       (2*np.pi)/alpha1_at_muz, (2*np.pi)/alpha2_at_Lambda, 1, 1])
+            C5_at_muz_rescaled = C5_at_muz * np.array([(2*np.pi)/alpha1_at_muz, (2*np.pi)/alpha2_at_muz, 1, 1,\
+                                                       (2*np.pi)/alpha1_at_muz, (2*np.pi)/alpha2_at_muz, 1, 1])
+
 
 
 
