@@ -201,7 +201,7 @@ class CmuEW(object):
         self.Y = Y
         self.d = d
 
-        # Input parameters -- CHANGE!
+        # Input parameters
 
         ip = Num_input()
 
@@ -276,7 +276,8 @@ class CmuEW(object):
         g0, mu0 = g_init, mu_init
         dmu = mu2 - mu_init
 #        r = ode(deriv).set_integrator('lsoda')
-        r = ode(deriv).set_integrator('dopri5')
+#        r = ode(deriv).set_integrator('dopri5')
+        r = ode(deriv).set_integrator('vode')
 #        r = ode(deriv).set_integrator('dop853')
         r.set_initial_value(g0, mu0)
         solution = r.integrate(r.t+dmu)
@@ -293,6 +294,9 @@ class CmuEW(object):
         C0, mu0 = self.Wilson, self.muh
         dmu = self.mul - self.muh
         r = ode(deriv).set_integrator('dopri5')
+#        r = ode(deriv).set_integrator('lsoda')
+#        r = ode(deriv).set_integrator('dop853')
+#        r = ode(deriv).set_integrator('vode')
         r.set_initial_value(C0, mu0)
         C = np.array(r.integrate(r.t+dmu))
         return(C)
