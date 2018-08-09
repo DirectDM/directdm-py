@@ -84,11 +84,13 @@ class AlphaS(object):
         Input is alphas(mu,nf), output is alphas(mu,nf-1)
         """
         if self.loop == 1:
-            return alphasatmu * (1 - 1/6 * np.log(mu**2/mh**2) * (alphasatmu/np.pi))
+            return alphasatmu
         if self.loop == 2:
+            return alphasatmu * (1 - 1/6 * np.log(mu**2/mh**2) * (alphasatmu/np.pi))
+        if self.loop == 3:
             return alphasatmu * (1 - 1/6 * np.log(mu**2/mh**2) * (alphasatmu/np.pi)
                                    + (11/72 - 11/24 * np.log(mu**2/mh**2) + 1/36 * np.log(mu**2/mh**2)**2) * (alphasatmu/np.pi)**2)
-        if self.loop == 3:
+        if self.loop == 4:
             return alphasatmu * (1 - 1/6 * np.log(mu**2/mh**2) * (alphasatmu/np.pi)
                                    + (11/72 - 11/24 * np.log(mu**2/mh**2) + 1/36 * np.log(mu**2/mh**2)**2) * (alphasatmu/np.pi)**2
                                    + (564731/124416 - 82043/27648 * my_zeta(3) - 955/576 * np.log(mu**2/mh**2) + 53/576 * np.log(mu**2/mh**2)**2
@@ -102,11 +104,13 @@ class AlphaS(object):
         Input is alphas(mu,nf-1), output is alphas(mu,nf)
         """
         if self.loop == 1:
-            return alphasatmu * (1 + 1/6 * np.log(mu**2/mh**2) * (alphasatmu/np.pi))
+            return alphasatmu
         if self.loop == 2:
+            return alphasatmu * (1 + 1/6 * np.log(mu**2/mh**2) * (alphasatmu/np.pi))
+        if self.loop == 3:
             return alphasatmu * (1 + 1/6 * np.log(mu**2/mh**2) * (alphasatmu/np.pi)
                                    + (- 11/72 + 11/24 * np.log(mu**2/mh**2) + 1/36 * np.log(mu**2/mh**2)**2) * (alphasatmu/np.pi)**2)
-        if self.loop == 3:
+        if self.loop == 4:
             return alphasatmu * (1 - 1/6 * np.log(mu**2/mh**2) * (alphasatmu/np.pi)
                                    + (- 11/72 + 11/24 * np.log(mu**2/mh**2) + 1/36 * np.log(mu**2/mh**2)**2) * (alphasatmu/np.pi)**2
                                    + (- 564731/124416 + 82043/27648 * my_zeta(3) + 2645/1728 * np.log(mu**2/mh**2) + 167/576 * np.log(mu**2/mh**2)**2

@@ -14,6 +14,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 ### Changed
 - Numerical input from PDG 2018
 
+### Fixed
+- Bug in running of the strong coupling constant (decoupling at wrong loop order)
+
 ## [1.2.2] - 2018-05-03
 ### Fixed
 - Typos in README
