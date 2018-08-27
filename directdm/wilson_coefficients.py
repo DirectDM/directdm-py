@@ -3119,7 +3119,7 @@ class WC_EW(object):
                                     + higgs_penguin_fermion(self.Ychi,self.dchi) * DIM4
             coeff_dict_5f['C75mu'] = - 1/Mh**2 * (coeff_dict_shifted['C53'])/self.Lambda\
                                     + higgs_penguin_fermion(self.Ychi,self.dchi) * DIM4
-            coeff_dict_5f['C61tau'] = - 1/Mh**2 * (coeff_dict_shifted['C53'])/self.Lambda\
+            coeff_dict_5f['C75tau'] = - 1/Mh**2 * (coeff_dict_shifted['C53'])/self.Lambda\
                                     + higgs_penguin_fermion(self.Ychi,self.dchi) * DIM4
 
             coeff_dict_5f['C76u'] = - 1/Mh**2 * (coeff_dict_shifted['C57'])/self.Lambda
@@ -3130,6 +3130,7 @@ class WC_EW(object):
             coeff_dict_5f['C76e'] = - 1/Mh**2 * (coeff_dict_shifted['C57'])/self.Lambda
             coeff_dict_5f['C76mu'] = - 1/Mh**2 * (coeff_dict_shifted['C57'])/self.Lambda
             coeff_dict_5f['C76tau'] = - 1/Mh**2 * (coeff_dict_shifted['C57'])/self.Lambda
+
         else:
             coeff_dict_5f['C51'] = (coeff_dict_shifted['C51'] + self.Ychi/2 * coeff_dict_shifted['C52'])/self.Lambda
             coeff_dict_5f['C52'] = (coeff_dict_shifted['C55'] + self.Ychi/2 * coeff_dict_shifted['C56'])/self.Lambda
@@ -3268,7 +3269,7 @@ class WC_EW(object):
                                     + higgs_penguin_fermion(self.Ychi,self.dchi) * DIM4
             coeff_dict_5f['C75mu'] = - 1/Mh**2 * (coeff_dict_shifted['C53'] + self.Ychi/4 * coeff_dict_shifted['C54'])/self.Lambda\
                                     + higgs_penguin_fermion(self.Ychi,self.dchi) * DIM4
-            coeff_dict_5f['C61tau'] = - 1/Mh**2 * (coeff_dict_shifted['C53'] + self.Ychi/4 * coeff_dict_shifted['C54'])/self.Lambda\
+            coeff_dict_5f['C75tau'] = - 1/Mh**2 * (coeff_dict_shifted['C53'] + self.Ychi/4 * coeff_dict_shifted['C54'])/self.Lambda\
                                     + higgs_penguin_fermion(self.Ychi,self.dchi) * DIM4
 
             coeff_dict_5f['C76u'] = - 1/Mh**2 * (coeff_dict_shifted['C57'] + self.Ychi/4 * coeff_dict_shifted['C58'])/self.Lambda
@@ -3282,6 +3283,15 @@ class WC_EW(object):
 
         coeff_dict_5f['C73'] = 0
         coeff_dict_5f['C74'] = 0
+
+        coeff_dict_5f['C77u'] = 0
+        coeff_dict_5f['C77d'] = 0
+        coeff_dict_5f['C77s'] = 0
+        coeff_dict_5f['C77c'] = 0
+        coeff_dict_5f['C77b'] = 0
+        coeff_dict_5f['C77e'] = 0
+        coeff_dict_5f['C77mu'] = 0
+        coeff_dict_5f['C77tau'] = 0
 
         coeff_dict_5f['C78u'] = 0
         coeff_dict_5f['C78d'] = 0
@@ -3309,6 +3319,83 @@ class WC_EW(object):
         coeff_dict_5f['C710e'] = 0
         coeff_dict_5f['C710mu'] = 0
         coeff_dict_5f['C710tau'] = 0
+
+        coeff_dict_5f['C711'] = 0
+        coeff_dict_5f['C712'] = 0
+        coeff_dict_5f['C713'] = 0
+        coeff_dict_5f['C714'] = 0
+
+        coeff_dict_5f['C715u'] = 0
+        coeff_dict_5f['C715d'] = 0
+        coeff_dict_5f['C715s'] = 0
+        coeff_dict_5f['C715c'] = 0
+        coeff_dict_5f['C715b'] = 0
+        coeff_dict_5f['C715e'] = 0
+        coeff_dict_5f['C715mu'] = 0
+        coeff_dict_5f['C715tau'] = 0
+
+        coeff_dict_5f['C716u'] = 0
+        coeff_dict_5f['C716d'] = 0
+        coeff_dict_5f['C716s'] = 0
+        coeff_dict_5f['C716c'] = 0
+        coeff_dict_5f['C716b'] = 0
+        coeff_dict_5f['C716e'] = 0
+        coeff_dict_5f['C716mu'] = 0
+        coeff_dict_5f['C716tau'] = 0
+
+        coeff_dict_5f['C717u'] = 0
+        coeff_dict_5f['C717d'] = 0
+        coeff_dict_5f['C717s'] = 0
+        coeff_dict_5f['C717c'] = 0
+        coeff_dict_5f['C717b'] = 0
+        coeff_dict_5f['C717e'] = 0
+        coeff_dict_5f['C717mu'] = 0
+        coeff_dict_5f['C717tau'] = 0
+
+        coeff_dict_5f['C718u'] = 0
+        coeff_dict_5f['C718d'] = 0
+        coeff_dict_5f['C718s'] = 0
+        coeff_dict_5f['C718c'] = 0
+        coeff_dict_5f['C718b'] = 0
+        coeff_dict_5f['C718e'] = 0
+        coeff_dict_5f['C718mu'] = 0
+        coeff_dict_5f['C718tau'] = 0
+
+        coeff_dict_5f['C719u'] = 0
+        coeff_dict_5f['C719d'] = 0
+        coeff_dict_5f['C719s'] = 0
+        coeff_dict_5f['C719c'] = 0
+        coeff_dict_5f['C719b'] = 0
+        coeff_dict_5f['C719e'] = 0
+        coeff_dict_5f['C719mu'] = 0
+        coeff_dict_5f['C719tau'] = 0
+
+        coeff_dict_5f['C720u'] = 0
+        coeff_dict_5f['C720d'] = 0
+        coeff_dict_5f['C720s'] = 0
+        coeff_dict_5f['C720c'] = 0
+        coeff_dict_5f['C720b'] = 0
+        coeff_dict_5f['C720e'] = 0
+        coeff_dict_5f['C720mu'] = 0
+        coeff_dict_5f['C720tau'] = 0
+
+        coeff_dict_5f['C721u'] = 0
+        coeff_dict_5f['C721d'] = 0
+        coeff_dict_5f['C721s'] = 0
+        coeff_dict_5f['C721c'] = 0
+        coeff_dict_5f['C721b'] = 0
+        coeff_dict_5f['C721e'] = 0
+        coeff_dict_5f['C721mu'] = 0
+        coeff_dict_5f['C721tau'] = 0
+
+        coeff_dict_5f['C722u'] = 0
+        coeff_dict_5f['C722d'] = 0
+        coeff_dict_5f['C722s'] = 0
+        coeff_dict_5f['C722c'] = 0
+        coeff_dict_5f['C722b'] = 0
+        coeff_dict_5f['C722e'] = 0
+        coeff_dict_5f['C722mu'] = 0
+        coeff_dict_5f['C722tau'] = 0
 
         return coeff_dict_5f
 

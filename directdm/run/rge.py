@@ -280,8 +280,8 @@ class CmuEW(object):
         g0, mu0 = g_init, mu_init
         dmu = mu2 - mu_init
 #        r = ode(deriv).set_integrator('lsoda')
-#        r = ode(deriv).set_integrator('dopri5')
-        r = ode(deriv).set_integrator('vode')
+        r = ode(deriv).set_integrator('dopri5')
+#        r = ode(deriv).set_integrator('vode')
 #        r = ode(deriv).set_integrator('dop853')
         r.set_initial_value(g0, mu0)
         solution = r.integrate(r.t+dmu)
