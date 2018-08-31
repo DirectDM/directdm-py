@@ -58,7 +58,7 @@ If you use `DirectDM` please cite us! To get the `BibTeX` entries, click on: [in
 
 ## Main Author 
 
-   * Joachim Brod (TU Dortmund)
+   * Joachim Brod (University of Cincinnati)
 
 
 ## Contributors
