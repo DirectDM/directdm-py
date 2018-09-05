@@ -133,5 +133,38 @@ print(wc_rayleigh.cNR(100, 50e-3, RGE=False))
 print('\n')
 
 
+
+#-------------------------------------------------------------#
+# Example with Wilson coefficients in the e/w unbroken theory #
+#-------------------------------------------------------------#
+
+# For the Wilson coefficients above the weak scale, several input parameters need to be specified, in this order:
+#
+# The dictionary of initial conditions at scale Lambda
+# The NP scale Lambda in GeV
+# The DM hypercharge Ychi
+# The dimension of the DM SU(2) representation.
+
+# E.g. 
+
+wc_ew = ddm.WC_EW({'C663' : -1. , 'C673' : 1. , 'C683' : 1.}, 1000, 0, 3)
+
+# If you like, you can do running:
+
+print('Run in unbroken e/w theory from 1000 to 100 GeV:\n')
+print(wc5f.run(mu_low=100))
+print('\n')
+
+# Of course, you can get the low-energy coefficients cNR, as usual: 
+
+print('Low-energy coefficients from e/w theory:\n')
+print(wc_ew.cNR(100, 50e-3))
+print('\n')
+
+print('\n')
+print('-----------------------------------------')
+print('\n')
+
+
 sys.exit()
 
