@@ -163,7 +163,7 @@ class AlphaS(object):
             as3_mc = self.decouple_down_MSbar(as4_mc, 2, self.mc_at_2GeV)
             return self.__solve_rge_nf(as4_mc, 2, mu0, 3)
 
-### Future: class should be C_QCD, giving the Wilson coefficient at different scales
+### Future: class should be CmuQCD, giving the Wilson coefficient at different scales
 
 class RGE(object):
 

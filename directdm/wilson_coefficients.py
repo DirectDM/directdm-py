@@ -8,7 +8,7 @@ import os.path
 from directdm.run import adm
 from directdm.run import rge
 from directdm.num.num_input import Num_input
-from directdm.match.higgs_penguin import Higgspenguin
+from directdm.match.dim4_gauge_contribution import Higgspenguin
 from directdm.num.single_nucleon_form_factors import *
 
 #----------------------------------------------#
