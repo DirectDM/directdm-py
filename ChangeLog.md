@@ -10,9 +10,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 - The class `CmuEW` for the electroweak RG evolution
 - The files `full_adm_g1.py`, `full_adm_g2.py`,  `full_adm_yc.py`,  `full_adm_ytau.py`,
   `full_adm_yb.py`,  `full_adm_yt.py` with the electroweak anomalous dimensions
+- The file `dim4_gauge_contribution.py` with the electroweak matching contributions from [Hisano et al.](https://arxiv.org/abs/1104.0228)
 
 ### Changed
 - Numerical input from PDG 2018
+- Running of strong coupling (consistent decoupling at flavor thresholds)
 
 ### Fixed
 - Bug in running of the strong coupling constant (decoupling at wrong loop order)
