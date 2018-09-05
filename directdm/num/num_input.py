@@ -6,32 +6,32 @@ import numpy as np
 
 class Num_input(object):
     def __init__(self):
-    # numerical input. All masses in GeV.
+    # numerical input. All masses in GeV. Updated from PDG 2018.
 
         # couplings etc.
         self.asMZ = 0.1181
         self.dasMZ = 0.0011
-        self.GF = 1.166367*10**(-5)
-        self.dGF = 0.000005*10**(-5)
-        self.aMZinv = 127.95
-        self.daMZinv = 0.017
-        self.amtauinv = 133.471
-        self.damtauinv = 0.016
+        self.GF = 1.1663787*10**(-5)
+        self.dGF = 0.0000006*10**(-5)
+        self.aMZinv = 127.955
+        self.daMZinv = 0.01
+        self.amtauinv = 133.476
+        self.damtauinv = 0.007
         self.alowinv = 137.035999139
         self.dalowinv = 0.000000031
-        self.sw2_MSbar = 0.23129
-        self.dsw2_MSbar = 0.00005
+        self.sw2_MSbar = 0.23122
+        self.dsw2_MSbar = 0.00004
 
         # Boson masses
         self.Mz = 91.1876
         self.dMz = 0.0021
-        self.Mh = 125.7
-        self.dMh = 0.4
-        self.Mw = 80.385
-        self.dMw = 0.015
+        self.Mh = 125.18
+        self.dMh = 0.16
+        self.Mw = 80.379
+        self.dMw = 0.012
 
         # Lepton masses
-        self.mtau = 1.77682
+        self.mtau = 1.77686
         self.mmu = 105.6583715e-3
         self.me = 0.000510998928
 
@@ -49,9 +49,13 @@ class Num_input(object):
         self.dmeta = 0.017e-3
 
         # PDG
+        self.mt_at_mt_QCD = 160. #GeV
+        self.dmt_at_mt_QCD = 5 #GeV
         self.mb_at_mb = 4.18 #GeV
         self.dmb_at_mb = 0.04 #GeV
-        self.mc_at_mc = 1.28 #GeV
+        self.mt_pole = 173.0 #GeV
+        self.dmt_pole = 0.4 #GeV
+        self.mc_at_mc = 1.275 #GeV
         self.dmc_at_mc = 0.03 #GeV
 
         # Light-quark masses from PDG. MSbar scheme at 2 GeV
@@ -70,9 +74,20 @@ class Num_input(object):
         self.mu_at_MZ = 1.4480486828689913e-3
         self.md_at_MZ = 3.093558685557306e-3
         self.ms_at_MZ = 63.187583673361705e-3
-        self.mc_at_MZ = 0.77668071703323294
-        self.mb_at_MZ = 3.0766883845975763
+        self.mc_at_MZ = 0.775
+        self.mb_at_MZ = 3.08
+        self.mt_at_MZ = 182 # This is converted to MSbar QCD and EW, and run to MZ at 1-loop QCD
 
+
+        # MSbar input at mu=MZ:
+        self.g2_at_MZ   = np.sqrt(4*np.pi/self.aMZinv/self.sw2_MSbar)
+        self.g1_at_MZ   = np.sqrt(self.g2_at_MZ**2/(1/self.sw2_MSbar - 1))
+        self.g3_at_MZ   = np.sqrt(4*np.pi*self.asMZ)
+        self.yc_at_MZ   = np.sqrt(np.sqrt(2)*self.GF)*np.sqrt(2) * self.mc_at_MZ
+        self.yb_at_MZ   = np.sqrt(np.sqrt(2)*self.GF)*np.sqrt(2) * self.mb_at_MZ
+        self.ytau_at_MZ = np.sqrt(np.sqrt(2)*self.GF)*np.sqrt(2) * self.mtau
+        self.yt_at_MZ   = np.sqrt(np.sqrt(2)*self.GF)*np.sqrt(2) * self.mt_at_MZ
+        self.lam_at_MZ  = 2*np.sqrt(2) * self.GF * self.Mh**2
 
 
         # Further low-energy input for pionless EFT

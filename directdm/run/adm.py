@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 
 import numpy as np
+import re
+from pkg_resources import resource_filename
 from ..num.num_input import Num_input
 from .rge import QCD_beta
 from .rge import QCD_gamma
-
 
 #-----------------------------#
 # The QED anomalous dimension #
@@ -128,6 +129,104 @@ def ADM_QCD2(nf):
     else:
         raise Exception("nf has to be 3, 4 or 5")
 
+
+
+def ADM5(Ychi, dchi):
+    """ The dimension-five anomalous dimension
+    
+    Return a numpy array with the anomalous dimension matrices for g1, g2, g3, and yt 
+    The Higgs self coupling lambda is currently ignored. 
+
+    Variables
+    ---------
+
+    Ychi: The DM hypercharge, defined via the Gell-Mann - Nishijima relation Q = I_W^3 + Ychi/2. 
+
+    dchi: The dimension of the electroweak SU(2) representation furnished by the DM multiplet. 
+    """
+    jj1 = (dchi**2-1)/4
+
+    # The beta functions for one multiplet
+    b1 = - 41/6 - Ychi**2 * dchi/3
+    b2 = 19/6 - 4*jj1*dchi/9
+    adm5_g1 = np.array([[5/2*Ychi**2-2*b1, 0, -6*Ychi, 0, 0, 0, 0, 0],
+                        [-4*Ychi*jj1, Ychi**2/2, 0, 12*Ychi, 0, 0, 0, 0],
+                        [0, 0, -3/2*(1+Ychi**2), 0, 0, 0, 0, 0],
+                        [0, 0, 0, -3/2*(1+Ychi**2), 0, 0, 0, 0],
+                        [0, 0, 0, 0, 5/2*Ychi**2-2*b1, 0, -6*Ychi, 0],
+                        [0, 0, 0, 0, -4*Ychi*jj1, Ychi**2/2, 0, 12*Ychi],
+                        [0, 0, 0, 0, 0, 0, -3/2*(1+Ychi**2), 0],
+                        [0, 0, 0, 0, 0, 0, 0, -3/2*(1+Ychi**2)]])
+    adm5_g2 = np.array([[2*jj1, -4*Ychi, 0, -24, 0, 0, 0, 0],
+                        [0, (10*jj1-8)-2*b2, 12*jj1, 0, 0, 0, 0, 0],
+                        [0, 0, (-9/2-6*jj1), 0, 0, 0, 0, 0],
+                        [0, 0, 0, (3/2-6*jj1), 0, 0, 0, 0],
+                        [0, 0, 0, 0, 2*jj1, -4*Ychi, 0, -24],
+                        [0, 0, 0, 0, 0, (10*jj1-8)-2*b2, 12*jj1, 0],
+                        [0, 0, 0, 0, 0, 0, (-9/2-6*jj1), 0],
+                        [0, 0, 0, 0, 0, 0, 0, (3/2-6*jj1)]])
+    adm5_g3   = np.zeros((8,8))
+    adm5_yc   = np.diag([0,0,6,6,0,0,6,6])
+    adm5_ytau = np.diag([0,0,2,2,0,0,2,2])
+    adm5_yb   = np.diag([0,0,6,6,0,0,6,6])
+    adm5_yt   = np.diag([0,0,6,6,0,0,6,6])
+    adm5_lam  = np.diag([0,0,3,1,0,0,3,1])
+    full_adm  = np.array([adm5_g1, adm5_g2, adm5_g3, adm5_yc, adm5_ytau, adm5_yb, adm5_yt, adm5_lam])
+    if dchi == 1:
+        return np.delete(np.delete(full_adm, [1,3,5,7], 1), [1,3,5,7], 2)
+    else:
+        return full_adm
+
+
+
+def ADM6(Ychi, dchi):
+    """ The dimension-five anomalous dimension
+    
+    Return a numpy array with the anomalous dimension matrices for g1, g2, g3, ytau, yb, and yt 
+    The running due to the Higgs self coupling lambda is currently ignored. 
+
+    The operator basis is Q1-Q14 1st, 2nd, 3rd gen.; S1-S17 (mixing of gen: 1-1, 2-2, 3-3, 1-2, 1-3, 2-3), 
+                          S18-S24 1st, 2nd, 3rd gen., S25; D1-D4. 
+
+    The explicit ordering of the operators, including flavor indices, is contained in the file 
+    "directdm/run/operator_ordering.txt"
+
+    Variables
+    ---------
+
+    Ychi: The DM hypercharge, defined via the Gell-Mann - Nishijima relation Q = I_W^3 + Ychi/2. 
+
+    dchi: The dimension of the electroweak SU(2) representation furnished by the DM multiplet. 
+    """
+
+    scope = locals()
+
+    def load_adm(admfile):
+        with open(admfile, "r") as f:
+            adm = []
+            for line in f:
+                line = re.sub("\n", "", line)
+                line = line.split(",")
+                adm.append(list(map(lambda x: eval(x, scope), line)))
+            return adm
+
+    admg1    = load_adm(resource_filename("directdm", "run/full_adm_g1.py"))
+    admg2    = load_adm(resource_filename("directdm", "run/full_adm_g2.py"))
+    admg3    = np.zeros((207,207))
+    admyc    = load_adm(resource_filename("directdm", "run/full_adm_yc.py"))
+    admytau  = load_adm(resource_filename("directdm", "run/full_adm_ytau.py"))
+    admyb    = load_adm(resource_filename("directdm", "run/full_adm_yb.py"))
+    admyt    = load_adm(resource_filename("directdm", "run/full_adm_yt.py"))
+    admlam   = np.zeros((207,207))
+
+    full_adm = np.array([np.array(admg1), np.array(admg2), admg3, np.array(admyc), np.array(admytau), np.array(admyb), np.array(admyt), np.array(admlam)])
+    if dchi == 1:
+        return np.delete(np.delete(full_adm, [0, 4, 8, 11, 14, 18, 22, 25, 28, 32, 36, 39,\
+                                              42, 44, 205, 206], 1),\
+                                             [0, 4, 8, 11, 14, 18, 22, 25, 28, 32, 36, 39,\
+                                              42, 44, 205, 206], 2)
+    else:
+        return full_adm
 
 
 
@@ -535,7 +634,6 @@ def ADT_QCD_LEPTON():
     # tensor, zeile, spalte
 
     return gamma_hat
-
 
 
 

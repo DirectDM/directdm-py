@@ -4,6 +4,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
 ## [Unreleased]
+### Added
+- The class `WC_EW` for the Wilson coefficients above the electroweak scale.
+  It performs the running above the weak scale, and matching to the five-flavor EFT
+- The class `CmuEW` for the electroweak RG evolution
+- The files `full_adm_g1.py`, `full_adm_g2.py`,  `full_adm_yc.py`,  `full_adm_ytau.py`,
+  `full_adm_yb.py`,  `full_adm_yt.py` with the electroweak anomalous dimensions
+- The file `dim4_gauge_contribution.py` with the electroweak matching contributions from [Hisano et al.](https://arxiv.org/abs/1104.0228)
+
+### Changed
+- Numerical input from PDG 2018
+- Running of strong coupling (consistent decoupling at flavor thresholds)
+- example.py includes an example for Wilson coefficients specified in electroweak unbroken theory
+
 ### Fixed
 - Bug in running of the strong coupling constant (decoupling at wrong loop order)
 
