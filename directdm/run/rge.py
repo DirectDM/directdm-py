@@ -64,104 +64,94 @@ class QCD_gamma(object):
 class AlphaS(object):
     """ The strong coupling constant """
 
-    def __init__(self, nf, loop):
-        self.nf = nf
-        self.loop = loop
+    def __init__(self, asMZ, MZ):
+        self.asMZ = asMZ
+        self.MZ = MZ
 
-        #----------------------#
-        #--- Some constants ---#
-        #----------------------#
-
-        ip = Num_input()
-        self.MZ = ip.Mz
-        self.asMZ = ip.asMZ
-        self.mc_at_2GeV = ip.mc_at_2GeV #GeV
-        self.mb_at_mb = ip.mb_at_mb #GeV
-
-    def decouple_down_MSbar(self, alphasatmu, mu, mh):
-        """ Decoupling of the strong coupling from nf to (nf - 1) at scale mu, at heavy quark mass mh
+    def decouple_down_MSbar(self, alphasatmu, mu, mh, nf, loop):
+        """ Decoupling of the strong coupling from nf to (nf - 1) at scale mu, at heavy quark mass mh = mh(mh)
 
         Input is alphas(mu,nf), output is alphas(mu,nf-1)
         """
-        if self.loop == 1:
+        if loop == 1:
             return alphasatmu
-        if self.loop == 2:
+        if loop == 2:
             return alphasatmu * (1 - 1/6 * np.log(mu**2/mh**2) * (alphasatmu/np.pi))
-        if self.loop == 3:
+        if loop == 3:
             return alphasatmu * (1 - 1/6 * np.log(mu**2/mh**2) * (alphasatmu/np.pi)
-                                   + (11/72 - 11/24 * np.log(mu**2/mh**2) + 1/36 * np.log(mu**2/mh**2)**2) * (alphasatmu/np.pi)**2)
-        if self.loop == 4:
+                                   + (11/72 - 19/24 * np.log(mu**2/mh**2) + 1/36 * np.log(mu**2/mh**2)**2) * (alphasatmu/np.pi)**2)
+        if loop == 4:
             return alphasatmu * (1 - 1/6 * np.log(mu**2/mh**2) * (alphasatmu/np.pi)
-                                   + (11/72 - 11/24 * np.log(mu**2/mh**2) + 1/36 * np.log(mu**2/mh**2)**2) * (alphasatmu/np.pi)**2
-                                   + (564731/124416 - 82043/27648 * my_zeta(3) - 955/576 * np.log(mu**2/mh**2) + 53/576 * np.log(mu**2/mh**2)**2
-                                      - 1/216 * np.log(mu**2/mh**2)**3 + (self.nf-1) * ( -2633/31104 + 67/576 * np.log(mu**2/mh**2)
-                                      - 1/36 * np.log(mu**2/mh**2)**2 ) ) * (alphasatmu/np.pi)**3 )
+                                   + (11/72 - 19/24 * np.log(mu**2/mh**2) + 1/36 * np.log(mu**2/mh**2)**2) * (alphasatmu/np.pi)**2
+                                   + (564731/124416 - 82043/27648 * my_zeta(3) - 6793/1728 * np.log(mu**2/mh**2) - 131/576 * np.log(mu**2/mh**2)**2
+                                      - 1/216 * np.log(mu**2/mh**2)**3 + (nf-1) * ( -2633/31104 + 281/1728 * np.log(mu**2/mh**2)
+                                      ) ) * (alphasatmu/np.pi)**3 )
 
+    # def decouple_up_MSbar(self, alphasatmu, mu, mh):
+    #     """ Decoupling of the strong coupling from (nf-1) to nf at scale mu, at heavy quark mass mh = mh(mh)
 
-    def decouple_up_MSbar(self, alphasatmu, mu, mh):
-        """ Decoupling of the strong coupling from (nf-1) to nf at scale mu, at heavy quark mass mh
+    #     Input is alphas(mu,nf-1), output is alphas(mu,nf)
+    #     """
+    #     if loop == 1:
+    #         return alphasatmu
+    #     if loop == 2:
+    #         return alphasatmu * (1 + 1/6 * np.log(mu**2/mh**2) * (alphasatmu/np.pi))
+    #     if loop == 3:
+    #         return alphasatmu * (1 + 1/6 * np.log(mu**2/mh**2) * (alphasatmu/np.pi)
+    #                                + (- 11/72 + 19/24 * np.log(mu**2/mh**2) + 1/36 * np.log(mu**2/mh**2)**2) * (alphasatmu/np.pi)**2)
+    #     if loop == 4:
+    #         return alphasatmu * (1 - 1/6 * np.log(mu**2/mh**2) * (alphasatmu/np.pi)
+    #                                + (- 11/72 + 19/24 * np.log(mu**2/mh**2) + 1/36 * np.log(mu**2/mh**2)**2) * (alphasatmu/np.pi)**2
+    #                                + (- 564731/124416 + 82043/27648 * my_zeta(3) + 2191/576 * np.log(mu**2/mh**2) + 511/576 * np.log(mu**2/mh**2)**2
+    #                                   + 1/216 * np.log(mu**2/mh**2)**3 + (self.nf-1) * ( 2633/31104 - 281/1728 * np.log(mu**2/mh**2)
+    #                                   ) ) * (alphasatmu/np.pi)**3 )
 
-        Input is alphas(mu,nf-1), output is alphas(mu,nf)
-        """
-        if self.loop == 1:
-            return alphasatmu
-        if self.loop == 2:
-            return alphasatmu * (1 + 1/6 * np.log(mu**2/mh**2) * (alphasatmu/np.pi))
-        if self.loop == 3:
-            return alphasatmu * (1 + 1/6 * np.log(mu**2/mh**2) * (alphasatmu/np.pi)
-                                   + (- 11/72 + 11/24 * np.log(mu**2/mh**2) + 1/36 * np.log(mu**2/mh**2)**2) * (alphasatmu/np.pi)**2)
-        if self.loop == 4:
-            return alphasatmu * (1 - 1/6 * np.log(mu**2/mh**2) * (alphasatmu/np.pi)
-                                   + (- 11/72 + 11/24 * np.log(mu**2/mh**2) + 1/36 * np.log(mu**2/mh**2)**2) * (alphasatmu/np.pi)**2
-                                   + (- 564731/124416 + 82043/27648 * my_zeta(3) + 2645/1728 * np.log(mu**2/mh**2) + 167/576 * np.log(mu**2/mh**2)**2
-                                      + 1/216 * np.log(mu**2/mh**2)**3 + (self.nf-1) * ( 2633/31104 - 67/576 * np.log(mu**2/mh**2)
-                                      + 1/36 * np.log(mu**2/mh**2)**2 ) ) * (alphasatmu/np.pi)**3 )
-
-    def __dalphasdmu(self, mu, alphas, nf):
-        if self.loop == 1:
+    def __dalphasdmu(self, mu, alphas, nf, loop):
+        if loop == 1:
             return 2 * np.pi / mu * ( - QCD_beta(nf, 1).chet() * (alphas/np.pi)**2 )
-        if self.loop == 2:
+        if loop == 2:
             return 2 * np.pi / mu * ( - QCD_beta(nf, 1).chet() * (alphas/np.pi)**2 - QCD_beta(nf, 2).chet() * (alphas/np.pi)**3 )
-        if self.loop == 3:
-            return 2 * np.pi / mu * ( - QCD_beta(nf, 1).chet() * (alphas/np.pi)**2 - QCD_beta(nf, 2).chet() * (alphas/np.pi)**3 - QCD_beta(nf, 3).chet() * (alphas/np.pi)**4 )
+        if loop == 3:
+            return 2 * np.pi / mu * ( - QCD_beta(nf, 1).chet() * (alphas/np.pi)**2 - QCD_beta(nf, 2).chet() * (alphas/np.pi)**3\
+                                      - QCD_beta(nf, 3).chet() * (alphas/np.pi)**4 )
 
-    def solve_rge(self, as_at_mu, mu, mu0):
+    def __solve_rge_nf(self, as_at_mu, mu, mu0, nf, loop):
         """The running strong coupling
     
-        Run from scale mu to scale mu0, initial condition alphas(mu) = as_at_mu
+        Run from scale mu to scale mu0, with nf active flavors
         """
         def deriv(alphas, mu):
-            return self.__dalphasdmu(mu, alphas, self.nf)
+            return self.__dalphasdmu(mu, alphas, nf, loop)
         r = odeint(deriv, as_at_mu, np.array([mu, mu0]))
         return list(r)[1][0]
 
-    def __solve_rge_nf(self, as_at_mu, mu, mu0, nf):
-        """The running strong coupling
-    
-        Run from scale mu to scale mu0, with initial condition alphas(mu) = as_at_mu, and nf active flavors
-        """
-        def deriv(alphas, mu):
-            return self.__dalphasdmu(mu, alphas, nf)
-        r = odeint(deriv, as_at_mu, np.array([mu, mu0]))
-        return list(r)[1][0]
+    def run(self, dict_mh, dict_mu, mu0, nf, loop):
+        """ Run the strong coupling with decoupling at flavor thresholds
 
-    def run(self, mu0):
-        """ Run the strong coupling 
+        A dictionary of scales for each heavy quark mass mq(mq) should be given. E.g.
 
-        Start value is alphas(MZ), decoupling at quark thresholds is performed automatically. 
+        {'mbmb': 4.18, 'mcmc': 1.275}
+
+        A dictionary of scales for each threshold should be given. E.g.
+
+        {'mub': 5, 'muc': 1.3}
+
+        (Depending on nf one or zero can be given)
+
+        The decoupling is always at mq(mq)
         """
-        if self.nf == 5:
-            return self.solve_rge(self.asMZ, self.MZ, mu0)
-        if self.nf == 4:
-            as5_mb = self.__solve_rge_nf(self.asMZ, self.MZ, self.mb_at_mb, 5)
-            as4_mb = self.decouple_down_MSbar(as5_mb, self.mb_at_mb, self.mb_at_mb)
-            return self.__solve_rge_nf(as4_mb, self.mb_at_mb, mu0, 4)
-        if self.nf == 3:
-            as5_mb = self.__solve_rge_nf(self.asMZ, self.MZ, self.mb_at_mb, 5)
-            as4_mb = self.decouple_down_MSbar(as5_mb, self.mb_at_mb, self.mb_at_mb)
-            as4_mc = self.__solve_rge_nf(as4_mb, self.mb_at_mb, 2, 4)
-            as3_mc = self.decouple_down_MSbar(as4_mc, 2, self.mc_at_2GeV)
-            return self.__solve_rge_nf(as4_mc, 2, mu0, 3)
+        if nf == 5:
+            return self.__solve_rge_nf(self.asMZ, self.MZ, mu0, 5, loop)
+        if nf == 4:
+            as5_mub = self.__solve_rge_nf(self.asMZ, self.MZ, dict_mu['mub'], 5, loop)
+            as4_mub = self.decouple_down_MSbar(as5_mub, dict_mu['mub'], dict_mh['mbmb'], 5, loop)
+            return self.__solve_rge_nf(as4_mub, dict_mu['mub'], mu0, 4, loop)
+        if nf == 3:
+            as5_mub = self.__solve_rge_nf(self.asMZ, self.MZ, dict_mu['mub'], 5, loop)
+            as4_mub = self.decouple_down_MSbar(as5_mub, dict_mu['mub'], dict_mh['mbmb'], 5, loop)
+            as4_muc = self.__solve_rge_nf(as4_mub, dict_mu['mub'], dict_mu['muc'], 4, loop)
+            as3_muc = self.decouple_down_MSbar(as4_muc, dict_mu['muc'], dict_mh['mcmc'], 4, loop)
+            return self.__solve_rge_nf(as3_muc, dict_mu['muc'], mu0, 3, loop)
 
 ### Future: class should be CmuQCD, giving the Wilson coefficient at different scales
 

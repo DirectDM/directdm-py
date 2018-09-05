@@ -358,7 +358,9 @@ class WC_3f(object):
         ip = Num_input()
         alpha_at_mu = 1/ip.amtauinv
 
-        as31 = rge.AlphaS(3,1)
+        as31 = rge.AlphaS(ip.asMZ, ip.Mz)
+        as31_high = as31.run({'mbmb': ip.mb_at_mb, 'mcmc': ip.mc_at_mc}, {'mub': ip.mb_at_mb, 'muc': ip.mc_at_mc}, 2, 3, 1)
+        as31_low = as31.run({'mbmb': ip.mb_at_mb, 'mcmc': ip.mc_at_mc}, {'mub': ip.mb_at_mb, 'muc': ip.mc_at_mc}, mu_low, 3, 1)
         evolve1 = rge.RGE(self.gamma_QCD, 3)
         evolve2 = rge.RGE(self.gamma_QCD2, 3)
         if self.DM_type == "D" or self.DM_type == "M" or self.DM_type == "C":
@@ -366,11 +368,11 @@ class WC_3f(object):
         else:
             pass
 
-        C_at_mu_QCD = np.dot(evolve2.U0_as2(as31.run(2),as31.run(mu_low)), np.dot(evolve1.U0(as31.run(2),as31.run(mu_low)), self.coeff_list_dm_dim5_dim6_dim7))
+        C_at_mu_QCD = np.dot(evolve2.U0_as2(as31_high, as31_low), np.dot(evolve1.U0(as31_high, as31_low), self.coeff_list_dm_dim5_dim6_dim7))
         C_at_mu_QED = np.dot(self.coeff_list_dm_dim5_dim6_dim7, self.gamma_QED) * np.log(mu_low/2) * alpha_at_mu/(4*np.pi)\
                       + np.dot(self.coeff_list_dm_dim5_dim6_dim7, self.gamma_QED2) * np.log(mu_low/2) * (alpha_at_mu/(4*np.pi))**2
         if self.DM_type == "D" or self.DM_type == "M" or self.DM_type == "C":
-            C_dim8_at_mu = np.dot(evolve8.U0(as31.run(2),as31.run(mu_low)), self.coeff_list_dm_dim8)
+            C_dim8_at_mu = np.dot(evolve8.U0(as31_high, as31_low), self.coeff_list_dm_dim8)
         else:
             pass
 
@@ -425,8 +427,8 @@ class WC_3f(object):
 
         alpha = 1/ip.alowinv
         GF = ip.GF
-        as_2GeV = rge.AlphaS(3,1).run(2)
-        gs2_2GeV = 4*np.pi*rge.AlphaS(3,1).run(2)
+        as_2GeV = rge.AlphaS(ip.asMZ, ip.Mz).run({'mbmb': ip.mb_at_mb, 'mcmc': ip.mc_at_mc}, {'mub': ip.mb_at_mb, 'muc': ip.mc_at_mc}, 2, 3, 1)
+        gs2_2GeV = 4*np.pi*as_2GeV
 
         # Quark masses at 2GeV
         mu = ip.mu_at_2GeV
@@ -1731,7 +1733,8 @@ class WC_4f(object):
 
         mb = ip.mb_at_mb
         alpha_at_mc = 1/ip.aMZinv
-        gs2_2GeV = 4*np.pi*rge.AlphaS(3,1).run(2)
+        as_2GeV = rge.AlphaS(ip.asMZ, ip.Mz).run({'mbmb': ip.mb_at_mb, 'mcmc': ip.mc_at_mc}, {'mub': ip.mb_at_mb, 'muc': ip.mc_at_mc}, 2, 3, 1)
+        gs2_2GeV = 4*np.pi*as_2GeV
 
         if self.DM_type == "D" or self.DM_type == "M" or self.DM_type == "C":
             if double_QCD:
@@ -1742,7 +1745,10 @@ class WC_4f(object):
         else:
             pass
 
-        as41 = rge.AlphaS(4,1)
+        as41 = rge.AlphaS(ip.asMZ, ip.Mz)
+        as41_high = as41.run({'mbmb': ip.mb_at_mb, 'mcmc': ip.mc_at_mc}, {'mub': ip.mb_at_mb, 'muc': ip.mc_at_mc}, mb, 4, 1)
+        as41_low = as41.run({'mbmb': ip.mb_at_mb, 'mcmc': ip.mc_at_mc}, {'mub': ip.mb_at_mb, 'muc': ip.mc_at_mc}, mu_low, 4, 1)
+
         evolve1 = rge.RGE(self.gamma_QCD, 4)
         evolve2 = rge.RGE(self.gamma_QCD2, 4)
         if self.DM_type == "D" or self.DM_type == "M" or self.DM_type == "C":
@@ -1752,8 +1758,7 @@ class WC_4f(object):
 
         # Mixing in the dim.6 DM-SM sector
         #
-        # Strictly speaking, mb should be defined at scale mu_low (however, this is a higher-order difference)
-        C_at_mc_QCD = np.dot(evolve2.U0_as2(as41.run(mb),as41.run(mu_low)), np.dot(evolve1.U0(as41.run(mb),as41.run(mu_low)), self.coeff_list_dm_dim5_dim6_dim7))
+        C_at_mc_QCD = np.dot(evolve2.U0_as2(as41_high, as41_low), np.dot(evolve1.U0(as41_high, as41_low), self.coeff_list_dm_dim5_dim6_dim7))
         C_at_mc_QED = np.dot(self.coeff_list_dm_dim5_dim6_dim7, self.gamma_QED) * np.log(mu_low/mb) * alpha_at_mc/(4*np.pi)\
                       + np.dot(self.coeff_list_dm_dim5_dim6_dim7, self.gamma_QED2) * np.log(mu_low/mb) * (alpha_at_mc/(4*np.pi))**2
 
@@ -1762,7 +1767,7 @@ class WC_4f(object):
 
             DIM6_DIM8_init = np.hstack((self.coeff_list_sm_dim6, self.coeff_list_dm_dim8))
 
-            DIM6_DIM8_at_mb =   np.dot(evolve8.U0(as41.run(mb),as41.run(mu_low)), DIM6_DIM8_init)
+            DIM6_DIM8_at_mb =   np.dot(evolve8.U0(as41_high, as41_low), DIM6_DIM8_init)
 
         # Revert back to dictionary
 
@@ -2448,7 +2453,10 @@ class WC_5f(object):
         else:
             double_QCD=False
 
-        as51 = rge.AlphaS(5,1)
+        as51 = rge.AlphaS(ip.asMZ, ip.Mz)
+        as51_high = as51.run({'mbmb': ip.mb_at_mb, 'mcmc': ip.mc_at_mc}, {'mub': ip.mb_at_mb, 'muc': ip.mc_at_mc}, MZ, 5, 1)
+        as51_low = as51.run({'mbmb': ip.mb_at_mb, 'mcmc': ip.mc_at_mc}, {'mub': ip.mb_at_mb, 'muc': ip.mc_at_mc}, mu_low, 5, 1)
+
         evolve1 = rge.RGE(self.gamma_QCD, 5)
         evolve2 = rge.RGE(self.gamma_QCD2, 5)
         if self.DM_type == "D" or self.DM_type == "M" or self.DM_type == "C":
@@ -2459,7 +2467,7 @@ class WC_5f(object):
         # Mixing in the dim.6 DM-SM sector
         #
         # Strictly speaking, MZ and mb should be defined at the same scale (however, this is a higher-order difference)
-        C_at_mb_QCD = np.dot(evolve2.U0_as2(as51.run(MZ),as51.run(mu_low)), np.dot(evolve1.U0(as51.run(MZ),as51.run(mu_low)), self.coeff_list_dm_dim5_dim6_dim7))
+        C_at_mb_QCD = np.dot(evolve2.U0_as2(as51_high, as51_low), np.dot(evolve1.U0(as51_high, as51_low), self.coeff_list_dm_dim5_dim6_dim7))
         C_at_mb_QED = np.dot(self.coeff_list_dm_dim5_dim6_dim7, self.gamma_QED) * np.log(mu_low/MZ) * alpha_at_mb/(4*np.pi)\
                       + np.dot(self.coeff_list_dm_dim5_dim6_dim7, self.gamma_QED2) * np.log(mu_low/MZ) * (alpha_at_mb/(4*np.pi))**2
 
@@ -2468,7 +2476,7 @@ class WC_5f(object):
 
             DIM6_DIM8_init = np.hstack((self.coeff_list_sm_dim6, self.coeff_list_dm_dim8))
 
-            DIM6_DIM8_at_mb =   np.dot(evolve8.U0(as51.run(MZ),as51.run(mu_low)), DIM6_DIM8_init)
+            DIM6_DIM8_at_mb =   np.dot(evolve8.U0(as51_high, as51_low), DIM6_DIM8_init)
 
 
         # Revert back to dictionary
