@@ -2882,6 +2882,13 @@ class WC_EW(object):
         else:
             DIM4 = 0
 
+
+        # Issue a user warning that matching results are not complete for Ychi != 0
+
+        if self.Ychi != 0:
+            warnings.warn('Matching contributions from gauge interactions are not complete for Ychi != 0')
+
+ 
         # Some input parameters:
 
         ip = Num_input()
