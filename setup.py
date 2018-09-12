@@ -6,7 +6,7 @@ with open ('directdm/_version.py') as f:
 setup(name='directdm',
       version=__version__,
       author='Fady Bishara, Joachim Brod, Benjamin Grinstein, Jure Zupan',
-      author_email='joachim.brod@tu-dortmund.de',
+      author_email='joachim.brod@uc.edu',
       url='https://directdm.github.io',
       description='A python package for dark matter direct detection',
       long_description=""" This package contains classes for Wilson coefficients
