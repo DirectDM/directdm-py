@@ -3,6 +3,20 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
+## [2.0.1] - 2018-09-13
+### Added
+- File `USAGE.md` with basic explanation of relevant classes
+
+### Changed
+- Initial conditions of Wilson coefficients above the weak scale require scale explicitly
+- Method `run` of class `WC_EW` requires scale `mu_Lambda` as starting value for RG evolution
+- Updated `example.py`
+- Updated `README.md`
+
+### Fixed
+- Typos in `rge.py`
+- Typos in `example.py`
+
 ## [2.0.0] - 2018-09-12
 ### Added
 - The class `WC_EW` for the Wilson coefficients above the electroweak scale.

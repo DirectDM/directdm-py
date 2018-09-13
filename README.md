@@ -27,11 +27,9 @@ brew upgrade scipy
 
 ## Usage
 
-The included `example.py` file has basic examples for using the functions provided by the code. 
-
 Here is a simple example how to use `directdm`:
 
-Load the package
+Import the package:
 ```
 import directdm as ddm
 ```
@@ -52,8 +50,13 @@ Write the list of proton and neutron NR Wilson coefficients into a file in the c
 wc3f.write_mma(100, 50e-3, filename='wc3.m')
 ```
 
+The included `USAGE.md` file has basic descriptions of all relevant classes.
+
+The included `example.py` file has basic examples for using the functions provided by the code.
+
+
 ## Citation
-If you use `DirectDM` please cite us! To get the `BibTeX` entries, click on: [inspirehep query](https://inspirehep.net/search?p=arxiv:1801.04240+or+arxiv:1710.10218+or+arxiv:1708.02678+or+arxiv:1707.06998+or+arxiv:1611.00368&of=hx) 
+If you use `DirectDM` please cite us! To get the `BibTeX` entries, click on: [inspirehep query](https://inspirehep.net/search?p=arxiv:1809.03506+or+arxiv:1801.04240+or+arxiv:1710.10218+or+arxiv:1708.02678+or+arxiv:1707.06998+or+arxiv:1611.00368&of=hx) 
 
 
 ## Main Author 

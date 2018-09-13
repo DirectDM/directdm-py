@@ -145,20 +145,23 @@ print('\n')
 # The DM hypercharge Ychi
 # The dimension of the DM SU(2) representation.
 
+# Note that Wilson coefficients above the weak scale do *not* include the factor 1/Lambda^n in their definition!
+# This might change in the future. 
+
 # E.g. 
 
-wc_ew = ddm.WC_EW({'C663' : -1. , 'C673' : 1. , 'C683' : 1.}, 1000, 0, 3)
+wc_ew = ddm.WC_EW({'C663' : -1./1000**2 , 'C673' : 1./1000**2 , 'C683' : 1.}, 0, 3)
 
 # If you like, you can do running:
 
 print('Run in unbroken e/w theory from 1000 to 100 GeV:\n')
-print(wc5f.run(mu_low=100))
+print(wc_ew.run(mu_Lambda=1000, muz=100))
 print('\n')
 
 # Of course, you can get the low-energy coefficients cNR, as usual: 
 
 print('Low-energy coefficients from e/w theory:\n')
-print(wc_ew.cNR(100, 50e-3))
+print(wc_ew.cNR(100, 50e-3, mu_Lambda=1000))
 print('\n')
 
 print('\n')
