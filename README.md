@@ -53,7 +53,7 @@ wc3f.write_mma(100, 50e-3, filename='wc3.m')
 ```
 
 ## Citation
-If you use `DirectDM` please cite us! To get the `BibTeX` entries, click on: [inspirehep query](https://inspirehep.net/search?p=arxiv:1801.04240+or+arxiv:1710.10218+or+arxiv:1708.02678+or+arxiv:1707.06998+or+arxiv:1611.00368&of=hx) 
+If you use `DirectDM` please cite us! To get the `BibTeX` entries, click on: [inspirehep query](https://inspirehep.net/search?p=arxiv:1809.03506+or+arxiv:1801.04240+or+arxiv:1710.10218+or+arxiv:1708.02678+or+arxiv:1707.06998+or+arxiv:1611.00368&of=hx) 
 
 
 ## Main Author 
