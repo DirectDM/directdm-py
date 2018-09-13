@@ -178,17 +178,17 @@ class CmuEW(object):
         """ Calculate the running of the Wilson coefficients in the unbroken EW theory
 
         The running takes into account the gauge coupling g1, g2, g3,
-        the tau, bottom, and top Yukawas, ytau, yb, yt, and the Higgs self coupling lambda.
+        the tau, charm, bottom, and top Yukawas, ytau, yc, yb, yt, and the Higgs self coupling lambda.
 
         Wilson should be a list of initial conditions for the Wilson coefficients.
 
-        ADM should be a list / array of the seven DM anomalous dimension matrices proportional to g1^2, g2^2, g3^2, ytau^2, yb^2, yt^2, lambda.
+        ADM should be a list / array of the eight DM anomalous dimension matrices proportional to g1^2, g2^2, g3^2, ytau^2, yc^2, yb^2, yt^2, lambda.
 
         muh is the initial scale.
 
         mul is the final scale.
         """
-        self. Wilson = Wilson
+        self.Wilson = Wilson
         self.ADM = ADM
         self.muh = muh
         self.mul = mul

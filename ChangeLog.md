@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
+## [Unreleased]
+### Fixed
+- Typos in `rge.py`
+
 ## [2.0.0] - 2018-09-12
 ### Added
 - The class `WC_EW` for the Wilson coefficients above the electroweak scale.
