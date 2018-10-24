@@ -2583,9 +2583,9 @@ class WC_5f(object):
 
 
 
-#-------------------------------#
-# The e/w Wilson coefficicients #
-#-------------------------------#
+#-----------------------------#
+# The e/w Wilson coefficients #
+#-----------------------------#
 
 
 class WC_EW(object):
