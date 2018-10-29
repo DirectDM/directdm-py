@@ -11,20 +11,29 @@ from directdm.num.num_input import Num_input
 #-----------------------------------------------#
 
 class Higgspenguin(object):
-    """ Hisano's two-loop Higgs penguin function [arxiv:1104.0228] """
-    def __init__(self, dchi):
+    def __init__(self, dchi, input_dict=None):
+        """ Hisano's two-loop Higgs penguin function [arxiv:1104.0228] 
+
+            input_dict (optional) -- a dictionary of hadronic input parameters
+                                     (default is Num_input().input_parameters)
+        """
         self.dchi = dchi
 
-        # Some input parameters:
-        ip = Num_input()
+        if input_dict is None:
+            self.input_dict = Num_input().input_parameters
+            # One should include a warning in case the dictionary
+            # does not contain all necessary keys
+        else:
+            self.input_dict = input_dict
 
-        self.alpha = 1/ip.aMZinv
-        self.Mh = ip.Mh
-        self.MW = ip.Mw
-        self.MZ = ip.Mz
-        self.sw = np.sqrt(ip.sw2_MSbar)
+
+        self.alpha = 1/self.input_dict['aMZinv']
+        self.Mh = self.input_dict['Mh']
+        self.MW = self.input_dict['Mw']
+        self.MZ = self.input_dict['Mz']
+        self.sw = np.sqrt(self.input_dict['sw2_MSbar'])
         self.cw = np.sqrt(1-self.sw**2)
-        self.mt = ip.mt_pole
+        self.mt = self.input_dict['mt_pole']
 
         # Hisano definitions
         self.auV = 1/4 - 2/3 * self.sw**2

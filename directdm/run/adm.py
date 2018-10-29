@@ -4,13 +4,12 @@ import numpy as np
 import re
 from pkg_resources import resource_filename
 from ..num.num_input import Num_input
-from .rge import QCD_beta
-from .rge import QCD_gamma
+from directdm.run import rge
+
 
 #-----------------------------#
 # The QED anomalous dimension #
 #-----------------------------#
-
 
 def ADM_QED(nf):
     """ Return the QED anomalous dimension in the DM-SM sector for nf flavor EFT """
@@ -18,14 +17,22 @@ def ADM_QED(nf):
     Qd = -1/3
     Qe = -1
     nc = 3
-    gamma_QED = np.array([[8/3*Qu*Qu*nc, 8/3*Qu*Qd*nc, 8/3*Qu*Qd*nc, 8/3*Qu*Qu*nc, 8/3*Qu*Qd*nc, 8/3*Qu*Qe*nc, 8/3*Qu*Qe*nc, 8/3*Qu*Qe*nc],
-                          [8/3*Qd*Qu*nc, 8/3*Qd*Qd*nc, 8/3*Qd*Qd*nc, 8/3*Qd*Qu*nc, 8/3*Qd*Qd*nc, 8/3*Qd*Qe*nc, 8/3*Qd*Qe*nc, 8/3*Qd*Qe*nc],
-                          [8/3*Qd*Qu*nc, 8/3*Qd*Qd*nc, 8/3*Qd*Qd*nc, 8/3*Qd*Qu*nc, 8/3*Qd*Qd*nc, 8/3*Qd*Qe*nc, 8/3*Qd*Qe*nc, 8/3*Qd*Qe*nc],
-                          [8/3*Qu*Qu*nc, 8/3*Qu*Qd*nc, 8/3*Qu*Qd*nc, 8/3*Qu*Qu*nc, 8/3*Qu*Qd*nc, 8/3*Qu*Qe*nc, 8/3*Qu*Qe*nc, 8/3*Qu*Qe*nc],
-                          [8/3*Qd*Qu*nc, 8/3*Qd*Qd*nc, 8/3*Qd*Qd*nc, 8/3*Qd*Qu*nc, 8/3*Qd*Qd*nc, 8/3*Qd*Qe*nc, 8/3*Qd*Qe*nc, 8/3*Qd*Qe*nc],
-                          [8/3*Qe*Qu,    8/3*Qe*Qd,    8/3*Qe*Qd,    8/3*Qe*Qu,    8/3*Qe*Qd,    8/3*Qe*Qe,    8/3*Qe*Qe,    8/3*Qe*Qe],
-                          [8/3*Qe*Qu,    8/3*Qe*Qd,    8/3*Qe*Qd,    8/3*Qe*Qu,    8/3*Qe*Qd,    8/3*Qe*Qe,    8/3*Qe*Qe,    8/3*Qe*Qe],
-                          [8/3*Qe*Qu,    8/3*Qe*Qd,    8/3*Qe*Qd,    8/3*Qe*Qu,    8/3*Qe*Qd,    8/3*Qe*Qe,    8/3*Qe*Qe,    8/3*Qe*Qe]])
+    gamma_QED = np.array([[8/3*Qu*Qu*nc, 8/3*Qu*Qd*nc, 8/3*Qu*Qd*nc, 8/3*Qu*Qu*nc,\
+                           8/3*Qu*Qd*nc, 8/3*Qu*Qe*nc, 8/3*Qu*Qe*nc, 8/3*Qu*Qe*nc],
+                          [8/3*Qd*Qu*nc, 8/3*Qd*Qd*nc, 8/3*Qd*Qd*nc, 8/3*Qd*Qu*nc,\
+                           8/3*Qd*Qd*nc, 8/3*Qd*Qe*nc, 8/3*Qd*Qe*nc, 8/3*Qd*Qe*nc],
+                          [8/3*Qd*Qu*nc, 8/3*Qd*Qd*nc, 8/3*Qd*Qd*nc, 8/3*Qd*Qu*nc,\
+                           8/3*Qd*Qd*nc, 8/3*Qd*Qe*nc, 8/3*Qd*Qe*nc, 8/3*Qd*Qe*nc],
+                          [8/3*Qu*Qu*nc, 8/3*Qu*Qd*nc, 8/3*Qu*Qd*nc, 8/3*Qu*Qu*nc,\
+                           8/3*Qu*Qd*nc, 8/3*Qu*Qe*nc, 8/3*Qu*Qe*nc, 8/3*Qu*Qe*nc],
+                          [8/3*Qd*Qu*nc, 8/3*Qd*Qd*nc, 8/3*Qd*Qd*nc, 8/3*Qd*Qu*nc,\
+                           8/3*Qd*Qd*nc, 8/3*Qd*Qe*nc, 8/3*Qd*Qe*nc, 8/3*Qd*Qe*nc],
+                          [8/3*Qe*Qu,    8/3*Qe*Qd,    8/3*Qe*Qd,    8/3*Qe*Qu,\
+                           8/3*Qe*Qd,    8/3*Qe*Qe,    8/3*Qe*Qe,    8/3*Qe*Qe],
+                          [8/3*Qe*Qu,    8/3*Qe*Qd,    8/3*Qe*Qd,    8/3*Qe*Qu,\
+                           8/3*Qe*Qd,    8/3*Qe*Qe,    8/3*Qe*Qe,    8/3*Qe*Qe],
+                          [8/3*Qe*Qu,    8/3*Qe*Qd,    8/3*Qe*Qd,    8/3*Qe*Qu,\
+                           8/3*Qe*Qd,    8/3*Qe*Qe,    8/3*Qe*Qe,    8/3*Qe*Qe]])
     gamma_QED_1 = np.zeros((2,154))
     gamma_QED_2 = np.hstack((np.zeros((8,2)),gamma_QED,np.zeros((8,144))))
     gamma_QED_3 = np.hstack((np.zeros((8,10)),gamma_QED,np.zeros((8,136))))
@@ -35,13 +42,19 @@ def ADM_QED(nf):
     if nf == 5:
         return gamma_QED
     elif nf == 4:
-        return np.delete(np.delete(gamma_QED, [6, 14, 22, 30, 42, 50, 58, 66, 74, 82, 94, 102, 110, 118, 126, 134, 142, 150], 0)\
-                                            , [6, 14, 22, 30, 42, 50, 58, 66, 74, 82, 94, 102, 110, 118, 126, 134, 142, 150], 1)
+        return np.delete(np.delete(gamma_QED, [6, 14, 22, 30, 42, 50, 58, 66, 74, 82, 94,\
+                                               102, 110, 118, 126, 134, 142, 150], 0)\
+                                            , [6, 14, 22, 30, 42, 50, 58, 66, 74, 82, 94,\
+                                               102, 110, 118, 126, 134, 142, 150], 1)
     elif nf == 3:
-        return np.delete(np.delete(gamma_QED, [5,6, 13,14, 21,22, 29,30, 41,42, 49,50, 57,58, 65,66, 73,74, 81,82,\
-                                               93,94, 101,102, 109,110, 117,118, 125,126, 133,134, 141,142, 149,150], 0)\
-                                            , [5,6, 13,14, 21,22, 29,30, 41,42, 49,50, 57,58, 65,66, 73,74, 81,82,\
-                                               93,94, 101,102, 109,110, 117,118, 125,126, 133,134, 141,142, 149,150], 1)
+        return np.delete(np.delete(gamma_QED, [5,6, 13,14, 21,22, 29,30, 41,42,\
+                                               49,50, 57,58, 65,66, 73,74, 81,82,\
+                                               93,94, 101,102, 109,110, 117,118,\
+                                               125,126, 133,134, 141,142, 149,150], 0)\
+                                            , [5,6, 13,14, 21,22, 29,30, 41,42,\
+                                               49,50, 57,58, 65,66, 73,74, 81,82,\
+                                               93,94, 101,102, 109,110, 117,118,\
+                                               125,126, 133,134, 141,142, 149,150], 1)
     else:
         raise Exception("nf has to be 3, 4 or 5")
 
@@ -61,13 +74,19 @@ def ADM_QED2(nf):
     if nf == 5:
         return gamma_QED2
     elif nf == 4:
-        return np.delete(np.delete(gamma_QED2, [6, 14, 22, 30, 42, 50, 58, 66, 74, 82, 94, 102, 110, 118, 126, 134, 142, 150], 0)\
-                                             , [6, 14, 22, 30, 42, 50, 58, 66, 74, 82, 94, 102, 110, 118, 126, 134, 142, 150], 1)
+        return np.delete(np.delete(gamma_QED2, [6, 14, 22, 30, 42, 50, 58, 66, 74, 82, 94,\
+                                                102, 110, 118, 126, 134, 142, 150], 0)\
+                                             , [6, 14, 22, 30, 42, 50, 58, 66, 74, 82, 94,\
+                                                102, 110, 118, 126, 134, 142, 150], 1)
     elif nf == 3:
-        return np.delete(np.delete(gamma_QED2, [5,6, 13,14, 21,22, 29,30, 41,42, 49,50, 57,58, 65,66, 73,74, 81,82,\
-                                                93,94, 101,102, 109,110, 117,118, 125,126, 133,134, 141,142, 149,150], 0)\
-                                             , [5,6, 13,14, 21,22, 29,30, 41,42, 49,50, 57,58, 65,66, 73,74, 81,82,\
-                                                93,94, 101,102, 109,110, 117,118, 125,126, 133,134, 141,142, 149,150], 1)
+        return np.delete(np.delete(gamma_QED2, [5,6, 13,14, 21,22, 29,30, 41,42,\
+                                                49,50, 57,58, 65,66, 73,74, 81,82,\
+                                                93,94, 101,102, 109,110, 117,118,\
+                                                125,126, 133,134, 141,142, 149,150], 0)\
+                                             , [5,6, 13,14, 21,22, 29,30, 41,42,\
+                                                49,50, 57,58, 65,66, 73,74, 81,82,\
+                                                93,94, 101,102, 109,110, 117,118,\
+                                                125,126, 133,134, 141,142, 149,150], 1)
     else:
         raise Exception("nf has to be 3, 4 or 5")
 
@@ -89,13 +108,19 @@ def ADM_QCD(nf):
     if nf == 5:
         return gamma_QCD
     elif nf == 4:
-        return np.delete(np.delete(gamma_QCD, [6, 14, 22, 30, 42, 50, 58, 66, 74, 82, 94, 102, 110, 118, 126, 134, 142, 150], 1)\
-                                            , [6, 14, 22, 30, 42, 50, 58, 66, 74, 82, 94, 102, 110, 118, 126, 134, 142, 150], 2)
+        return np.delete(np.delete(gamma_QCD, [6, 14, 22, 30, 42, 50, 58, 66, 74, 82, 94,\
+                                               102, 110, 118, 126, 134, 142, 150], 1)\
+                                            , [6, 14, 22, 30, 42, 50, 58, 66, 74, 82, 94,\
+                                               102, 110, 118, 126, 134, 142, 150], 2)
     elif nf == 3:
-        return np.delete(np.delete(gamma_QCD, [5,6, 13,14, 21,22, 29,30, 41,42, 49,50, 57,58, 65,66, 73,74, 81,82,\
-                                               93,94, 101,102, 109,110, 117,118, 125,126, 133,134, 141,142, 149,150], 1)\
-                                            , [5,6, 13,14, 21,22, 29,30, 41,42, 49,50, 57,58, 65,66, 73,74, 81,82,\
-                                               93,94, 101,102, 109,110, 117,118, 125,126, 133,134, 141,142, 149,150], 2)
+        return np.delete(np.delete(gamma_QCD, [5,6, 13,14, 21,22, 29,30, 41,42,\
+                                               49,50, 57,58, 65,66, 73,74, 81,82,\
+                                               93,94, 101,102, 109,110, 117,118,\
+                                               125,126, 133,134, 141,142, 149,150], 1)\
+                                            , [5,6, 13,14, 21,22, 29,30, 41,42,\
+                                               49,50, 57,58, 65,66, 73,74, 81,82,\
+                                               93,94, 101,102, 109,110, 117,118,\
+                                               125,126, 133,134, 141,142, 149,150], 2)
     else:
         raise Exception("nf has to be 3, 4 or 5")
 
@@ -114,18 +139,25 @@ def ADM_QCD2(nf):
     gamma_QCD2_4 = np.hstack((np.zeros((1,54)),gamma_QCD2_5gq,np.zeros((1,95))))
     gamma_QCD2_5 = np.hstack((np.zeros((1,62)),gamma_QCD2_5gq,np.zeros((1,87))))
     gamma_QCD2_6 = np.zeros((116,154))
-    gamma_QCD2 = [np.vstack((gamma_QCD2_1, gamma_QCD2_2, gamma_QCD2_3, gamma_QCD2_4, gamma_QCD2_5, gamma_QCD2_6))]
+    gamma_QCD2 = [np.vstack((gamma_QCD2_1, gamma_QCD2_2, gamma_QCD2_3,\
+                             gamma_QCD2_4, gamma_QCD2_5, gamma_QCD2_6))]
 
     if nf == 5:
         return gamma_QCD2
     elif nf == 4:
-        return np.delete(np.delete(gamma_QCD2, [6, 14, 22, 30, 42, 50, 58, 66, 74, 82, 94, 102, 110, 118, 126, 134, 142, 150], 1)\
-                                             , [6, 14, 22, 30, 42, 50, 58, 66, 74, 82, 94, 102, 110, 118, 126, 134, 142, 150], 2)
+        return np.delete(np.delete(gamma_QCD2, [6, 14, 22, 30, 42, 50, 58, 66, 74, 82, 94,\
+                                                102, 110, 118, 126, 134, 142, 150], 1)\
+                                             , [6, 14, 22, 30, 42, 50, 58, 66, 74, 82, 94,\
+                                                102, 110, 118, 126, 134, 142, 150], 2)
     elif nf == 3:
-        return np.delete(np.delete(gamma_QCD2, [5,6, 13,14, 21,22, 29,30, 41,42, 49,50, 57,58, 65,66, 73,74, 81,82,\
-                                                93,94, 101,102, 109,110, 117,118, 125,126, 133,134, 141,142, 149,150], 1)\
-                                             , [5,6, 13,14, 21,22, 29,30, 41,42, 49,50, 57,58, 65,66, 73,74, 81,82,\
-                                                93,94, 101,102, 109,110, 117,118, 125,126, 133,134, 141,142, 149,150], 2)
+        return np.delete(np.delete(gamma_QCD2, [5,6, 13,14, 21,22, 29,30, 41,42,\
+                                                49,50, 57,58, 65,66, 73,74, 81,82,\
+                                                93,94, 101,102, 109,110, 117,118,\
+                                                125,126, 133,134, 141,142, 149,150], 1)\
+                                             , [5,6, 13,14, 21,22, 29,30, 41,42,\
+                                                49,50, 57,58, 65,66, 73,74, 81,82,\
+                                                93,94, 101,102, 109,110, 117,118,\
+                                                125,126, 133,134, 141,142, 149,150], 2)
     else:
         raise Exception("nf has to be 3, 4 or 5")
 
@@ -219,7 +251,9 @@ def ADM6(Ychi, dchi):
     admyt    = load_adm(resource_filename("directdm", "run/full_adm_yt.py"))
     admlam   = np.zeros((207,207))
 
-    full_adm = np.array([np.array(admg1), np.array(admg2), admg3, np.array(admyc), np.array(admytau), np.array(admyb), np.array(admyt), np.array(admlam)])
+    full_adm = np.array([np.array(admg1), np.array(admg2), admg3,\
+                         np.array(admyc), np.array(admytau), np.array(admyb),\
+                         np.array(admyt), np.array(admlam)])
     if dchi == 1:
         return np.delete(np.delete(full_adm, [0, 4, 8, 11, 14, 18, 22, 25, 28, 32, 36, 39,\
                                               42, 44, 205, 206], 1),\
@@ -233,8 +267,8 @@ def ADM6(Ychi, dchi):
 def ADM_QCD_dim8(nf):
     """ Return the QCD anomalous dimension in the DM-SM sector at dim.8, for nf flavor EFT """
 
-    beta0 = QCD_beta(nf, 1).trad()
-    gammam0 = QCD_gamma(nf, 1).trad()
+    beta0 = rge.QCD_beta(nf, 1).trad()
+    gammam0 = rge.QCD_gamma(nf, 1).trad()
 
     ADM8 = 2*(gammam0 - beta0) * np.eye(12)
 
@@ -343,64 +377,100 @@ def ADM_SM_QCD(nf):
                           [0, 0, 0, 0, 0, 0, 0, 8/3],
                           [0, 0, 0, 0, 20/9, 0, 0, 0]])
 
-    adm_ud = np.hstack((adm_qqp_qqp, adm_qqp_qqpp, adm_qqp_qqpp, adm_qqp_qqpp, adm_qpq_qqpp, adm_qpq_qqpp,\
-                        adm_qpq_qqpp, np.zeros((8, 24)), adm_qqp_q, adm_qpq_q, np.zeros((8,12))))
+    adm_ud = np.hstack((adm_qqp_qqp, adm_qqp_qqpp, adm_qqp_qqpp,\
+                        adm_qqp_qqpp, adm_qpq_qqpp, adm_qpq_qqpp,\
+                        adm_qpq_qqpp, np.zeros((8, 24)), adm_qqp_q,\
+                        adm_qpq_q, np.zeros((8,12))))
 
-    adm_us = np.hstack((adm_qqp_qqpp, adm_qqp_qqp, adm_qqp_qqpp, adm_qqp_qqpp, adm_qpq_qppq, np.zeros((8,16)),\
-                        adm_qpq_qqpp, adm_qpq_qqpp, np.zeros((8, 8)), adm_qqp_q, np.zeros((8,4)), adm_qpq_q, np.zeros((8,8))))
+    adm_us = np.hstack((adm_qqp_qqpp, adm_qqp_qqp, adm_qqp_qqpp,\
+                        adm_qqp_qqpp, adm_qpq_qppq, np.zeros((8,16)),\
+                        adm_qpq_qqpp, adm_qpq_qqpp, np.zeros((8, 8)),\
+                        adm_qqp_q, np.zeros((8,4)), adm_qpq_q, np.zeros((8,8))))
 
-    adm_uc = np.hstack((adm_qqp_qqpp, adm_qqp_qqpp, adm_qqp_qqp, adm_qqp_qqpp, np.zeros((8,8)), adm_qpq_qppq,\
-                        np.zeros((8,8)), adm_qpq_qppq, np.zeros((8, 8)), adm_qpq_qqpp, adm_qqp_q, np.zeros((8,8)), adm_qpq_q, np.zeros((8,4))))
+    adm_uc = np.hstack((adm_qqp_qqpp, adm_qqp_qqpp, adm_qqp_qqp,\
+                        adm_qqp_qqpp, np.zeros((8,8)), adm_qpq_qppq,\
+                        np.zeros((8,8)), adm_qpq_qppq, np.zeros((8, 8)),\
+                        adm_qpq_qqpp, adm_qqp_q, np.zeros((8,8)),\
+                        adm_qpq_q, np.zeros((8,4))))
 
-    adm_ub = np.hstack((adm_qqp_qqpp, adm_qqp_qqpp, adm_qqp_qqpp, adm_qqp_qqp, np.zeros((8,16)), adm_qpq_qppq,\
-                        np.zeros((8,8)), adm_qpq_qppq, adm_qpq_qppq, adm_qqp_q, np.zeros((8,12)), adm_qpq_q))
+    adm_ub = np.hstack((adm_qqp_qqpp, adm_qqp_qqpp, adm_qqp_qqpp,\
+                        adm_qqp_qqp, np.zeros((8,16)), adm_qpq_qppq,\
+                        np.zeros((8,8)), adm_qpq_qppq, adm_qpq_qppq,\
+                        adm_qqp_q, np.zeros((8,12)), adm_qpq_q))
 
-    adm_ds = np.hstack((adm_qqp_qppq, adm_qpq_qppq, np.zeros((8,16)), adm_qqp_qqp, adm_qqp_qqpp, adm_qqp_qqpp,\
-                        adm_qpq_qqpp, adm_qpq_qqpp, np.zeros((8,8)), np.zeros((8,4)), adm_qqp_q, adm_qpq_q, np.zeros((8,8))))
+    adm_ds = np.hstack((adm_qqp_qppq, adm_qpq_qppq, np.zeros((8,16)),\
+                        adm_qqp_qqp, adm_qqp_qqpp, adm_qqp_qqpp,\
+                        adm_qpq_qqpp, adm_qpq_qqpp, np.zeros((8,8)),\
+                        np.zeros((8,4)), adm_qqp_q, adm_qpq_q, np.zeros((8,8))))
 
-    adm_dc = np.hstack((adm_qqp_qppq, np.zeros((8,8)), adm_qpq_qppq, np.zeros((8,8)), adm_qqp_qqpp, adm_qqp_qqp, adm_qqp_qqpp,\
-                        adm_qpq_qppq, np.zeros((8,8)), adm_qpq_qqpp, np.zeros((8,4)), adm_qqp_q, np.zeros((8,4)), adm_qpq_q, np.zeros((8,4))))
+    adm_dc = np.hstack((adm_qqp_qppq, np.zeros((8,8)), adm_qpq_qppq,\
+                        np.zeros((8,8)), adm_qqp_qqpp, adm_qqp_qqp, adm_qqp_qqpp,\
+                        adm_qpq_qppq, np.zeros((8,8)), adm_qpq_qqpp,\
+                        np.zeros((8,4)), adm_qqp_q, np.zeros((8,4)),\
+                        adm_qpq_q, np.zeros((8,4))))
 
-    adm_db = np.hstack((adm_qqp_qppq, np.zeros((8,16)), adm_qpq_qppq, adm_qqp_qqpp, adm_qqp_qqpp, adm_qqp_qqp,\
-                        np.zeros((8,8)), adm_qpq_qppq, adm_qpq_qppq, np.zeros((8,4)), adm_qqp_q, np.zeros((8,8)), adm_qpq_q))
+    adm_db = np.hstack((adm_qqp_qppq, np.zeros((8,16)), adm_qpq_qppq,\
+                        adm_qqp_qqpp, adm_qqp_qqpp, adm_qqp_qqp,\
+                        np.zeros((8,8)), adm_qpq_qppq, adm_qpq_qppq,\
+                        np.zeros((8,4)), adm_qqp_q, np.zeros((8,8)), adm_qpq_q))
 
-    adm_sc = np.hstack((np.zeros((8,8)), adm_qqp_qppq, adm_qpq_qppq, np.zeros((8,8)), adm_qqp_qppq, adm_qpq_qppq, np.zeros((8,8)),\
-                        adm_qqp_qqp, adm_qqp_qqpp, adm_qpq_qqpp, np.zeros((8,8)), adm_qqp_q, adm_qpq_q, np.zeros((8,4))))
+    adm_sc = np.hstack((np.zeros((8,8)), adm_qqp_qppq, adm_qpq_qppq,\
+                        np.zeros((8,8)), adm_qqp_qppq, adm_qpq_qppq, np.zeros((8,8)),\
+                        adm_qqp_qqp, adm_qqp_qqpp, adm_qpq_qqpp, np.zeros((8,8)),\
+                        adm_qqp_q, adm_qpq_q, np.zeros((8,4))))
 
-    adm_sb = np.hstack((np.zeros((8,8)), adm_qqp_qppq, np.zeros((8,8)), adm_qpq_qppq, adm_qqp_qppq, np.zeros((8,8)), adm_qpq_qppq,\
-                        adm_qqp_qqpp, adm_qqp_qqp, adm_qpq_qppq, np.zeros((8,8)), adm_qqp_q, np.zeros((8,4)), adm_qpq_q))
+    adm_sb = np.hstack((np.zeros((8,8)), adm_qqp_qppq, np.zeros((8,8)),\
+                        adm_qpq_qppq, adm_qqp_qppq, np.zeros((8,8)), adm_qpq_qppq,\
+                        adm_qqp_qqpp, adm_qqp_qqp, adm_qpq_qppq, np.zeros((8,8)),\
+                        adm_qqp_q, np.zeros((8,4)), adm_qpq_q))
 
-    adm_cb = np.hstack((np.zeros((8,16)), adm_qqp_qppq, adm_qpq_qppq, np.zeros((8,8)), adm_qqp_qppq, adm_qpq_qppq,\
-                        adm_qqp_qppq, adm_qpq_qppq, adm_qqp_qqp, np.zeros((8,12)), adm_qqp_q, adm_qpq_q))
+    adm_cb = np.hstack((np.zeros((8,16)), adm_qqp_qppq, adm_qpq_qppq,\
+                        np.zeros((8,8)), adm_qqp_qppq, adm_qpq_qppq,\
+                        adm_qqp_qppq, adm_qpq_qppq, adm_qqp_qqp,\
+                        np.zeros((8,12)), adm_qqp_q, adm_qpq_q))
 
-    adm_u = np.hstack((adm_q_qqp, adm_q_qqp, adm_q_qqp, adm_q_qqp, np.zeros((4,48)), adm_q_q, np.zeros((4,16))))
+    adm_u = np.hstack((adm_q_qqp, adm_q_qqp, adm_q_qqp, adm_q_qqp,\
+                       np.zeros((4,48)), adm_q_q, np.zeros((4,16))))
 
-    adm_d = np.hstack((adm_q_qpq, np.zeros((4,24)), adm_q_qqp, adm_q_qqp, adm_q_qqp, np.zeros((4,24)), np.zeros((4,4)), adm_q_q, np.zeros((4,12))))
+    adm_d = np.hstack((adm_q_qpq, np.zeros((4,24)), adm_q_qqp, adm_q_qqp,\
+                       adm_q_qqp, np.zeros((4,24)), np.zeros((4,4)),\
+                       adm_q_q, np.zeros((4,12))))
 
-    adm_s = np.hstack((np.zeros((4,8)), adm_q_qpq, np.zeros((4,16)), adm_q_qpq, np.zeros((4,16)), adm_q_qqp, adm_q_qqp, np.zeros((4,8)),\
+    adm_s = np.hstack((np.zeros((4,8)), adm_q_qpq, np.zeros((4,16)),\
+                       adm_q_qpq, np.zeros((4,16)), adm_q_qqp,\
+                       adm_q_qqp, np.zeros((4,8)),\
                        np.zeros((4,8)), adm_q_q, np.zeros((4,8))))
 
-    adm_c = np.hstack((np.zeros((4,16)), adm_q_qpq, np.zeros((4,16)), adm_q_qpq, np.zeros((4,8)), adm_q_qpq, np.zeros((4,8)), adm_q_qqp,\
+    adm_c = np.hstack((np.zeros((4,16)), adm_q_qpq, np.zeros((4,16)),\
+                       adm_q_qpq, np.zeros((4,8)),\
+                       adm_q_qpq, np.zeros((4,8)), adm_q_qqp,\
                        np.zeros((4,12)), adm_q_q, np.zeros((4,4))))
 
-    adm_b = np.hstack((np.zeros((4,24)), adm_q_qpq, np.zeros((4,16)), adm_q_qpq, np.zeros((4,8)), adm_q_qpq, adm_q_qpq, np.zeros((4,16)), adm_q_q))
+    adm_b = np.hstack((np.zeros((4,24)), adm_q_qpq, np.zeros((4,16)),\
+                       adm_q_qpq, np.zeros((4,8)), adm_q_qpq,\
+                       adm_q_qpq, np.zeros((4,16)), adm_q_q))
 
 
-    adm = np.vstack((adm_ud, adm_us, adm_uc, adm_ub, adm_ds, adm_dc, adm_db, adm_sc, adm_sb, adm_cb, adm_u, adm_d, adm_s, adm_c, adm_b))
+    adm = np.vstack((adm_ud, adm_us, adm_uc, adm_ub, adm_ds,\
+                     adm_dc, adm_db, adm_sc, adm_sb, adm_cb,\
+                     adm_u, adm_d, adm_s, adm_c, adm_b))
 
     if nf == 5:
         return adm
     elif nf == 4:
-        return np.delete(np.delete(adm, np.r_[np.s_[24:32], np.s_[48:56], np.s_[64:80], np.s_[96:100]], 0),\
-                                        np.r_[np.s_[24:32], np.s_[48:56], np.s_[64:80], np.s_[96:100]], 1)
+        return np.delete(np.delete(adm, np.r_[np.s_[24:32], np.s_[48:56],\
+                                              np.s_[64:80], np.s_[96:100]], 0),\
+                                        np.r_[np.s_[24:32], np.s_[48:56],\
+                                              np.s_[64:80], np.s_[96:100]], 1)
     else:
         raise Exception("nf has to be 4 or 5")
 
 
 
 
-def ADT_QCD(nf):
-    """ Return the QCD anomalous dimension tensor for nf flavor EFT, for double insertions of DM-SM and SM-SM operators 
+def ADT_QCD(nf, input_dict=None):
+    """ Return the QCD anomalous dimension tensor for nf flavor EFT,
+        for double insertions of DM-SM and SM-SM operators 
 
     Our basis of operators below the electroweak scale includes a set of 12 dimension-eight operators, 
     with Wilson coefficients for Dirac DM
@@ -425,17 +495,57 @@ def ADT_QCD(nf):
     ['C63u', 'C63d', 'C63s', 'C63c', 'C63b', 'C64u', 'C64d', 'C64s', 'C64c', 'C64b']
 
     and the basis above.
+
+    Arguments
+    ---------
+
+    nf -- the number of active flavors
+
+    input_dict (optional) -- a dictionary of hadronic input parameters
+                            (default is Num_input().input_parameters)
     """
 
+    if input_dict is None:
+        ip = Num_input().input_parameters
+        # One should include a warning in case the dictionary
+        # does not contain all necessary keys
+    else:
+        ip = input_dict
+
     # As input for the quark-mass ratios, we use the quark masses at MZ
-    ip = Num_input()
 
-    mu = ip.mu_at_MZ
-    md = ip.md_at_MZ
-    ms = ip.ms_at_MZ
-    mc = ip.mc_at_MZ
-    mb = ip.mb_at_MZ
+    def mb(mu, mub, muc, nf, loop):
+        return rge.M_Quark_MSbar('b', ip['mb_at_mb'], ip['mb_at_mb'], ip['asMZ'],\
+                                 ip['Mz']).run(mu, {'mbmb': ip['mb_at_mb'], 'mcmc': ip['mc_at_mc']},\
+                                            {'mub': mub, 'muc': muc}, nf, loop)
 
+    def mc(mu, mub, muc, nf, loop):
+        return rge.M_Quark_MSbar('c', ip['mc_at_mc'], ip['mc_at_mc'], ip['asMZ'],\
+                                 ip['Mz']).run(mu, {'mbmb': ip['mb_at_mb'], 'mcmc': ip['mc_at_mc']},\
+                                            {'mub': mub, 'muc': muc}, nf, loop)
+
+    def ms(mu, mub, muc, nf, loop):
+        return rge.M_Quark_MSbar('s', ip['ms_at_2GeV'], 2, ip['asMZ'],\
+                                 ip['Mz']).run(mu, {'mbmb': ip['mb_at_mb'], 'mcmc': ip['mc_at_mc']},\
+                                            {'mub': mub, 'muc': muc}, nf, loop)
+
+    def md(mu, mub, muc, nf, loop):
+        return rge.M_Quark_MSbar('d', ip['md_at_2GeV'], 2, ip['asMZ'],\
+                                 ip['Mz']).run(mu, {'mbmb': ip['mb_at_mb'], 'mcmc': ip['mc_at_mc']},\
+                                            {'mub': mub, 'muc': muc}, nf, loop)
+    
+    def mu(mu, mub, muc, nf, loop):
+        return rge.M_Quark_MSbar('u', ip['mu_at_2GeV'], 2, ip['asMZ'],\
+                                 ip['Mz']).run(mu, {'mbmb': ip['mb_at_mb'], 'mcmc': ip['mc_at_mc']},\
+                                            {'mub': mub, 'muc': muc}, nf, loop)
+    
+    mb = mb(ip['Mz'], ip['mb_at_mb'], ip['mc_at_mc'], 5, 1)
+    mc = mc(ip['Mz'], ip['mb_at_mb'], ip['mc_at_mc'], 5, 1)
+    ms = ms(ip['Mz'], ip['mb_at_mb'], ip['mc_at_mc'], 5, 1)
+    md = md(ip['Mz'], ip['mb_at_mb'], ip['mc_at_mc'], 5, 1)
+    mu = mu(ip['Mz'], ip['mb_at_mb'], ip['mc_at_mc'], 5, 1)
+
+    
     # Create the ADT:
 
     gamma_hat_P63cu_Q81u = np.hstack((np.zeros(3), -48 * mc**2/mu**2, np.zeros(6)))
@@ -482,26 +592,40 @@ def ADT_QCD(nf):
 
 
 
-    gamma_hat_Q81u = np.vstack((np.zeros((19,10)), gamma_hat_P63cu_Q81u, np.zeros((7,10)), gamma_hat_P63bu_Q81u, np.zeros((52,10))))
-    gamma_hat_Q81d = np.vstack((np.zeros((43,10)), gamma_hat_P63cd_Q81d, np.zeros((7,10)), gamma_hat_P63bd_Q81d, np.zeros((28,10))))
-    gamma_hat_Q81s = np.vstack((np.zeros((59,10)), gamma_hat_P63cs_Q81s, np.zeros((7,10)), gamma_hat_P63bs_Q81s, np.zeros((12,10))))
+    gamma_hat_Q81u = np.vstack((np.zeros((19,10)), gamma_hat_P63cu_Q81u,\
+                                np.zeros((7,10)), gamma_hat_P63bu_Q81u, np.zeros((52,10))))
+    gamma_hat_Q81d = np.vstack((np.zeros((43,10)), gamma_hat_P63cd_Q81d,\
+                                np.zeros((7,10)), gamma_hat_P63bd_Q81d, np.zeros((28,10))))
+    gamma_hat_Q81s = np.vstack((np.zeros((59,10)), gamma_hat_P63cs_Q81s,\
+                                np.zeros((7,10)), gamma_hat_P63bs_Q81s, np.zeros((12,10))))
 
-    gamma_hat_Q82u = np.vstack((np.zeros((19,10)), gamma_hat_P63cu_Q82u, np.zeros((7,10)), gamma_hat_P63bu_Q82u, np.zeros((52,10))))
-    gamma_hat_Q82d = np.vstack((np.zeros((43,10)), gamma_hat_P63cd_Q82d, np.zeros((7,10)), gamma_hat_P63bd_Q82d, np.zeros((28,10))))
-    gamma_hat_Q82s = np.vstack((np.zeros((59,10)), gamma_hat_P63cs_Q82s, np.zeros((7,10)), gamma_hat_P63bs_Q82s, np.zeros((12,10))))
+    gamma_hat_Q82u = np.vstack((np.zeros((19,10)), gamma_hat_P63cu_Q82u,\
+                                np.zeros((7,10)), gamma_hat_P63bu_Q82u, np.zeros((52,10))))
+    gamma_hat_Q82d = np.vstack((np.zeros((43,10)), gamma_hat_P63cd_Q82d,\
+                                np.zeros((7,10)), gamma_hat_P63bd_Q82d, np.zeros((28,10))))
+    gamma_hat_Q82s = np.vstack((np.zeros((59,10)), gamma_hat_P63cs_Q82s,\
+                                np.zeros((7,10)), gamma_hat_P63bs_Q82s, np.zeros((12,10))))
 
-    gamma_hat_Q83u = np.vstack((np.zeros((17,10)), gamma_hat_P62uc_Q83u, np.zeros((7,10)), gamma_hat_P62ub_Q83u, np.zeros((54,10))))
-    gamma_hat_Q83d = np.vstack((np.zeros((41,10)), gamma_hat_P62dc_Q83d, np.zeros((7,10)), gamma_hat_P62db_Q83d, np.zeros((30,10))))
-    gamma_hat_Q83s = np.vstack((np.zeros((57,10)), gamma_hat_P62sc_Q83s, np.zeros((7,10)), gamma_hat_P62sb_Q83s, np.zeros((14,10))))
+    gamma_hat_Q83u = np.vstack((np.zeros((17,10)), gamma_hat_P62uc_Q83u,\
+                                np.zeros((7,10)), gamma_hat_P62ub_Q83u, np.zeros((54,10))))
+    gamma_hat_Q83d = np.vstack((np.zeros((41,10)), gamma_hat_P62dc_Q83d,\
+                                np.zeros((7,10)), gamma_hat_P62db_Q83d, np.zeros((30,10))))
+    gamma_hat_Q83s = np.vstack((np.zeros((57,10)), gamma_hat_P62sc_Q83s,\
+                                np.zeros((7,10)), gamma_hat_P62sb_Q83s, np.zeros((14,10))))
 
-    gamma_hat_Q84u = np.vstack((np.zeros((17,10)), gamma_hat_P62uc_Q84u, np.zeros((7,10)), gamma_hat_P62ub_Q84u, np.zeros((54,10))))
-    gamma_hat_Q84d = np.vstack((np.zeros((41,10)), gamma_hat_P62dc_Q84d, np.zeros((7,10)), gamma_hat_P62db_Q84d, np.zeros((30,10))))
-    gamma_hat_Q84s = np.vstack((np.zeros((57,10)), gamma_hat_P62sc_Q84s, np.zeros((7,10)), gamma_hat_P62sb_Q84s, np.zeros((14,10))))
+    gamma_hat_Q84u = np.vstack((np.zeros((17,10)), gamma_hat_P62uc_Q84u,\
+                                np.zeros((7,10)), gamma_hat_P62ub_Q84u, np.zeros((54,10))))
+    gamma_hat_Q84d = np.vstack((np.zeros((41,10)), gamma_hat_P62dc_Q84d,\
+                                np.zeros((7,10)), gamma_hat_P62db_Q84d, np.zeros((30,10))))
+    gamma_hat_Q84s = np.vstack((np.zeros((57,10)), gamma_hat_P62sc_Q84s,\
+                                np.zeros((7,10)), gamma_hat_P62sb_Q84s, np.zeros((14,10))))
 
 
 
-    gamma_hat = np.array([gamma_hat_Q81u, gamma_hat_Q81d, gamma_hat_Q81s, gamma_hat_Q82u, gamma_hat_Q82d, gamma_hat_Q82s,
-                          gamma_hat_Q83u, gamma_hat_Q83d, gamma_hat_Q83s, gamma_hat_Q84u, gamma_hat_Q84d, gamma_hat_Q84s])
+    gamma_hat = np.array([gamma_hat_Q81u, gamma_hat_Q81d, gamma_hat_Q81s,\
+                          gamma_hat_Q82u, gamma_hat_Q82d, gamma_hat_Q82s,\
+                          gamma_hat_Q83u, gamma_hat_Q83d, gamma_hat_Q83s,\
+                          gamma_hat_Q84u, gamma_hat_Q84d, gamma_hat_Q84s])
 
 
     # Return the tensor for given number of active quark flavors
@@ -511,7 +635,8 @@ def ADT_QCD(nf):
     if nf == 5:
         return gamma_hat
     elif nf == 4:
-        return np.delete(np.delete(gamma_hat, np.r_[np.s_[24:32], np.s_[48:56], np.s_[64:80]], 1), [4, 9], 2)
+        return np.delete(np.delete(gamma_hat, np.r_[np.s_[24:32], np.s_[48:56],\
+                                                    np.s_[64:80]], 1), [4, 9], 2)
     else:
         raise Exception("nf has to be 4 or 5")
 
@@ -519,7 +644,8 @@ def ADT_QCD(nf):
 
 
 def ADT_QCD_LEPTON():
-    """ Return the QCD anomalous dimension tensor for nf flavor EFT, for double insertions of DM-SM and SM-SM operators 
+    """ Return the QCD anomalous dimension tensor for nf flavor EFT,
+        for double insertions of DM-SM and SM-SM operators 
 
     Our basis of operators below the electroweak scale includes a set of 12 dimension-eight operators,
     with Wilson coefficients for Dirac DM
@@ -606,27 +732,41 @@ def ADT_QCD_LEPTON():
 
 
 
-    gamma_hat_Q81u = np.vstack((gamma_hat_P63eu_Q81u, gamma_hat_P63muu_Q81u, gamma_hat_P63tauu_Q81u, np.zeros((15,6))))
-    gamma_hat_Q81d = np.vstack((np.zeros((3,6)), gamma_hat_P63ed_Q81d, gamma_hat_P63mud_Q81d, gamma_hat_P63taud_Q81d, np.zeros((12,6))))
-    gamma_hat_Q81s = np.vstack((np.zeros((6,6)), gamma_hat_P63es_Q81s, gamma_hat_P63mus_Q81s, gamma_hat_P63taus_Q81s, np.zeros((9,6))))
+    gamma_hat_Q81u = np.vstack((gamma_hat_P63eu_Q81u, gamma_hat_P63muu_Q81u,\
+                                gamma_hat_P63tauu_Q81u, np.zeros((15,6))))
+    gamma_hat_Q81d = np.vstack((np.zeros((3,6)), gamma_hat_P63ed_Q81d,\
+                                gamma_hat_P63mud_Q81d, gamma_hat_P63taud_Q81d, np.zeros((12,6))))
+    gamma_hat_Q81s = np.vstack((np.zeros((6,6)), gamma_hat_P63es_Q81s,\
+                                gamma_hat_P63mus_Q81s, gamma_hat_P63taus_Q81s, np.zeros((9,6))))
 
-    gamma_hat_Q82u = np.vstack((gamma_hat_P63eu_Q82u, gamma_hat_P63muu_Q82u, gamma_hat_P63tauu_Q82u, np.zeros((15,6))))
-    gamma_hat_Q82d = np.vstack((np.zeros((3,6)), gamma_hat_P63ed_Q82d, gamma_hat_P63mud_Q82d, gamma_hat_P63taud_Q82d, np.zeros((12,6))))
-    gamma_hat_Q82s = np.vstack((np.zeros((6,6)), gamma_hat_P63es_Q82s, gamma_hat_P63mus_Q82s, gamma_hat_P63taus_Q82s, np.zeros((9,6))))
+    gamma_hat_Q82u = np.vstack((gamma_hat_P63eu_Q82u, gamma_hat_P63muu_Q82u,\
+                                gamma_hat_P63tauu_Q82u, np.zeros((15,6))))
+    gamma_hat_Q82d = np.vstack((np.zeros((3,6)), gamma_hat_P63ed_Q82d,\
+                                gamma_hat_P63mud_Q82d, gamma_hat_P63taud_Q82d, np.zeros((12,6))))
+    gamma_hat_Q82s = np.vstack((np.zeros((6,6)), gamma_hat_P63es_Q82s,\
+                                gamma_hat_P63mus_Q82s, gamma_hat_P63taus_Q82s, np.zeros((9,6))))
 
-    gamma_hat_Q83u = np.vstack((np.zeros((9,6)), gamma_hat_P62ue_Q83u, gamma_hat_P62umu_Q83u, gamma_hat_P62utau_Q83u, np.zeros((6,6))))
-    gamma_hat_Q83d = np.vstack((np.zeros((12,6)), gamma_hat_P62de_Q83d, gamma_hat_P62dmu_Q83d, gamma_hat_P62dtau_Q83d, np.zeros((3,6))))
-    gamma_hat_Q83s = np.vstack((np.zeros((15,6)), gamma_hat_P62se_Q83s, gamma_hat_P62smu_Q83s, gamma_hat_P62stau_Q83s))
+    gamma_hat_Q83u = np.vstack((np.zeros((9,6)), gamma_hat_P62ue_Q83u,\
+                                gamma_hat_P62umu_Q83u, gamma_hat_P62utau_Q83u, np.zeros((6,6))))
+    gamma_hat_Q83d = np.vstack((np.zeros((12,6)), gamma_hat_P62de_Q83d,\
+                                gamma_hat_P62dmu_Q83d, gamma_hat_P62dtau_Q83d, np.zeros((3,6))))
+    gamma_hat_Q83s = np.vstack((np.zeros((15,6)), gamma_hat_P62se_Q83s,\
+                                gamma_hat_P62smu_Q83s, gamma_hat_P62stau_Q83s))
 
-    gamma_hat_Q84u = np.vstack((np.zeros((9,6)), gamma_hat_P62ue_Q84u, gamma_hat_P62umu_Q84u, gamma_hat_P62utau_Q84u, np.zeros((6,6))))
-    gamma_hat_Q84d = np.vstack((np.zeros((12,6)), gamma_hat_P62de_Q84d, gamma_hat_P62dmu_Q84d, gamma_hat_P62dtau_Q84d, np.zeros((3,6))))
-    gamma_hat_Q84s = np.vstack((np.zeros((15,6)), gamma_hat_P62se_Q84s, gamma_hat_P62smu_Q84s, gamma_hat_P62stau_Q84s))
+    gamma_hat_Q84u = np.vstack((np.zeros((9,6)), gamma_hat_P62ue_Q84u,\
+                                gamma_hat_P62umu_Q84u, gamma_hat_P62utau_Q84u, np.zeros((6,6))))
+    gamma_hat_Q84d = np.vstack((np.zeros((12,6)), gamma_hat_P62de_Q84d,\
+                                gamma_hat_P62dmu_Q84d, gamma_hat_P62dtau_Q84d, np.zeros((3,6))))
+    gamma_hat_Q84s = np.vstack((np.zeros((15,6)), gamma_hat_P62se_Q84s,\
+                                gamma_hat_P62smu_Q84s, gamma_hat_P62stau_Q84s))
 
 
 
 
-    gamma_hat = np.array([gamma_hat_Q81u, gamma_hat_Q81d, gamma_hat_Q81s, gamma_hat_Q82u, gamma_hat_Q82d, gamma_hat_Q82s,
-                          gamma_hat_Q83u, gamma_hat_Q83d, gamma_hat_Q83s, gamma_hat_Q84u, gamma_hat_Q84d, gamma_hat_Q84s])
+    gamma_hat = np.array([gamma_hat_Q81u, gamma_hat_Q81d, gamma_hat_Q81s,\
+                          gamma_hat_Q82u, gamma_hat_Q82d, gamma_hat_Q82s,\
+                          gamma_hat_Q83u, gamma_hat_Q83d, gamma_hat_Q83s,\
+                          gamma_hat_Q84u, gamma_hat_Q84d, gamma_hat_Q84s])
 
 
     # Return the tensor

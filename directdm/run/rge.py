@@ -8,7 +8,6 @@ from scipy.integrate import odeint
 from scipy.special import zetac
 from scipy.interpolate import interp1d
 from scipy.linalg import expm
-from ..num.num_input import Num_input
 
 
 ### The Riemann Zeta Function
@@ -59,6 +58,15 @@ class QCD_gamma(object):
     def trad(self):
         if self.loop == 1:
             return 8
+
+    def chet(self):
+        """ Conventions as in Chetyrkin, Kuehn, Steinhauser, arXiv:hep-ph/0004189 """
+        if self.loop == 1:
+            return 1
+        if self.loop == 2:
+            return (202/3 - 20/9 * self.nf)/16
+        if self.loop == 3:
+            return (1249 - (2216/27 + 160/3*my_zeta(3)) * self.nf - 140/81 * self.nf**2)/64
 
 
 class AlphaS(object):
@@ -153,6 +161,123 @@ class AlphaS(object):
             as3_muc = self.decouple_down_MSbar(as4_muc, dict_mu['muc'], dict_mh['mcmc'], 4, loop)
             return self.__solve_rge_nf(as3_muc, dict_mu['muc'], mu0, 3, loop)
 
+
+class M_Quark_MSbar(object):
+    """ The running MS-bar quark mass
+
+     Flavor can be one of the following: 'b', 'c', 's', 'd', 'u'
+     It determines the number of thresholds when running the quark mass
+     """
+
+    def __init__(self, flavor, mq_init, mu_init, asMZ, MZ):
+        self.flavor = flavor
+        self.mq_init = mq_init
+        self.mu_init = mu_init
+        self.asMZ = asMZ
+        self.MZ = MZ
+
+    def __dmqdmu(self, mq, mu, alphas_nf_at_mu, nf, loop):
+        if loop == 1:
+            return - 2 * mq / mu * (  QCD_gamma(nf, 1).chet() * (alphas_nf_at_mu/np.pi) )
+        if loop == 2:
+            return - 2 * mq / mu * (  QCD_gamma(nf, 1).chet() * (alphas_nf_at_mu/np.pi)\
+                                    + QCD_gamma(nf, 2).chet() * (alphas_nf_at_mu/np.pi)**2 )
+        if loop == 3:
+            return - 2 * mq / mu * (  QCD_gamma(nf, 1).chet() * (alphas_nf_at_mu/np.pi)\
+                                    + QCD_gamma(nf, 2).chet() * (alphas_nf_at_mu/np.pi)**2\
+                                    + QCD_gamma(nf, 3).chet() * (alphas_nf_at_mu/np.pi)**3 )
+
+    def decouple_down_MSbar(self, ml_at_mu, mu, mh, alphas_nf_at_mu, loop):
+        """ Decoupling of the light SI MSbar quark mass ml from nf to (nf - 1) at scale mu, at heavy quark mass threshold mh = mh(mh).
+        alphas_at_mu should be defined in the nf-flavor scheme
+
+        Input is ml(mu,nf), output is ml(mu,nf-1)
+        """
+        if loop == 1:
+            return ml_at_mu
+        if loop == 2:
+            return ml_at_mu
+        if loop == 3:
+            return ml_at_mu * (1 + (89/432 - 5/36 * np.log(mu**2/mh**2)\
+                                 + 1/12 * np.log(mu**2/mh**2)**2) * (alphas_nf_at_mu/np.pi)**2)
+
+    def decouple_up_MSbar(self, ml_at_mu, mu, mh, alphas_nl_at_mu, loop):
+        """ Decoupling of the light SI MSbar quark mass ml from (nf-1) to nf at scale mu, at heavy quark mass threshold mh = mh(mh).
+        alphas_at_mu should be defined in the (nf-1)-flavor scheme
+
+        Input is ml(mu,nf), output is ml(mu,nf-1)
+        """
+        if loop == 1:
+            return ml_at_mu
+        if loop == 2:
+            return ml_at_mu
+        if loop == 3:
+            return ml_at_mu * (1 - (89/432 - 5/36 * np.log(mu**2/mh**2)\
+                                 + 1/12 * np.log(mu**2/mh**2)**2) * (alphas_nl_at_mu/np.pi)**2)
+
+    def __solve_rge_nf(self, mq_at_mu0, mu0, mu, dict_mh, dict_mu, nf, loop):
+        """The running quark mass
+
+        Run from scale mu0 to scale mu, with nf active flavors
+        """
+        def deriv(mq, mu):
+            return self.__dmqdmu(mq, mu, AlphaS(self.asMZ, self.MZ).run(dict_mh, dict_mu, mu, nf, loop), nf, loop)
+        r = odeint(deriv, mq_at_mu0, np.array([mu0, mu]))
+        return list(r)[1][0]
+
+    def run(self, mu, dict_mh, dict_mu, nf, loop):
+        """The running quark mass
+
+        Run to scale mu, with nf active flavors and automatic decoupling
+        """
+        if self.flavor == 'b':
+            if nf == 5:
+                return self.__solve_rge_nf(self.mq_init, self.mu_init, mu, dict_mh, dict_mu, 5, loop)
+            else:
+                raise Exception("The bottom quark can only run in the 5-flavor theory!")
+
+        if self.flavor == 'c':
+            if nf == 4:
+                return self.__solve_rge_nf(self.mq_init, self.mu_init, mu, dict_mh, dict_mu, 4, loop)
+            elif nf == 5:
+                mc_at_mub_4f = self.__solve_rge_nf(self.mq_init, self.mu_init, dict_mu['mub'],\
+                                                   dict_mh, dict_mu, 4, loop)
+                mc_at_mub_5f = self.decouple_up_MSbar(mc_at_mub_4f, dict_mu['mub'], dict_mh['mbmb'],\
+                                                      AlphaS(self.asMZ, self.MZ).run(dict_mh, dict_mu,\
+                                                                                     dict_mu['mub'], 4, loop), loop)
+                return self.__solve_rge_nf(mc_at_mub_5f, dict_mu['mub'], mu, dict_mh, dict_mu, 5, loop)
+            else:
+                raise Exception("The charm quark can only run in the 4- or 5-flavor theory!")
+
+        if (self.flavor == 's' or self.flavor == 'd' or self.flavor == 'u'):
+            if nf == 3:
+                return self.__solve_rge_nf(self.mq_init, self.mu_init, mu, dict_mh, dict_mu, 3, loop)
+            elif nf == 4:
+                ml_at_muc_3f = self.__solve_rge_nf(self.mq_init, self.mu_init, dict_mu['muc'],\
+                                                   dict_mh, dict_mu, 3, loop)
+                ml_at_muc_4f = self.decouple_up_MSbar(ml_at_muc_3f, dict_mu['muc'], dict_mh['mcmc'],\
+                                                      AlphaS(self.asMZ, self.MZ).run(dict_mh, dict_mu,\
+                                                                                     dict_mu['muc'], 3, loop), loop)
+                return self.__solve_rge_nf(ml_at_muc_4f, dict_mu['muc'], mu, dict_mh, dict_mu, 4, loop)
+            elif nf == 5:
+                ml_at_muc_3f = self.__solve_rge_nf(self.mq_init, self.mu_init, dict_mu['muc'],\
+                                                   dict_mh, dict_mu, 3, loop)
+                ml_at_muc_4f = self.decouple_up_MSbar(ml_at_muc_3f, dict_mu['muc'], dict_mh['mcmc'],\
+                                                      AlphaS(self.asMZ, self.MZ).run(dict_mh, dict_mu,\
+                                                                                     dict_mu['muc'], 3, loop), loop)
+                ml_at_mub_4f = self.__solve_rge_nf(ml_at_muc_4f, dict_mu['muc'],\
+                                                   dict_mu['mub'], dict_mh, dict_mu, 4, loop)
+                ml_at_mub_5f = self.decouple_up_MSbar(ml_at_mub_4f, dict_mu['mub'], dict_mh['mbmb'],\
+                                                      AlphaS(self.asMZ, self.MZ).run(dict_mh, dict_mu,\
+                                                                                     dict_mu['mub'], 4, loop), loop)
+                return self.__solve_rge_nf(ml_at_mub_5f, dict_mu['mub'], mu, dict_mh, dict_mu, 5, loop)
+            else:
+                raise Exception("Running is only defined for 6 >= nf >= 3!")
+
+        else:
+            raise Exception("flavor has to be one of the following: 'b', 'c', 's', 'd', 'u'!")
+
+
 ### Future: class should be CmuQCD, giving the Wilson coefficient at different scales
 
 class RGE(object):
@@ -174,7 +299,7 @@ class RGE(object):
 
 
 class CmuEW(object):
-    def __init__(self, Wilson, ADM, muh, mul, Y, d):
+    def __init__(self, Wilson, ADM, input_dict, initial_mu, muh, mul, Y, d):
         """ Calculate the running of the Wilson coefficients in the unbroken EW theory
 
         The running takes into account the gauge coupling g1, g2, g3,
@@ -182,7 +307,11 @@ class CmuEW(object):
 
         Wilson should be a list of initial conditions for the Wilson coefficients.
 
-        ADM should be a list / array of the eight DM anomalous dimension matrices proportional to g1^2, g2^2, g3^2, ytau^2, yc^2, yb^2, yt^2, lambda.
+        ADM should be a list / array of the eight DM anomalous dimension matrices
+        proportional to g1^2, g2^2, g3^2, ytau^2, yc^2, yb^2, yt^2, lambda.
+
+        input_dict is a dictionary of initial condition of the couplings at scale mu = initial_mu:
+        {'g1': value, 'g2': value, 'gs': value, 'ytau': value, 'yc': value, 'yb': value, 'yt': value, 'lam': value}
 
         muh is the initial scale.
 
@@ -190,6 +319,8 @@ class CmuEW(object):
         """
         self.Wilson = Wilson
         self.ADM = ADM
+        self.input_dict = input_dict
+        self.initial_mu = initial_mu
         self.muh = muh
         self.mul = mul
         self.Y = Y
@@ -197,25 +328,23 @@ class CmuEW(object):
 
         # Input parameters
 
-        ip = Num_input()
+        self.g1   = input_dict['g1']
+        self.g2   = input_dict['g2']
+        self.gs   = input_dict['gs']
+        self.ytau = input_dict['ytau']
+        self.yc   = input_dict['yc']
+        self.yb   = input_dict['yb']
+        self.yt   = input_dict['yt']
+        self.lam  = input_dict['lam']
 
-        self.g1   = ip.g1_at_MZ
-        self.g2   = ip.g2_at_MZ
-        self.gs   = ip.g3_at_MZ
-        self.ytau = ip.ytau_at_MZ
-        self.yc   = ip.yc_at_MZ
-        self.yb   = ip.yb_at_MZ
-        self.yt   = ip.yt_at_MZ
-        self.lam  = ip.lam_at_MZ
-
-        # The initial values of the couplings at MZ
-        self.MZ    = ip.Mz
+        # The initial values of the couplings at mu = initial_mu
         self.ginit = [self.g1, self.g2, self.gs, self.yc, self.ytau, self.yb, self.yt, self.lam]
 
 
     def _dgdmu(self, g, mu, Y, d):
-        """ Calculate the log derivative [i.e. dg/dlog(mu)] of the couplings g1, g2, g3, yc, ytau, yb, yt, lam w.r.t. to mu, at scale mu
-        
+        """ Calculate the log derivative [i.e. dg/dlog(mu)] of the couplings
+            g1, g2, g3, yc, ytau, yb, yt, lam w.r.t. to mu, at scale mu
+
         Take a 8-vector (list) of couplings g = [g1, g2, g3, yc, ytau, yb, yt, lambda]
 
         Take the DM quantum numbers d, Y (so far only 1 multiplet)
@@ -224,7 +353,8 @@ class CmuEW(object):
         """
         N = 1
         # The 8x8 matrix of beta functions (Arason et al., Phys.Rev. D46 (1992) 3945-3965, and our calculation)
-        # Note the different sign and normalization conventions. (g1_Arason = 5/3 * g1_Denner; lambda_Arason = 1/4 * lambda_Denner)
+        # Note the different sign and normalization conventions:
+        # (g1_Arason = 5/3 * g1_Denner; lambda_Arason = 1/4 * lambda_Denner)
 
         # g1, g2, g3, yc, ytau, yb, yt
         g7 = np.array(g[:-1])
@@ -251,20 +381,23 @@ class CmuEW(object):
 
         deriv_list = np.hstack(( np.multiply(g7, np.dot(beta, g7_squared)),\
                                  np.multiply(g[7], np.dot(beta_lam_1[:-1], g7_squared))\
-                                 + beta_lam_1[7]*g[7]**2 + np.dot(g7_squared, np.dot(beta_lam_2, g7_squared)) )) / mu / (4*np.pi)**2
+                                 + beta_lam_1[7]*g[7]**2\
+                                 + np.dot(g7_squared, np.dot(beta_lam_2, g7_squared)) )) / mu / (4*np.pi)**2
 
         return deriv_list
 
     def _alphai(self, g_init, mu_init, mu2, Y, d):
-        """ Calculate the one-loop running of alpha1, alpha2, alpha3, alphac, alphatau, alphab, alphat, lambda in the six-flavor theory
-        
+        """ Calculate the one-loop running of
+            alpha1, alpha2, alpha3, alphac, alphatau, alphab, alphat, lambda
+            in the six-flavor theory
+
         Run from mu_init to mu2. ginit are the couplings defined at scale mu_init.
 
         Take g's as input and return alpha's
         """
 
 
-        # Runge-Kutta:        
+        # Runge-Kutta:
         def deriv(mu, g):
             return self._dgdmu(g, mu, Y, d)
         g0, mu0 = g_init, mu_init
@@ -275,7 +408,8 @@ class CmuEW(object):
 #        r = ode(deriv).set_integrator('dop853')
         r.set_initial_value(g0, mu0)
         solution = r.integrate(r.t+dmu)
-        alpha = np.hstack((np.array(list(map(lambda x: x**2/4/np.pi, solution[:-1]))), np.array([solution[-1]/4/np.pi])))
+        alpha = np.hstack((np.array(list(map(lambda x: x**2/4/np.pi, solution[:-1]))),\
+                           np.array([solution[-1]/4/np.pi])))
 
         return alpha
 
@@ -283,7 +417,8 @@ class CmuEW(object):
     def run(self):
 
         def deriv(mu, C):
-            return sum([np.dot(C,self.ADM[k])*self._alphai(self.ginit, self.MZ, mu, self.Y, self.d)[k]/4/np.pi/mu for k in range(8)])
+            return sum([np.dot(C,self.ADM[k])*self._alphai(self.ginit, self.initial_mu, mu, self.Y,\
+                                                           self.d)[k]/4/np.pi/mu for k in range(8)])
 
         C0, mu0 = self.Wilson, self.muh
         dmu = self.mul - self.muh
