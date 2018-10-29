@@ -16,7 +16,9 @@ The main content of the package are four classes for the Wilson coefficients in 
 A class of Wilson coefficients in the three-flavor scheme.
 
 - Mandatory argument: `coeff_dict`: A `python` dictionary for the initial conditions of the Wilson coefficients, defined at the renormalization scale `mu_c = 2 GeV`. A sample dictionary could look like `{'C61u' : 1./100**2, 'C61d' : 1./100**2}` which would set the coefficients of the dimension-six operators `Q_{1,u}^(6)` and `Q_{1,d}^(6)` to unity, with an EFT scale of 100 GeV. All coefficients that are not specified are set to zero by default. The possible keys for the dictionary depend on the DM type and can be displayed via `ddm.WC_3f({}, DM_type).wc_name_list`.
-- Optional argument: `DM_type`: Specifies the DM type. `DM_type="D"` for Dirac fermion, `DM_type="M"` for Majorana fermion, `DM_type="C"` for complex scalar, and `DM_type="R"` for real scalar DM. The default value is `DM_type="D"`.
+- Optional arguments: 
+    - `DM_type`: Specifies the DM type. `DM_type="D"` for Dirac fermion, `DM_type="M"` for Majorana fermion, `DM_type="C"` for complex scalar, and `DM_type="R"` for real scalar DM. The default value is `DM_type="D"`. 
+    - The user can also specify a dictionary of input parameters, `input_dict`. It should contain keys and values for any subset of the input parameters defined in `num.num_input.Num_input().input_parameters`. The values in this file will be updated by the user-defined values. If no dictionary is given, the built-in values are taken as default.
 
 ### methods:
 
@@ -31,7 +33,9 @@ A class of Wilson coefficients in the three-flavor scheme.
 A class of Wilson coefficients in the four-flavor scheme.
 
 - Mandatory argument: `coeff_dict`: A `python` dictionary for the initial conditions of the Wilson coefficients, defined at the renormalization scale `mu_b = mb(mb)` (the MSbar bottom-quark mass). A sample dictionary could look like `{'C61u' : 1./100**2, 'C61d' : 1./100**2}` which would set the coefficients of the dimension-six operators `Q_{1,u}^(6)` and `Q_{1,d}^(6)` to unity, with an EFT scale of 100 GeV. All coefficients that are not specified are set to zero by default. The possible keys for the dictionary depend on the DM type and can be displayed via `ddm.WC_4f({}, DM_type).wc_name_list`.
-- Optional argument: `DM_type`: Specifies the DM type. `DM_type="D"` for Dirac fermion, `DM_type="M"` for Majorana fermion, `DM_type="C"` for complex scalar, and `DM_type="R"` for real scalar DM. The default value is `DM_type="D"`.
+- Optional arguments:
+    - `DM_type`: Specifies the DM type. `DM_type="D"` for Dirac fermion, `DM_type="M"` for Majorana fermion, `DM_type="C"` for complex scalar, and `DM_type="R"` for real scalar DM. The default value is `DM_type="D"`.
+    - The user can also specify a dictionary of input parameters, `input_dict`. It should contain keys and values for any subset of the input parameters defined in `num.num_input.Num_input().input_parameters`. The values in this file will be updated by the user-defined values. If no dictionary is given, the built-in values are taken as default.
 
 ### methods:
 
@@ -47,7 +51,9 @@ A class of Wilson coefficients in the four-flavor scheme.
 A class of Wilson coefficients in the five-flavor scheme.
 
 - Mandatory argument: `coeff_dict`: A `python` dictionary for the initial conditions of the Wilson coefficients, defined at the renormalization scale `mu_Z = MZ` (the Z-boson mass). A sample dictionary could look like `{'C61u' : 1./100**2, 'C61d' : 1./100**2}` which would set the coefficients of the dimension-six operators `Q_{1,u}^(6)` and `Q_{1,d}^(6)` to unity, with an EFT scale of 100 GeV. All coefficients that are not specified are set to zero by default. The possible keys for the dictionary depend on the DM type and can be displayed via `ddm.WC_5f({}, DM_type).wc_name_list`.
-- Optional argument: `DM_type`: Specifies the DM type. `DM_type="D"` for Dirac fermion, `DM_type="M"` for Majorana fermion, `DM_type="C"` for complex scalar, and `DM_type="R"` for real scalar DM. The default value is `DM_type="D"`.
+- Optional arguments:
+    - `DM_type`: Specifies the DM type. `DM_type="D"` for Dirac fermion, `DM_type="M"` for Majorana fermion, `DM_type="C"` for complex scalar, and `DM_type="R"` for real scalar DM. The default value is `DM_type="D"`.
+    - The user can also specify a dictionary of input parameters, `input_dict`. It should contain keys and values for any subset of the input parameters defined in `num.num_input.Num_input().input_parameters`. The values in this file will be updated by the user-defined values. If no dictionary is given, the built-in values are taken as default.
 
 ### methods:
 
@@ -63,7 +69,9 @@ A class of Wilson coefficients in the five-flavor scheme.
 A class of Wilson coefficients in the five-flavor scheme.
 
 - Mandatory arguments: `coeff_dict`: A `python` dictionary for the initial conditions of the Wilson coefficients, defined at the renormalization scale `mu_Lambda` (see below). A sample dictionary could look like `{'C611' : 1./1000**2, 'C621' : 1./1000**2}` which would set the coefficients of the dimension-six operators `Q_{1,1}^(6)` and `Q_{1,1}^(6)` to unity with an EFT scale of 1 TeV. All coefficients that are not specified are set to zero by default. The possible keys for the dictionary can be displayed via `ddm.WC_EW({}, Ychi, dchi).wc_name_list_dim_5` and `ddm.WC_EW({}, Ychi, dchi).wc_name_list_dim_6`. The arguments `Ychi` and `dchi` give the DM hypercharge and weak isospin, resectively (see [Bishara et al.](https://arxiv.org/abs/1809.03506) for the precise definition). 
-- Optional arguments: `DM_type`: Specifies the DM type. Only `DM_type="D"` for Dirac fermion is currently implemented; other values will lead to the abortion of the program. The default value is `DM_type="D"`.
+- Optional arguments: 
+    -`DM_type`: Specifies the DM type. Only `DM_type="D"` for Dirac fermion is currently implemented; other values will lead to the abortion of the program. The default value is `DM_type="D"`.
+    - The user can also specify a dictionary of input parameters, `input_dict`. It should contain keys and values for any subset of the input parameters defined in `num.num_input.Num_input().input_parameters`. The values in this file will be updated by the user-defined values. If no dictionary is given, the built-in values are taken as default.
 
 ### methods:
 

@@ -5,7 +5,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
 ## [Unreleased]
 ### Changed
+- Input parameters are now given in form of a dictionary that can easily be updated by user-defined input values
+
+### Fixed
 - Corrected typos in `USAGE.md`
+
+### Added
+- Updated `USAGE.md`
 
 ## [2.0.1] - 2018-09-13
 ### Added
