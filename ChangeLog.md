@@ -11,6 +11,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 - Corrected typos in `USAGE.md`
 
 ### Added
+- Running routines for quark masses
 - Updated `USAGE.md`
 
 ## [2.0.1] - 2018-09-13
