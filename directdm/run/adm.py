@@ -512,38 +512,11 @@ def ADT_QCD(nf, input_dict=None):
     else:
         ip = input_dict
 
-    # As input for the quark-mass ratios, we use the quark masses at MZ
-
-    def mb(mu, mub, muc, nf, loop):
-        return rge.M_Quark_MSbar('b', ip['mb_at_mb'], ip['mb_at_mb'], ip['asMZ'],\
-                                 ip['Mz']).run(mu, {'mbmb': ip['mb_at_mb'], 'mcmc': ip['mc_at_mc']},\
-                                            {'mub': mub, 'muc': muc}, nf, loop)
-
-    def mc(mu, mub, muc, nf, loop):
-        return rge.M_Quark_MSbar('c', ip['mc_at_mc'], ip['mc_at_mc'], ip['asMZ'],\
-                                 ip['Mz']).run(mu, {'mbmb': ip['mb_at_mb'], 'mcmc': ip['mc_at_mc']},\
-                                            {'mub': mub, 'muc': muc}, nf, loop)
-
-    def ms(mu, mub, muc, nf, loop):
-        return rge.M_Quark_MSbar('s', ip['ms_at_2GeV'], 2, ip['asMZ'],\
-                                 ip['Mz']).run(mu, {'mbmb': ip['mb_at_mb'], 'mcmc': ip['mc_at_mc']},\
-                                            {'mub': mub, 'muc': muc}, nf, loop)
-
-    def md(mu, mub, muc, nf, loop):
-        return rge.M_Quark_MSbar('d', ip['md_at_2GeV'], 2, ip['asMZ'],\
-                                 ip['Mz']).run(mu, {'mbmb': ip['mb_at_mb'], 'mcmc': ip['mc_at_mc']},\
-                                            {'mub': mub, 'muc': muc}, nf, loop)
-    
-    def mu(mu, mub, muc, nf, loop):
-        return rge.M_Quark_MSbar('u', ip['mu_at_2GeV'], 2, ip['asMZ'],\
-                                 ip['Mz']).run(mu, {'mbmb': ip['mb_at_mb'], 'mcmc': ip['mc_at_mc']},\
-                                            {'mub': mub, 'muc': muc}, nf, loop)
-    
-    mb = mb(ip['Mz'], ip['mb_at_mb'], ip['mc_at_mc'], 5, 1)
-    mc = mc(ip['Mz'], ip['mb_at_mb'], ip['mc_at_mc'], 5, 1)
-    ms = ms(ip['Mz'], ip['mb_at_mb'], ip['mc_at_mc'], 5, 1)
-    md = md(ip['Mz'], ip['mb_at_mb'], ip['mc_at_mc'], 5, 1)
-    mu = mu(ip['Mz'], ip['mb_at_mb'], ip['mc_at_mc'], 5, 1)
+    mb = ip['mb_at_MZ']
+    mc = ip['mc_at_MZ']
+    ms = ip['ms_at_MZ']
+    md = ip['md_at_MZ']
+    mu = ip['mu_at_MZ']
 
     
     # Create the ADT:

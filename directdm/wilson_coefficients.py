@@ -32,7 +32,11 @@ def list_to_dict(wc_list, order_list):
     return wc_dict
     
 
+#--------------------------#
+# Define the default input #
+#--------------------------#
 
+input_dict = Num_input().input_parameters
 
 
 #---------------------------------------------------#
@@ -41,10 +45,11 @@ def list_to_dict(wc_list, order_list):
 
 
 class WC_3f(object):
-    def __init__(self, coeff_dict, DM_type=None, input_dict=None):
+    def __init__(self, coeff_dict, DM_type=None):
         """ Class for Wilson coefficients in 3 flavor QCD x QED plus DM.
 
-        The first argument should be a dictionary for the initial conditions of the 2 + 24 + 4 + 36 + 4 + 48 + 12 = 130 
+        The first argument should be a dictionary for the initial conditions
+        of the 2 + 24 + 4 + 36 + 4 + 48 + 12 = 130 
         dimension-five to dimension-eight three-flavor-QCD Wilson coefficients of the form
         {'C51' : value, 'C52' : value, ...}. 
         An arbitrary number of them can be given; the default values are zero. 
@@ -115,10 +120,6 @@ class WC_3f(object):
 
          'D63eu', 'D63muu', 'D63tauu', 'D63ed', 'D63mud', 'D63taud', 'D63es', 'D63mus', 'D63taus',
          'D62ue', 'D62umu', 'D62utau', 'D62de', 'D62dmu', 'D62dtau', 'D62se', 'D62smu', 'D62stau'
-
-        The third (optional) argument should be a dictionary containing values for (a subset of) 
-        the input parameters defined in Num_input().input_parameters. The user-specified values
-        override the default values. 
 
 
         The class has three methods:
@@ -256,8 +257,7 @@ class WC_3f(object):
 
 
         # The dictionary of input parameters
-        self.input_dict = input_dict
-        self.ip = Num_input(self.input_dict).input_parameters
+        self.ip = input_dict
 
         # The default values for the SM lepton operators:
 
@@ -1669,7 +1669,7 @@ class WC_3f(object):
 
 
 class WC_4f(object):
-    def __init__(self, coeff_dict, DM_type=None, input_dict=None):
+    def __init__(self, coeff_dict, DM_type=None):
         """ Class for Wilson coefficients in 4 flavor QCD x QED plus DM.
 
         The argument should be a dictionary for the initial conditions
@@ -1754,10 +1754,6 @@ class WC_4f(object):
          'D61c', 'D62c', 'D63c', 'D64c' 
 
         The initial conditions at scale mb have to given; e.g. using WC_5f
-
-        The third (optional) argument should be a dictionary containing values for (a subset of) 
-        the input parameters defined in Num_input().input_parameters. The user-specified values
-        override the default values. 
 
 
         The class has four methods: 
@@ -1987,8 +1983,7 @@ class WC_4f(object):
 
 
         # The dictionary of input parameters
-        self.input_dict = input_dict
-        self.ip = Num_input(input_dict).input_parameters
+        self.ip = input_dict
 
 
 
@@ -2235,7 +2230,7 @@ class WC_4f(object):
 
 
 class WC_5f(object):
-    def __init__(self, coeff_dict, DM_type=None, input_dict=None):
+    def __init__(self, coeff_dict, DM_type=None):
         """ Class for Wilson coefficients in 5 flavor QCD x QED plus DM.
 
         The argument should be a dictionary for the initial conditions of the 2 + 32 + 4 + 48 + 4 + 64 + 6 = 160 
@@ -2325,10 +2320,6 @@ class WC_5f(object):
 
          'D63eu', 'D63muu', 'D63tauu', 'D63ed', 'D63mud', 'D63taud', 'D63es', 'D63mus', 'D63taus',
          'D62ue', 'D62umu', 'D62utau', 'D62de', 'D62dmu', 'D62dtau', 'D62se', 'D62smu', 'D62stau'
-
-        The third (optional) argument should be a dictionary containing values for (a subset of) 
-        the input parameters defined in Num_input().input_parameters. The user-specified values
-        override the default values. 
 
 
         The class has four methods: 
@@ -2540,8 +2531,7 @@ class WC_5f(object):
 
 
         # The dictionary of input parameters
-        self.input_dict = input_dict
-        self.ip = Num_input(input_dict).input_parameters
+        self.ip = input_dict
 
         
         # Create the dictionary of Wilson coefficients. 
@@ -3002,7 +2992,7 @@ class WC_5f(object):
 
 
 class WC_EW(object):
-    def __init__(self, coeff_dict, Ychi, dchi, DM_type=None, DM_mass_scale=None, input_dict=None):
+    def __init__(self, coeff_dict, Ychi, dchi, DM_type=None, DM_mass_scale=None):
         """ Class for DM Wilson coefficients in the SM unbroken phase
 
         The first argument should be a dictionary for the initial conditions of the 8 
@@ -3095,11 +3085,6 @@ class WC_EW(object):
         Other DM types might be implemented in the future. 
 
         The second-to-last argument is currently ignored.
-
-        The last (optional) argument should be a dictionary containing values for (a subset of) 
-        the input parameters defined in Num_input().input_parameters. The user-specified values
-        override the default values. 
-
         """
         if DM_type is None:
             DM_type = "D"
@@ -3203,8 +3188,7 @@ class WC_EW(object):
 
 
         # The dictionary of input parameters
-        self.input_dict = input_dict
-        self.ip = Num_input(input_dict).input_parameters
+        self.ip = input_dict
 
 
     #---------#
