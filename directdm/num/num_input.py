@@ -3,6 +3,8 @@
 import sys
 import numpy as np
 import warnings
+from directdm.run import rge
+
 
 #---------------------------------------------------------------------#
 #                                                                     #
@@ -21,7 +23,6 @@ class Num_input(object):
         dictionary 'my_input_dict' which specifies the numerical 
         values of (a subset of) input parameters.
         """
-
 
         self.input_parameters = {}
 
@@ -259,6 +260,68 @@ class Num_input(object):
         # BT10s
         self.input_parameters['BT10s'] = 0.
         self.input_parameters['dBT10s'] = 0.2
+
+
+        ### Dependent parameters ###
+
+        def mb(mu, mub, muc, nf, loop):
+            return rge.M_Quark_MSbar('b', self.input_parameters['mb_at_mb'],\
+                                     self.input_parameters['mb_at_mb'],\
+                                     self.input_parameters['asMZ'],\
+                                     self.input_parameters['Mz']).run(mu,\
+                                                                      {'mbmb': self.input_parameters['mb_at_mb'],\
+                                                                       'mcmc': self.input_parameters['mc_at_mc']},\
+                                                                      {'mub': mub, 'muc': muc}, nf, loop)
+
+        def mc(mu, mub, muc, nf, loop):
+            return rge.M_Quark_MSbar('c', self.input_parameters['mc_at_mc'],\
+                                     self.input_parameters['mc_at_mc'],\
+                                     self.input_parameters['asMZ'],\
+                                     self.input_parameters['Mz']).run(mu,\
+                                                                      {'mbmb': self.input_parameters['mb_at_mb'],\
+                                                                       'mcmc': self.input_parameters['mc_at_mc']},\
+                                                                      {'mub': mub, 'muc': muc}, nf, loop)
+
+        def ms(mu, mub, muc, nf, loop):
+            return rge.M_Quark_MSbar('s', self.input_parameters['ms_at_2GeV'],\
+                                     2, self.input_parameters['asMZ'],\
+                                     self.input_parameters['Mz']).run(mu,\
+                                                                      {'mbmb': self.input_parameters['mb_at_mb'],\
+                                                                       'mcmc': self.input_parameters['mc_at_mc']},\
+                                                                      {'mub': mub, 'muc': muc}, nf, loop)
+
+        def md(mu, mub, muc, nf, loop):
+            return rge.M_Quark_MSbar('d', self.input_parameters['md_at_2GeV'],\
+                                     2, self.input_parameters['asMZ'],\
+                                     self.input_parameters['Mz']).run(mu,\
+                                                                      {'mbmb': self.input_parameters['mb_at_mb'],\
+                                                                       'mcmc': self.input_parameters['mc_at_mc']},\
+                                                                      {'mub': mub, 'muc': muc}, nf, loop)
+
+        def mu(mu, mub, muc, nf, loop):
+            return rge.M_Quark_MSbar('u', self.input_parameters['mu_at_2GeV'],\
+                                     2, self.input_parameters['asMZ'],\
+                                     self.input_parameters['Mz']).run(mu,\
+                                                                      {'mbmb': self.input_parameters['mb_at_mb'],\
+                                                                       'mcmc': self.input_parameters['mc_at_mc']},\
+                                                                      {'mub': mub, 'muc': muc}, nf, loop)
+
+        self.input_parameters['mb_at_MZ'] = mb(self.input_parameters['Mz'],\
+                                               self.input_parameters['mb_at_mb'],\
+                                               self.input_parameters['mc_at_mc'], 5, 1)
+        self.input_parameters['mc_at_MZ'] = mc(self.input_parameters['Mz'],\
+                                               self.input_parameters['mb_at_mb'],\
+                                               self.input_parameters['mc_at_mc'], 5, 1)
+        self.input_parameters['ms_at_MZ'] = ms(self.input_parameters['Mz'],\
+                                               self.input_parameters['mb_at_mb'],\
+                                               self.input_parameters['mc_at_mc'], 5, 1)
+        self.input_parameters['md_at_MZ'] = md(self.input_parameters['Mz'],\
+                                               self.input_parameters['mb_at_mb'],\
+                                               self.input_parameters['mc_at_mc'], 5, 1)
+        self.input_parameters['mu_at_MZ'] = mu(self.input_parameters['Mz'],\
+                                               self.input_parameters['mb_at_mb'],\
+                                               self.input_parameters['mc_at_mc'], 5, 1)
+
 
         if my_input_dict is None:
             pass

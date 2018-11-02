@@ -33,24 +33,23 @@ def list_to_dict(wc_list, order_list):
     
 
 
-
-
 #---------------------------------------------------#
 # Classes for Wilson coefficients at various scales #
 #---------------------------------------------------#
 
 
-class WC_3f(object):
-    def __init__(self, coeff_dict, DM_type=None, input_dict=None):
+class WC_3flavor(object):
+    def __init__(self, coeff_dict, DM_type, input_dict):
         """ Class for Wilson coefficients in 3 flavor QCD x QED plus DM.
 
-        The first argument should be a dictionary for the initial conditions of the 2 + 24 + 4 + 36 + 4 + 48 + 12 = 130 
+        The first argument should be a dictionary for the initial conditions
+        of the 2 + 24 + 4 + 36 + 4 + 48 + 12 = 130 
         dimension-five to dimension-eight three-flavor-QCD Wilson coefficients of the form
         {'C51' : value, 'C52' : value, ...}. 
         An arbitrary number of them can be given; the default values are zero. 
 
-        The second (optional) argument is the DM type; it can take the following values: 
-            "D" (Dirac fermion; this is the default)
+        The second argument is the DM type; it can take the following values: 
+            "D" (Dirac fermion)
             "M" (Majorana fermion)
             "C" (Complex scalar)
             "R" (Real scalar)
@@ -116,9 +115,7 @@ class WC_3f(object):
          'D63eu', 'D63muu', 'D63tauu', 'D63ed', 'D63mud', 'D63taud', 'D63es', 'D63mus', 'D63taus',
          'D62ue', 'D62umu', 'D62utau', 'D62de', 'D62dmu', 'D62dtau', 'D62se', 'D62smu', 'D62stau'
 
-        The third (optional) argument should be a dictionary containing values for (a subset of) 
-        the input parameters defined in Num_input().input_parameters. The user-specified values
-        override the default values. 
+        The third argument is a dictionary with all input parameters.
 
 
         The class has three methods:
@@ -145,8 +142,6 @@ class WC_3f(object):
         to be used in the DMFormFactor package [1308.6288].
 
         """
-        if DM_type is None:
-            DM_type = "D"
         self.DM_type = DM_type
 
         self.sm_lepton_name_list = ['D63eu', 'D63muu', 'D63tauu', 'D63ed', 'D63mud',
@@ -256,8 +251,7 @@ class WC_3f(object):
 
 
         # The dictionary of input parameters
-        self.input_dict = input_dict
-        self.ip = Num_input(self.input_dict).input_parameters
+        self.ip = input_dict
 
         # The default values for the SM lepton operators:
 
@@ -350,13 +344,15 @@ class WC_3f(object):
             self.gamma_QED2 = np.delete(np.delete(adm.ADM_QED2(3), del_ind_list, 0), del_ind_list, 1)
             self.gamma_QCD = np.delete(np.delete(adm.ADM_QCD(3), del_ind_list, 1), del_ind_list, 2)
             self.gamma_QCD2 = np.delete(np.delete(adm.ADM_QCD2(3), del_ind_list, 1), del_ind_list, 2)
-            self.gamma_QCD_dim8 = np.delete(np.delete(adm.ADM_QCD_dim8(3), del_ind_list_dim_8, 0), del_ind_list_dim_8, 1)
+            self.gamma_QCD_dim8 = np.delete(np.delete(adm.ADM_QCD_dim8(3), del_ind_list_dim_8, 0),\
+                                            del_ind_list_dim_8, 1)
         if self.DM_type == "C":
             self.gamma_QED = np.delete(np.delete(adm.ADM_QED(3), del_ind_list, 0), del_ind_list, 1)
             self.gamma_QED2 = np.delete(np.delete(adm.ADM_QED2(3), del_ind_list, 0), del_ind_list, 1)
             self.gamma_QCD = np.delete(np.delete(adm.ADM_QCD(3), del_ind_list, 1), del_ind_list, 2)
             self.gamma_QCD2 = np.delete(np.delete(adm.ADM_QCD2(3), del_ind_list, 1), del_ind_list, 2)
-            self.gamma_QCD_dim8 = np.delete(np.delete(adm.ADM_QCD_dim8(3), del_ind_list_dim_8, 0), del_ind_list_dim_8, 1)
+            self.gamma_QCD_dim8 = np.delete(np.delete(adm.ADM_QCD_dim8(3), del_ind_list_dim_8, 0),\
+                                            del_ind_list_dim_8, 1)
         if self.DM_type == "R":
             self.gamma_QED = np.delete(np.delete(adm.ADM_QED(3), del_ind_list, 0), del_ind_list, 1)
             self.gamma_QED2 = np.delete(np.delete(adm.ADM_QED2(3), del_ind_list, 0), del_ind_list, 1)
@@ -1668,8 +1664,8 @@ class WC_3f(object):
 
 
 
-class WC_4f(object):
-    def __init__(self, coeff_dict, DM_type=None, input_dict=None):
+class WC_4flavor(object):
+    def __init__(self, coeff_dict, DM_type, input_dict):
         """ Class for Wilson coefficients in 4 flavor QCD x QED plus DM.
 
         The argument should be a dictionary for the initial conditions
@@ -1679,7 +1675,7 @@ class WC_4f(object):
         An arbitrary number of them can be given; the default values are zero. 
 
         The second argument is the DM type; it can take the following values: 
-            "D" (Dirac fermion; this is the default)
+            "D" (Dirac fermion)
             "M" (Majorana fermion)
             "C" (Complex scalar)
             "R" (Real scalar)
@@ -1755,9 +1751,7 @@ class WC_4f(object):
 
         The initial conditions at scale mb have to given; e.g. using WC_5f
 
-        The third (optional) argument should be a dictionary containing values for (a subset of) 
-        the input parameters defined in Num_input().input_parameters. The user-specified values
-        override the default values. 
+        The third argument is a dictionary with all input parameters.
 
 
         The class has four methods: 
@@ -1782,8 +1776,6 @@ class WC_4f(object):
         Writes an output file that can be loaded into mathematica, 
         to be used in the DMFormFactor package [1308.6288].
         """
-        if DM_type is None:
-            DM_type = "D"
         self.DM_type = DM_type
 
 
@@ -1987,8 +1979,7 @@ class WC_4f(object):
 
 
         # The dictionary of input parameters
-        self.input_dict = input_dict
-        self.ip = Num_input(input_dict).input_parameters
+        self.ip = input_dict
 
 
 
@@ -2210,11 +2201,11 @@ class WC_4f(object):
 
         (mainly for internal use)
         """
-        return WC_3f(self.match(RGE, double_QCD), self.DM_type, self.input_dict)._my_cNR(DM_mass, RGE, NLO)
+        return WC_3flavor(self.match(RGE, double_QCD), self.DM_type, self.ip)._my_cNR(DM_mass, RGE, NLO)
 
     def cNR(self, DM_mass, qvec, RGE=None, NLO=None, double_QCD=None):
         """ Calculate the NR coefficients from four-flavor theory """
-        return WC_3f(self.match(RGE, double_QCD), self.DM_type, self.input_dict).cNR(DM_mass, qvec, RGE, NLO)
+        return WC_3flavor(self.match(RGE, double_QCD), self.DM_type, self.ip).cNR(DM_mass, qvec, RGE, NLO)
 
     def write_mma(self, DM_mass, qvec, RGE=None, NLO=None, double_QCD=None, path=None, filename=None):
         """ Write a text file with the NR coefficients that can be read into DMFormFactor 
@@ -2228,14 +2219,15 @@ class WC_4f(object):
 
         <filename> is the filename (default 'cNR.m')
         """
-        WC_3f(self.match(RGE, double_QCD), self.DM_type,\
-              self.input_dict).write_mma(DM_mass, qvec, RGE, NLO, path, filename)
+        WC_3flavor(self.match(RGE, double_QCD), self.DM_type,\
+                   self.ip).write_mma(DM_mass, qvec, RGE, NLO, path, filename)
 
 
 
 
-class WC_5f(object):
-    def __init__(self, coeff_dict, DM_type=None, input_dict=None):
+class WC_5flavor(object):
+    def __init__(self, coeff_dict, DM_type, input_dict=None):
+#    def __init__(self, coeff_dict, DM_type):
         """ Class for Wilson coefficients in 5 flavor QCD x QED plus DM.
 
         The argument should be a dictionary for the initial conditions of the 2 + 32 + 4 + 48 + 4 + 64 + 6 = 160 
@@ -2245,7 +2237,7 @@ class WC_5f(object):
         The possible name are (with an hopefully obvious notation):
 
         The second argument is the DM type; it can take the following values: 
-            "D" (Dirac fermion; this is the default)
+            "D" (Dirac fermion)
             "M" (Majorana fermion)
             "C" (Complex scalar)
             "R" (Real scalar)
@@ -2326,9 +2318,7 @@ class WC_5f(object):
          'D63eu', 'D63muu', 'D63tauu', 'D63ed', 'D63mud', 'D63taud', 'D63es', 'D63mus', 'D63taus',
          'D62ue', 'D62umu', 'D62utau', 'D62de', 'D62dmu', 'D62dtau', 'D62se', 'D62smu', 'D62stau'
 
-        The third (optional) argument should be a dictionary containing values for (a subset of) 
-        the input parameters defined in Num_input().input_parameters. The user-specified values
-        override the default values. 
+        The third argument is a dictionary with all input parameters.
 
 
         The class has four methods: 
@@ -2354,8 +2344,6 @@ class WC_5f(object):
         to be used in the DMFormFactor package [1308.6288].
         """
 
-        if DM_type is None:
-            DM_type = "D"
         self.DM_type = DM_type
 
         # First, we define a standard ordering for the Wilson coefficients, so that we can use arrays
@@ -2540,10 +2528,12 @@ class WC_5f(object):
 
 
         # The dictionary of input parameters
-        self.input_dict = input_dict
-        self.ip = Num_input(input_dict).input_parameters
+        self.ip = input_dict
+        # if input_dict is None:
+        #     self.ip = Num_input().input_parameters
+        # else:
+        #     self.ip = Num_input(input_dict).input_parameters
 
-        
         # Create the dictionary of Wilson coefficients. 
         #
         # First, the default values (0 for DM operators, SM values for SM operators):
@@ -2967,13 +2957,13 @@ class WC_5f(object):
 
         (mainly for internal use) 
         """
-        return WC_4f(self.match(RGE, double_QCD), self.DM_type,\
-                     self.input_dict)._my_cNR(DM_mass, RGE, NLO, double_QCD)
+        return WC_4flavor(self.match(RGE, double_QCD), self.DM_type,\
+                     self.ip)._my_cNR(DM_mass, RGE, NLO, double_QCD)
 
     def cNR(self, DM_mass, qvec, RGE=None, NLO=None, double_QCD=None):
         """ Calculate the NR coefficients from four-flavor theory """
-        return WC_4f(self.match(RGE, double_QCD), self.DM_type,\
-                     self.input_dict).cNR(DM_mass, qvec, RGE, NLO, double_QCD)
+        return WC_4flavor(self.match(RGE, double_QCD), self.DM_type,\
+                     self.ip).cNR(DM_mass, qvec, RGE, NLO, double_QCD)
 
     def write_mma(self, DM_mass, qvec, RGE=None, NLO=None, double_QCD=None, path=None, filename=None):
         """ Write a text file with the NR coefficients that can be read into DMFormFactor 
@@ -2987,8 +2977,8 @@ class WC_5f(object):
 
         <filename> is the filename (default 'cNR.m')
         """
-        WC_4f(self.match(RGE, double_QCD), self.DM_type,\
-                     self.input_dict).write_mma(DM_mass, qvec, RGE, NLO, double_QCD, path, filename)
+        WC_4flavor(self.match(RGE, double_QCD), self.DM_type,\
+                   self.ip).write_mma(DM_mass, qvec, RGE, NLO, double_QCD, path, filename)
 
 
 
@@ -3001,8 +2991,8 @@ class WC_5f(object):
 #-----------------------------#
 
 
-class WC_EW(object):
-    def __init__(self, coeff_dict, Ychi, dchi, DM_type=None, DM_mass_scale=None, input_dict=None):
+class WilCo_EW(object):
+    def __init__(self, coeff_dict, Ychi, dchi, DM_type, input_dict):
         """ Class for DM Wilson coefficients in the SM unbroken phase
 
         The first argument should be a dictionary for the initial conditions of the 8 
@@ -3090,19 +3080,13 @@ class WC_EW(object):
 
         Ychi is the DM hypercharge such that Q = I^3 + Y/2
 
-        The third-to-last (optional) argument is the DM type; it can only take the following value: 
-            "D" (Dirac fermion; this is the default)
+        The second-to-last argument is the DM type; it can only take the following value: 
+            "D" (Dirac fermion)
         Other DM types might be implemented in the future. 
 
-        The second-to-last argument is currently ignored.
-
-        The last (optional) argument should be a dictionary containing values for (a subset of) 
-        the input parameters defined in Num_input().input_parameters. The user-specified values
-        override the default values. 
+        The last argument is a dictionary with all input parameters.
 
         """
-        if DM_type is None:
-            DM_type = "D"
         self.DM_type = DM_type
 
         self.Ychi = Ychi
@@ -3203,8 +3187,7 @@ class WC_EW(object):
 
 
         # The dictionary of input parameters
-        self.input_dict = input_dict
-        self.ip = Num_input(input_dict).input_parameters
+        self.ip = input_dict
 
 
     #---------#
@@ -4062,13 +4045,13 @@ class WC_EW(object):
 
         (mainly for internal use)
         """
-        return WC_5f(self.match(DM_mass, mu_Lambda, DM_mass_threshold, RUN_EW, DIM4),\
-                     self.DM_type, self.input_dict)._my_cNR(self.DM_mass_phys, RGE, NLO)
+        return WC_5flavor(self.match(DM_mass, mu_Lambda, DM_mass_threshold, RUN_EW, DIM4),\
+                          self.DM_type, self.ip)._my_cNR(self.DM_mass_phys, RGE, NLO)
 
     def cNR(self, DM_mass, qvec, mu_Lambda, RGE=None, NLO=None, DM_mass_threshold=None, RUN_EW=None, DIM4=None):
         """ Calculate the NR coefficients from four-flavor theory """
-        return WC_5f(self.match(DM_mass, mu_Lambda, DM_mass_threshold, RUN_EW, DIM4),\
-                     self.DM_type, self.input_dict).cNR(DM_mass, qvec, RGE, NLO)
+        return WC_5flavor(self.match(DM_mass, mu_Lambda, DM_mass_threshold, RUN_EW, DIM4),\
+                          self.DM_type, self.ip).cNR(DM_mass, qvec, RGE, NLO)
 
     def write_mma(self, DM_mass, qvec, mu_Lambda, RGE=None, NLO=None,\
                   DM_mass_threshold=None, RUN_EW=None, DIM4=None, path=None, filename=None):
@@ -4083,8 +4066,8 @@ class WC_EW(object):
 
         <filename> is the filename (default 'cNR.m')
         """
-        WC_5f(self.match(DM_mass, mu_Lambda, DM_mass_threshold, RUN_EW, DIM4),\
-              self.DM_type, self.input_dict).write_mma(DM_mass, qvec, RGE, NLO, path, filename)
+        WC_5flavor(self.match(DM_mass, mu_Lambda, DM_mass_threshold, RUN_EW, DIM4),\
+                   self.DM_type, self.ip).write_mma(DM_mass, qvec, RGE, NLO, path, filename)
 
 
 
