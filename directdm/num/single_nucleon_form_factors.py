@@ -472,8 +472,8 @@ class FGtilde(object):
                                               + ip['Deltadp']/ip['md_at_2GeV']\
                                               + ip['Deltas']/ip['ms_at_2GeV'])
         if self.nucleon == 'n':
-            return -self.mN * self.mtilde * (ip['Deltaup']/ip['mu_at_2GeV']\
-                                              + ip['Deltadp']/ip['md_at_2GeV']\
+            return -self.mN * self.mtilde * (ip['Deltaun']/ip['mu_at_2GeV']\
+                                              + ip['Deltadn']/ip['md_at_2GeV']\
                                               + ip['Deltas']/ip['ms_at_2GeV'])
 
     def value_pion_pole(self):
