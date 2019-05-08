@@ -3,6 +3,19 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
+## [Unreleased]
+### Changed
+- Input parameters are now given in form of a dictionary that can easily be updated by user-defined input values
+
+### Fixed
+- Corrected typos in `USAGE.md`
+- Corrected typo in FGtilde form factor
+
+### Added
+- Running routines for quark masses
+- Added module `dm_eft.py` containing "wrapper" classes that provide user-updated input to Wilson coefficient classes.
+- Updated `USAGE.md`
+
 ## [2.0.1] - 2018-09-13
 ### Added
 - File `USAGE.md` with basic explanation of relevant classes
