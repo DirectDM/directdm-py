@@ -507,3 +507,56 @@ class FGtilde(object):
                 * (1/ip['mu_at_2GeV'] + 1/ip['md_at_2GeV'] - 2/ip['ms_at_2GeV']) / 6
 
 
+class FTwist2:
+    def __init__(self, flavor, nucleon, input_dict=None):
+        """ The twist-two nuclear form factors
+        
+        Return the twist-two nuclear form factors
+
+        Arguments
+        ---------
+        flavor = 'u', 'd', 's', 'g' -- the "quark" flavor (up, down, strange, or gluon contribution)
+
+        nucleon = 'p', 'n' -- the nucleon (proton or neutron)
+
+        input_dict (optional) -- a dictionary of hadronic input parameters
+                                 (default is Num_input().input_parameters)
+        """
+
+        self.flavor = flavor
+        self.nucleon = nucleon
+
+        if input_dict is None:
+            self.input_dict = Num_input().input_parameters
+            # One should include a warning in case the dictionary
+            # does not contain all necessary keys
+        else:
+            self.input_dict = input_dict
+
+    def value_zero_mom(self):
+        """ Return the value of the form factor at zero momentum transfer """
+
+        ip = self.input_dict
+        self.mp = ip['mproton']
+        self.mn = ip['mneutron']
+
+        if self.nucleon == 'p':
+            if self.flavor == 'u':
+                return 3/4 * self.mp * ip['f2up']
+            if self.flavor == 'd':
+                return 3/4 * self.mp * ip['f2dp']
+            if self.flavor == 's':
+                return 3/4 * self.mp * ip['f2sp']
+            if self.flavor == 'g':
+                return 3/4 * self.mp * ip['f2g']
+        if self.nucleon == 'n':
+            if self.flavor == 'u':
+                return 3/4 * self.mn * ip['f2un']
+            if self.flavor == 'd':
+                return 3/4 * self.mn * ip['f2dn']
+            if self.flavor == 's':
+                return 3/4 * self.mn * ip['f2sn']
+            if self.flavor == 'g':
+                return 3/4 * self.mn * ip['f2g']
+
+

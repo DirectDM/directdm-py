@@ -43,7 +43,7 @@ class WC_3flavor(object):
         """ Class for Wilson coefficients in 3 flavor QCD x QED plus DM.
 
         The first argument should be a dictionary for the initial conditions
-        of the 2 + 24 + 4 + 36 + 4 + 48 + 12 = 130 
+        of the 2 + 24 + 4 + 36 + 4 + 48 + 6 + 1 + 12 = 137 
         dimension-five to dimension-eight three-flavor-QCD Wilson coefficients of the form
         {'C51' : value, 'C52' : value, ...}. 
         An arbitrary number of them can be given; the default values are zero. 
@@ -56,26 +56,28 @@ class WC_3flavor(object):
 
         The possible names are (with an hopefully obvious notation):
 
-        Dirac fermion:       'C51', 'C52', 'C61u', 'C61d', 'C61s', 'C61e', 'C61mu', 'C61tau', 
+        Dirac fermion:       'C51', 'C52', 'C61u', 'C61d', 'C61s', 'C61e', 'C61mu', 'C61tau',
                              'C62u', 'C62d', 'C62s', 'C62e', 'C62mu', 'C62tau',
-                             'C63u', 'C63d', 'C63s', 'C63e', 'C63mu', 'C63tau', 
+                             'C63u', 'C63d', 'C63s', 'C63e', 'C63mu', 'C63tau',
                              'C64u', 'C64d', 'C64s', 'C64e', 'C64mu', 'C64tau',
                              'C71', 'C72', 'C73', 'C74',
-                             'C75u', 'C75d', 'C75s', 'C75e', 'C75mu', 'C75tau', 
+                             'C75u', 'C75d', 'C75s', 'C75e', 'C75mu', 'C75tau',
                              'C76u', 'C76d', 'C76s', 'C76e', 'C76mu', 'C76tau',
-                             'C77u', 'C77d', 'C77s', 'C77e', 'C77mu', 'C77tau', 
+                             'C77u', 'C77d', 'C77s', 'C77e', 'C77mu', 'C77tau',
                              'C78u', 'C78d', 'C78s', 'C78e', 'C78mu', 'C78tau',
-                             'C79u', 'C79d', 'C79s', 'C79e', 'C79mu', 'C79tau', 
+                             'C79u', 'C79d', 'C79s', 'C79e', 'C79mu', 'C79tau',
                              'C710u', 'C710d', 'C710s', 'C710e', 'C710mu', 'C710tau',
                              'C711', 'C712', 'C713', 'C714',
-                             'C715u', 'C715d', 'C715s', 'C715e', 'C715mu', 'C715tau', 
+                             'C715u', 'C715d', 'C715s', 'C715e', 'C715mu', 'C715tau',
                              'C716u', 'C716d', 'C716s', 'C716e', 'C716mu', 'C716tau',
-                             'C717u', 'C717d', 'C717s', 'C717e', 'C717mu', 'C717tau', 
+                             'C717u', 'C717d', 'C717s', 'C717e', 'C717mu', 'C717tau',
                              'C718u', 'C718d', 'C718s', 'C718e', 'C718mu', 'C718tau',
-                             'C719u', 'C719d', 'C719s', 'C719e', 'C719mu', 'C719tau', 
-                             'C720u', 'C720d', 'C720s', 'C720e', 'C720mu', 'C720tau', 
-                             'C721u', 'C721d', 'C721s', 'C721e', 'C721mu', 'C721tau', 
-                             'C722u', 'C722d', 'C722s', 'C722e', 'C722mu', 'C722tau' 
+                             'C719u', 'C719d', 'C719s', 'C719e', 'C719mu', 'C719tau',
+                             'C720u', 'C720d', 'C720s', 'C720e', 'C720mu', 'C720tau',
+                             'C721u', 'C721d', 'C721s', 'C721e', 'C721mu', 'C721tau',
+                             'C722u', 'C722d', 'C722s', 'C722e', 'C722mu', 'C722tau',
+                             'C723u', 'C723d', 'C723s', 'C723e', 'C723mu', 'C723tau',
+                             'C725',
                              'C81u', 'C81d', 'C81s', 'C82u', 'C82d', 'C82s'
                              'C83u', 'C83d', 'C83s', 'C84u', 'C84d', 'C84s'
 
@@ -98,11 +100,15 @@ class WC_3flavor(object):
                              'C63u', 'C63d', 'C63s', 'C63e', 'C63mu', 'C63tau', 
                              'C64u', 'C64d', 'C64s', 'C64e', 'C64mu', 'C64tau',
                              'C65', 'C66', 'C67', 'C68' 
-                             'C81u', 'C81d', 'C81s', 'C82u', 'C82d', 'C82s'
+                             'C81u', 'C81d', 'C81s', 'C82u', 'C82d', 'C82s',
+                             'C69u', 'C69d', 'C69s', 'C69e', 'C69mu', 'C69tau', 
+                             'C610'
 
         Real Scalar:         'C63u', 'C63d', 'C63s', 'C63e', 'C63mu', 'C63tau', 
                              'C64u', 'C64d', 'C64s', 'C64e', 'C64mu', 'C64tau',
-                             'C65', 'C66', 'C67', 'C68'
+                             'C65', 'C66', 'C67', 'C68',
+                             'C69u', 'C69d', 'C69s', 'C69e', 'C69mu', 'C69tau', 
+                             'C610'
 
         (the notation corresponds to the numbering in 1707.06998, 1801.04240).
         The Wilson coefficients should be specified in the MS-bar scheme at 2 GeV.
@@ -169,7 +175,9 @@ class WC_3flavor(object):
                                  'C719u', 'C719d', 'C719s', 'C719e', 'C719mu', 'C719tau',
                                  'C720u', 'C720d', 'C720s', 'C720e', 'C720mu', 'C720tau', 
                                  'C721u', 'C721d', 'C721s', 'C721e', 'C721mu', 'C721tau',
-                                 'C722u', 'C722d', 'C722s', 'C722e', 'C722mu', 'C722tau']
+                                 'C722u', 'C722d', 'C722s', 'C722e', 'C722mu', 'C722tau',
+                                 'C723u', 'C723d', 'C723s', 'C723e', 'C723mu', 'C723tau',
+                                 'C725']
 
             self.wc8_name_list = ['C81u', 'C81d', 'C81s', 'C82u', 'C82d', 'C82s',
                                   'C83u', 'C83d', 'C83s', 'C84u', 'C84d', 'C84s']
@@ -186,7 +194,9 @@ class WC_3flavor(object):
                                  'C715u', 'C715d', 'C715s', 'C715e', 'C715mu', 'C715tau',
                                  'C716u', 'C716d', 'C716s', 'C716e', 'C716mu', 'C716tau',
                                  'C717u', 'C717d', 'C717s', 'C717e', 'C717mu', 'C717tau',
-                                 'C718u', 'C718d', 'C718s', 'C718e', 'C718mu', 'C718tau']
+                                 'C718u', 'C718d', 'C718s', 'C718e', 'C718mu', 'C718tau',
+                                 'C723u', 'C723d', 'C723s', 'C723e', 'C723mu', 'C723tau',
+                                 'C725']
 
             self.wc8_name_list = ['C82u', 'C82d', 'C82s', 'C84u', 'C84d', 'C84s']
 
@@ -201,7 +211,9 @@ class WC_3flavor(object):
                                  'C65', 'C66',
                                  'C63u', 'C63d', 'C63s', 'C63e', 'C63mu', 'C63tau', 
                                  'C64u', 'C64d', 'C64s', 'C64e', 'C64mu', 'C64tau',
-                                 'C67', 'C68']
+                                 'C67', 'C68',
+                                 'C69u', 'C69d', 'C69s', 'C69e', 'C69mu', 'C69tau', 
+                                 'C610']
 
             self.wc8_name_list = ['C81u', 'C81d', 'C81s', 'C82u', 'C82d', 'C82s']
 
@@ -215,7 +227,9 @@ class WC_3flavor(object):
             self.wc_name_list = ['C65', 'C66',
                                  'C63u', 'C63d', 'C63s', 'C63e', 'C63mu', 'C63tau', 
                                  'C64u', 'C64d', 'C64s', 'C64e', 'C64mu', 'C64tau',
-                                 'C67', 'C68']
+                                 'C67', 'C68',
+                                 'C69u', 'C69d', 'C69s', 'C69e', 'C69mu', 'C69tau', 
+                                 'C610']
 
             self.wc8_name_list = []
 
@@ -566,6 +580,17 @@ class WC_3flavor(object):
         FT1dn = FT1('d', 'n', self.ip).value_zero_mom()
         FT1sn = FT1('s', 'n', self.ip).value_zero_mom()
 
+        FTW2up = FTwist2('u', 'p', self.ip).value_zero_mom()
+        FTW2dp = FTwist2('d', 'p', self.ip).value_zero_mom()
+        FTW2sp = FTwist2('s', 'p', self.ip).value_zero_mom()
+
+        FTW2gp = FTwist2('g', 'p', self.ip).value_zero_mom()
+
+        FTW2un = FTwist2('u', 'n', self.ip).value_zero_mom()
+        FTW2dn = FTwist2('d', 'n', self.ip).value_zero_mom()
+        FTW2sn = FTwist2('s', 'n', self.ip).value_zero_mom()
+
+        FTW2gn = FTwist2('g', 'n', self.ip).value_zero_mom()
 
         ### The coefficients ###
         #
@@ -625,7 +650,11 @@ class WC_3flavor(object):
                       + FGp*c3mu_dict['C71']\
                       + FSup*c3mu_dict['C75u'] + FSdp*c3mu_dict['C75d'] + FSsp*c3mu_dict['C75s']\
                       - alpha/(2*np.pi*DM_mass)*c3mu_dict['C51']\
-                      + 2*DM_mass * (F1up*c3mu_dict['C715u'] + F1dp*c3mu_dict['C715d'] + F1sp*c3mu_dict['C715s']),
+                      + 2*DM_mass * (F1up*c3mu_dict['C715u'] + F1dp*c3mu_dict['C715d'] + F1sp*c3mu_dict['C715s'])\
+                      + FTW2up*c3mu_dict['C723u']\
+                      + FTW2dp*c3mu_dict['C723d']\
+                      + FTW2sp*c3mu_dict['C723s']\
+                      + FTW2gp*c3mu_dict['C725'],
             'cNR2p' : 0,
             'cNR3p' : 0,
             'cNR4p' : - 4*(  FAup*(c3mu_dict['C64u'] - np.sqrt(2)*GF*mu**2 / gs2_2GeV * c3mu_dict['C84u'])\
@@ -829,7 +858,11 @@ class WC_3flavor(object):
                               * c3mu_dict['C63tau'] * c3mu_dict['D63tauu'])\
                       + F1dn*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
                               * c3mu_dict['C63tau'] * c3mu_dict['D63taud'])\
-                      + 2*DM_mass * (F1un*c3mu_dict['C715u'] + F1dn*c3mu_dict['C715d'] + F1sn*c3mu_dict['C715s']),
+                      + 2*DM_mass * (F1un*c3mu_dict['C715u'] + F1dn*c3mu_dict['C715d'] + F1sn*c3mu_dict['C715s'])\
+                      + FTW2un*c3mu_dict['C723u']\
+                      + FTW2dn*c3mu_dict['C723d']\
+                      + FTW2sn*c3mu_dict['C723s']\
+                      + FTW2gn*c3mu_dict['C725'],
             'cNR2n' : 0,
             'cNR3n' : 0,
             'cNR4n' : - 4*(  FAun*(c3mu_dict['C64u'] - np.sqrt(2)*GF*mu**2 / gs2_2GeV * c3mu_dict['C84u'])\
@@ -1669,7 +1702,7 @@ class WC_4flavor(object):
         """ Class for Wilson coefficients in 4 flavor QCD x QED plus DM.
 
         The argument should be a dictionary for the initial conditions
-        of the 2 + 28 + 4 + 42 + 4 + 56 + 6 = 142 dimension-five to dimension-eight
+        of the 2 + 28 + 4 + 42 + 4 + 56 + 7 + 1 + 6 = 150 dimension-five to dimension-eight
         four-flavor-QCD Wilson coefficients (for Dirac DM) of the form
         {'C51' : value, 'C52' : value, ...}. For other DM types there are less coefficients.
         An arbitrary number of them can be given; the default values are zero. 
@@ -1682,26 +1715,28 @@ class WC_4flavor(object):
 
         The possible name are (with an hopefully obvious notation):
 
-        Dirac fermion:       'C51', 'C52', 'C61u', 'C61d', 'C61s', 'C61c', 'C61e', 'C61mu', 'C61tau', 
+        Dirac fermion:       'C51', 'C52', 'C61u', 'C61d', 'C61s', 'C61c', 'C61e', 'C61mu', 'C61tau',
                              'C62u', 'C62d', 'C62s', 'C62c', 'C62e', 'C62mu', 'C62tau',
-                             'C63u', 'C63d', 'C63s', 'C63c', 'C63e', 'C63mu', 'C63tau', 
+                             'C63u', 'C63d', 'C63s', 'C63c', 'C63e', 'C63mu', 'C63tau',
                              'C64u', 'C64d', 'C64s', 'C64c', 'C64e', 'C64mu', 'C64tau',
                              'C71', 'C72', 'C73', 'C74',
-                             'C75u', 'C75d', 'C75s', 'C75c', 'C75e', 'C75mu', 'C75tau', 
+                             'C75u', 'C75d', 'C75s', 'C75c', 'C75e', 'C75mu', 'C75tau',
                              'C76u', 'C76d', 'C76s', 'C76c', 'C76e', 'C76mu', 'C76tau',
-                             'C77u', 'C77d', 'C77s', 'C77c', 'C77e', 'C77mu', 'C77tau', 
+                             'C77u', 'C77d', 'C77s', 'C77c', 'C77e', 'C77mu', 'C77tau',
                              'C78u', 'C78d', 'C78s', 'C78c', 'C78e', 'C78mu', 'C78tau',
-                             'C79u', 'C79d', 'C79s', 'C79c', 'C79e', 'C79mu', 'C79tau', 
+                             'C79u', 'C79d', 'C79s', 'C79c', 'C79e', 'C79mu', 'C79tau',
                              'C710u', 'C710d', 'C710s', 'C710c', 'C710e', 'C710mu', 'C710tau',
                              'C711', 'C712', 'C713', 'C714',
-                             'C715u', 'C715d', 'C715s', 'C715c', 'C715e', 'C715mu', 'C715tau', 
+                             'C715u', 'C715d', 'C715s', 'C715c', 'C715e', 'C715mu', 'C715tau',
                              'C716u', 'C716d', 'C716s', 'C716c', 'C716e', 'C716mu', 'C716tau',
-                             'C717u', 'C717d', 'C717s', 'C717c', 'C717e', 'C717mu', 'C717tau', 
+                             'C717u', 'C717d', 'C717s', 'C717c', 'C717e', 'C717mu', 'C717tau',
                              'C718u', 'C718d', 'C718s', 'C718c', 'C718e', 'C718mu', 'C718tau',
-                             'C719u', 'C719d', 'C719s', 'C719c', 'C719e', 'C719mu', 'C719tau', 
-                             'C720u', 'C720d', 'C720s', 'C720c', 'C720e', 'C720mu', 'C720tau', 
-                             'C721u', 'C721d', 'C721s', 'C721c', 'C721e', 'C721mu', 'C721tau', 
-                             'C722u', 'C722d', 'C722s', 'C722c', 'C722e', 'C722mu', 'C722tau' 
+                             'C719u', 'C719d', 'C719s', 'C719c', 'C719e', 'C719mu', 'C719tau',
+                             'C720u', 'C720d', 'C720s', 'C720c', 'C720e', 'C720mu', 'C720tau',
+                             'C721u', 'C721d', 'C721s', 'C721c', 'C721e', 'C721mu', 'C721tau',
+                             'C722u', 'C722d', 'C722s', 'C722c', 'C722e', 'C722mu', 'C722tau',
+                             'C723u', 'C723d', 'C723s', 'C723c', 'C723e', 'C723mu', 'C723tau',
+                             'C725',
                              'C83u', 'C83d', 'C83s', 'C84u', 'C84d', 'C84s'
 
 
@@ -1717,18 +1752,24 @@ class WC_4flavor(object):
                              'C716u', 'C716d', 'C716s', 'C716c', 'C716e', 'C716mu', 'C716tau',
                              'C717u', 'C717d', 'C717s', 'C717c', 'C717e', 'C717mu', 'C717tau', 
                              'C718u', 'C718d', 'C718s', 'C718c', 'C718e', 'C718mu', 'C718tau',
+                             'C723u', 'C723d', 'C723s', 'C723c', 'C723e', 'C723mu', 'C723tau',
+                             'C725',
 
         Complex Scalar:      'C61u', 'C61d', 'C61s', 'C61c', 'C61e', 'C61mu', 'C61tau', 
                              'C62u', 'C62d', 'C62s', 'C62c', 'C62e', 'C62mu', 'C62tau',
                              'C65', 'C66',
                              'C63u', 'C63d', 'C63s', 'C63c', 'C63e', 'C63mu', 'C63tau', 
                              'C64u', 'C64d', 'C64s', 'C64c', 'C64e', 'C64mu', 'C64tau',
-                             'C67', 'C68'
+                             'C67', 'C68',
+                             'C69u', 'C69d', 'C69s', 'C69c', 'C69e', 'C69mu', 'C69tau', 
+                             'C610'
 
         Real Scalar:         'C65', 'C66'
                              'C63u', 'C63d', 'C63s', 'C63c', 'C63e', 'C63mu', 'C63tau', 
                              'C64u', 'C64d', 'C64s', 'C64c', 'C64e', 'C64mu', 'C64tau',
-                             'C67', 'C68'
+                             'C67', 'C68',
+                             'C69u', 'C69d', 'C69s', 'C69c', 'C69e', 'C69mu', 'C69tau', 
+                             'C610'
 
 
         (the notation corresponds to the numbering in 1707.06998).
@@ -1817,12 +1858,14 @@ class WC_4flavor(object):
                                  'C719u', 'C719d', 'C719s', 'C719c', 'C719e', 'C719mu', 'C719tau', 
                                  'C720u', 'C720d', 'C720s', 'C720c', 'C720e', 'C720mu', 'C720tau', 
                                  'C721u', 'C721d', 'C721s', 'C721c', 'C721e', 'C721mu', 'C721tau', 
-                                 'C722u', 'C722d', 'C722s', 'C722c', 'C722e', 'C722mu', 'C722tau']
+                                 'C722u', 'C722d', 'C722s', 'C722c', 'C722e', 'C722mu', 'C722tau',
+                                 'C723u', 'C723d', 'C723s', 'C723c', 'C723e', 'C723mu', 'C723tau',
+                                 'C725']
 
             self.wc8_name_list = ['C81u', 'C81d', 'C81s', 'C82u', 'C82d', 'C82s',\
                                   'C83u', 'C83d', 'C83s', 'C84u', 'C84d', 'C84s']
 
-            # The 4-flavor list for matching only
+            # The 3-flavor list for matching only
             self.wc_name_list_3f = ['C51', 'C52', 'C61u', 'C61d', 'C61s', 'C61e', 'C61mu', 'C61tau',
                                     'C62u', 'C62d', 'C62s', 'C62e', 'C62mu', 'C62tau',
                                     'C63u', 'C63d', 'C63s', 'C63e', 'C63mu', 'C63tau',
@@ -1842,7 +1885,9 @@ class WC_4flavor(object):
                                     'C719u', 'C719d', 'C719s', 'C719e', 'C719mu', 'C719tau', 
                                     'C720u', 'C720d', 'C720s', 'C720e', 'C720mu', 'C720tau', 
                                     'C721u', 'C721d', 'C721s', 'C721e', 'C721mu', 'C721tau', 
-                                    'C722u', 'C722d', 'C722s', 'C722e', 'C722mu', 'C722tau']
+                                    'C722u', 'C722d', 'C722s', 'C722e', 'C722mu', 'C722tau',
+                                    'C723u', 'C723d', 'C723s', 'C723e', 'C723mu', 'C723tau',
+                                    'C725']
 
         if self.DM_type == "M":
             self.wc_name_list = ['C62u', 'C62d', 'C62s', 'C62c', 'C62e', 'C62mu', 'C62tau',
@@ -1856,7 +1901,9 @@ class WC_4flavor(object):
                                  'C715u', 'C715d', 'C715s', 'C715c', 'C715e', 'C715mu', 'C715tau', 
                                  'C716u', 'C716d', 'C716s', 'C716c', 'C716e', 'C716mu', 'C716tau',
                                  'C717u', 'C717d', 'C717s', 'C717c', 'C717e', 'C717mu', 'C717tau', 
-                                 'C718u', 'C718d', 'C718s', 'C718c', 'C718e', 'C718mu', 'C718tau']
+                                 'C718u', 'C718d', 'C718s', 'C718c', 'C718e', 'C718mu', 'C718tau',
+                                 'C723u', 'C723d', 'C723s', 'C723c', 'C723e', 'C723mu', 'C723tau',
+                                 'C725']
 
             self.wc8_name_list = ['C82u', 'C82d', 'C82s', 'C84u', 'C84d', 'C84s']
 
@@ -1879,7 +1926,9 @@ class WC_4flavor(object):
                                     'C715u', 'C715d', 'C715s', 'C715e', 'C715mu', 'C715tau', 
                                     'C716u', 'C716d', 'C716s', 'C716e', 'C716mu', 'C716tau',
                                     'C717u', 'C717d', 'C717s', 'C717e', 'C717mu', 'C717tau', 
-                                    'C718u', 'C718d', 'C718s', 'C718e', 'C718mu', 'C718tau']
+                                    'C718u', 'C718d', 'C718s', 'C718e', 'C718mu', 'C718tau',
+                                    'C723u', 'C723d', 'C723s', 'C723e', 'C723mu', 'C723tau',
+                                    'C725']
 
         if self.DM_type == "C":
             self.wc_name_list = ['C61u', 'C61d', 'C61s', 'C61c', 'C61e', 'C61mu', 'C61tau', 
@@ -1887,7 +1936,9 @@ class WC_4flavor(object):
                                  'C65', 'C66',
                                  'C63u', 'C63d', 'C63s', 'C63c', 'C63e', 'C63mu', 'C63tau', 
                                  'C64u', 'C64d', 'C64s', 'C64c', 'C64e', 'C64mu', 'C64tau',
-                                 'C67', 'C68']
+                                 'C67', 'C68',
+                                 'C69u', 'C69d', 'C69s', 'C69c', 'C69e', 'C69mu', 'C69tau', 
+                                 'C610']
 
             self.wc8_name_list = ['C81u', 'C81d', 'C81s', 'C82u', 'C82d', 'C82s']
 
@@ -1906,13 +1957,17 @@ class WC_4flavor(object):
                                     'C65', 'C66',
                                     'C63u', 'C63d', 'C63s', 'C63e', 'C63mu', 'C63tau', 
                                     'C64u', 'C64d', 'C64s', 'C64e', 'C64mu', 'C64tau',
-                                    'C67', 'C68']
+                                    'C67', 'C68',
+                                    'C69u', 'C69d', 'C69s', 'C69e', 'C69mu', 'C69tau', 
+                                    'C610']
 
         if self.DM_type == "R":
             self.wc_name_list = ['C65', 'C66',
                                  'C63u', 'C63d', 'C63s', 'C63c', 'C63e', 'C63mu', 'C63tau',
                                  'C64u', 'C64d', 'C64s', 'C64c', 'C64e', 'C64mu', 'C64tau',
-                                 'C67', 'C68']
+                                 'C67', 'C68',
+                                 'C69u', 'C69d', 'C69s', 'C69c', 'C69e', 'C69mu', 'C69tau', 
+                                 'C610']
 
             self.wc8_name_list = []
 
@@ -1925,7 +1980,9 @@ class WC_4flavor(object):
             self.wc_name_list_3f = ['C65', 'C66',
                                     'C63u', 'C63d', 'C63s', 'C63e', 'C63mu', 'C63tau', 
                                     'C64u', 'C64d', 'C64s', 'C64e', 'C64mu', 'C64tau',
-                                    'C67', 'C68']
+                                    'C67', 'C68',
+                                    'C69u', 'C69d', 'C69s', 'C69e', 'C69mu', 'C69tau', 
+                                    'C610']
 
 
         self.coeff_dict = {}
@@ -2029,11 +2086,11 @@ class WC_4flavor(object):
         # We need to contract the ADT with a subset of the dim.-6 DM Wilson coefficients
         if self.DM_type == "D":
             DM_dim6_init = np.delete(self.coeff_list_dm_dim5_dim6_dim7,\
-                                     np.r_[np.s_[0:16], np.s_[20:23], np.s_[27:136]])
+                                     np.r_[np.s_[0:16], np.s_[20:23], np.s_[27:144]])
         elif self.DM_type == "M":
-            DM_dim6_init = np.delete(self.coeff_list_dm_dim5_dim6_dim7, np.r_[np.s_[0:7], np.s_[11:78]])
+            DM_dim6_init = np.delete(self.coeff_list_dm_dim5_dim6_dim7, np.r_[np.s_[0:7], np.s_[11:86]])
         elif self.DM_type == "C":
-            DM_dim6_init = np.delete(self.coeff_list_dm_dim5_dim6_dim7, np.r_[np.s_[0:7], np.s_[11:32]])
+            DM_dim6_init = np.delete(self.coeff_list_dm_dim5_dim6_dim7, np.r_[np.s_[0:7], np.s_[11:40]])
 
 
 
@@ -2230,9 +2287,11 @@ class WC_5flavor(object):
 #    def __init__(self, coeff_dict, DM_type):
         """ Class for Wilson coefficients in 5 flavor QCD x QED plus DM.
 
-        The argument should be a dictionary for the initial conditions of the 2 + 32 + 4 + 48 + 4 + 64 + 6 = 160 
+        The argument should be a dictionary for the initial conditions of the 
+        2 + 32 + 4 + 48 + 4 + 64 + 8 + 1 + 12 = 175 
         dimension-five to dimension-eight five-flavor-QCD Wilson coefficients (for Dirac DM) of the form
         {'C51' : value, 'C52' : value, ...}. For other DM types there are less coefficients.
+        A subset of twist-two operators is currently only included for Dirac DM.
         An arbitrary number of them can be given; the default values are zero. 
         The possible name are (with an hopefully obvious notation):
 
@@ -2261,7 +2320,10 @@ class WC_5flavor(object):
                              'C719u', 'C719d', 'C719s', 'C719c', 'C719b', 'C719e', 'C719mu', 'C719tau', 
                              'C720u', 'C720d', 'C720s', 'C720c', 'C720b', 'C720e', 'C720mu', 'C720tau', 
                              'C721u', 'C721d', 'C721s', 'C721c', 'C721b', 'C721e', 'C721mu', 'C721tau', 
-                             'C722u', 'C722d', 'C722s', 'C722c', 'C722b', 'C722e', 'C722mu', 'C722tau' 
+                             'C722u', 'C722d', 'C722s', 'C722c', 'C722b', 'C722e', 'C722mu', 'C722tau',
+                             'C723u', 'C723d', 'C723s', 'C723c', 'C723b', 'C723e', 'C723mu', 'C723tau', 
+                             'C725',
+                             'C81u', 'C81d', 'C81s', 'C82u', 'C82d', 'C82s'
                              'C83u', 'C83d', 'C83s', 'C84u', 'C84d', 'C84s'
 
         Majorana fermion:    'C62u', 'C62d', 'C62s', 'C62c', 'C62b', 'C62e', 'C62mu', 'C62tau',
@@ -2275,19 +2337,25 @@ class WC_5flavor(object):
                              'C715u', 'C715d', 'C715s', 'C715c', 'C715b', 'C715e', 'C715mu', 'C715tau', 
                              'C716u', 'C716d', 'C716s', 'C716c', 'C716b', 'C716e', 'C716mu', 'C716tau',
                              'C717u', 'C717d', 'C717s', 'C717c', 'C717b', 'C717e', 'C717mu', 'C717tau', 
-                             'C718u', 'C718d', 'C718s', 'C718c', 'C718b', 'C718e', 'C718mu', 'C718tau'
+                             'C718u', 'C718d', 'C718s', 'C718c', 'C718b', 'C718e', 'C718mu', 'C718tau',
+                             'C723u', 'C723d', 'C723s', 'C723c', 'C723b', 'C723e', 'C723mu', 'C723tau', 
+                             'C725',
 
         Complex Scalar:      'C61u', 'C61d', 'C61s', 'C61c', 'C61b', 'C61e', 'C61mu', 'C61tau', 
                              'C62u', 'C62d', 'C62s', 'C62c', 'C62b', 'C62e', 'C62mu', 'C62tau',
                              'C63u', 'C63d', 'C63s', 'C63c', 'C63b', 'C63e', 'C63mu', 'C63tau', 
                              'C64u', 'C64d', 'C64s', 'C64c', 'C64b', 'C64e', 'C64mu', 'C64tau',
-                             'C65', 'C66', 'C67', 'C68'
+                             'C65', 'C66', 'C67', 'C68',
+                             'C69u', 'C69d', 'C69s', 'C69c', 'C69b', 'C69e', 'C69mu', 'C69tau', 
+                             'C610'
 
         Real Scalar:         'C63u', 'C63d', 'C63s', 'C63c', 'C63b', 'C63e', 'C63mu', 'C63tau', 
                              'C64u', 'C64d', 'C64s', 'C64c', 'C64b', 'C64e', 'C64mu', 'C64tau',
-                             'C65', 'C66', 'C67', 'C68'
+                             'C65', 'C66', 'C67', 'C68',
+                             'C69u', 'C69d', 'C69s', 'C69c', 'C69b', 'C69e', 'C69mu', 'C69tau', 
+                             'C610'
 
-        (the notation corresponds to the numbering in 1707.06998).
+        (the notation corresponds to the numbering in 1707.06998, 1801.04240, and 1809.03506).
         The Wilson coefficients should be specified in the MS-bar scheme at MZ = 91.1876 GeV.
 
 
@@ -2400,7 +2468,9 @@ class WC_5flavor(object):
                                  'C719u', 'C719d', 'C719s', 'C719c', 'C719b', 'C719e', 'C719mu', 'C719tau', 
                                  'C720u', 'C720d', 'C720s', 'C720c', 'C720b', 'C720e', 'C720mu', 'C720tau', 
                                  'C721u', 'C721d', 'C721s', 'C721c', 'C721b', 'C721e', 'C721mu', 'C721tau', 
-                                 'C722u', 'C722d', 'C722s', 'C722c', 'C722b', 'C722e', 'C722mu', 'C722tau']
+                                 'C722u', 'C722d', 'C722s', 'C722c', 'C722b', 'C722e', 'C722mu', 'C722tau',
+                                 'C723u', 'C723d', 'C723s', 'C723c', 'C723b', 'C723e', 'C723mu', 'C723tau', 
+                                 'C725']
 
             self.wc8_name_list = ['C81u', 'C81d', 'C81s', 'C82u', 'C82d', 'C82s',\
                                   'C83u', 'C83d', 'C83s', 'C84u', 'C84d', 'C84s']
@@ -2424,7 +2494,9 @@ class WC_5flavor(object):
                                     'C719u', 'C719d', 'C719s', 'C719c', 'C719e', 'C719mu', 'C719tau', 
                                     'C720u', 'C720d', 'C720s', 'C720c', 'C720e', 'C720mu', 'C720tau', 
                                     'C721u', 'C721d', 'C721s', 'C721c', 'C721e', 'C721mu', 'C721tau', 
-                                    'C722u', 'C722d', 'C722s', 'C722c', 'C722e', 'C722mu', 'C722tau']
+                                    'C722u', 'C722d', 'C722s', 'C722c', 'C722e', 'C722mu', 'C722tau',
+                                    'C723u', 'C723d', 'C723s', 'C723c', 'C723e', 'C723mu', 'C723tau', 
+                                    'C725']
 
         if self.DM_type == "M":
             self.wc_name_list = ['C62u', 'C62d', 'C62s', 'C62c', 'C62b', 'C62e', 'C62mu', 'C62tau',
@@ -2438,7 +2510,9 @@ class WC_5flavor(object):
                                  'C715u', 'C715d', 'C715s', 'C715c', 'C715b', 'C715e', 'C715mu', 'C715tau', 
                                  'C716u', 'C716d', 'C716s', 'C716c', 'C716b', 'C716e', 'C716mu', 'C716tau',
                                  'C717u', 'C717d', 'C717s', 'C717c', 'C717b', 'C717e', 'C717mu', 'C717tau', 
-                                 'C718u', 'C718d', 'C718s', 'C718c', 'C718b', 'C718e', 'C718mu', 'C718tau']
+                                 'C718u', 'C718d', 'C718s', 'C718c', 'C718b', 'C718e', 'C718mu', 'C718tau',
+                                 'C723u', 'C723d', 'C723s', 'C723c', 'C723b', 'C723e', 'C723mu', 'C723tau', 
+                                 'C725']
 
             self.wc8_name_list = ['C82u', 'C82d', 'C82s', 'C84u', 'C84d', 'C84s']
 
@@ -2462,7 +2536,9 @@ class WC_5flavor(object):
                                     'C715u', 'C715d', 'C715s', 'C715c', 'C715e', 'C715mu', 'C715tau', 
                                     'C716u', 'C716d', 'C716s', 'C716c', 'C716e', 'C716mu', 'C716tau',
                                     'C717u', 'C717d', 'C717s', 'C717c', 'C717e', 'C717mu', 'C717tau', 
-                                    'C718u', 'C718d', 'C718s', 'C718c', 'C718e', 'C718mu', 'C718tau']
+                                    'C718u', 'C718d', 'C718s', 'C718c', 'C718e', 'C718mu', 'C718tau',
+                                    'C723u', 'C723d', 'C723s', 'C723c', 'C723e', 'C723mu', 'C723tau', 
+                                    'C725']
 
         if self.DM_type == "C":
             self.wc_name_list = ['C61u', 'C61d', 'C61s', 'C61c', 'C61b', 'C61e', 'C61mu', 'C61tau', 
@@ -2470,7 +2546,9 @@ class WC_5flavor(object):
                                  'C65', 'C66',
                                  'C63u', 'C63d', 'C63s', 'C63c', 'C63b', 'C63e', 'C63mu', 'C63tau',
                                  'C64u', 'C64d', 'C64s', 'C64c', 'C64b', 'C64e', 'C64mu', 'C64tau',
-                                 'C67', 'C68']
+                                 'C67', 'C68',
+                                 'C69u', 'C69d', 'C69s', 'C69c', 'C69b', 'C69e', 'C69mu', 'C69tau', 
+                                 'C610']
 
             self.wc8_name_list = ['C81u', 'C81d', 'C81s', 'C82u', 'C82d', 'C82s']
 
@@ -2489,13 +2567,17 @@ class WC_5flavor(object):
                                     'C65', 'C66',
                                     'C63u', 'C63d', 'C63s', 'C63c', 'C63e', 'C63mu', 'C63tau', 
                                     'C64u', 'C64d', 'C64s', 'C64c', 'C64e', 'C64mu', 'C64tau',
-                                    'C67', 'C68']
+                                    'C67', 'C68',
+                                    'C69u', 'C69d', 'C69s', 'C69c', 'C69e', 'C69mu', 'C69tau', 
+                                    'C610']
 
         if self.DM_type == "R":
             self.wc_name_list = ['C65', 'C66',
                                  'C63u', 'C63d', 'C63s', 'C63c', 'C63b', 'C63e', 'C63mu', 'C63tau', 
                                  'C64u', 'C64d', 'C64s', 'C64c', 'C64b', 'C64e', 'C64mu', 'C64tau',
-                                 'C67', 'C68']
+                                 'C67', 'C68',
+                                 'C69u', 'C69d', 'C69s', 'C69c', 'C69b', 'C69e', 'C69mu', 'C69tau', 
+                                 'C610']
 
             self.wc8_name_list = []
 
@@ -2508,7 +2590,9 @@ class WC_5flavor(object):
             self.wc_name_list_4f = ['C65', 'C66',
                                     'C63u', 'C63d', 'C63s', 'C63c', 'C63e', 'C63mu', 'C63tau',
                                     'C64u', 'C64d', 'C64s', 'C64c', 'C64e', 'C64mu', 'C64tau',
-                                    'C67', 'C68']
+                                    'C67', 'C68',
+                                    'C69u', 'C69d', 'C69s', 'C69c', 'C69e', 'C69mu', 'C69tau', 
+                                    'C610']
 
 
 
@@ -2778,11 +2862,11 @@ class WC_5flavor(object):
         # We need to contract the ADT with a subset of the dim.-6 Wilson coefficients
         if self.DM_type == "D":
             DM_dim6_init = np.delete(self.coeff_list_dm_dim5_dim6_dim7,\
-                                     np.r_[np.s_[0:18], np.s_[23:26], np.s_[31:154]])
+                                     np.r_[np.s_[0:18], np.s_[23:26], np.s_[31:163]])
         elif self.DM_type == "M":
-            DM_dim6_init = np.delete(self.coeff_list_dm_dim5_dim6_dim7, np.r_[np.s_[0:8], np.s_[13:88]])
+            DM_dim6_init = np.delete(self.coeff_list_dm_dim5_dim6_dim7, np.r_[np.s_[0:8], np.s_[13:97]])
         elif self.DM_type == "C":
-            DM_dim6_init = np.delete(self.coeff_list_dm_dim5_dim6_dim7, np.r_[np.s_[0:8], np.s_[13:36]])
+            DM_dim6_init = np.delete(self.coeff_list_dm_dim5_dim6_dim7, np.r_[np.s_[0:8], np.s_[13:45]])
 
 
         if self.DM_type == "D" or self.DM_type == "M" or self.DM_type == "C":
@@ -3540,8 +3624,13 @@ class WilCo_EW(object):
         # The result is valid for all input values and gives (in principle) a real output.
         # Note that currently there is no distinction between e/w and light DM,
         # as the two-loop function for light DM is unknown.
+        # Note also that we set the DM hypercharge to zero, Y=0,
+        # since for Y!=0 tree-level Z exchange dominates.
         def higgs_penguin_fermion(dchi):
             return Higgspenguin(dchi, self.ip).f_q_hisano(self.DM_mass_phys)
+        def twist_two_fermion(dchi):
+            return   Higgspenguin(dchi, self.ip).g_q_1_hisano(self.DM_mass_phys)\
+                   + Higgspenguin(dchi, self.ip).g_q_2_hisano(self.DM_mass_phys)
         def W_box_fermion(dchi):
             return Higgspenguin(dchi, self.ip).d_q_hisano(self.DM_mass_phys)
         def higgs_penguin_gluon(dchi):
@@ -3673,14 +3762,23 @@ class WilCo_EW(object):
             coeff_dict_5f['C75tau'] = - 1/Mh**2 * (coeff_dict_shifted['C53'])\
                                     + higgs_penguin_fermion(self.dchi) * DIM4
 
-            coeff_dict_5f['C76u'] = - 1/Mh**2 * coeff_dict_shifted['C57']
-            coeff_dict_5f['C76d'] = - 1/Mh**2 * coeff_dict_shifted['C57']
-            coeff_dict_5f['C76s'] = - 1/Mh**2 * coeff_dict_shifted['C57']
-            coeff_dict_5f['C76c'] = - 1/Mh**2 * coeff_dict_shifted['C57']
-            coeff_dict_5f['C76b'] = - 1/Mh**2 * coeff_dict_shifted['C57']
-            coeff_dict_5f['C76e'] = - 1/Mh**2 * coeff_dict_shifted['C57']
-            coeff_dict_5f['C76mu'] = - 1/Mh**2 * coeff_dict_shifted['C57']
+            coeff_dict_5f['C76u']   = - 1/Mh**2 * coeff_dict_shifted['C57']
+            coeff_dict_5f['C76d']   = - 1/Mh**2 * coeff_dict_shifted['C57']
+            coeff_dict_5f['C76s']   = - 1/Mh**2 * coeff_dict_shifted['C57']
+            coeff_dict_5f['C76c']   = - 1/Mh**2 * coeff_dict_shifted['C57']
+            coeff_dict_5f['C76b']   = - 1/Mh**2 * coeff_dict_shifted['C57']
+            coeff_dict_5f['C76e']   = - 1/Mh**2 * coeff_dict_shifted['C57']
+            coeff_dict_5f['C76mu']  = - 1/Mh**2 * coeff_dict_shifted['C57']
             coeff_dict_5f['C76tau'] = - 1/Mh**2 * coeff_dict_shifted['C57']
+
+            coeff_dict_5f['C723u']   = twist_two_fermion(self.dchi) * DIM4
+            coeff_dict_5f['C723d']   = twist_two_fermion(self.dchi) * DIM4
+            coeff_dict_5f['C723s']   = twist_two_fermion(self.dchi) * DIM4
+            coeff_dict_5f['C723c']   = twist_two_fermion(self.dchi) * DIM4
+            coeff_dict_5f['C723b']   = twist_two_fermion(self.dchi) * DIM4
+            coeff_dict_5f['C723e']   = twist_two_fermion(self.dchi) * DIM4
+            coeff_dict_5f['C723mu']  = twist_two_fermion(self.dchi) * DIM4
+            coeff_dict_5f['C723tau'] = twist_two_fermion(self.dchi) * DIM4
 
         else:
             coeff_dict_5f['C51'] = coeff_dict_shifted['C51'] + self.Ychi/2 * coeff_dict_shifted['C52']
@@ -3921,6 +4019,16 @@ class WilCo_EW(object):
             coeff_dict_5f['C76tau'] = - 1/Mh**2 * (coeff_dict_shifted['C57'] + self.Ychi/4\
                                                    * coeff_dict_shifted['C58'])
 
+            coeff_dict_5f['C723u']   = twist_two_fermion(self.dchi) * DIM4
+            coeff_dict_5f['C723d']   = twist_two_fermion(self.dchi) * DIM4
+            coeff_dict_5f['C723s']   = twist_two_fermion(self.dchi) * DIM4
+            coeff_dict_5f['C723c']   = twist_two_fermion(self.dchi) * DIM4
+            coeff_dict_5f['C723b']   = twist_two_fermion(self.dchi) * DIM4
+            coeff_dict_5f['C723e']   = twist_two_fermion(self.dchi) * DIM4
+            coeff_dict_5f['C723mu']  = twist_two_fermion(self.dchi) * DIM4
+            coeff_dict_5f['C723tau'] = twist_two_fermion(self.dchi) * DIM4
+
+
         coeff_dict_5f['C73'] = 0
         coeff_dict_5f['C74'] = 0
 
@@ -4036,6 +4144,8 @@ class WilCo_EW(object):
         coeff_dict_5f['C722e'] = 0
         coeff_dict_5f['C722mu'] = 0
         coeff_dict_5f['C722tau'] = 0
+
+        coeff_dict_5f['C725'] = 0
 
         return coeff_dict_5f
 
