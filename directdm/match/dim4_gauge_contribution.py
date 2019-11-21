@@ -145,7 +145,8 @@ class Higgspenguin(object):
         w = self.MW**2/mchi**2
         def gH(x):
             bx = np.sqrt(1-x/4+0*1j)
-            out = np.real_if_close(-2/bx * (2 + 2*x - x**2) * np.arctan(2*bx/np.sqrt(x)) + 2*np.sqrt(x) * (2 - x*np.log(x)))
+            out = np.real_if_close(-2/bx * (2 + 2*x - x**2) * np.arctan(2*bx/np.sqrt(x))\
+                                   + 2*np.sqrt(x) * (2 - x*np.log(x)))
             return out
         return (self.alpha)**2/(4*self.Mh**2*self.sw**4) * ((self.dchi**2 - 1)/(8*self.MW) * gH(w))
 
@@ -158,6 +159,26 @@ class Higgspenguin(object):
                   - 1/24 * x * (2 - (3+x)*np.log(x)))
             return out
         return (self.alpha)**2/(self.MW**2*self.sw**4) * ((self.dchi**2 - 1)/8 * gAV(w))
+
+    def g_q_1_hisano(self, mchi):
+        """The result is valid for all input values and gives (in principle) a real output."""
+        w = self.MW**2/mchi**2
+        def gT1(x):
+            bx = np.sqrt(1-x/4+0*1j)
+            out = np.real_if_close(bx/3 * (2 + x**2) * np.arctan(2*bx/np.sqrt(x))\
+                                   + np.sqrt(x)/12 * (1 - 2*x - x*(2-x)*np.log(x)))
+            return out
+        return (self.alpha)**2/(self.sw**4) * ((self.dchi**2 - 1)/(8*self.MW**3) * gT1(w))
+
+    def g_q_2_hisano(self, mchi):
+        """The result is valid for all input values and gives (in principle) a real output."""
+        w = self.MW**2/mchi**2
+        def gT2(x):
+            bx = np.sqrt(1-x/4+0*1j)
+            out = np.real_if_close(1/bx/4 * x * (2 - 4*x + x**2) * np.arctan(2*bx/np.sqrt(x))\
+                                   - np.sqrt(x)/4 * (1 - 2*x - x*(2-x)*np.log(x)))
+            return out
+        return (self.alpha)**2/(self.sw**4) * ((self.dchi**2 - 1)/(8*self.MW**3) * gT2(w))
 
     def f_q_light(self, mchi):
         return -3*(self.alpha)**2/(8*self.MW**2*self.Mh**2*self.sw**4) * mchi * (self.dchi**2 - 1)

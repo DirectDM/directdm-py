@@ -9,6 +9,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
 ### Fixed
 - Corrected typos in `USAGE.md`
+- Errors in QCD anomalous dimension
+
+### Added
+- Hisano's fermionic twist-two contributions from [this publication](https://arxiv.org/abs/1104.0228)
 
 ## [2.1.0] - 2019-05-08
 ### Changed

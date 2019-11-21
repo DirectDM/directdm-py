@@ -261,6 +261,24 @@ class Num_input(object):
         self.input_parameters['BT10s'] = 0.
         self.input_parameters['dBT10s'] = 0.2
 
+        # C-even twist-two M.E. [arxiv:1409:8290]
+        self.input_parameters['f2up'] = 0.346
+        self.input_parameters['df2up'] = 0.007
+        self.input_parameters['f2dp'] = 0.192
+        self.input_parameters['df2dp'] = 0.006
+        self.input_parameters['f2sp'] = 0.034
+        self.input_parameters['df2sp'] = 0.003
+
+        self.input_parameters['f2un'] = 0.192
+        self.input_parameters['df2un'] = 0.006
+        self.input_parameters['f2dn'] = 0.346
+        self.input_parameters['df2dn'] = 0.007
+        self.input_parameters['f2sn'] = 0.034
+        self.input_parameters['df2sn'] = 0.003
+
+        self.input_parameters['f2g'] = 0.419
+        self.input_parameters['df2g'] = 0.019
+
 
         ### Dependent parameters ###
 
