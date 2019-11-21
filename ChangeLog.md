@@ -5,10 +5,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
 ## [Unreleased]
 ### Changed
+- `USAGE.md`: Clarification that numerical inputs of Wilson coefficients should explicitly include the scale.
+
+### Fixed
+- Corrected typos in `USAGE.md`
+
+## [2.1.0] - 2019-05-08
+### Changed
 - Input parameters are now given in form of a dictionary that can easily be updated by user-defined input values
 
 ### Fixed
 - Corrected typos in `USAGE.md`
+- Corrected typo in FGtilde form factor
 
 ### Added
 - Running routines for quark masses
