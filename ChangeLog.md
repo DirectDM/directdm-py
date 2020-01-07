@@ -3,6 +3,17 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
+## [2.1.1] - 2020-01-07
+### Changed
+- `USAGE.md`: Clarification that numerical inputs of Wilson coefficients should explicitly include the scale.
+
+### Fixed
+- Corrected typos in `USAGE.md`
+- Errors in QCD anomalous dimension
+
+### Added
+- Hisano's fermionic twist-two contributions from [this publication](https://arxiv.org/abs/1104.0228)
+
 ## [2.1.0] - 2019-05-08
 ### Changed
 - Input parameters are now given in form of a dictionary that can easily be updated by user-defined input values
