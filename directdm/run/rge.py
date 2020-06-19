@@ -298,6 +298,8 @@ class RGE(object):
 
 
 
+# This class needs some clean-up!!
+
 class CmuEW(object):
     def __init__(self, Wilson, ADM, input_dict, initial_mu, muh, mul, Y, d):
         """ Calculate the running of the Wilson coefficients in the unbroken EW theory
@@ -342,7 +344,7 @@ class CmuEW(object):
 
 
     def _dgdmu(self, g, mu, Y, d):
-        """ Calculate the log derivative [i.e. dg/dlog(mu)] of the couplings
+        """ Calculate the derivative [i.e. dg/dmu == beta/mu] of the couplings
             g1, g2, g3, yc, ytau, yb, yt, lam w.r.t. to mu, at scale mu
 
         Take a 8-vector (list) of couplings g = [g1, g2, g3, yc, ytau, yb, yt, lambda]
