@@ -356,7 +356,7 @@ class CmuEW(object):
         N = 1
         # The 8x8 matrix of beta functions (Arason et al., Phys.Rev. D46 (1992) 3945-3965, and our calculation)
         # Note the different sign and normalization conventions:
-        # (g1_Arason = 5/3 * g1_Denner; lambda_Arason = 1/4 * lambda_Denner)
+        # (g1^2_Arason = 5/3 * g1^2_Denner; lambda_Arason = 1/4 * lambda_Denner)
 
         # g1, g2, g3, yc, ytau, yb, yt
         g7 = np.array(g[:-1])
