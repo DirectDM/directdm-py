@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
+## [2.1.2] - 2020-07-22
+### Fixed
+- Normalization of nonrelativistic coefficients for scalar DM (thanks to Marco Fedele for pointing this out!)
+
 ## [2.1.1] - 2020-01-07
 ### Changed
 - `USAGE.md`: Clarification that numerical inputs of Wilson coefficients should explicitly include the scale.
