@@ -1663,7 +1663,7 @@ class WC_3flavor(object):
     def write_mma(self, DM_mass, qvec, RGE=None, NLO=None, DOUBLE_WEAK=None, path=None, filename=None):
         """ Write a text file with the NR coefficients that can be read into DMFormFactor 
 
-        The order is {cNR1p, cNR2p, ... , cNR1n, cNR1n, ... }
+        The order is {cNR1p, cNR2p, ... , cNR1n, cNR2n, ... }
 
         Mandatory arguments are the DM mass DM_mass (in GeV) and the spatial momentum transfer qvec (in GeV) 
 
@@ -2291,7 +2291,7 @@ class WC_4flavor(object):
     def write_mma(self, DM_mass, qvec, RGE=None, NLO=None, double_QCD=None, DOUBLE_WEAK=None, path=None, filename=None):
         """ Write a text file with the NR coefficients that can be read into DMFormFactor 
 
-        The order is {cNR1p, cNR2p, ... , cNR1n, cNR1n, ... }
+        The order is {cNR1p, cNR2p, ... , cNR1n, cNR2n, ... }
 
         Mandatory arguments are the DM mass DM_mass (in GeV) and the spatial momentum transfer qvec (in GeV) 
 
@@ -3076,7 +3076,7 @@ class WC_5flavor(object):
     def write_mma(self, DM_mass, qvec, RGE=None, NLO=None, double_QCD=None, DOUBLE_WEAK=None, path=None, filename=None):
         """ Write a text file with the NR coefficients that can be read into DMFormFactor 
 
-        The order is {cNR1p, cNR2p, ... , cNR1n, cNR1n, ... }
+        The order is {cNR1p, cNR2p, ... , cNR1n, cNR2n, ... }
 
         Mandatory arguments are the DM mass DM_mass (in GeV) and the spatial momentum transfer qvec (in GeV) 
 
@@ -4192,7 +4192,7 @@ class WilCo_EW(object):
                   DM_mass_threshold=None, RUN_EW=None, DIM4=None, path=None, filename=None):
         """ Write a text file with the NR coefficients that can be read into DMFormFactor 
 
-        The order is {cNR1p, cNR2p, ... , cNR1n, cNR1n, ... }
+        The order is {cNR1p, cNR2p, ... , cNR1n, cNR2n, ... }
 
         Mandatory arguments are the DM mass DM_mass (in GeV) and the momentum transfer qvec (in GeV) 
 
