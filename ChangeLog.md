@@ -3,6 +3,13 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
+## [Unreleased]
+### Fixed
+- More consistent implementation of dependent input parameters
+
+### Changed
+- Updated numerical values of input parameters according to PDG 2020 and most recent lattice results
+
 ## [2.1.2] - 2020-07-22
 ### Fixed
 - Normalization of nonrelativistic coefficients for scalar DM (thanks to Marco Fedele for pointing this out!)
