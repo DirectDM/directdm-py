@@ -9,7 +9,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
 ### Changed
 - Updated numerical values of input parameters according to PDG 2020 and most recent lattice results
-- Only real input parameters can be changed by the user. All dependent parameters are calculated automatically.
+- Only "primary" input parameters can be changed by the user (see USAGE.md for more details). All dependent parameters are calculated automatically.
   An invalid key in the input dictionary will cause the code to abort. This is maybe somewhat drastic, but
   otherwise the code would run without the updated parameter which is probably not intended either.
 - The QCD and electroweak MSbar top-quark mass at mu = MZ is now consistently used in the numerics.
