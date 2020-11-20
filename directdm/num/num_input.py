@@ -318,22 +318,16 @@ class Num_input(object):
         # Deltaup
         self.dependent_parameters['Deltaup'] = (   self.input_parameters['gA']\
                                                    + self.input_parameters['DeltauDeltad'])/2
-        self.dependent_parameters['dDeltaup'] = np.sqrt(   self.input_parameters['dgA']**2\
-                                                           + self.input_parameters['DeltauDeltad']**2)/2
 
         # Deltadp
         self.dependent_parameters['Deltadp'] = ( - self.input_parameters['gA']\
                                                  + self.input_parameters['DeltauDeltad'])/2
-        self.dependent_parameters['dDeltadp'] = np.sqrt(   self.input_parameters['dgA']**2\
-                                                           + self.input_parameters['DeltauDeltad']**2)/2
 
         # Deltaun
         self.dependent_parameters['Deltaun'] = self.dependent_parameters['Deltadp']
-        self.dependent_parameters['dDeltaun'] = self.dependent_parameters['dDeltadp']
 
         # Deltadn
         self.dependent_parameters['Deltadn'] = self.dependent_parameters['Deltaup']
-        self.dependent_parameters['dDeltadn'] = self.dependent_parameters['dDeltaup']
 
         # muup
         self.dependent_parameters['muup'] = self.input_parameters['mup'] + self.input_parameters['mun']/2
