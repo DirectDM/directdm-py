@@ -106,13 +106,9 @@ class Num_input(object):
 
         ### Quark masses ###
 
-        # top quark mass, e/w onshell, QCD MS-bar
-        self.input_parameters['mt_at_mt_QCD'] = 160.
-        self.input_parameters['dmt_at_mt_QCD'] = 5.
-
-        # top quark pole mass
-        self.input_parameters['mt_pole'] = 173.0
-        self.input_parameters['dmt_pole'] = 0.4
+        # PDG top quark pole mass
+        self.input_parameters['mt_pole'] = 172.76
+        self.input_parameters['dmt_pole'] = 0.30
 
         # bottom quark mass, MS-bar
         self.input_parameters['mb_at_mb'] = 4.18
@@ -130,9 +126,6 @@ class Num_input(object):
 
         # up quark mass, MS-bar at 2 GeV
         self.input_parameters['mu_at_2GeV'] = 0.00216
-
-        # top quark mass, MS-bar (converted to MSbar QCD and EW, and run to MZ at 1-loop QCD)
-        self.input_parameters['mt_at_MZ'] = 182.
 
 
         ### Low-energy constants for chiral EFT ###
@@ -250,111 +243,6 @@ class Num_input(object):
         self.input_parameters['df2g'] = 0.019
 
 
-        ### Dependent parameters ###
-
-        def mb(mu, mub, muc, nf, loop):
-            return rge.M_Quark_MSbar('b', self.input_parameters['mb_at_mb'],\
-                                     self.input_parameters['mb_at_mb'],\
-                                     self.input_parameters['asMZ'],\
-                                     self.input_parameters['Mz']).run(mu,\
-                                                                      {'mbmb': self.input_parameters['mb_at_mb'],\
-                                                                       'mcmc': self.input_parameters['mc_at_mc']},\
-                                                                      {'mub': mub, 'muc': muc}, nf, loop)
-
-        def mc(mu, mub, muc, nf, loop):
-            return rge.M_Quark_MSbar('c', self.input_parameters['mc_at_mc'],\
-                                     self.input_parameters['mc_at_mc'],\
-                                     self.input_parameters['asMZ'],\
-                                     self.input_parameters['Mz']).run(mu,\
-                                                                      {'mbmb': self.input_parameters['mb_at_mb'],\
-                                                                       'mcmc': self.input_parameters['mc_at_mc']},\
-                                                                      {'mub': mub, 'muc': muc}, nf, loop)
-
-        def ms(mu, mub, muc, nf, loop):
-            return rge.M_Quark_MSbar('s', self.input_parameters['ms_at_2GeV'],\
-                                     2, self.input_parameters['asMZ'],\
-                                     self.input_parameters['Mz']).run(mu,\
-                                                                      {'mbmb': self.input_parameters['mb_at_mb'],\
-                                                                       'mcmc': self.input_parameters['mc_at_mc']},\
-                                                                      {'mub': mub, 'muc': muc}, nf, loop)
-
-        def md(mu, mub, muc, nf, loop):
-            return rge.M_Quark_MSbar('d', self.input_parameters['md_at_2GeV'],\
-                                     2, self.input_parameters['asMZ'],\
-                                     self.input_parameters['Mz']).run(mu,\
-                                                                      {'mbmb': self.input_parameters['mb_at_mb'],\
-                                                                       'mcmc': self.input_parameters['mc_at_mc']},\
-                                                                      {'mub': mub, 'muc': muc}, nf, loop)
-
-        def mu(mu, mub, muc, nf, loop):
-            return rge.M_Quark_MSbar('u', self.input_parameters['mu_at_2GeV'],\
-                                     2, self.input_parameters['asMZ'],\
-                                     self.input_parameters['Mz']).run(mu,\
-                                                                      {'mbmb': self.input_parameters['mb_at_mb'],\
-                                                                       'mcmc': self.input_parameters['mc_at_mc']},\
-                                                                      {'mub': mub, 'muc': muc}, nf, loop)
-
-        self.input_parameters['mb_at_MZ'] = mb(self.input_parameters['Mz'],\
-                                               self.input_parameters['mb_at_mb'],\
-                                               self.input_parameters['mc_at_mc'], 5, 1)
-        self.input_parameters['mc_at_MZ'] = mc(self.input_parameters['Mz'],\
-                                               self.input_parameters['mb_at_mb'],\
-                                               self.input_parameters['mc_at_mc'], 5, 1)
-        self.input_parameters['ms_at_MZ'] = ms(self.input_parameters['Mz'],\
-                                               self.input_parameters['mb_at_mb'],\
-                                               self.input_parameters['mc_at_mc'], 5, 1)
-        self.input_parameters['md_at_MZ'] = md(self.input_parameters['Mz'],\
-                                               self.input_parameters['mb_at_mb'],\
-                                               self.input_parameters['mc_at_mc'], 5, 1)
-        self.input_parameters['mu_at_MZ'] = mu(self.input_parameters['Mz'],\
-                                               self.input_parameters['mb_at_mb'],\
-                                               self.input_parameters['mc_at_mc'], 5, 1)
-
-
-        # Deltaup
-        self.input_parameters['Deltaup'] = (   self.input_parameters['gA']\
-                                             + self.input_parameters['DeltauDeltad'])/2
-        self.input_parameters['dDeltaup'] = np.sqrt(   self.input_parameters['dgA']**2\
-                                                     + self.input_parameters['DeltauDeltad']**2)/2
-
-        # Deltadp
-        self.input_parameters['Deltadp'] = ( - self.input_parameters['gA']\
-                                             + self.input_parameters['DeltauDeltad'])/2
-        self.input_parameters['dDeltadp'] = np.sqrt(   self.input_parameters['dgA']**2\
-                                                     + self.input_parameters['DeltauDeltad']**2)/2
-
-        # Deltaun
-        self.input_parameters['Deltaun'] = self.input_parameters['Deltadp']
-        self.input_parameters['dDeltaun'] = self.input_parameters['dDeltadp']
-
-        # Deltadn
-        self.input_parameters['Deltadn'] = self.input_parameters['Deltaup']
-        self.input_parameters['dDeltadn'] = self.input_parameters['dDeltaup']
-
-        # muup
-        self.input_parameters['muup'] = self.input_parameters['mup'] + self.input_parameters['mun']/2
-
-        # mudp
-        self.input_parameters['mudp'] = self.input_parameters['mup'] + 2*self.input_parameters['mun']
-
-        # mudn
-        self.input_parameters['mudn'] = self.input_parameters['muup']
-
-        # muun
-        self.input_parameters['muun'] = self.input_parameters['mudp']
-
-        # ap
-        self.input_parameters['ap'] = self.input_parameters['mup'] - 1.
-
-        # an
-        self.input_parameters['an'] = self.input_parameters['mun']
-
-        # F2sp
-        self.input_parameters['F2sp'] = self.input_parameters['mus']
-
-
-
-
         if my_input_dict is None:
             pass
         else:
@@ -363,7 +251,157 @@ class Num_input(object):
                 if input_key in self.input_parameters.keys():
                     pass
                 else:
-                    warnings.warn(input_key + ' is not a valid key for an input parameter. Typo?')
+                    raise Exception(input_key + ' is not a valid key for an input parameter. Typo?')
             # Create the dictionary.
             self.input_parameters.update(my_input_dict)
+
+        ###----------------------###
+        ### Dependent parameters ###
+        ###----------------------###
+
+        self.dependent_parameters = {}
+
+        # The QCD and e/w MSbar mass at mu = mt_pole
+        # https://arxiv.org/abs/1212.4319
+
+        # The 6-flavor strong coupling at mu = mt_pole. 
+        # Strictly speaking, the decoupling formulas at m(mu) instead of m(m)
+        # should be used. This is a tiny discrepancy which is neglected for the moment.
+        as6 = rge.AlphaS(self.input_parameters['asMZ'],\
+                         self.input_parameters['Mz']).\
+                         run({'mtmt': self.input_parameters['mt_pole'],\
+                              'mbmb': self.input_parameters['mb_at_mb'],\
+                              'mcmc': self.input_parameters['mc_at_mc']},\
+                             {'mut': self.input_parameters['mt_pole'],\
+                              'mub': self.input_parameters['mb_at_mb'],\
+                              'muc': self.input_parameters['mc_at_mc']},\
+                             self.input_parameters['mt_pole'], 6, 3)
+        self.dependent_parameters['mt_at_mt_pole'] = self.input_parameters['mt_pole']\
+            * (1 - 4/3*as6/np.pi - 9.125*(as6/np.pi)**2 - 80.405*(as6/np.pi)**3\
+               + 0.0664 - 0.00115 * (self.input_parameters['Mh'] - 125))
+
+
+        # The running masses
+
+        def mt(mu, mut, mub, muc, nf, loop):
+            return rge.M_Quark_MSbar('t', self.dependent_parameters['mt_at_mt_pole'],\
+                                     self.input_parameters['mt_pole'],\
+                                     self.input_parameters['asMZ'],\
+                                     self.input_parameters['Mz']).run(mu,\
+                                        {'mtmt': 163.48,\
+                                         'mbmb': self.input_parameters['mb_at_mb'],\
+                                         'mcmc': self.input_parameters['mc_at_mc']},\
+                                        {'mut': mut, 'mub': mub, 'muc': muc}, nf, loop)
+
+        def mb(mu, mub, muc, nf, loop):
+            return rge.M_Quark_MSbar('b', self.input_parameters['mb_at_mb'],\
+                                     self.input_parameters['mb_at_mb'],\
+                                     self.input_parameters['asMZ'],\
+                                     self.input_parameters['Mz']).run(mu,\
+                                        {'mbmb': self.input_parameters['mb_at_mb'],\
+                                         'mcmc': self.input_parameters['mc_at_mc']},\
+                                        {'mub': mub, 'muc': muc}, nf, loop)
+
+        def mc(mu, mub, muc, nf, loop):
+            return rge.M_Quark_MSbar('c', self.input_parameters['mc_at_mc'],\
+                                     self.input_parameters['mc_at_mc'],\
+                                     self.input_parameters['asMZ'],\
+                                     self.input_parameters['Mz']).run(mu,\
+                                        {'mbmb': self.input_parameters['mb_at_mb'],\
+                                         'mcmc': self.input_parameters['mc_at_mc']},\
+                                        {'mub': mub, 'muc': muc}, nf, loop)
+
+        def ms(mu, mub, muc, nf, loop):
+            return rge.M_Quark_MSbar('s', self.input_parameters['ms_at_2GeV'],\
+                                     2, self.input_parameters['asMZ'],\
+                                     self.input_parameters['Mz']).run(mu,\
+                                        {'mbmb': self.input_parameters['mb_at_mb'],\
+                                         'mcmc': self.input_parameters['mc_at_mc']},\
+                                        {'mub': mub, 'muc': muc}, nf, loop)
+
+        def md(mu, mub, muc, nf, loop):
+            return rge.M_Quark_MSbar('d', self.input_parameters['md_at_2GeV'],\
+                                     2, self.input_parameters['asMZ'],\
+                                     self.input_parameters['Mz']).run(mu,\
+                                        {'mbmb': self.input_parameters['mb_at_mb'],\
+                                         'mcmc': self.input_parameters['mc_at_mc']},\
+                                        {'mub': mub, 'muc': muc}, nf, loop)
+
+        def mu(mu, mub, muc, nf, loop):
+            return rge.M_Quark_MSbar('u', self.input_parameters['mu_at_2GeV'],\
+                                     2, self.input_parameters['asMZ'],\
+                                     self.input_parameters['Mz']).run(mu,\
+                                        {'mbmb': self.input_parameters['mb_at_mb'],\
+                                         'mcmc': self.input_parameters['mc_at_mc']},\
+                                        {'mub': mub, 'muc': muc}, nf, loop)
+
+
+
+        # top quark mass, MS-bar (converted to MSbar QCD and EW, and run to MZ at 1-loop QCD)
+        self.dependent_parameters['mt_at_MZ'] = mt(self.input_parameters['Mz'],\
+                                                   self.input_parameters['mt_pole'],\
+                                                   self.input_parameters['mb_at_mb'],\
+                                                   self.input_parameters['mc_at_mc'], 6, 1)
+        self.dependent_parameters['mb_at_MZ'] = mb(self.input_parameters['Mz'],\
+                                                   self.input_parameters['mb_at_mb'],\
+                                                   self.input_parameters['mc_at_mc'], 5, 1)
+        self.dependent_parameters['mc_at_MZ'] = mc(self.input_parameters['Mz'],\
+                                                   self.input_parameters['mb_at_mb'],\
+                                                   self.input_parameters['mc_at_mc'], 5, 1)
+        self.dependent_parameters['ms_at_MZ'] = ms(self.input_parameters['Mz'],\
+                                                   self.input_parameters['mb_at_mb'],\
+                                                   self.input_parameters['mc_at_mc'], 5, 1)
+        self.dependent_parameters['md_at_MZ'] = md(self.input_parameters['Mz'],\
+                                                   self.input_parameters['mb_at_mb'],\
+                                                   self.input_parameters['mc_at_mc'], 5, 1)
+        self.dependent_parameters['mu_at_MZ'] = mu(self.input_parameters['Mz'],\
+                                                   self.input_parameters['mb_at_mb'],\
+                                                   self.input_parameters['mc_at_mc'], 5, 1)
+
+
+        # Deltaup
+        self.dependent_parameters['Deltaup'] = (   self.input_parameters['gA']\
+                                                   + self.input_parameters['DeltauDeltad'])/2
+        self.dependent_parameters['dDeltaup'] = np.sqrt(   self.input_parameters['dgA']**2\
+                                                           + self.input_parameters['DeltauDeltad']**2)/2
+
+        # Deltadp
+        self.dependent_parameters['Deltadp'] = ( - self.input_parameters['gA']\
+                                                 + self.input_parameters['DeltauDeltad'])/2
+        self.dependent_parameters['dDeltadp'] = np.sqrt(   self.input_parameters['dgA']**2\
+                                                           + self.input_parameters['DeltauDeltad']**2)/2
+
+        # Deltaun
+        self.dependent_parameters['Deltaun'] = self.dependent_parameters['Deltadp']
+        self.dependent_parameters['dDeltaun'] = self.dependent_parameters['dDeltadp']
+
+        # Deltadn
+        self.dependent_parameters['Deltadn'] = self.dependent_parameters['Deltaup']
+        self.dependent_parameters['dDeltadn'] = self.dependent_parameters['dDeltaup']
+
+        # muup
+        self.dependent_parameters['muup'] = self.input_parameters['mup'] + self.input_parameters['mun']/2
+
+        # mudp
+        self.dependent_parameters['mudp'] = self.input_parameters['mup'] + 2*self.input_parameters['mun']
+
+        # mudn
+        self.dependent_parameters['mudn'] = self.dependent_parameters['muup']
+
+        # muun
+        self.dependent_parameters['muun'] = self.dependent_parameters['mudp']
+
+        # ap
+        self.dependent_parameters['ap'] = self.input_parameters['mup'] - 1.
+
+        # an
+        self.dependent_parameters['an'] = self.input_parameters['mun']
+
+        # F2sp
+        self.dependent_parameters['F2sp'] = self.input_parameters['mus']
+
+
+        # Update the dictionary with the dependent parameters
+        self.input_parameters.update(self.dependent_parameters)
+
 
