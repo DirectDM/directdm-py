@@ -3,6 +3,22 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
+## [2.1.3] - 2020-11-22
+### Fixed
+- Inconsistencies in implementation of dependent input parameters
+
+### Changed
+- Updated numerical values of input parameters according to PDG 2020 and most recent lattice results
+- Only "primary" input parameters can be changed by the user (see USAGE.md for more details). All dependent parameters are calculated automatically.
+  An invalid key in the input dictionary will cause the code to abort. This is maybe somewhat drastic, but
+  otherwise the code would run without the updated parameter which is probably not intended either.
+- The QCD and electroweak MSbar top-quark mass at mu = MZ is now consistently used in the numerics.
+  The approximate relations for converting the renormalization scheme are taken from [this reference](https://arxiv.org/abs/1212.4319).
+
+### Added
+- Some four-loop relations for running and decoupling; just for completeness and convencience;
+  they are currently not used in the code
+
 ## [2.1.2] - 2020-07-22
 ### Fixed
 - Normalization of nonrelativistic coefficients for scalar DM (thanks to Marco Fedele for pointing this out!)

@@ -33,7 +33,7 @@ class Higgspenguin(object):
         self.MZ = self.input_dict['Mz']
         self.sw = np.sqrt(self.input_dict['sw2_MSbar'])
         self.cw = np.sqrt(1-self.sw**2)
-        self.mt = self.input_dict['mt_pole']
+        self.mt = self.input_dict['mt_at_MZ']
 
         # Hisano definitions
         self.auV = 1/4 - 2/3 * self.sw**2
