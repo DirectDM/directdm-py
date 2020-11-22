@@ -5,3 +5,4 @@ directdm.egg-info/*
 dist/*
 example_jb.py
 test_wilson.py
+*~
