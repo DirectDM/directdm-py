@@ -170,7 +170,7 @@ class Num_input(object):
         self.input_parameters['gTd'] = -0.204
 
         # gTs
-        self.input_parameters['gTs'] = 2.7e-2
+        self.input_parameters['gTs'] = -2.7e-2
 
         # BT10up
         self.input_parameters['BT10up'] = 3.0
