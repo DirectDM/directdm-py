@@ -14,8 +14,6 @@ from directdm.run import rge
 
 # Nov 14, 2020: Updated from PDG 2020 and most recent lattice results
 
-# The parameter with 'd' in front denotes the corresponding uncertainty
-# (currently not used anywhere in the code)
 
 class Num_input(object):
     def __init__(self, my_input_dict=None):
@@ -113,6 +111,9 @@ class Num_input(object):
 
 
         ### Low-energy constants for chiral EFT ###
+
+        # The strange electric charge radius squared [1/GeV^2]
+        self.input_parameters['rs2'] = -0.019 * 6
 
         # gA
         self.input_parameters['gA'] = 1.2756

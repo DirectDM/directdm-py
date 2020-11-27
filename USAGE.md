@@ -86,7 +86,7 @@ The included `example.py` file has basic examples for using the functions provid
 
 ## A comment on input parameters
 
-The `DirectDM` code allows the user to specify their own input parameters via a user-defined dictionary of input parameters. Only "primary" input parameters can be updated (e.g., the top-quark pole mass is a primary input parameter, whereas the MSbar top-quark mass at scale MZ is calculated internally). To be specific, we list the allowed input parameters and their keys in the input dictionary below, see [this reference](https://arxiv.org/abs/1708.02678) for definitions. Note that specifying an invalid key (one that does not correspond to a "primary" input) in the input dictionary will cause the code to abort, to avoid unintended behaviour of the code.
+The `DirectDM` code allows the user to specify their own input parameters via a user-defined dictionary of input parameters. Only "primary" input parameters can be updated (e.g., the top-quark pole mass is a primary input parameter, whereas the MSbar top-quark mass at scale MZ is calculated internally). To be specific, we list the allowed input parameters and their keys in the input dictionary below, see [this reference](https://arxiv.org/abs/1708.02678) for definitions. Note that specifying an invalid key (one that does not correspond to a "primary" input) in the input dictionary will cause the code to abort, to avoid unintended behaviour of the code. Note also that all dimensionful quantities have to be expressed in units of GeV.
 
 `'asMZ'`: The strong coupling constant at scale mu=MZ
 
@@ -134,7 +134,9 @@ The `DirectDM` code allows the user to specify their own input parameters via a 
 
 `'gA'`: The axial-vector coupling constant
 
-`'DeltauDeltad'`
+`'rs2'`: The strange electric charge radius squared
+
+`'DeltauDeltad'`: Delta u + Delta d
 
 `'Deltas'`
 
