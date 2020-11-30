@@ -3,6 +3,19 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
+## [2.2.0] - 2020-11-30
+### Fixed
+- Typos in expressions for cNR (no impact on numerics)
+
+### Changed
+- Updated USAGE.md to include all input parameters
+- Removed default input dictionary from single nucleon form factor classes
+
+### Added
+- The strange electric charge radius to the input parameters
+- The slope of the vector current form factor at zero momentum transfer (only strange quark)
+- Missing NLO terms for the strange vector current
+
 ## [2.1.4] - 2020-11-25
 ### Added
 - The chiral NLO terms for the strange-quark vector current operators (these are leading since the LO terms vanish)

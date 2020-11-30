@@ -14,8 +14,6 @@ from directdm.run import rge
 
 # Nov 14, 2020: Updated from PDG 2020 and most recent lattice results
 
-# The parameter with 'd' in front denotes the corresponding uncertainty
-# (currently not used anywhere in the code)
 
 class Num_input(object):
     def __init__(self, my_input_dict=None):
@@ -114,6 +112,9 @@ class Num_input(object):
 
         ### Low-energy constants for chiral EFT ###
 
+        # The strange electric charge radius squared [1/GeV^2]
+        self.input_parameters['rs2'] = -0.115
+
         # gA
         self.input_parameters['gA'] = 1.2756
 
@@ -199,6 +200,10 @@ class Num_input(object):
         self.input_parameters['f2g'] = 0.419
 
 
+        #------------------------------------------------------------------------#
+        # Update primary input parameters with user-specified values (optional): #
+        #------------------------------------------------------------------------#
+
         if my_input_dict is None:
             pass
         else:
@@ -210,6 +215,7 @@ class Num_input(object):
                     raise Exception(input_key + ' is not a valid key for an input parameter. Typo?')
             # Create the dictionary.
             self.input_parameters.update(my_input_dict)
+
 
         ###----------------------###
         ### Dependent parameters ###
