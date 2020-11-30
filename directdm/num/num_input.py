@@ -200,6 +200,10 @@ class Num_input(object):
         self.input_parameters['f2g'] = 0.419
 
 
+        #------------------------------------------------------------------------#
+        # Update primary input parameters with user-specified values (optional): #
+        #------------------------------------------------------------------------#
+
         if my_input_dict is None:
             pass
         else:
@@ -211,6 +215,7 @@ class Num_input(object):
                     raise Exception(input_key + ' is not a valid key for an input parameter. Typo?')
             # Create the dictionary.
             self.input_parameters.update(my_input_dict)
+
 
         ###----------------------###
         ### Dependent parameters ###
