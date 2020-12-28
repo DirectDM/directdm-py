@@ -6,3 +6,4 @@ dist/*
 example_jb.py
 test_wilson.py
 *~
+.gitignore
