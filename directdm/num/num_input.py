@@ -98,7 +98,7 @@ class Num_input(object):
         self.input_parameters['mb_at_mb'] = 4.18
 
         # charm quark mass, MS-bar
-        self.input_parameters['mc_at_mc'] = 1.275
+        self.input_parameters['mc_at_mc'] = 1.27
 
         # strange quark mass, MS-bar at 2 GeV
         self.input_parameters['ms_at_2GeV'] = 0.093
