@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 ## Unreleased
 ### Changed
 - Updated charm-quark mass to most recent PDG value
-- Removed internal "DOUBLE_WEAK" option
+- Removed internal options "DOUBLE_WEAK" and "double_QCD"
 
 ## [2.2.0] - 2020-11-30
 ### Fixed
