@@ -2012,7 +2012,8 @@ class WC_4flavor(object):
 
 
         if self.DM_type == "D" or self.DM_type == "M" or self.DM_type == "C":
-            # The columns of ADM_eff correspond to SM6 operators; the rows of ADM_eff correspond to DM8 operators; 
+            # The columns of ADM_eff correspond to SM6 operators;
+            # the rows of ADM_eff correspond to DM8 operators; 
             C6_dot_ADM_hat = np.transpose(np.tensordot(DM_dim6_init, self.gamma_hat, (0,2)))
 
             # The effective ADM
@@ -2096,18 +2097,17 @@ class WC_4flavor(object):
 
 
 
-    def match(self, RGE=None, mu=None):
+    def match(self, RGE=None):
         """ Match from four-flavor to three-flavor QCD
 
-        Calculate the matching at mu [GeV; default 2 GeV].
+        Calculate the matching at 2 GeV.
 
         Returns a dictionary of Wilson coefficients for the three-flavor Lagrangian
         at scale mu. The SM-SM Wilson coefficients are NOT returned. 
 
         RGE is an optional argument to turn RGE running on (True) or off (False). (Default True)
         """
-        if mu is None:
-            mu=2
+        mu=2
         if RGE is None:
             RGE=True
 
@@ -2851,7 +2851,7 @@ class WC_5flavor(object):
         return dict_coeff_mb
 
 
-    def match(self, RGE=None, mu=None):
+    def match(self, RGE=None):
         """ Match from five-flavor to four-flavor QCD
 
         Calculate the matching at mu [GeV; default 4.18 GeV].
@@ -2863,8 +2863,7 @@ class WC_5flavor(object):
         """
         if RGE is None:
             RGE=True
-        if mu is None:
-            mu=self.ip['mb_at_mb']
+        mu=self.ip['mb_at_mb']
 
         # The new coefficients
         cdict4f = {}
@@ -3164,8 +3163,6 @@ class WilCo_EW(object):
         # (In the future, implement also the "running and matching" of mtop to mu = MZ)
 
         # The quark masses at MZ:
-
-        # Move this stuff to num input where it belongs!!!
         
         def mb(mu, mub, muc, nf, loop):
             return rge.M_Quark_MSbar('b', self.ip['mb_at_mb'], self.ip['mb_at_mb'], self.ip['asMZ'],\
