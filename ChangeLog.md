@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
 ## Unreleased
+### Fixed
+- Inconsistent implementation of double weak insertions for lepton operators
+
 ### Changed
 - Updated charm-quark mass to most recent PDG value
 - Removed internal options "DOUBLE_WEAK" and "double_QCD"

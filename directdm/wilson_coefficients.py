@@ -513,18 +513,6 @@ class WC_3flavor(object):
             my_cNR_dict = {
             'cNR1p' :   F1up*(c3mu_dict['C61u'] - np.sqrt(2)*GF*mu**2 / gs2_2GeV * c3mu_dict['C81u'])\
                       + F1dp*(c3mu_dict['C61d'] - np.sqrt(2)*GF*md**2 / gs2_2GeV * c3mu_dict['C81d'])\
-                      + F1up*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                              * c3mu_dict['C63e'] * c3mu_dict['D63eu'])\
-                      + F1dp*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                              * c3mu_dict['C63e'] * c3mu_dict['D63ed'])\
-                      + F1up*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                              * c3mu_dict['C63mu'] * c3mu_dict['D63muu'])\
-                      + F1dp*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                              * c3mu_dict['C63mu'] * c3mu_dict['D63mud'])\
-                      + F1up*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                              * c3mu_dict['C63tau'] * c3mu_dict['D63tauu'])\
-                      + F1dp*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                              * c3mu_dict['C63tau'] * c3mu_dict['D63taud'])\
                       + FGp*c3mu_dict['C71']\
                       + FSup*c3mu_dict['C75u'] + FSdp*c3mu_dict['C75d'] + FSsp*c3mu_dict['C75s']\
                       - alpha/(2*np.pi*DM_mass)*c3mu_dict['C51']\
@@ -537,25 +525,7 @@ class WC_3flavor(object):
             'cNR3p' : F2sp * c3mu_dict['C61s'],
             'cNR4p' : - 4*(  FAup*(c3mu_dict['C64u'] - np.sqrt(2)*GF*mu**2 / gs2_2GeV * c3mu_dict['C84u'])\
                            + FAdp*(c3mu_dict['C64d'] - np.sqrt(2)*GF*md**2 / gs2_2GeV * c3mu_dict['C84d'])\
-                           + FAsp*(c3mu_dict['C64s'] - np.sqrt(2)*GF*ms**2 / gs2_2GeV * c3mu_dict['C84s'])\
-                           + FAup*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                                   * c3mu_dict['C64e'] * c3mu_dict['D62ue'])\
-                           + FAdp*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                                   * c3mu_dict['C64e'] * c3mu_dict['D62de'])\
-                           + FAsp*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                                   * c3mu_dict['C64e'] * c3mu_dict['D62se'])\
-                           + FAup*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                                   * c3mu_dict['C64mu'] * c3mu_dict['D62umu'])\
-                           + FAdp*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                                   * c3mu_dict['C64mu'] * c3mu_dict['D62dmu'])\
-                           + FAsp*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                                   * c3mu_dict['C64mu'] * c3mu_dict['D62smu'])\
-                           + FAup*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                                   * c3mu_dict['C64tau'] * c3mu_dict['D62utau'])\
-                           + FAdp*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                                   * c3mu_dict['C64tau'] * c3mu_dict['D62dtau'])\
-                           + FAsp*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                                   * c3mu_dict['C64tau'] * c3mu_dict['D62stau']))\
+                           + FAsp*(c3mu_dict['C64s'] - np.sqrt(2)*GF*ms**2 / gs2_2GeV * c3mu_dict['C84s']))\
                       - 2*alpha/np.pi * self.ip['mup']/mN * c3mu_dict['C51']\
                       + 8*(FT0up*c3mu_dict['C79u'] + FT0dp*c3mu_dict['C79d'] + FT0sp*c3mu_dict['C79s']),
             'cNR5p' : - 2*mN * (F1up*c3mu_dict['C719u'] + F1dp*c3mu_dict['C719d'] + F1sp*c3mu_dict['C719s']),
@@ -566,82 +536,20 @@ class WC_3flavor(object):
                       + mN/DM_mass * F2sp * c3mu_dict['C61s'],
             'cNR7p' : - 2*(  FAup*(c3mu_dict['C63u'] - np.sqrt(2)*GF*mu**2 / gs2_2GeV * c3mu_dict['C83u'])\
                            + FAdp*(c3mu_dict['C63d'] - np.sqrt(2)*GF*md**2 / gs2_2GeV * c3mu_dict['C83d'])\
-                           + FAsp*(c3mu_dict['C63s'] - np.sqrt(2)*GF*ms**2 / gs2_2GeV * c3mu_dict['C83s'])\
-                           + FAup*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                                   * c3mu_dict['C63e'] * c3mu_dict['D62ue'])\
-                           + FAdp*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                                   * c3mu_dict['C63e'] * c3mu_dict['D62de'])\
-                           + FAsp*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                                   * c3mu_dict['C63e'] * c3mu_dict['D62se'])\
-                           + FAup*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                                   * c3mu_dict['C63mu'] * c3mu_dict['D62umu'])\
-                           + FAdp*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                                   * c3mu_dict['C63mu'] * c3mu_dict['D62dmu'])\
-                           + FAsp*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                                   * c3mu_dict['C63mu'] * c3mu_dict['D62smu'])\
-                           + FAup*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                                   * c3mu_dict['C63tau'] * c3mu_dict['D62utau'])\
-                           + FAdp*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                                   * c3mu_dict['C63tau'] * c3mu_dict['D62dtau'])\
-                           + FAsp*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                                   * c3mu_dict['C63tau'] * c3mu_dict['D62stau']))\
+                           + FAsp*(c3mu_dict['C63s'] - np.sqrt(2)*GF*ms**2 / gs2_2GeV * c3mu_dict['C83s']))\
                       - 4*DM_mass * (FAup*c3mu_dict['C717u'] + FAdp*c3mu_dict['C717d'] + FAsp*c3mu_dict['C717s']),
             'cNR8p' : 2*(  F1up*(c3mu_dict['C62u'] - np.sqrt(2)*GF*mu**2 / gs2_2GeV * c3mu_dict['C82u'])\
-                         + F1dp*(c3mu_dict['C62d'] - np.sqrt(2)*GF*md**2 / gs2_2GeV * c3mu_dict['C82d'])\
-                         + F1up*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                                 * c3mu_dict['C64e'] * c3mu_dict['D63eu'])\
-                         + F1dp*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                                 * c3mu_dict['C64e'] * c3mu_dict['D63ed'])\
-                         + F1up*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                                 * c3mu_dict['C64mu'] * c3mu_dict['D63muu'])\
-                         + F1dp*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                                 * c3mu_dict['C64mu'] * c3mu_dict['D63mud'])\
-                         + F1up*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                                 * c3mu_dict['C64tau'] * c3mu_dict['D63tauu'])\
-                         + F1dp*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                                 * c3mu_dict['C64tau'] * c3mu_dict['D63taud'])),
-            'cNR9p' : 2*(  (F1up+F2up)*(c3mu_dict['C62u'] - np.sqrt(2)*GF*mu**2 / gs2_2GeV * c3mu_dict['C82u'])\
-                         + (F1dp+F2dp)*(c3mu_dict['C62d'] - np.sqrt(2)*GF*md**2 / gs2_2GeV * c3mu_dict['C82d'])\
-                         + (F1sp+F2sp)*(c3mu_dict['C62s'] - np.sqrt(2)*GF*ms**2 / gs2_2GeV * c3mu_dict['C82s'])\
-                         + (F1up+F2up)*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                                        * c3mu_dict['C64e'] * c3mu_dict['D63eu'])\
-                         + (F1dp+F2dp)*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                                        * c3mu_dict['C64e'] * c3mu_dict['D63ed'])\
-                         + (F1sp+F2sp)*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                                        * c3mu_dict['C64e'] * c3mu_dict['D63es'])\
-                         + (F1up+F2up)*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                                        * c3mu_dict['C64mu'] * c3mu_dict['D63muu'])\
-                         + (F1dp+F2dp)*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                                        * c3mu_dict['C64mu'] * c3mu_dict['D63mud'])\
-                         + (F1sp+F2sp)*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                                        * c3mu_dict['C64mu'] * c3mu_dict['D63mus'])\
-                         + (F1up+F2up)*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                                        * c3mu_dict['C64tau'] * c3mu_dict['D63tauu'])\
-                         + (F1dp+F2dp)*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                                        * c3mu_dict['C64tau'] * c3mu_dict['D63taud'])\
-                         + (F1sp+F2sp)*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                                        * c3mu_dict['C64tau'] * c3mu_dict['D63taus']))
+                         + F1dp*(c3mu_dict['C62d'] - np.sqrt(2)*GF*md**2 / gs2_2GeV * c3mu_dict['C82d'])),
+            'cNR9p' : 2*(  (F1up+F2up)*(c3mu_dict['C62u']\
+                           - np.sqrt(2)*GF*mu**2 / gs2_2GeV * c3mu_dict['C82u'])\
+                         + (F1dp+F2dp)*(c3mu_dict['C62d']\
+                           - np.sqrt(2)*GF*md**2 / gs2_2GeV * c3mu_dict['C82d'])\
+                         + (F1sp+F2sp)*(c3mu_dict['C62s']\
+                           - np.sqrt(2)*GF*ms**2 / gs2_2GeV * c3mu_dict['C82s']))\
                       + 2*mN*(  FAup*(c3mu_dict['C63u'] - np.sqrt(2)*GF*mu**2 / gs2_2GeV * c3mu_dict['C83u'])\
                               + FAdp*(c3mu_dict['C63d'] - np.sqrt(2)*GF*md**2 / gs2_2GeV * c3mu_dict['C83d'])\
-                              + FAsp*(c3mu_dict['C63s'] - np.sqrt(2)*GF*ms**2 / gs2_2GeV * c3mu_dict['C83s'])\
-                              + FAup*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                                      * c3mu_dict['C63e'] * c3mu_dict['D62ue'])\
-                              + FAdp*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                                      * c3mu_dict['C63e'] * c3mu_dict['D62de'])\
-                              + FAsp*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                                      * c3mu_dict['C63e'] * c3mu_dict['D62se'])\
-                              + FAup*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                                      * c3mu_dict['C63mu'] * c3mu_dict['D62umu'])\
-                              + FAdp*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                                      * c3mu_dict['C63mu'] * c3mu_dict['D62dmu'])\
-                              + FAsp*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                                      * c3mu_dict['C63mu'] * c3mu_dict['D62smu'])\
-                              + FAup*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                                      * c3mu_dict['C63tau'] * c3mu_dict['D62utau'])\
-                              + FAdp*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                                      * c3mu_dict['C63tau'] * c3mu_dict['D62dtau'])\
-                              + FAsp*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                                      * c3mu_dict['C63tau'] * c3mu_dict['D62stau']))/DM_mass\
+                              + FAsp*(c3mu_dict['C63s'] - np.sqrt(2)*GF*ms**2 / gs2_2GeV * c3mu_dict['C83s']))\
+                             /DM_mass\
                       - 4*mN * (FAup*c3mu_dict['C721u'] + FAdp*c3mu_dict['C721d'] + FAsp*c3mu_dict['C721s']),
             'cNR10p' : FGtildep * c3mu_dict['C73']\
                        -2*mN/DM_mass * (FT0up*c3mu_dict['C710u']\
@@ -661,43 +569,13 @@ class WC_3flavor(object):
     
             'cNR13p' : mN/DM_mass * (FPup_pion*c3mu_dict['C78u'] + FPdp_pion*c3mu_dict['C78d'])\
                        + FPpup_pion*(c3mu_dict['C64u'] - np.sqrt(2)*GF*mu**2 / gs2_2GeV * c3mu_dict['C84u'])\
-                       + FPpdp_pion*(c3mu_dict['C64d'] - np.sqrt(2)*GF*md**2 / gs2_2GeV * c3mu_dict['C84d'])\
-                       + FPpup_pion*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                                     * c3mu_dict['C64e'] * c3mu_dict['D62ue'])\
-                       + FPpdp_pion*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                                     * c3mu_dict['C64e'] * c3mu_dict['D62de'])\
-                       + FPpup_pion*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                                     * c3mu_dict['C64mu'] * c3mu_dict['D62umu'])\
-                       + FPpdp_pion*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                                     * c3mu_dict['C64mu'] * c3mu_dict['D62dmu'])\
-                       + FPpup_pion*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                                     * c3mu_dict['C64tau'] * c3mu_dict['D62utau'])\
-                       + FPpdp_pion*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                                     * c3mu_dict['C64tau'] * c3mu_dict['D62dtau']),
+                       + FPpdp_pion*(c3mu_dict['C64d'] - np.sqrt(2)*GF*md**2 / gs2_2GeV * c3mu_dict['C84d']),
             'cNR14p' : mN/DM_mass * (FPup_eta*c3mu_dict['C78u']\
                                      + FPdp_eta*c3mu_dict['C78d']\
                                      + FPsp_eta*c3mu_dict['C78s'])\
                        + FPpup_eta*(c3mu_dict['C64u'] - np.sqrt(2)*GF*mu**2 / gs2_2GeV * c3mu_dict['C84u'])\
                        + FPpdp_eta*(c3mu_dict['C64d'] - np.sqrt(2)*GF*md**2 / gs2_2GeV * c3mu_dict['C84d'])\
                        + FPpsp_eta*(c3mu_dict['C64s'] - np.sqrt(2)*GF*ms**2 / gs2_2GeV * c3mu_dict['C84s'])\
-                       + FPpup_eta*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                                    * c3mu_dict['C64e'] * c3mu_dict['D62ue'])\
-                       + FPpdp_eta*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                                    * c3mu_dict['C64e'] * c3mu_dict['D62de'])\
-                       + FPpsp_eta*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                                    * c3mu_dict['C64e'] * c3mu_dict['D62se'])\
-                       + FPpup_eta*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                                    * c3mu_dict['C64mu'] * c3mu_dict['D62umu'])\
-                       + FPpdp_eta*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                                    * c3mu_dict['C64mu'] * c3mu_dict['D62dmu'])\
-                       + FPpsp_eta*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                                    * c3mu_dict['C64mu'] * c3mu_dict['D62smu'])\
-                       + FPpup_eta*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                                    * c3mu_dict['C64tau'] * c3mu_dict['D62utau'])\
-                       + FPpdp_eta*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                                    * c3mu_dict['C64tau'] * c3mu_dict['D62dtau'])\
-                       + FPpsp_eta*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                                    * c3mu_dict['C64tau'] * c3mu_dict['D62stau'])\
                        + 4*mN * (  FAup*(c3mu_dict['C718u']+c3mu_dict['C722u'])\
                                  + FAdp*(c3mu_dict['C718d']+c3mu_dict['C722d'])\
                                  + FAsp*(c3mu_dict['C718s']+c3mu_dict['C722s'])),
@@ -729,18 +607,6 @@ class WC_3flavor(object):
                       + F1dn*(c3mu_dict['C61d'] - np.sqrt(2)*GF*md**2 / gs2_2GeV * c3mu_dict['C81d'])\
                       + FGn*c3mu_dict['C71']\
                       + FSun*c3mu_dict['C75u'] + FSdn*c3mu_dict['C75d'] + FSsn*c3mu_dict['C75s']\
-                      + F1un*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                              * c3mu_dict['C63e'] * c3mu_dict['D63eu'])\
-                      + F1dn*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                              * c3mu_dict['C63e'] * c3mu_dict['D63ed'])\
-                      + F1un*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                              * c3mu_dict['C63mu'] * c3mu_dict['D63muu'])\
-                      + F1dn*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                              * c3mu_dict['C63mu'] * c3mu_dict['D63mud'])\
-                      + F1un*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                              * c3mu_dict['C63tau'] * c3mu_dict['D63tauu'])\
-                      + F1dn*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                              * c3mu_dict['C63tau'] * c3mu_dict['D63taud'])\
                       + 2*DM_mass * (F1un*c3mu_dict['C715u'] + F1dn*c3mu_dict['C715d'] + F1sn*c3mu_dict['C715s'])\
                       + FTW2un*c3mu_dict['C723u']\
                       + FTW2dn*c3mu_dict['C723d']\
@@ -750,25 +616,7 @@ class WC_3flavor(object):
             'cNR3n' : F2sn * c3mu_dict['C61s'],
             'cNR4n' : - 4*(  FAun*(c3mu_dict['C64u'] - np.sqrt(2)*GF*mu**2 / gs2_2GeV * c3mu_dict['C84u'])\
                            + FAdn*(c3mu_dict['C64d'] - np.sqrt(2)*GF*md**2 / gs2_2GeV * c3mu_dict['C84d'])\
-                           + FAsn*(c3mu_dict['C64s'] - np.sqrt(2)*GF*ms**2 / gs2_2GeV * c3mu_dict['C84s'])\
-                           + FAun*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                                   * c3mu_dict['C64e'] * c3mu_dict['D62ue'])\
-                           + FAdn*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                                   * c3mu_dict['C64e'] * c3mu_dict['D62de'])\
-                           + FAsn*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                                   * c3mu_dict['C64e'] * c3mu_dict['D62se'])\
-                           + FAun*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                                   * c3mu_dict['C64mu'] * c3mu_dict['D62umu'])\
-                           + FAdn*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                                   * c3mu_dict['C64mu'] * c3mu_dict['D62dmu'])\
-                           + FAsn*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                                   * c3mu_dict['C64mu'] * c3mu_dict['D62smu'])\
-                           + FAun*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                                   * c3mu_dict['C64tau'] * c3mu_dict['D62utau'])\
-                           + FAdn*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                                   * c3mu_dict['C64tau'] * c3mu_dict['D62dtau'])\
-                           + FAsn*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                                   * c3mu_dict['C64tau'] * c3mu_dict['D62stau']))\
+                           + FAsn*(c3mu_dict['C64s'] - np.sqrt(2)*GF*ms**2 / gs2_2GeV * c3mu_dict['C84s']))\
                       - 2*alpha/np.pi * self.ip['mun']/mN * c3mu_dict['C51']\
                       + 8*(FT0un*c3mu_dict['C79u'] + FT0dn*c3mu_dict['C79d'] + FT0sn*c3mu_dict['C79s']),
             'cNR5n' : - 2*mN * (F1un*c3mu_dict['C719u'] + F1dn*c3mu_dict['C719d'] + F1sn*c3mu_dict['C719s']),
@@ -779,82 +627,17 @@ class WC_3flavor(object):
                       + mN/DM_mass * F2sn * c3mu_dict['C61s'],
             'cNR7n' : - 2*(  FAun*(c3mu_dict['C63u'] - np.sqrt(2)*GF*mu**2 / gs2_2GeV * c3mu_dict['C83u'])\
                            + FAdn*(c3mu_dict['C63d'] - np.sqrt(2)*GF*md**2 / gs2_2GeV * c3mu_dict['C83d'])\
-                           + FAsn*(c3mu_dict['C63s'] - np.sqrt(2)*GF*ms**2 / gs2_2GeV * c3mu_dict['C83s'])\
-                           + FAun*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                                   * c3mu_dict['C63e'] * c3mu_dict['D62ue'])\
-                           + FAdn*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                                   * c3mu_dict['C63e'] * c3mu_dict['D62de'])\
-                           + FAsn*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                                   * c3mu_dict['C63e'] * c3mu_dict['D62se'])\
-                           + FAun*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                                   * c3mu_dict['C63mu'] * c3mu_dict['D62umu'])\
-                           + FAdn*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                                   * c3mu_dict['C63mu'] * c3mu_dict['D62dmu'])\
-                           + FAsn*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                                   * c3mu_dict['C63mu'] * c3mu_dict['D62smu'])\
-                           + FAun*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                                   * c3mu_dict['C63tau'] * c3mu_dict['D62utau'])\
-                           + FAdn*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                                   * c3mu_dict['C63tau'] * c3mu_dict['D62dtau'])\
-                           + FAsn*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                                   * c3mu_dict['C63tau'] * c3mu_dict['D62stau']))\
+                           + FAsn*(c3mu_dict['C63s'] - np.sqrt(2)*GF*ms**2 / gs2_2GeV * c3mu_dict['C83s']))\
                       - 4*DM_mass * (FAun*c3mu_dict['C717u'] + FAdn*c3mu_dict['C717d']+ FAsn*c3mu_dict['C717s']),
             'cNR8n' : 2*(  F1un*(c3mu_dict['C62u'] - np.sqrt(2)*GF*mu**2 / gs2_2GeV * c3mu_dict['C82u'])\
-                         + F1dn*(c3mu_dict['C62d'] - np.sqrt(2)*GF*md**2 / gs2_2GeV * c3mu_dict['C82d'])\
-                         + F1un*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                                 * c3mu_dict['C64e'] * c3mu_dict['D63eu'])\
-                         + F1dn*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                                 * c3mu_dict['C64e'] * c3mu_dict['D63ed'])\
-                         + F1un*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                                 * c3mu_dict['C64mu'] * c3mu_dict['D63muu'])\
-                         + F1dn*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                                 * c3mu_dict['C64mu'] * c3mu_dict['D63mud'])\
-                         + F1un*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                                 * c3mu_dict['C64tau'] * c3mu_dict['D63tauu'])\
-                         + F1dn*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                                 * c3mu_dict['C64tau'] * c3mu_dict['D63taud'])),
+                         + F1dn*(c3mu_dict['C62d'] - np.sqrt(2)*GF*md**2 / gs2_2GeV * c3mu_dict['C82d'])),
             'cNR9n' : 2*(  (F1un+F2un)*(c3mu_dict['C62u'] - np.sqrt(2)*GF*mu**2 / gs2_2GeV * c3mu_dict['C82u'])\
                          + (F1dn+F2dn)*(c3mu_dict['C62d'] - np.sqrt(2)*GF*md**2 / gs2_2GeV * c3mu_dict['C82d'])\
-                         + (F1sn+F2sn)*(c3mu_dict['C62s'] - np.sqrt(2)*GF*ms**2 / gs2_2GeV * c3mu_dict['C82s'])\
-                         + (F1un+F2un)*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                                        * c3mu_dict['C64e'] * c3mu_dict['D63eu'])\
-                         + (F1dn+F2dn)*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                                        * c3mu_dict['C64e'] * c3mu_dict['D63ed'])\
-                         + (F1sn+F2sn)*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                                        * c3mu_dict['C64e'] * c3mu_dict['D63es'])\
-                         + (F1un+F2un)*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                                        * c3mu_dict['C64mu'] * c3mu_dict['D63muu'])\
-                         + (F1dn+F2dn)*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                                        * c3mu_dict['C64mu'] * c3mu_dict['D63mud'])\
-                         + (F1sn+F2sn)*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                                        * c3mu_dict['C64mu'] * c3mu_dict['D63mus'])\
-                         + (F1un+F2up)*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                                        * c3mu_dict['C64tau'] * c3mu_dict['D63tauu'])\
-                         + (F1dn+F2dp)*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                                        * c3mu_dict['C64tau'] * c3mu_dict['D63taud'])\
-                         + (F1sp+F2sp)*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                                        * c3mu_dict['C64tau'] * c3mu_dict['D63taus']))
+                         + (F1sn+F2sn)*(c3mu_dict['C62s'] - np.sqrt(2)*GF*ms**2 / gs2_2GeV * c3mu_dict['C82s']))\
                       + 2*mN*(  FAun*(c3mu_dict['C63u'] - np.sqrt(2)*GF*mu**2 / gs2_2GeV * c3mu_dict['C83u'])\
                               + FAdn*(c3mu_dict['C63d'] - np.sqrt(2)*GF*md**2 / gs2_2GeV * c3mu_dict['C83d'])\
-                              + FAsn*(c3mu_dict['C63s'] - np.sqrt(2)*GF*ms**2 / gs2_2GeV * c3mu_dict['C83s'])\
-                              + FAun*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                                      * c3mu_dict['C63e'] * c3mu_dict['D62ue'])\
-                              + FAdn*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                                      * c3mu_dict['C63e'] * c3mu_dict['D62de'])\
-                              + FAsn*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                                      * c3mu_dict['C63e'] * c3mu_dict['D62se'])\
-                              + FAun*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                                      * c3mu_dict['C63mu'] * c3mu_dict['D62umu'])\
-                              + FAdn*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                                      * c3mu_dict['C63mu'] * c3mu_dict['D62dmu'])\
-                              + FAsn*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                                      * c3mu_dict['C63mu'] * c3mu_dict['D62smu'])\
-                              + FAun*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                                      * c3mu_dict['C63tau'] * c3mu_dict['D62utau'])\
-                              + FAdn*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                                      * c3mu_dict['C63tau'] * c3mu_dict['D62dtau'])\
-                              + FAsn*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                                      * c3mu_dict['C63tau'] * c3mu_dict['D62stau']))/DM_mass\
+                              + FAsn*(c3mu_dict['C63s'] - np.sqrt(2)*GF*ms**2 / gs2_2GeV * c3mu_dict['C83s']))\
+                             /DM_mass\
                       - 4*mN * (FAun*c3mu_dict['C721u']\
                                 + FAdn*c3mu_dict['C721d']\
                                 + FAsn*c3mu_dict['C721s']),
@@ -876,43 +659,13 @@ class WC_3flavor(object):
     
             'cNR13n' : mN/DM_mass * (FPun_pion*c3mu_dict['C78u'] + FPdn_pion*c3mu_dict['C78d'])\
                        + FPpun_pion*(c3mu_dict['C64u'] - np.sqrt(2)*GF*mu**2 / gs2_2GeV * c3mu_dict['C84u'])\
-                       + FPpdn_pion*(c3mu_dict['C64d'] - np.sqrt(2)*GF*md**2 / gs2_2GeV * c3mu_dict['C84d'])\
-                       + FPpun_pion*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                                     * c3mu_dict['C64e'] * c3mu_dict['D62ue'])\
-                       + FPpdn_pion*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                                     * c3mu_dict['C64e'] * c3mu_dict['D62de'])\
-                       + FPpun_pion*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                                     * c3mu_dict['C64mu'] * c3mu_dict['D62umu'])\
-                       + FPpdn_pion*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                                     * c3mu_dict['C64mu'] * c3mu_dict['D62dmu'])\
-                       + FPpun_pion*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                                     * c3mu_dict['C64tau'] * c3mu_dict['D62utau'])\
-                       + FPpdn_pion*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                                     * c3mu_dict['C64tau'] * c3mu_dict['D62dtau']),
+                       + FPpdn_pion*(c3mu_dict['C64d'] - np.sqrt(2)*GF*md**2 / gs2_2GeV * c3mu_dict['C84d']),
             'cNR14n' : mN/DM_mass * (FPun_eta*c3mu_dict['C78u']\
                                      + FPdn_eta*c3mu_dict['C78d']\
                                      + FPsn_eta*c3mu_dict['C78s'])\
                        + FPpun_eta*(c3mu_dict['C64u'] - np.sqrt(2)*GF*mu**2 / gs2_2GeV * c3mu_dict['C84u'])\
                        + FPpdn_eta*(c3mu_dict['C64d'] - np.sqrt(2)*GF*md**2 / gs2_2GeV * c3mu_dict['C84d'])\
                        + FPpsn_eta*(c3mu_dict['C64s'] - np.sqrt(2)*GF*ms**2 / gs2_2GeV * c3mu_dict['C84s'])\
-                       + FPpun_eta*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                                    * c3mu_dict['C64e'] * c3mu_dict['D62ue'])\
-                       + FPpdn_eta*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                                    * c3mu_dict['C64e'] * c3mu_dict['D62de'])\
-                       + FPpsn_eta*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                                    * c3mu_dict['C64e'] * c3mu_dict['D62se'])\
-                       + FPpun_eta*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                                    * c3mu_dict['C64mu'] * c3mu_dict['D62umu'])\
-                       + FPpdn_eta*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                                    * c3mu_dict['C64mu'] * c3mu_dict['D62dmu'])\
-                       + FPpsn_eta*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                                    * c3mu_dict['C64mu'] * c3mu_dict['D62smu'])\
-                       + FPpun_eta*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                                    * c3mu_dict['C64tau'] * c3mu_dict['D62utau'])\
-                       + FPpdn_eta*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                                    * c3mu_dict['C64tau'] * c3mu_dict['D62dtau'])\
-                       + FPpsn_eta*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                                    * c3mu_dict['C64tau'] * c3mu_dict['D62stau'])\
                        + 4*mN * (  FAun*(c3mu_dict['C718u']+c3mu_dict['C722u'])\
                                  + FAdn*(c3mu_dict['C718d']+c3mu_dict['C722d'])\
                                  + FAsn*(c3mu_dict['C718s']+c3mu_dict['C722s'])),
@@ -967,63 +720,15 @@ class WC_3flavor(object):
             'cNR3p' : 0,
             'cNR4p' : - 4*(  FAup*(c3mu_dict['C64u'] - np.sqrt(2)*GF*mu**2 / gs2_2GeV * c3mu_dict['C84u'])\
                            + FAdp*(c3mu_dict['C64d'] - np.sqrt(2)*GF*md**2 / gs2_2GeV * c3mu_dict['C84d'])\
-                           + FAsp*(c3mu_dict['C64s'] - np.sqrt(2)*GF*ms**2 / gs2_2GeV * c3mu_dict['C84s'])\
-                           + FAup*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                                   * c3mu_dict['C64e'] * c3mu_dict['D62ue'])\
-                           + FAdp*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                                   * c3mu_dict['C64e'] * c3mu_dict['D62de'])\
-                           + FAsp*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                                   * c3mu_dict['C64e'] * c3mu_dict['D62se'])\
-                           + FAup*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                                   * c3mu_dict['C64mu'] * c3mu_dict['D62umu'])\
-                           + FAdp*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                                   * c3mu_dict['C64mu'] * c3mu_dict['D62dmu'])\
-                           + FAsp*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                                   * c3mu_dict['C64mu'] * c3mu_dict['D62smu'])\
-                           + FAup*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                                   * c3mu_dict['C64tau'] * c3mu_dict['D62utau'])\
-                           + FAdp*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                                   * c3mu_dict['C64tau'] * c3mu_dict['D62dtau'])\
-                           + FAsp*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                                   * c3mu_dict['C64tau'] * c3mu_dict['D62stau'])),
+                           + FAsp*(c3mu_dict['C64s'] - np.sqrt(2)*GF*ms**2 / gs2_2GeV * c3mu_dict['C84s'])),
             'cNR5p' : 0,
             'cNR6p' : mN/DM_mass * FGtildep * c3mu_dict['C74'],
             'cNR7p' : - 4*DM_mass * (FAup*c3mu_dict['C717u'] + FAdp*c3mu_dict['C717d'] + FAsp*c3mu_dict['C717s']),
             'cNR8p' : 2*(  F1up*(c3mu_dict['C62u'] - np.sqrt(2)*GF*mu**2 / gs2_2GeV * c3mu_dict['C82u'])\
-                         + F1dp*(c3mu_dict['C62d'] - np.sqrt(2)*GF*md**2 / gs2_2GeV * c3mu_dict['C82d'])\
-                         + F1up*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                                 * c3mu_dict['C64e'] * c3mu_dict['D63eu'])\
-                         + F1dp*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                                 * c3mu_dict['C64e'] * c3mu_dict['D63ed'])\
-                         + F1up*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                                 * c3mu_dict['C64mu'] * c3mu_dict['D63muu'])\
-                         + F1dp*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                                 * c3mu_dict['C64mu'] * c3mu_dict['D63mud'])\
-                         + F1up*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                                 * c3mu_dict['C64tau'] * c3mu_dict['D63tauu'])\
-                         + F1dp*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                                 * c3mu_dict['C64tau'] * c3mu_dict['D63taud'])),
+                         + F1dp*(c3mu_dict['C62d'] - np.sqrt(2)*GF*md**2 / gs2_2GeV * c3mu_dict['C82d'])),
             'cNR9p' : 2*(  (F1up+F2up)*(c3mu_dict['C62u'] - np.sqrt(2)*GF*mu**2 / gs2_2GeV * c3mu_dict['C82u'])\
                          + (F1dp+F2dp)*(c3mu_dict['C62d'] - np.sqrt(2)*GF*md**2 / gs2_2GeV * c3mu_dict['C82d'])\
-                         + (F1sp+F2sp)*(c3mu_dict['C62s'] - np.sqrt(2)*GF*ms**2 / gs2_2GeV * c3mu_dict['C82s'])\
-                         + (F1up+F2up)*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                                        * c3mu_dict['C64e'] * c3mu_dict['D63eu'])\
-                         + (F1dp+F2dp)*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                                        * c3mu_dict['C64e'] * c3mu_dict['D63ed'])\
-                         + (F1sp+F2sp)*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                                        * c3mu_dict['C64e'] * c3mu_dict['D63es'])\
-                         + (F1up+F2up)*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                                        * c3mu_dict['C64mu'] * c3mu_dict['D63muu'])\
-                         + (F1dp+F2dp)*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                                        * c3mu_dict['C64mu'] * c3mu_dict['D63mud'])\
-                         + (F1sp+F2sp)*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                                        * c3mu_dict['C64mu'] * c3mu_dict['D63mus'])\
-                         + (F1up+F2up)*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                                        * c3mu_dict['C64tau'] * c3mu_dict['D63tauu'])\
-                         + (F1dp+F2dp)*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                                        * c3mu_dict['C64tau'] * c3mu_dict['D63taud'])\
-                         + (F1sp+F2sp)*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                                        * c3mu_dict['C64tau'] * c3mu_dict['D63taus'])),
+                         + (F1sp+F2sp)*(c3mu_dict['C62s'] - np.sqrt(2)*GF*ms**2 / gs2_2GeV * c3mu_dict['C82s'])),
             'cNR10p' : FGtildep * c3mu_dict['C73'],
             'cNR11p' : - mN/DM_mass * (FSup*c3mu_dict['C76u']\
                                        + FSdp*c3mu_dict['C76d']\
@@ -1036,43 +741,13 @@ class WC_3flavor(object):
     
             'cNR13p' : mN/DM_mass * (FPup_pion*c3mu_dict['C78u'] + FPdp_pion*c3mu_dict['C78d'])\
                        + FPpup_pion*(c3mu_dict['C64u'] - np.sqrt(2)*GF*mu**2 / gs2_2GeV * c3mu_dict['C84u'])\
-                       + FPpdp_pion*(c3mu_dict['C64d'] - np.sqrt(2)*GF*md**2 / gs2_2GeV * c3mu_dict['C84d'])\
-                       + FPpup_pion*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                                     * c3mu_dict['C64e'] * c3mu_dict['D62ue'])\
-                       + FPpdp_pion*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                                     * c3mu_dict['C64e'] * c3mu_dict['D62de'])\
-                       + FPpup_pion*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                                     * c3mu_dict['C64mu'] * c3mu_dict['D62umu'])\
-                       + FPpdp_pion*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                                     * c3mu_dict['C64mu'] * c3mu_dict['D62dmu'])\
-                       + FPpup_pion*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                                     * c3mu_dict['C64tau'] * c3mu_dict['D62utau'])\
-                       + FPpdp_pion*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                                     * c3mu_dict['C64tau'] * c3mu_dict['D62dtau']),
+                       + FPpdp_pion*(c3mu_dict['C64d'] - np.sqrt(2)*GF*md**2 / gs2_2GeV * c3mu_dict['C84d']),
             'cNR14p' : mN/DM_mass * (FPup_eta*c3mu_dict['C78u']\
                                      + FPdp_eta*c3mu_dict['C78d']\
                                      + FPsp_eta*c3mu_dict['C78s'])\
                        + FPpup_eta*(c3mu_dict['C64u'] - np.sqrt(2)*GF*mu**2 / gs2_2GeV * c3mu_dict['C84u'])\
                        + FPpdp_eta*(c3mu_dict['C64d'] - np.sqrt(2)*GF*md**2 / gs2_2GeV * c3mu_dict['C84d'])\
                        + FPpsp_eta*(c3mu_dict['C64s'] - np.sqrt(2)*GF*ms**2 / gs2_2GeV * c3mu_dict['C84s'])\
-                       + FPpup_eta*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                                    * c3mu_dict['C64e'] * c3mu_dict['D62ue'])\
-                       + FPpdp_eta*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                                    * c3mu_dict['C64e'] * c3mu_dict['D62de'])\
-                       + FPpsp_eta*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                                    * c3mu_dict['C64e'] * c3mu_dict['D62se'])\
-                       + FPpup_eta*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                                    * c3mu_dict['C64mu'] * c3mu_dict['D62umu'])\
-                       + FPpdp_eta*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                                    * c3mu_dict['C64mu'] * c3mu_dict['D62dmu'])\
-                       + FPpsp_eta*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                                    * c3mu_dict['C64mu'] * c3mu_dict['D62smu'])\
-                       + FPpup_eta*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                                    * c3mu_dict['C64tau'] * c3mu_dict['D62utau'])\
-                       + FPpdp_eta*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                                    * c3mu_dict['C64tau'] * c3mu_dict['D62dtau'])\
-                       + FPpsp_eta*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                                    * c3mu_dict['C64tau'] * c3mu_dict['D62stau'])\
                        + 4*mN * (FAup*c3mu_dict['C718u']\
                                  + FAdp*c3mu_dict['C718d']\
                                  + FAsp*c3mu_dict['C718s']),
@@ -1101,63 +776,15 @@ class WC_3flavor(object):
             'cNR3n' : 0,
             'cNR4n' : - 4*(  FAun*(c3mu_dict['C64u'] - np.sqrt(2)*GF*mu**2 / gs2_2GeV * c3mu_dict['C84u'])\
                            + FAdn*(c3mu_dict['C64d'] - np.sqrt(2)*GF*md**2 / gs2_2GeV * c3mu_dict['C84d'])\
-                           + FAsn*(c3mu_dict['C64s'] - np.sqrt(2)*GF*ms**2 / gs2_2GeV * c3mu_dict['C84s'])\
-                           + FAun*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                                   * c3mu_dict['C64e'] * c3mu_dict['D62ue'])\
-                           + FAdn*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                                   * c3mu_dict['C64e'] * c3mu_dict['D62de'])\
-                           + FAsn*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                                   * c3mu_dict['C64e'] * c3mu_dict['D62se'])\
-                           + FAun*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                                   * c3mu_dict['C64mu'] * c3mu_dict['D62umu'])\
-                           + FAdn*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                                   * c3mu_dict['C64mu'] * c3mu_dict['D62dmu'])\
-                           + FAsn*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                                   * c3mu_dict['C64mu'] * c3mu_dict['D62smu'])\
-                           + FAun*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                                   * c3mu_dict['C64tau'] * c3mu_dict['D62utau'])\
-                           + FAdn*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                                   * c3mu_dict['C64tau'] * c3mu_dict['D62dtau'])\
-                           + FAsn*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                                   * c3mu_dict['C64tau'] * c3mu_dict['D62stau'])),
+                           + FAsn*(c3mu_dict['C64s'] - np.sqrt(2)*GF*ms**2 / gs2_2GeV * c3mu_dict['C84s'])),
             'cNR5n' : 0,
             'cNR6n' : mN/DM_mass * FGtilden * c3mu_dict['C74'],
             'cNR7n' : - 4*DM_mass * (FAun*c3mu_dict['C717u'] + FAdn*c3mu_dict['C717d'] + FAsn*c3mu_dict['C717s']),
             'cNR8n' : 2*(  F1un*(c3mu_dict['C62u'] - np.sqrt(2)*GF*mu**2 / gs2_2GeV * c3mu_dict['C82u'])\
-                         + F1dn*(c3mu_dict['C62d'] - np.sqrt(2)*GF*md**2 / gs2_2GeV * c3mu_dict['C82d'])\
-                         + F1un*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                                 * c3mu_dict['C64e'] * c3mu_dict['D63eu'])\
-                         + F1dn*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                                 * c3mu_dict['C64e'] * c3mu_dict['D63ed'])\
-                         + F1un*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                                 * c3mu_dict['C64mu'] * c3mu_dict['D63muu'])\
-                         + F1dn*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                                 * c3mu_dict['C64mu'] * c3mu_dict['D63mud'])\
-                         + F1un*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                                 * c3mu_dict['C64tau'] * c3mu_dict['D63tauu'])\
-                         + F1dn*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                                 * c3mu_dict['C64tau'] * c3mu_dict['D63taud'])),
+                         + F1dn*(c3mu_dict['C62d'] - np.sqrt(2)*GF*md**2 / gs2_2GeV * c3mu_dict['C82d'])),
             'cNR9n' : 2*(  (F1un+F2un)*(c3mu_dict['C62u'] - np.sqrt(2)*GF*mu**2 / gs2_2GeV * c3mu_dict['C82u'])\
                          + (F1dn+F2dn)*(c3mu_dict['C62d'] - np.sqrt(2)*GF*md**2 / gs2_2GeV * c3mu_dict['C82d'])\
-                         + (F1sn+F2sn)*(c3mu_dict['C62s'] - np.sqrt(2)*GF*ms**2 / gs2_2GeV * c3mu_dict['C82s'])\
-                         + (F1un+F2un)*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                                        * c3mu_dict['C64e'] * c3mu_dict['D63eu'])\
-                         + (F1dn+F2dn)*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                                        * c3mu_dict['C64e'] * c3mu_dict['D63ed'])\
-                         + (F1sn+F2sn)*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                                        * c3mu_dict['C64e'] * c3mu_dict['D63es'])\
-                         + (F1un+F2un)*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                                        * c3mu_dict['C64mu'] * c3mu_dict['D63muu'])\
-                         + (F1dn+F2dn)*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                                        * c3mu_dict['C64mu'] * c3mu_dict['D63mud'])\
-                         + (F1sn+F2sn)*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                                        * c3mu_dict['C64mu'] * c3mu_dict['D63mus'])\
-                         + (F1un+F2up)*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                                        * c3mu_dict['C64tau'] * c3mu_dict['D63tauu'])\
-                         + (F1dn+F2dp)*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                                        * c3mu_dict['C64tau'] * c3mu_dict['D63taud'])\
-                         + (F1sp+F2sp)*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                                        * c3mu_dict['C64tau'] * c3mu_dict['D63taus'])),
+                         + (F1sn+F2sn)*(c3mu_dict['C62s'] - np.sqrt(2)*GF*ms**2 / gs2_2GeV * c3mu_dict['C82s'])),
             'cNR10n' : FGtilden * c3mu_dict['C73'],
             'cNR11n' : - mN/DM_mass * (FSun*c3mu_dict['C76u']\
                                        + FSdn*c3mu_dict['C76d']\
@@ -1170,43 +797,13 @@ class WC_3flavor(object):
     
             'cNR13n' : mN/DM_mass * (FPun_pion*c3mu_dict['C78u'] + FPdn_pion*c3mu_dict['C78d'])\
                        + FPpun_pion*(c3mu_dict['C64u'] - np.sqrt(2)*GF*mu**2 / gs2_2GeV * c3mu_dict['C84u'])\
-                       + FPpdn_pion*(c3mu_dict['C64d'] - np.sqrt(2)*GF*md**2 / gs2_2GeV * c3mu_dict['C84d'])\
-                       + FPpun_pion*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                                     * c3mu_dict['C64e'] * c3mu_dict['D62ue'])\
-                       + FPpdn_pion*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                                     * c3mu_dict['C64e'] * c3mu_dict['D62de'])\
-                       + FPpun_pion*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                                     * c3mu_dict['C64mu'] * c3mu_dict['D62umu'])\
-                       + FPpdn_pion*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                                     * c3mu_dict['C64mu'] * c3mu_dict['D62dmu'])\
-                       + FPpun_pion*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                                     * c3mu_dict['C64tau'] * c3mu_dict['D62utau'])\
-                       + FPpdn_pion*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                                     * c3mu_dict['C64tau'] * c3mu_dict['D62dtau']),
+                       + FPpdn_pion*(c3mu_dict['C64d'] - np.sqrt(2)*GF*md**2 / gs2_2GeV * c3mu_dict['C84d']),
             'cNR14n' : mN/DM_mass * (FPun_eta*c3mu_dict['C78u']\
                                      + FPdn_eta*c3mu_dict['C78d']\
                                      + FPsn_eta*c3mu_dict['C78s'])\
                        + FPpun_eta*(c3mu_dict['C64u'] - np.sqrt(2)*GF*mu**2 / gs2_2GeV * c3mu_dict['C84u'])\
                        + FPpdn_eta*(c3mu_dict['C64d'] - np.sqrt(2)*GF*md**2 / gs2_2GeV * c3mu_dict['C84d'])\
                        + FPpsn_eta*(c3mu_dict['C64s'] - np.sqrt(2)*GF*ms**2 / gs2_2GeV * c3mu_dict['C84s'])\
-                       + FPpun_eta*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                                    * c3mu_dict['C64e'] * c3mu_dict['D62ue'])\
-                       + FPpdn_eta*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                                    * c3mu_dict['C64e'] * c3mu_dict['D62de'])\
-                       + FPpsn_eta*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                                    * c3mu_dict['C64e'] * c3mu_dict['D62se'])\
-                       + FPpun_eta*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                                    * c3mu_dict['C64mu'] * c3mu_dict['D62umu'])\
-                       + FPpdn_eta*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                                    * c3mu_dict['C64mu'] * c3mu_dict['D62dmu'])\
-                       + FPpsn_eta*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                                    * c3mu_dict['C64mu'] * c3mu_dict['D62smu'])\
-                       + FPpun_eta*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                                    * c3mu_dict['C64tau'] * c3mu_dict['D62utau'])\
-                       + FPpdn_eta*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                                    * c3mu_dict['C64tau'] * c3mu_dict['D62dtau'])\
-                       + FPpsn_eta*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                                    * c3mu_dict['C64tau'] * c3mu_dict['D62stau'])\
                        + 4*mN * (FAun*c3mu_dict['C718u']\
                                  + FAdn*c3mu_dict['C718d']\
                                  + FAsn*c3mu_dict['C718s']),
@@ -1231,18 +828,6 @@ class WC_3flavor(object):
             my_cNR_dict = {
             'cNR1p' :    F1up * (c3mu_dict['C61u'] - np.sqrt(2)*GF*mu**2 / gs2_2GeV * c3mu_dict['C81u'])\
                        + F1dp * (c3mu_dict['C61d'] - np.sqrt(2)*GF*md**2 / gs2_2GeV * c3mu_dict['C81d'])\
-                       + F1up*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                               * c3mu_dict['C62e'] * c3mu_dict['D63eu'])\
-                       + F1dp*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                               * c3mu_dict['C62e'] * c3mu_dict['D63ed'])\
-                       + F1up*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                               * c3mu_dict['C62mu'] * c3mu_dict['D63muu'])\
-                       + F1dp*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                               * c3mu_dict['C62mu'] * c3mu_dict['D63mud'])\
-                       + F1up*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                               * c3mu_dict['C62tau'] * c3mu_dict['D63tauu'])\
-                       + F1dp*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                               * c3mu_dict['C62tau'] * c3mu_dict['D63taud'])\
                        + FGp*c3mu_dict['C65']/2/DM_mass\
                        + (FSup*c3mu_dict['C63u'] + FSdp*c3mu_dict['C63d'] + FSsp*c3mu_dict['C63s'])/2/DM_mass,
             'cNR2p' : 0,
@@ -1255,25 +840,7 @@ class WC_3flavor(object):
                           + FAdp * (c3mu_dict['C62d']\
                                     - np.sqrt(2)*GF*md**2 / gs2_2GeV * c3mu_dict['C82d'])\
                           + FAsp * (c3mu_dict['C62s']\
-                                    - np.sqrt(2)*GF*ms**2 / gs2_2GeV * c3mu_dict['C82s'])\
-                          + FAup*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                                  * c3mu_dict['C62e'] * c3mu_dict['D62ue'])\
-                          + FAdp*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                                  * c3mu_dict['C62e'] * c3mu_dict['D62de'])\
-                          + FAsp*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                                  * c3mu_dict['C62e'] * c3mu_dict['D62se'])\
-                          + FAup*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                                  * c3mu_dict['C62mu'] * c3mu_dict['D62umu'])\
-                          + FAdp*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                                  * c3mu_dict['C62mu'] * c3mu_dict['D62dmu'])\
-                          + FAsp*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                                  * c3mu_dict['C62mu'] * c3mu_dict['D62smu'])\
-                          + FAup*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                                  * c3mu_dict['C62tau'] * c3mu_dict['D62utau'])\
-                          + FAdp*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                                  * c3mu_dict['C62tau'] * c3mu_dict['D62dtau'])\
-                          + FAsp*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                                  * c3mu_dict['C62tau'] * c3mu_dict['D62stau'])),
+                                    - np.sqrt(2)*GF*ms**2 / gs2_2GeV * c3mu_dict['C82s'])),
             'cNR8p' : 0,
             'cNR9p' : 0,
             'cNR10p' : FGtildep * c3mu_dict['C66']/2/DM_mass,
@@ -1304,18 +871,6 @@ class WC_3flavor(object):
 
             'cNR1n' :   F1un * (c3mu_dict['C61u'] - np.sqrt(2)*GF*mu**2 / gs2_2GeV * c3mu_dict['C81u'])\
                       + F1dn * (c3mu_dict['C61d'] - np.sqrt(2)*GF*md**2 / gs2_2GeV * c3mu_dict['C81d'])\
-                      + F1un*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                              * c3mu_dict['C62e'] * c3mu_dict['D63eu'])\
-                      + F1dn*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                              * c3mu_dict['C62e'] * c3mu_dict['D63ed'])\
-                      + F1un*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                              * c3mu_dict['C62mu'] * c3mu_dict['D63muu'])\
-                      + F1dn*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                              * c3mu_dict['C62mu'] * c3mu_dict['D63mud'])\
-                      + F1un*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                              * c3mu_dict['C62tau'] * c3mu_dict['D63tauu'])\
-                      + F1dn*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                              * c3mu_dict['C62tau'] * c3mu_dict['D63taud'])\
                       + FGn*c3mu_dict['C65']/2/DM_mass\
                       + (FSun*c3mu_dict['C63u'] + FSdn*c3mu_dict['C63d'] + FSsn*c3mu_dict['C63s'])/2/DM_mass,
             'cNR2n' : 0,
@@ -1328,25 +883,7 @@ class WC_3flavor(object):
                           + FAdn * (c3mu_dict['C62d']\
                                     - np.sqrt(2)*GF*md**2 / gs2_2GeV * c3mu_dict['C82d'])\
                           + FAsn * (c3mu_dict['C62s']\
-                                    - np.sqrt(2)*GF*ms**2 / gs2_2GeV * c3mu_dict['C82s'])\
-                          + FAun*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                                  * c3mu_dict['C62e'] * c3mu_dict['D62ue'])\
-                          + FAdn*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                                  * c3mu_dict['C62e'] * c3mu_dict['D62de'])\
-                          + FAsn*(np.sqrt(2)*GF/np.pi**2 * me**2 * np.log(2/MZ)\
-                                  * c3mu_dict['C62e'] * c3mu_dict['D62se'])\
-                          + FAun*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                                  * c3mu_dict['C62mu'] * c3mu_dict['D62umu'])\
-                          + FAdn*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                                  * c3mu_dict['C62mu'] * c3mu_dict['D62dmu'])\
-                          + FAsn*(np.sqrt(2)*GF/np.pi**2 * mmu**2 * np.log(2/MZ)\
-                                  * c3mu_dict['C62mu'] * c3mu_dict['D62smu'])\
-                          + FAun*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                                  * c3mu_dict['C62tau'] * c3mu_dict['D62utau'])\
-                          + FAdn*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                                  * c3mu_dict['C62tau'] * c3mu_dict['D62dtau'])\
-                          + FAsn*(np.sqrt(2)*GF/np.pi**2 * mtau**2 * np.log(2/MZ)\
-                                  * c3mu_dict['C62tau'] * c3mu_dict['D62stau'])),
+                                    - np.sqrt(2)*GF*ms**2 / gs2_2GeV * c3mu_dict['C82s'])),
             'cNR8n' : 0,
             'cNR9n' : 0,
             'cNR10n' : FGtilden * c3mu_dict['C66']/2/DM_mass,
@@ -2106,6 +1643,46 @@ class WC_4flavor(object):
         at scale mu. The SM-SM Wilson coefficients are NOT returned. 
 
         RGE is an optional argument to turn RGE running on (True) or off (False). (Default True)
+
+
+        ***********************************************************
+
+        Here is an explanation how I implemented the "double weak insertions"
+        for leptons, since these details are not quite spelled out
+        (although implied) in 1801.04240.
+
+        For definiteness, equation numbers correspond to the JHEP version.
+
+        We can just imagine that there is a QCD running in this case
+        (or replace gs by el in all definitions), and then truncate
+        the RG running at the leading term. Effectively, this generates a matching
+        contribution to the dimension-eight operators proportional to a log(mu_high/mu_low).
+
+        We will generate this matching contribution at each of the flavor thresholds
+        (by default, mc, and 2 GeV). This is still not technically correct, as the
+        contribution should only arise via matching to the 3-flavor theory. However,
+        since the dimension-eight Wilson coefficient are not used anywhere else,
+        this should not lead to any problems. Moreover, in this way we automatically
+        obtain the correct logarithm in the NR coefficient when starting at the different
+        EFTs.
+
+        The matching contributions then read explicitly (recall that our DM Wilson
+        coefficients are dimensionful):
+
+        C81q(mu_low) = - 1 / \pi^2 \sum_l m_l^2 \log(mu_low/mu_high)
+                       * C63l(mu_high) * D63lq * gs^2/mq^2
+
+        C82q(mu_low) = - 1 / \pi^2 \sum_l m_l^2 \log(mu_low/mu_high)
+                       * C64l(mu_high) * D63lq * gs^2/mq^2
+
+        C83q(mu_low) = - 1 / \pi^2 \sum_l m_l^2 \log(mu_low/mu_high)
+                       * C63l(mu_high) * D62lq * gs^2/mq^2
+
+        C84q(mu_low) = - 1 / \pi^2 \sum_l m_l^2 \log(mu_low/mu_high)
+                       * C64l(mu_high) * D62lq * gs^2/mq^2
+
+        The NR coefficients are then given by Eq.s (5.5)--(5.10),
+        dropping the factors \sqrt{2}*G_F.
         """
         mu=2
         if RGE is None:
@@ -2118,11 +1695,260 @@ class WC_4flavor(object):
         else:
             cdold = self.coeff_dict
 
-        if self.DM_type == "D" or self.DM_type == "M":
+        if self.DM_type == "D":
             for wcn in self.wc_name_list_3f:
                 cdict3f[wcn] = cdold[wcn]
-            for wcn in self.wc8_name_list:
+
+            cdict3f['C81u'] = cdold['C81u']\
+                              - 1/np.pi**2 * self.ip['me']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C63e'] * cdold['D63eu']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['mu_at_2GeV']\
+                              - 1/np.pi**2 * self.ip['mmu']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C63mu'] * cdold['D63muu']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['mu_at_2GeV']\
+                              - 1/np.pi**2 * self.ip['mtau']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C63tau'] * cdold['D63tauu']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['mu_at_2GeV']
+            cdict3f['C81d'] = cdold['C81d']\
+                              - 1/np.pi**2 * self.ip['me']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C63e'] * cdold['D63ed']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['md_at_2GeV']\
+                              - 1/np.pi**2 * self.ip['mmu']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C63mu'] * cdold['D63mud']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['md_at_2GeV']\
+                              - 1/np.pi**2 * self.ip['mtau']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C63tau'] * cdold['D63taud']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['md_at_2GeV']
+            cdict3f['C81s'] = cdold['C81s']\
+                              - 1/np.pi**2 * self.ip['me']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C63e'] * cdold['D63es']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['ms_at_2GeV']\
+                              - 1/np.pi**2 * self.ip['mmu']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C63mu'] * cdold['D63mus']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['ms_at_2GeV']\
+                              - 1/np.pi**2 * self.ip['mtau']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C63tau'] * cdold['D63taus']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['ms_at_2GeV']
+
+            cdict3f['C82u'] = cdold['C82u']\
+                              - 1/np.pi**2 * self.ip['me']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C64e'] * cdold['D63eu']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['mu_at_2GeV']\
+                              - 1/np.pi**2 * self.ip['mmu']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C64mu'] * cdold['D63muu']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['mu_at_2GeV']\
+                              - 1/np.pi**2 * self.ip['mtau']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C64tau'] * cdold['D63tauu']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['mu_at_2GeV']
+            cdict3f['C82d'] = cdold['C82d']\
+                              - 1/np.pi**2 * self.ip['me']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C64e'] * cdold['D63ed']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['md_at_2GeV']\
+                              - 1/np.pi**2 * self.ip['mmu']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C64mu'] * cdold['D63mud']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['md_at_2GeV']\
+                              - 1/np.pi**2 * self.ip['mtau']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C64tau'] * cdold['D63taud']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['md_at_2GeV']
+            cdict3f['C82s'] = cdold['C82s']\
+                              - 1/np.pi**2 * self.ip['me']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C64e'] * cdold['D63es']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['ms_at_2GeV']\
+                              - 1/np.pi**2 * self.ip['mmu']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C64mu'] * cdold['D63mus']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['ms_at_2GeV']\
+                              - 1/np.pi**2 * self.ip['mtau']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C64tau'] * cdold['D63taus']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['ms_at_2GeV']
+
+            cdict3f['C83u'] = cdold['C83u']\
+                              - 1/np.pi**2 * self.ip['me']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C63e'] * cdold['D62ue']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['mu_at_2GeV']\
+                              - 1/np.pi**2 * self.ip['mmu']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C63mu'] * cdold['D62umu']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['mu_at_2GeV']\
+                              - 1/np.pi**2 * self.ip['mtau']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C63tau'] * cdold['D62utau']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['mu_at_2GeV']
+            cdict3f['C83d'] = cdold['C83d']\
+                              - 1/np.pi**2 * self.ip['me']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C63e'] * cdold['D62de']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['md_at_2GeV']\
+                              - 1/np.pi**2 * self.ip['mmu']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C63mu'] * cdold['D62dmu']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['md_at_2GeV']\
+                              - 1/np.pi**2 * self.ip['mtau']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C63tau'] * cdold['D62dtau']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['md_at_2GeV']
+            cdict3f['C83s'] = cdold['C83s']\
+                              - 1/np.pi**2 * self.ip['me']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C63e'] * cdold['D62se']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['ms_at_2GeV']\
+                              - 1/np.pi**2 * self.ip['mmu']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C63mu'] * cdold['D62smu']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['ms_at_2GeV']\
+                              - 1/np.pi**2 * self.ip['mtau']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C63tau'] * cdold['D62stau']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['ms_at_2GeV']
+
+            cdict3f['C84u'] = cdold['C84u']\
+                              - 1/np.pi**2 * self.ip['me']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C64e'] * cdold['D62ue']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['mu_at_2GeV']\
+                              - 1/np.pi**2 * self.ip['mmu']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C64mu'] * cdold['D62umu']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['mu_at_2GeV']\
+                              - 1/np.pi**2 * self.ip['mtau']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C64tau'] * cdold['D62utau']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['mu_at_2GeV']
+            cdict3f['C84d'] = cdold['C84d']\
+                              - 1/np.pi**2 * self.ip['me']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C64e'] * cdold['D62de']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['md_at_2GeV']\
+                              - 1/np.pi**2 * self.ip['mmu']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C64mu'] * cdold['D62dmu']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['md_at_2GeV']\
+                              - 1/np.pi**2 * self.ip['mtau']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C64tau'] * cdold['D62dtau']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['md_at_2GeV']
+            cdict3f['C84s'] = cdold['C84s']\
+                              - 1/np.pi**2 * self.ip['me']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C64e'] * cdold['D62se']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['ms_at_2GeV']\
+                              - 1/np.pi**2 * self.ip['mmu']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C64mu'] * cdold['D62smu']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['ms_at_2GeV']\
+                              - 1/np.pi**2 * self.ip['mtau']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C64tau'] * cdold['D62stau']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['ms_at_2GeV']
+
+            cdict3f['C71'] = cdold['C71'] - cdold['C75c']
+            cdict3f['C72'] = cdold['C72'] - cdold['C76c']
+            cdict3f['C73'] = cdold['C73'] + cdold['C77c']
+            cdict3f['C74'] = cdold['C74'] + cdold['C78c']
+
+
+        if self.DM_type == "M":
+            for wcn in self.wc_name_list_3f:
                 cdict3f[wcn] = cdold[wcn]
+
+            cdict3f['C82u'] = cdold['C82u']\
+                              - 1/np.pi**2 * self.ip['me']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C64e'] * cdold['D63eu']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['mu_at_2GeV']\
+                              - 1/np.pi**2 * self.ip['mmu']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C64mu'] * cdold['D63muu']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['mu_at_2GeV']\
+                              - 1/np.pi**2 * self.ip['mtau']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C64tau'] * cdold['D63tauu']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['mu_at_2GeV']
+            cdict3f['C82d'] = cdold['C82d']\
+                              - 1/np.pi**2 * self.ip['me']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C64e'] * cdold['D63ed']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['md_at_2GeV']\
+                              - 1/np.pi**2 * self.ip['mmu']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C64mu'] * cdold['D63mud']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['md_at_2GeV']\
+                              - 1/np.pi**2 * self.ip['mtau']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C64tau'] * cdold['D63taud']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['md_at_2GeV']
+            cdict3f['C82s'] = cdold['C82s']\
+                              - 1/np.pi**2 * self.ip['me']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C64e'] * cdold['D63es']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['ms_at_2GeV']\
+                              - 1/np.pi**2 * self.ip['mmu']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C64mu'] * cdold['D63mus']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['ms_at_2GeV']\
+                              - 1/np.pi**2 * self.ip['mtau']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C64tau'] * cdold['D63taus']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['ms_at_2GeV']
+
+            cdict3f['C84u'] = cdold['C84u']\
+                              - 1/np.pi**2 * self.ip['me']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C64e'] * cdold['D62ue']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['mu_at_2GeV']\
+                              - 1/np.pi**2 * self.ip['mmu']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C64mu'] * cdold['D62umu']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['mu_at_2GeV']\
+                              - 1/np.pi**2 * self.ip['mtau']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C64tau'] * cdold['D62utau']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['mu_at_2GeV']
+            cdict3f['C84d'] = cdold['C84d']\
+                              - 1/np.pi**2 * self.ip['me']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C64e'] * cdold['D62de']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['md_at_2GeV']\
+                              - 1/np.pi**2 * self.ip['mmu']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C64mu'] * cdold['D62dmu']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['md_at_2GeV']\
+                              - 1/np.pi**2 * self.ip['mtau']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C64tau'] * cdold['D62dtau']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['md_at_2GeV']
+            cdict3f['C84s'] = cdold['C84s']\
+                              - 1/np.pi**2 * self.ip['me']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C64e'] * cdold['D62se']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['ms_at_2GeV']\
+                              - 1/np.pi**2 * self.ip['mmu']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C64mu'] * cdold['D62smu']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['ms_at_2GeV']\
+                              - 1/np.pi**2 * self.ip['mtau']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C64tau'] * cdold['D62stau']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['ms_at_2GeV']
+
             cdict3f['C71'] = cdold['C71'] - cdold['C75c']
             cdict3f['C72'] = cdold['C72'] - cdold['C76c']
             cdict3f['C73'] = cdold['C73'] + cdold['C77c']
@@ -2131,8 +1957,87 @@ class WC_4flavor(object):
         if self.DM_type == "C":
             for wcn in self.wc_name_list_3f:
                 cdict3f[wcn] = cdold[wcn]
-            for wcn in self.wc8_name_list:
-                cdict3f[wcn] = cdold[wcn]
+
+            cdict3f['C81u'] = cdold['C81u']\
+                              - 1/np.pi**2 * self.ip['me']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C62e'] * cdold['D63eu']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['mu_at_2GeV']\
+                              - 1/np.pi**2 * self.ip['mmu']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C62mu'] * cdold['D63muu']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['mu_at_2GeV']\
+                              - 1/np.pi**2 * self.ip['mtau']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C62tau'] * cdold['D63tauu']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['mu_at_2GeV']
+            cdict3f['C81d'] = cdold['C81d']\
+                              - 1/np.pi**2 * self.ip['me']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C62e'] * cdold['D63ed']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['md_at_2GeV']\
+                              - 1/np.pi**2 * self.ip['mmu']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C62mu'] * cdold['D63mud']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['md_at_2GeV']\
+                              - 1/np.pi**2 * self.ip['mtau']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C62tau'] * cdold['D63taud']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['md_at_2GeV']
+            cdict3f['C81s'] = cdold['C81s']\
+                              - 1/np.pi**2 * self.ip['me']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C62e'] * cdold['D63es']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['ms_at_2GeV']\
+                              - 1/np.pi**2 * self.ip['mmu']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C62mu'] * cdold['D63mus']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['ms_at_2GeV']\
+                              - 1/np.pi**2 * self.ip['mtau']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C62tau'] * cdold['D63taus']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['ms_at_2GeV']
+
+            cdict3f['C82u'] = cdold['C82u']\
+                              - 1/np.pi**2 * self.ip['me']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C62e'] * cdold['D63eu']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['mu_at_2GeV']\
+                              - 1/np.pi**2 * self.ip['mmu']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C62mu'] * cdold['D63muu']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['mu_at_2GeV']\
+                              - 1/np.pi**2 * self.ip['mtau']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C62tau'] * cdold['D63tauu']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['mu_at_2GeV']
+            cdict3f['C82d'] = cdold['C82d']\
+                              - 1/np.pi**2 * self.ip['me']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C62e'] * cdold['D63ed']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['md_at_2GeV']\
+                              - 1/np.pi**2 * self.ip['mmu']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C62mu'] * cdold['D63mud']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['md_at_2GeV']\
+                              - 1/np.pi**2 * self.ip['mtau']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C62tau'] * cdold['D63taud']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['md_at_2GeV']
+            cdict3f['C82s'] = cdold['C82s']\
+                              - 1/np.pi**2 * self.ip['me']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C62e'] * cdold['D63es']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['ms_at_2GeV']\
+                              - 1/np.pi**2 * self.ip['mmu']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C62mu'] * cdold['D63mus']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['ms_at_2GeV']\
+                              - 1/np.pi**2 * self.ip['mtau']**2\
+                                * np.log(mu/self.ip['mb_at_mb'])\
+                                * cdold['C62tau'] * cdold['D63taus']\
+                                * (4*np.pi*self.ip['as_at_2GeV']) / self.ip['ms_at_2GeV']
+
             cdict3f['C65'] = cdold['C65'] - cdold['C63c']
             cdict3f['C66'] = cdold['C66'] + cdold['C64c']
 
@@ -2872,11 +2777,263 @@ class WC_5flavor(object):
         else:
             cdold = self.coeff_dict
 
-        if self.DM_type == "D" or self.DM_type == "M":
+        if self.DM_type == "D":
             for wcn in self.wc_name_list_4f:
                 cdict4f[wcn] = cdold[wcn]
-            for wcn in self.wc8_name_list:
+
+            cdict4f['C81u'] = cdold['C81u']\
+                              - 1/np.pi**2 * self.ip['me']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C63e'] * cdold['D63eu']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['mu_at_mb']\
+                              - 1/np.pi**2 * self.ip['mmu']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C63mu'] * cdold['D63muu']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['mu_at_mb']\
+                              - 1/np.pi**2 * self.ip['mtau']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C63tau'] * cdold['D63tauu']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['mu_at_mb']
+            cdict4f['C81d'] = cdold['C81d']\
+                              - 1/np.pi**2 * self.ip['me']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C63e'] * cdold['D63ed']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['md_at_mb']\
+                              - 1/np.pi**2 * self.ip['mmu']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C63mu'] * cdold['D63mud']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['md_at_mb']\
+                              - 1/np.pi**2 * self.ip['mtau']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C63tau'] * cdold['D63taud']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['md_at_mb']
+            cdict4f['C81s'] = cdold['C81s']\
+                              - 1/np.pi**2 * self.ip['me']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C63e'] * cdold['D63es']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['ms_at_mb']\
+                              - 1/np.pi**2 * self.ip['mmu']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C63mu'] * cdold['D63mus']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['ms_at_mb']\
+                              - 1/np.pi**2 * self.ip['mtau']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C63tau'] * cdold['D63taus']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['ms_at_mb']
+
+            cdict4f['C82u'] = cdold['C82u']\
+                              - 1/np.pi**2 * self.ip['me']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C64e'] * cdold['D63eu']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['mu_at_mb']\
+                              - 1/np.pi**2 * self.ip['mmu']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C64mu'] * cdold['D63muu']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['mu_at_mb']\
+                              - 1/np.pi**2 * self.ip['mtau']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C64tau'] * cdold['D63tauu']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['mu_at_mb']
+            cdict4f['C82d'] = cdold['C82d']\
+                              - 1/np.pi**2 * self.ip['me']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C64e'] * cdold['D63ed']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['md_at_mb']\
+                              - 1/np.pi**2 * self.ip['mmu']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C64mu'] * cdold['D63mud']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['md_at_mb']\
+                              - 1/np.pi**2 * self.ip['mtau']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C64tau'] * cdold['D63taud']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['md_at_mb']
+            cdict4f['C82s'] = cdold['C82s']\
+                              - 1/np.pi**2 * self.ip['me']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C64e'] * cdold['D63es']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['ms_at_mb']\
+                              - 1/np.pi**2 * self.ip['mmu']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C64mu'] * cdold['D63mus']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['ms_at_mb']\
+                              - 1/np.pi**2 * self.ip['mtau']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C64tau'] * cdold['D63taus']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['ms_at_mb']
+
+            cdict4f['C83u'] = cdold['C83u']\
+                              - 1/np.pi**2 * self.ip['me']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C63e'] * cdold['D62ue']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['mu_at_mb']\
+                              - 1/np.pi**2 * self.ip['mmu']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C63mu'] * cdold['D62umu']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['mu_at_mb']\
+                              - 1/np.pi**2 * self.ip['mtau']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C63tau'] * cdold['D62utau']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['mu_at_mb']
+            cdict4f['C83d'] = cdold['C83d']\
+                              - 1/np.pi**2 * self.ip['me']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C63e'] * cdold['D62de']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['md_at_mb']\
+                              - 1/np.pi**2 * self.ip['mmu']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C63mu'] * cdold['D62dmu']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['md_at_mb']\
+                              - 1/np.pi**2 * self.ip['mtau']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C63tau'] * cdold['D62dtau']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['md_at_mb']
+            cdict4f['C83s'] = cdold['C83s']\
+                              - 1/np.pi**2 * self.ip['me']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C63e'] * cdold['D62se']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['ms_at_mb']\
+                              - 1/np.pi**2 * self.ip['mmu']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C63mu'] * cdold['D62smu']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['ms_at_mb']\
+                              - 1/np.pi**2 * self.ip['mtau']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C63tau'] * cdold['D62stau']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['ms_at_mb']
+
+            cdict4f['C84u'] = cdold['C84u']\
+                              - 1/np.pi**2 * self.ip['me']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C64e'] * cdold['D62ue']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['mu_at_mb']\
+                              - 1/np.pi**2 * self.ip['mmu']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C64mu'] * cdold['D62umu']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['mu_at_mb']\
+                              - 1/np.pi**2 * self.ip['mtau']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C64tau'] * cdold['D62utau']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['mu_at_mb']
+            cdict4f['C84d'] = cdold['C84d']\
+                              - 1/np.pi**2 * self.ip['me']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C64e'] * cdold['D62de']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['md_at_mb']\
+                              - 1/np.pi**2 * self.ip['mmu']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C64mu'] * cdold['D62dmu']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['md_at_mb']\
+                              - 1/np.pi**2 * self.ip['mtau']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C64tau'] * cdold['D62dtau']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['md_at_mb']
+            cdict4f['C84s'] = cdold['C84s']\
+                              - 1/np.pi**2 * self.ip['me']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C64e'] * cdold['D62se']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['ms_at_mb']\
+                              - 1/np.pi**2 * self.ip['mmu']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C64mu'] * cdold['D62smu']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['ms_at_mb']\
+                              - 1/np.pi**2 * self.ip['mtau']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C64tau'] * cdold['D62stau']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['ms_at_mb']
+
+            for wcn in self.sm_name_list_4f:
                 cdict4f[wcn] = cdold[wcn]
+            for wcn in self.sm_lepton_name_list:
+                cdict4f[wcn] = cdold[wcn]
+            cdict4f['C71'] = cdold['C71'] - cdold['C75b']
+            cdict4f['C72'] = cdold['C72'] - cdold['C76b']
+            cdict4f['C73'] = cdold['C73'] + cdold['C77b']
+            cdict4f['C74'] = cdold['C74'] + cdold['C78b']
+
+        if self.DM_type == "M":
+            for wcn in self.wc_name_list_4f:
+                cdict4f[wcn] = cdold[wcn]
+
+            cdict4f['C82u'] = cdold['C82u']\
+                              - 1/np.pi**2 * self.ip['me']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C64e'] * cdold['D63eu']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['mu_at_mb']\
+                              - 1/np.pi**2 * self.ip['mmu']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C64mu'] * cdold['D63muu']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['mu_at_mb']\
+                              - 1/np.pi**2 * self.ip['mtau']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C64tau'] * cdold['D63tauu']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['mu_at_mb']
+            cdict4f['C82d'] = cdold['C82d']\
+                              - 1/np.pi**2 * self.ip['me']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C64e'] * cdold['D63ed']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['md_at_mb']\
+                              - 1/np.pi**2 * self.ip['mmu']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C64mu'] * cdold['D63mud']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['md_at_mb']\
+                              - 1/np.pi**2 * self.ip['mtau']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C64tau'] * cdold['D63taud']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['md_at_mb']
+            cdict4f['C82s'] = cdold['C82s']\
+                              - 1/np.pi**2 * self.ip['me']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C64e'] * cdold['D63es']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['ms_at_mb']\
+                              - 1/np.pi**2 * self.ip['mmu']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C64mu'] * cdold['D63mus']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['ms_at_mb']\
+                              - 1/np.pi**2 * self.ip['mtau']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C64tau'] * cdold['D63taus']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['ms_at_mb']
+
+            cdict4f['C84u'] = cdold['C84u']\
+                              - 1/np.pi**2 * self.ip['me']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C64e'] * cdold['D62ue']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['mu_at_mb']\
+                              - 1/np.pi**2 * self.ip['mmu']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C64mu'] * cdold['D62umu']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['mu_at_mb']\
+                              - 1/np.pi**2 * self.ip['mtau']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C64tau'] * cdold['D62utau']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['mu_at_mb']
+            cdict4f['C84d'] = cdold['C84d']\
+                              - 1/np.pi**2 * self.ip['me']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C64e'] * cdold['D62de']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['md_at_mb']\
+                              - 1/np.pi**2 * self.ip['mmu']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C64mu'] * cdold['D62dmu']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['md_at_mb']\
+                              - 1/np.pi**2 * self.ip['mtau']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C64tau'] * cdold['D62dtau']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['md_at_mb']
+            cdict4f['C84s'] = cdold['C84s']\
+                              - 1/np.pi**2 * self.ip['me']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C64e'] * cdold['D62se']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['ms_at_mb']\
+                              - 1/np.pi**2 * self.ip['mmu']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C64mu'] * cdold['D62smu']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['ms_at_mb']\
+                              - 1/np.pi**2 * self.ip['mtau']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C64tau'] * cdold['D62stau']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['ms_at_mb']
+
             for wcn in self.sm_name_list_4f:
                 cdict4f[wcn] = cdold[wcn]
             for wcn in self.sm_lepton_name_list:
@@ -2889,8 +3046,87 @@ class WC_5flavor(object):
         if self.DM_type == "C":
             for wcn in self.wc_name_list_4f:
                 cdict4f[wcn] = cdold[wcn]
-            for wcn in self.wc8_name_list:
-                cdict4f[wcn] = cdold[wcn]
+
+            cdict4f['C81u'] = cdold['C81u']\
+                              - 1/np.pi**2 * self.ip['me']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C62e'] * cdold['D63eu']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['mu_at_mb']\
+                              - 1/np.pi**2 * self.ip['mmu']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C62mu'] * cdold['D63muu']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['mu_at_mb']\
+                              - 1/np.pi**2 * self.ip['mtau']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C62tau'] * cdold['D63tauu']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['mu_at_mb']
+            cdict4f['C81d'] = cdold['C81d']\
+                              - 1/np.pi**2 * self.ip['me']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C62e'] * cdold['D63ed']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['md_at_mb']\
+                              - 1/np.pi**2 * self.ip['mmu']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C62mu'] * cdold['D63mud']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['md_at_mb']\
+                              - 1/np.pi**2 * self.ip['mtau']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C62tau'] * cdold['D63taud']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['md_at_mb']
+            cdict4f['C81s'] = cdold['C81s']\
+                              - 1/np.pi**2 * self.ip['me']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C62e'] * cdold['D63es']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['ms_at_mb']\
+                              - 1/np.pi**2 * self.ip['mmu']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C62mu'] * cdold['D63mus']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['ms_at_mb']\
+                              - 1/np.pi**2 * self.ip['mtau']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C62tau'] * cdold['D63taus']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['ms_at_mb']
+
+            cdict4f['C82u'] = cdold['C82u']\
+                              - 1/np.pi**2 * self.ip['me']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C62e'] * cdold['D63eu']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['mu_at_mb']\
+                              - 1/np.pi**2 * self.ip['mmu']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C62mu'] * cdold['D63muu']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['mu_at_mb']\
+                              - 1/np.pi**2 * self.ip['mtau']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C62tau'] * cdold['D63tauu']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['mu_at_mb']
+            cdict4f['C82d'] = cdold['C82d']\
+                              - 1/np.pi**2 * self.ip['me']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C62e'] * cdold['D63ed']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['md_at_mb']\
+                              - 1/np.pi**2 * self.ip['mmu']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C62mu'] * cdold['D63mud']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['md_at_mb']\
+                              - 1/np.pi**2 * self.ip['mtau']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C62tau'] * cdold['D63taud']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['md_at_mb']
+            cdict4f['C82s'] = cdold['C82s']\
+                              - 1/np.pi**2 * self.ip['me']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C62e'] * cdold['D63es']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['ms_at_mb']\
+                              - 1/np.pi**2 * self.ip['mmu']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C62mu'] * cdold['D63mus']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['ms_at_mb']\
+                              - 1/np.pi**2 * self.ip['mtau']**2\
+                                * np.log(self.ip['mb_at_mb']/self.ip['Mz'])\
+                                * cdold['C62tau'] * cdold['D63taus']\
+                                * (4*np.pi*self.ip['as_at_mb']) / self.ip['ms_at_mb']
+
             for wcn in self.sm_name_list_4f:
                 cdict4f[wcn] = cdold[wcn]
             for wcn in self.sm_lepton_name_list:
