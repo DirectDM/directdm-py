@@ -2854,7 +2854,7 @@ class WC_5flavor(object):
     def match(self, RGE=None):
         """ Match from five-flavor to four-flavor QCD
 
-        Calculate the matching at mu [GeV; default 4.18 GeV].
+        Calculate the matching at mb(mb).
 
         Returns a dictionary of Wilson coefficients for the four-flavor Lagrangian
         at scale mu.
