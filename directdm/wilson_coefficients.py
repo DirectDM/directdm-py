@@ -313,130 +313,10 @@ class WC_3flavor(object):
                 pass
 
 
-        # Issue a user warning if certain electron / muon Wilson coefficients are non-zero:
-
-        for wc_name in self.coeff_dict.keys():
-            if DM_type == "D":
-                for wc_name in ['C63e', 'C63mu', 'C64e', 'C64mu']:
-                    if self.coeff_dict[wc_name] != 0.:
-                        warnings.warn('The RG result for ' + wc_name + ' is incomplete, expect large uncertainties!')
-                    else:
-                        pass
-            elif DM_type == "M":
-                for wc_name in ['C64e', 'C64mu']:
-                    if self.coeff_dict[wc_name] != 0.:
-                        warnings.warn('The RG result for ' + wc_name + ' is incomplete, expect large uncertainties!')
-                    else:
-                        pass
-            elif DM_type == "C":
-                for wc_name in ['C62e', 'C62mu']:
-                    if self.coeff_dict[wc_name] != 0.:
-                        warnings.warn('The RG result for ' + wc_name + ' is incomplete, expect large uncertainties!')
-                    else:
-                        pass
-            elif DM_type == "R":
-                pass
-
-        # Create the np.array of coefficients:
-        self.coeff_list_dm_dim5_dim6_dim7 = np.array(dict_to_list(self.coeff_dict, self.wc_name_list))
-        self.coeff_list_dm_dim8 = np.array(dict_to_list(self.coeff_dict, self.wc8_name_list))
-        self.coeff_list_sm_lepton_dim6 = np.array(dict_to_list(self.coeff_dict, self.sm_lepton_name_list))
-
-
-
-        #---------------------------#
-        # The anomalous dimensions: #
-        #---------------------------#
-        if self.DM_type == "D":
-            self.gamma_QED = adm.ADM_QED(3)
-            self.gamma_QED2 = adm.ADM_QED2(3)
-            self.gamma_QCD = adm.ADM_QCD(3)
-            self.gamma_QCD2 = adm.ADM_QCD2(3)
-            self.gamma_QCD_dim8 = adm.ADM_QCD_dim8(3)
-        if self.DM_type == "M":
-            self.gamma_QED = np.delete(np.delete(adm.ADM_QED(3), del_ind_list, 0), del_ind_list, 1)
-            self.gamma_QED2 = np.delete(np.delete(adm.ADM_QED2(3), del_ind_list, 0), del_ind_list, 1)
-            self.gamma_QCD = np.delete(np.delete(adm.ADM_QCD(3), del_ind_list, 1), del_ind_list, 2)
-            self.gamma_QCD2 = np.delete(np.delete(adm.ADM_QCD2(3), del_ind_list, 1), del_ind_list, 2)
-            self.gamma_QCD_dim8 = np.delete(np.delete(adm.ADM_QCD_dim8(3), del_ind_list_dim_8, 0),\
-                                            del_ind_list_dim_8, 1)
-        if self.DM_type == "C":
-            self.gamma_QED = np.delete(np.delete(adm.ADM_QED(3), del_ind_list, 0), del_ind_list, 1)
-            self.gamma_QED2 = np.delete(np.delete(adm.ADM_QED2(3), del_ind_list, 0), del_ind_list, 1)
-            self.gamma_QCD = np.delete(np.delete(adm.ADM_QCD(3), del_ind_list, 1), del_ind_list, 2)
-            self.gamma_QCD2 = np.delete(np.delete(adm.ADM_QCD2(3), del_ind_list, 1), del_ind_list, 2)
-            self.gamma_QCD_dim8 = np.delete(np.delete(adm.ADM_QCD_dim8(3), del_ind_list_dim_8, 0),\
-                                            del_ind_list_dim_8, 1)
-        if self.DM_type == "R":
-            self.gamma_QED = np.delete(np.delete(adm.ADM_QED(3), del_ind_list, 0), del_ind_list, 1)
-            self.gamma_QED2 = np.delete(np.delete(adm.ADM_QED2(3), del_ind_list, 0), del_ind_list, 1)
-            self.gamma_QCD = np.delete(np.delete(adm.ADM_QCD(3), del_ind_list, 1), del_ind_list, 2)
-            self.gamma_QCD2 = np.delete(np.delete(adm.ADM_QCD2(3), del_ind_list, 1), del_ind_list, 2)
-
-
-    def run(self, mu_low=None):
-        """ Running of 3-flavor Wilson coefficients
-
-        Calculate the running from 2 GeV to mu_low [GeV; default 2 GeV] in the three-flavor theory. 
-
-        Return a dictionary of Wilson coefficients for the three-flavor Lagrangian
-        at scale mu_low (this is the default).
-        """
-        if mu_low is None:
-            mu_low=2
-
-        #-------------#
-        # The running #
-        #-------------#
-
-        alpha_at_mu = 1/self.ip['amtauinv']
-
-        as31 = rge.AlphaS(self.ip['asMZ'], self.ip['Mz'])
-        as31_high = as31.run({'mbmb': self.ip['mb_at_mb'], 'mcmc': self.ip['mc_at_mc']},\
-                             {'mub': self.ip['mb_at_mb'], 'muc': self.ip['mc_at_mc']}, 2, 3, 1)
-        as31_low = as31.run({'mbmb': self.ip['mb_at_mb'], 'mcmc': self.ip['mc_at_mc']},\
-                            {'mub': self.ip['mb_at_mb'], 'muc': self.ip['mc_at_mc']}, mu_low, 3, 1)
-        evolve1 = rge.RGE(self.gamma_QCD, 3)
-        evolve2 = rge.RGE(self.gamma_QCD2, 3)
-        if self.DM_type == "D" or self.DM_type == "M" or self.DM_type == "C":
-            evolve8 = rge.RGE([self.gamma_QCD_dim8], 3)
-        else:
-            pass
-
-        C_at_mu_QCD = np.dot(evolve2.U0_as2(as31_high, as31_low),\
-                             np.dot(evolve1.U0(as31_high, as31_low),\
-                                    self.coeff_list_dm_dim5_dim6_dim7))
-        C_at_mu_QED = np.dot(self.coeff_list_dm_dim5_dim6_dim7, self.gamma_QED)\
-                      * np.log(mu_low/2) * alpha_at_mu/(4*np.pi)\
-                    + np.dot(self.coeff_list_dm_dim5_dim6_dim7, self.gamma_QED2)\
-                      * np.log(mu_low/2) * (alpha_at_mu/(4*np.pi))**2
-        if self.DM_type == "D" or self.DM_type == "M" or self.DM_type == "C":
-            C_dim8_at_mu = np.dot(evolve8.U0(as31_high, as31_low), self.coeff_list_dm_dim8)
-        else:
-            pass
-
-        # Revert back to dictionary
-
-        dict_coeff_mu = list_to_dict(C_at_mu_QCD + C_at_mu_QED, self.wc_name_list)
-        if self.DM_type == "D" or self.DM_type == "M" or self.DM_type == "C":
-            dict_dm_dim8 = list_to_dict(C_dim8_at_mu, self.wc8_name_list)
-            dict_coeff_mu.update(dict_dm_dim8)
-
-            dict_sm_lepton_dim6 = list_to_dict(self.coeff_list_sm_lepton_dim6, self.sm_lepton_name_list)
-            dict_coeff_mu.update(dict_sm_lepton_dim6)
-        else:
-            pass
-
-        return dict_coeff_mu
-
-
-
-    def _my_cNR(self, DM_mass, RGE=None, NLO=None):
+    def _my_cNR(self, DM_mass, NLO=None):
         """Calculate the coefficients of the NR operators, with momentum dependence factored out.
     
         DM_mass is the DM mass in GeV
-
-        RGE is a flag to turn RGE running on (True) or off (False). (Default True)
 
         If NLO is set to True, the coherently enhanced NLO terms for Q_9^(7) are added. (Default False)
 
@@ -451,8 +331,6 @@ class WC_3flavor(object):
          'cNR16p', 'cNR16n', 'cNR17p', 'cNR17n', 'cNR18p', 'cNR18n', 'cNR19p', 'cNR19n', 'cNR20p', 'cNR20n',
          'cNR21p', 'cNR21n', 'cNR22p', 'cNR22n', 'cNR23p', 'cNR23n', 'cNR100p', 'cNR100n', 'cNR104p', 'cNR104n']
         """
-        if RGE is None:
-            RGE = True
         if NLO is None:
             NLO = False
 
@@ -466,9 +344,8 @@ class WC_3flavor(object):
         alpha = 1/self.ip['alowinv']
         GF = self.ip['GF']
 
-        as_2GeV = rge.AlphaS(self.ip['asMZ'],\
-                             self.ip['Mz']).run({'mbmb': self.ip['mb_at_mb'], 'mcmc': self.ip['mc_at_mc']},\
-                                                {'mub': self.ip['mb_at_mb'], 'muc': self.ip['mc_at_mc']}, 2, 3, 1)
+        as_2GeV = self.ip['as_at_2GeV']
+
         gs2_2GeV = 4*np.pi*as_2GeV
 
         # Quark masses at 2GeV
@@ -630,10 +507,7 @@ class WC_3flavor(object):
         # q^2 is here always the spatial part!!! 
         #
 
-        if RGE:
-            c3mu_dict = self.run(2)
-        else:
-            c3mu_dict = self.coeff_dict
+        c3mu_dict = self.coeff_dict
 
         if self.DM_type == "D":
             my_cNR_dict = {
@@ -1580,14 +1454,12 @@ class WC_3flavor(object):
         return my_cNR_dict
 
 
-    def cNR(self, DM_mass, q, RGE=None, NLO=None):
+    def cNR(self, DM_mass, q, NLO=None):
         """ The operator coefficients of O_1^N -- O_12^N as in 1308.6288 
 
         (multiply by propagators and sum up contributions)
 
         DM_mass is the DM mass in GeV
-
-        RGE is an optional argument to turn RGE running on (True) or off (False). (Default True)
 
         If NLO is set to True, the coherently enhanced NLO terms for Q_9^(7) are added. (Default False)
 
@@ -1600,8 +1472,6 @@ class WC_3flavor(object):
          'cNR6p', 'cNR6n', 'cNR7p', 'cNR7n', 'cNR8p', 'cNR8n', 'cNR9p', 'cNR9n', 'cNR10p', 'cNR10n',
          'cNR11p', 'cNR11n', 'cNR12p', 'cNR12n']
         """
-        if RGE is None:
-            RGE = True
         if NLO is None:
             NLO = False
 
@@ -1612,7 +1482,7 @@ class WC_3flavor(object):
 
         # The traditional coefficients, where different from above
         cNR_dict = {}
-        my_cNR = self._my_cNR(DM_mass, RGE, NLO)
+        my_cNR = self._my_cNR(DM_mass, NLO)
 
         # Add meson- / photon-pole contributions
         cNR_dict['cNR1p'] = my_cNR['cNR1p'] + qsq * my_cNR['cNR100p']
@@ -1662,7 +1532,7 @@ class WC_3flavor(object):
         return cNR_dict
 
 
-    def write_mma(self, DM_mass, qvec, RGE=None, NLO=None, path=None, filename=None):
+    def write_mma(self, DM_mass, qvec, NLO=None, path=None, filename=None):
         """ Write a text file with the NR coefficients that can be read into DMFormFactor 
 
         The order is {cNR1p, cNR2p, ... , cNR1n, cNR2n, ... }
@@ -1674,8 +1544,6 @@ class WC_3flavor(object):
 
         <filename> is the filename (default 'cNR.m')
         """
-        if RGE is None:
-            RGE=True
         if NLO is None:
             NLO=False
         if path is None:
@@ -1688,7 +1556,7 @@ class WC_3flavor(object):
         if filename is None:
             filename = 'cNR.m'
 
-        val = self.cNR(DM_mass, qvec, RGE, NLO)
+        val = self.cNR(DM_mass, qvec, NLO)
         self.cNR_list_mma = '{' + str(val['cNR1p']) + ', '\
                             + str(val['cNR2p']) + ', '\
                             + str(val['cNR3p']) + ', '\
@@ -1823,7 +1691,7 @@ class WC_4flavor(object):
 
         run
         ---
-        Run the Wilson from mb(mb) to mu_low [GeV; default 2 GeV], with 4 active quark flavors
+        Run the Wilson from mb(mb) to 2 GeV, with 4 active quark flavors
 
         match
         -----
@@ -2052,6 +1920,31 @@ class WC_4flavor(object):
                 self.coeff_dict[wc_name] = 0.
 
 
+        # Issue a user warning if certain electron / muon Wilson coefficients are non-zero:
+
+        for wc_name in self.coeff_dict.keys():
+            if DM_type == "D":
+                for wc_name in ['C63e', 'C63mu', 'C64e', 'C64mu']:
+                    if self.coeff_dict[wc_name] != 0.:
+                        warnings.warn('The RG result for ' + wc_name + ' is incomplete, expect large uncertainties!')
+                    else:
+                        pass
+            elif DM_type == "M":
+                for wc_name in ['C64e', 'C64mu']:
+                    if self.coeff_dict[wc_name] != 0.:
+                        warnings.warn('The RG result for ' + wc_name + ' is incomplete, expect large uncertainties!')
+                    else:
+                        pass
+            elif DM_type == "C":
+                for wc_name in ['C62e', 'C62mu']:
+                    if self.coeff_dict[wc_name] != 0.:
+                        warnings.warn('The RG result for ' + wc_name + ' is incomplete, expect large uncertainties!')
+                    else:
+                        pass
+            elif DM_type == "R":
+                pass
+
+
         # Create the np.array of coefficients:
         self.coeff_list_dm_dim5_dim6_dim7 = np.array(dict_to_list(self.coeff_dict, self.wc_name_list))
         self.coeff_list_dm_dim8 = np.array(dict_to_list(self.coeff_dict, self.wc8_name_list))
@@ -2137,7 +2030,7 @@ class WC_4flavor(object):
 
 
 
-    def run(self, mu_low=None):
+    def run(self):
         """ Running of 4-flavor Wilson coefficients
 
         Calculate the running from mb(mb) to mu_low [GeV; default 2 GeV] in the four-flavor theory. 
@@ -2145,8 +2038,7 @@ class WC_4flavor(object):
         Return a dictionary of Wilson coefficients for the four-flavor Lagrangian
         at scale mu_low.
         """
-        if mu_low is None:
-            mu_low=2
+        mu_low=2
 
 
         #-------------#
@@ -2155,23 +2047,14 @@ class WC_4flavor(object):
 
         mb = self.ip['mb_at_mb']
         alpha_at_mc = 1/self.ip['aMZinv']
-        as_2GeV = rge.AlphaS(self.ip['asMZ'],\
-                             self.ip['Mz']).run({'mbmb': self.ip['mb_at_mb'],\
-                                                 'mcmc': self.ip['mc_at_mc']},\
-                                                {'mub': self.ip['mb_at_mb'],\
-                                                 'muc': self.ip['mc_at_mc']}, 2, 3, 1)
+        as_mb = self.ip['as_at_mb']
+        as_2GeV = self.ip['as_at_2GeV']
         gs2_2GeV = 4*np.pi*as_2GeV
 
         if self.DM_type == "D" or self.DM_type == "M" or self.DM_type == "C":
             adm_eff = self.ADM_eff
         else:
             pass
-
-        as41 = rge.AlphaS(self.ip['asMZ'], self.ip['Mz'])
-        as41_high = as41.run({'mbmb': self.ip['mb_at_mb'], 'mcmc': self.ip['mc_at_mc']},\
-                             {'mub': self.ip['mb_at_mb'], 'muc': self.ip['mc_at_mc']}, mb, 4, 1)
-        as41_low = as41.run({'mbmb': self.ip['mb_at_mb'], 'mcmc': self.ip['mc_at_mc']},\
-                            {'mub': self.ip['mb_at_mb'], 'muc': self.ip['mc_at_mc']}, mu_low, 4, 1)
 
         evolve1 = rge.RGE(self.gamma_QCD, 4)
         evolve2 = rge.RGE(self.gamma_QCD2, 4)
@@ -2182,8 +2065,8 @@ class WC_4flavor(object):
 
         # Mixing in the dim.6 DM-SM sector
         #
-        C_at_mc_QCD = np.dot(evolve2.U0_as2(as41_high, as41_low),\
-                             np.dot(evolve1.U0(as41_high, as41_low),\
+        C_at_mc_QCD = np.dot(evolve2.U0_as2(as_mb, as_2GeV),\
+                             np.dot(evolve1.U0(as_mb, as_2GeV),\
                                     self.coeff_list_dm_dim5_dim6_dim7))
         C_at_mc_QED = np.dot(self.coeff_list_dm_dim5_dim6_dim7, self.gamma_QED)\
                       * np.log(mu_low/mb) * alpha_at_mc/(4*np.pi)\
@@ -2195,7 +2078,7 @@ class WC_4flavor(object):
 
             DIM6_DIM8_init = np.hstack((self.coeff_list_sm_dim6, self.coeff_list_dm_dim8))
 
-            DIM6_DIM8_at_mb =   np.dot(evolve8.U0(as41_high, as41_low), DIM6_DIM8_init)
+            DIM6_DIM8_at_mb =   np.dot(evolve8.U0(as_mb, as_2GeV), DIM6_DIM8_init)
 
         # Revert back to dictionary
 
@@ -2231,7 +2114,7 @@ class WC_4flavor(object):
         # The new coefficients
         cdict3f = {}
         if RGE:
-            cdold = self.run(mu)
+            cdold = self.run()
         else:
             cdold = self.coeff_dict
 
@@ -2269,11 +2152,11 @@ class WC_4flavor(object):
 
         (mainly for internal use)
         """
-        return WC_3flavor(self.match(RGE), self.DM_type, self.ip)._my_cNR(DM_mass, RGE, NLO)
+        return WC_3flavor(self.match(RGE), self.DM_type, self.ip)._my_cNR(DM_mass, NLO)
 
     def cNR(self, DM_mass, qvec, RGE=None, NLO=None):
         """ Calculate the NR coefficients from four-flavor theory """
-        return WC_3flavor(self.match(RGE), self.DM_type, self.ip).cNR(DM_mass, qvec, RGE, NLO)
+        return WC_3flavor(self.match(RGE), self.DM_type, self.ip).cNR(DM_mass, qvec, NLO)
 
     def write_mma(self, DM_mass, qvec, RGE=None, NLO=None, path=None, filename=None):
         """ Write a text file with the NR coefficients that can be read into DMFormFactor 
@@ -2404,7 +2287,7 @@ class WC_5flavor(object):
 
         run
         ---
-        Run the Wilson from MZ = 91.1876 GeV to mu_low [GeV; default mb(mb)], with 5 active quark flavors
+        Run the Wilson from MZ to mb(mb), with 5 active quark flavors
 
         match
         -----
@@ -2900,7 +2783,7 @@ class WC_5flavor(object):
 
 
 
-    def run(self, mu_low=None):
+    def run(self):
         """ Running of 5-flavor Wilson coefficients
 
         Calculate the running from MZ to mu_low [GeV; default mb(mb)] in the five-flavor theory. 
@@ -2909,8 +2792,7 @@ class WC_5flavor(object):
         at scale mu_low.
         """
 
-        if mu_low is None:
-            mu_low=self.ip['mb_at_mb']
+        mu_low=self.ip['mb_at_mb']
 
 
         #-------------#
@@ -2919,21 +2801,13 @@ class WC_5flavor(object):
 
         MZ = self.ip['Mz']
         alpha_at_mb = 1/self.ip['aMZinv']
+        as_MZ = self.ip['asMZ']
+        as_mb = self.ip['as_at_mb']
 
         if self.DM_type == "D" or self.DM_type == "M" or self.DM_type == "C":
             adm_eff = self.ADM_eff
         else:
             pass
-
-        as51 = rge.AlphaS(self.ip['asMZ'], self.ip['Mz'])
-        as51_high = as51.run({'mbmb': self.ip['mb_at_mb'],\
-                              'mcmc': self.ip['mc_at_mc']},\
-                             {'mub': self.ip['mb_at_mb'],\
-                              'muc': self.ip['mc_at_mc']}, MZ, 5, 1)
-        as51_low = as51.run({'mbmb': self.ip['mb_at_mb'],\
-                             'mcmc': self.ip['mc_at_mc']},\
-                            {'mub': self.ip['mb_at_mb'],\
-                             'muc': self.ip['mc_at_mc']}, mu_low, 5, 1)
 
         evolve1 = rge.RGE(self.gamma_QCD, 5)
         evolve2 = rge.RGE(self.gamma_QCD2, 5)
@@ -2946,8 +2820,8 @@ class WC_5flavor(object):
         #
         # Strictly speaking, MZ and mb should be defined at the same scale
         # (however, this is a higher-order difference)
-        C_at_mb_QCD = np.dot(evolve2.U0_as2(as51_high, as51_low),\
-                             np.dot(evolve1.U0(as51_high, as51_low),\
+        C_at_mb_QCD = np.dot(evolve2.U0_as2(as_MZ, as_mb),\
+                             np.dot(evolve1.U0(as_MZ, as_mb),\
                                     self.coeff_list_dm_dim5_dim6_dim7))
         C_at_mb_QED = np.dot(self.coeff_list_dm_dim5_dim6_dim7, self.gamma_QED)\
                       * np.log(mu_low/MZ) * alpha_at_mb/(4*np.pi)\
@@ -2959,7 +2833,7 @@ class WC_5flavor(object):
 
             DIM6_DIM8_init = np.hstack((self.coeff_list_sm_dim6, self.coeff_list_dm_dim8))
 
-            DIM6_DIM8_at_mb =   np.dot(evolve8.U0(as51_high, as51_low), DIM6_DIM8_init)
+            DIM6_DIM8_at_mb =   np.dot(evolve8.U0(as_MZ, as_mb), DIM6_DIM8_init)
 
 
         # Revert back to dictionary
@@ -2995,7 +2869,7 @@ class WC_5flavor(object):
         # The new coefficients
         cdict4f = {}
         if RGE:
-            cdold = self.run(mu)
+            cdold = self.run()
         else:
             cdold = self.coeff_dict
 
@@ -3277,12 +3151,11 @@ class WilCo_EW(object):
     # Running #
     #---------#
 
-    def run(self, mu_Lambda, muz=None):
-        """Calculate the e/w running from scale mu_Lambda (to be given in GeV) to scale muz [muz = MZ by default].
+    def run(self, mu_Lambda):
+        """Calculate the e/w running from scale mu_Lambda (to be given in GeV) to scale muz = MZ.
         
         """
-        if muz is None:
-            muz = self.ip['Mz']+0.01
+        muz = self.ip['Mz']+0.01
 
 
         # Define the dictionary of initial condictions for gauge / Yukawa couplings
@@ -3291,6 +3164,8 @@ class WilCo_EW(object):
         # (In the future, implement also the "running and matching" of mtop to mu = MZ)
 
         # The quark masses at MZ:
+
+        # Move this stuff to num input where it belongs!!!
         
         def mb(mu, mub, muc, nf, loop):
             return rge.M_Quark_MSbar('b', self.ip['mb_at_mb'], self.ip['mb_at_mb'], self.ip['asMZ'],\
@@ -3304,32 +3179,16 @@ class WilCo_EW(object):
                                                              'mcmc': self.ip['mc_at_mc']},\
                                                         {'mub': mub, 'muc': muc}, nf, loop)
 
-        self.mb_at_MZ = mb(self.ip['Mz'], self.ip['mb_at_mb'], self.ip['mc_at_mc'], 5, 1)
-        self.mc_at_MZ = mc(self.ip['Mz'], self.ip['mb_at_mb'], self.ip['mc_at_mc'], 5, 1)
+        self.coupl_init_dict = {'g1': self.ip['g1_at_MZ'],\
+                                'g2': self.ip['g2_at_MZ'],\
+                                'gs': self.ip['g3_at_MZ'],\
+                                'ytau': self.ip['ytau_at_MZ'],\
+                                'yc': self.ip['yc_at_MZ'],\
+                                'yb': self.ip['yb_at_MZ'],\
+                                'yt': self.ip['yt_at_MZ'],\
+                                'lam': self.ip['lam_at_MZ']}
 
-        self.g2_at_MZ   = np.sqrt(4*np.pi/self.ip['aMZinv']/self.ip['sw2_MSbar'])
-        self.g1_at_MZ   = np.sqrt(self.g2_at_MZ**2/(1/self.ip['sw2_MSbar'] - 1))
-        self.g3_at_MZ   = np.sqrt(4*np.pi*self.ip['asMZ'])
-        self.yc_at_MZ   = np.sqrt(np.sqrt(2)*self.ip['GF'])*np.sqrt(2) * self.mc_at_MZ
-        self.yb_at_MZ   = np.sqrt(np.sqrt(2)*self.ip['GF'])*np.sqrt(2) * self.mb_at_MZ
-        self.ytau_at_MZ = np.sqrt(np.sqrt(2)*self.ip['GF'])*np.sqrt(2) * self.ip['mtau']
-        self.yt_at_MZ   = np.sqrt(np.sqrt(2)*self.ip['GF'])*np.sqrt(2) * self.ip['mt_at_MZ']
-        self.lam_at_MZ  = 2*np.sqrt(2) * self.ip['GF'] * self.ip['Mh']**2
-
-        self.coupl_init_dict = {'g1': self.g1_at_MZ,\
-                                'g2': self.g2_at_MZ,\
-                                'gs': self.g3_at_MZ,\
-                                'ytau': self.ytau_at_MZ,\
-                                'yc': self.yc_at_MZ,\
-                                'yb': self.yb_at_MZ,\
-                                'yt': self.yt_at_MZ,\
-                                'lam': self.lam_at_MZ}
-
-
-
-
-
-            
+           
 
         # The full vector of dim.-6 Wilson coefficients
         C6_at_Lambda = np.concatenate((self.coeff_list_dim_6, self.coeff_list_sm_dim_6,\
@@ -3499,7 +3358,7 @@ class WilCo_EW(object):
 
         # The Wilson coefficients in the "UV" EFT at scale MZ
         if RUN_EW:
-            wcew_dict = self.run(mu_Lambda, muz=self.ip['Mz'])
+            wcew_dict = self.run(mu_Lambda)
         else:
             wcew_dict = self.coeff_dict
 

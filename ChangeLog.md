@@ -7,6 +7,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 ### Changed
 - Updated charm-quark mass to most recent PDG value
 - Removed internal options "DOUBLE_WEAK" and "double_QCD"
+- class `WC_3f`: Removed method `run` and corresponding option `RGE`
+- Globally removed the option to set the lower running scale
+- Moved definitions of more dependent parameters to num_input
+
+### Added
+- numinput
 
 ## [2.2.0] - 2020-11-30
 ### Fixed
