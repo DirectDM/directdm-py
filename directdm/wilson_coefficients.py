@@ -330,7 +330,7 @@ class WC_3flavor(object):
         into the "pion part" etc. with the q-dependence factored out,
         and introduce a few spurious "long-distance" operators.
         
-        The coefficients cNR1 -- cNR12, cNR14 correspond to the operators in 1611.00368 and 1308.6288
+        The coefficients cNR1 -- cNR14 correspond to the operators in 1611.00368 and 1308.6288
         
         Therefore, we define O6pi     = O6/(mpi^2+q^2); 
                              O6eta    = O6/(meta^2+q^2);
@@ -356,7 +356,7 @@ class WC_3flavor(object):
 
         ['cNR1p', 'cNR1n', 'cNR2p', 'cNR2n', 'cNR3p', 'cNR3n', 'cNR4p', 'cNR4n', 'cNR5p', 'cNR5n',
          'cNR6p', 'cNR6n', 'cNR7p', 'cNR7n', 'cNR8p', 'cNR8n', 'cNR9p', 'cNR9n', 'cNR10p', 'cNR10n',
-         'cNR11p', 'cNR11n', 'cNR12p', 'cNR12n', 'cNR14p', 'cNR14n',
+         'cNR11p', 'cNR11n', 'cNR12p', 'cNR12n', 'cNR13p', 'cNR13n', 'cNR14p', 'cNR14n',
          'cNR6pip', 'cNR6pin', 'cNR6etap', 'cNR6etan',
          'cNR6q2pip', 'cNR6q2pi', 'cNR6q2etap', 'cNR6q2etan', 'cNR10pip', 'cNR10pin',
          'cNR10etap', 'cNR10etan', 'cNR10q2pip', 'cNR10q2pin', 'cNR10q2etap', 'cNR10q2etan',
@@ -514,7 +514,7 @@ class WC_3flavor(object):
         # into the "pion part" etc. with the q-dependence factored out,
         # and introduce a few spurious "long-distance" operators.
         #
-        # The coefficients cNR1 -- cNR12, cNR14 correspond to the operators in 1611.00368 and 1308.6288
+        # The coefficients cNR1 -- cNR14 correspond to the operators in 1611.00368 and 1308.6288
         #
         # Therefore, we define O6pi     = O6/(mpi^2+q^2); 
         #                      O6eta    = O6/(meta^2+q^2);
@@ -598,6 +598,7 @@ class WC_3flavor(object):
                                   + F1dp*(c3mu_dict['C716d']+c3mu_dict['C720d'])\
                                   + F1sp*(c3mu_dict['C716s']+c3mu_dict['C720s'])),
             'cNR12p' : -8*(FT0up*c3mu_dict['C710u'] + FT0dp*c3mu_dict['C710d'] + FT0sp*c3mu_dict['C710s']),
+            'cNR13p' : 0.,
             'cNR14p' : + 4*mN * (  FAup*(c3mu_dict['C718u']+c3mu_dict['C722u'])\
                                  + FAdp*(c3mu_dict['C718d']+c3mu_dict['C722d'])\
                                  + FAsp*(c3mu_dict['C718s']+c3mu_dict['C722s'])),
@@ -688,6 +689,7 @@ class WC_3flavor(object):
                                  + F1dn*(c3mu_dict['C716d']+c3mu_dict['C720d'])\
                                  + F1sn*(c3mu_dict['C716s']+c3mu_dict['C720s'])),
             'cNR12n' : -8*(FT0un*c3mu_dict['C710u'] + FT0dn*c3mu_dict['C710d'] + FT0sn*c3mu_dict['C710s']),
+            'cNR13n' : 0.,
             'cNR14n' :           + 4*mN * (  FAun*(c3mu_dict['C718u']+c3mu_dict['C722u'])\
                                  + FAdn*(c3mu_dict['C718d']+c3mu_dict['C722d'])\
                                  + FAsn*(c3mu_dict['C718s']+c3mu_dict['C722s'])),
@@ -770,6 +772,7 @@ class WC_3flavor(object):
                                    + F1dp*c3mu_dict['C716d']\
                                    + F1sp*c3mu_dict['C716s']),
             'cNR12p' : 0,
+            'cNR13p' : 0.,
             'cNR14p' : + 4*mN * (FAup*c3mu_dict['C718u']\
                                  + FAdp*c3mu_dict['C718d']\
                                  + FAsp*c3mu_dict['C718s']),
@@ -826,6 +829,7 @@ class WC_3flavor(object):
                                    + F1dn*c3mu_dict['C716d']\
                                    + F1sn*c3mu_dict['C716s']),
             'cNR12n' : 0,
+            'cNR13p' : 0.,
             'cNR14n' : + 4*mN * (FAun*c3mu_dict['C718u']\
                                  + FAdn*c3mu_dict['C718d']\
                                  + FAsn*c3mu_dict['C718s']),
@@ -878,6 +882,7 @@ class WC_3flavor(object):
             'cNR10p' : FGtildep * c3mu_dict['C66']/2/DM_mass,
             'cNR11p' : 0,
             'cNR12p' : 0,
+            'cNR13p' : 0.,
             'cNR14p' : 0,
 
             'cNR6pip' : 0,
@@ -922,6 +927,7 @@ class WC_3flavor(object):
             'cNR10n' : FGtilden * c3mu_dict['C66']/2/DM_mass,
             'cNR11n' : 0,
             'cNR12n' : 0,
+            'cNR13p' : 0.,
             'cNR14n' : 0,
 
             'cNR6pin' : 0,
@@ -962,6 +968,7 @@ class WC_3flavor(object):
             'cNR10p' : FGtildep * c3mu_dict['C66']/2/DM_mass,
             'cNR11p' : 0,
             'cNR12p' : 0,
+            'cNR13p' : 0.,
             'cNR14p' : 0,
 
             'cNR6pip' : 0,
@@ -1001,6 +1008,7 @@ class WC_3flavor(object):
             'cNR10n' : FGtilden * c3mu_dict['C66']/2/DM_mass,
             'cNR11n' : 0,
             'cNR12n' : 0,
+            'cNR13p' : 0.,
             'cNR14n' : 0,
 
             'cNR6pin' : 0,
@@ -1037,13 +1045,13 @@ class WC_3flavor(object):
         If NLO is set to True, the coherently enhanced NLO terms for Q_9^(7) are added. (Default False)
 
         Returns a dictionary of coefficients for the NR Lagrangian, 
-        cNR1 -- cNR12, cNR14, as in 1308.6288
+        cNR1 -- cNR14, as in 1308.6288
 
         The possible names are
 
         ['cNR1p', 'cNR1n', 'cNR2p', 'cNR2n', 'cNR3p', 'cNR3n', 'cNR4p', 'cNR4n', 'cNR5p', 'cNR5n',
          'cNR6p', 'cNR6n', 'cNR7p', 'cNR7n', 'cNR8p', 'cNR8n', 'cNR9p', 'cNR9n', 'cNR10p', 'cNR10n',
-         'cNR11p', 'cNR11n', 'cNR12p', 'cNR12n', 'cNR14p', 'cNR14n']
+         'cNR11p', 'cNR11n', 'cNR12p', 'cNR12n', 'cNR13p', 'cNR13n', 'cNR14p', 'cNR14n']
         """
         if NLO is None:
             NLO = False
@@ -1079,6 +1087,7 @@ class WC_3flavor(object):
                              + qsq/(meta**2 + qsq) * my_cNR['cNR10q2etap']
         cNR_dict['cNR11p'] = my_cNR['cNR11p'] + 1/qsq * my_cNR['cNR11bq2p']
         cNR_dict['cNR12p'] = my_cNR['cNR12p']
+        cNR_dict['cNR13p'] = my_cNR['cNR13p']
         cNR_dict['cNR14p'] = my_cNR['cNR14p']
 
         cNR_dict['cNR1n'] = my_cNR['cNR1n'] + qsq * my_cNR['cNR1q2n']
@@ -1102,6 +1111,7 @@ class WC_3flavor(object):
                              + qsq/(meta**2 + qsq) * my_cNR['cNR10q2etan']
         cNR_dict['cNR11n'] = my_cNR['cNR11n'] + 1/qsq * my_cNR['cNR11bq2n']
         cNR_dict['cNR12n'] = my_cNR['cNR12n']
+        cNR_dict['cNR13n'] = my_cNR['cNR13n']
         cNR_dict['cNR14n'] = my_cNR['cNR14n']
 
         return cNR_dict
@@ -1144,6 +1154,7 @@ class WC_3flavor(object):
                             + str(val['cNR10p']) + ', '\
                             + str(val['cNR11p']) + ', '\
                             + str(val['cNR12p']) + ', '\
+                            + str(val['cNR13p']) + ', '\
                             + str(val['cNR14p']) + ', '\
                             + str(val['cNR1n']) + ', '\
                             + str(val['cNR2n']) + ', '\
@@ -1157,6 +1168,7 @@ class WC_3flavor(object):
                             + str(val['cNR10n']) + ', '\
                             + str(val['cNR11n']) + ', '\
                             + str(val['cNR12n']) + ', '\
+                            + str(val['cNR13n']) + ', '\
                             + str(val['cNR14n']) + '}' + '\n'
 
         output_file = str(os.path.expanduser(path)) + filename

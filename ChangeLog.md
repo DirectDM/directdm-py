@@ -16,8 +16,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 - Moved definitions of more dependent parameters to num_input
 
 ### Added
-- numinput
-- NR coefficients `cNR14p`, `cNR14n`
+- Additional dependent parameters (masses and strong coupling at various scales) to num_input
+- NR coefficients `cNR13p`, `cNR13n`, `cNR14p`, `cNR14n`
 
 ## [2.2.0] - 2020-11-30
 ### Fixed
