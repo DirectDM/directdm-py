@@ -49,7 +49,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
   The approximate relations for converting the renormalization scheme are taken from [this reference](https://arxiv.org/abs/1212.4319).
 
 ### Added
-- Some four-loop relations for running and decoupling; just for completeness and convencience;
+- Some four-loop relations for running and decoupling; just for completeness and convenience;
   they are currently not used in the code
 
 ## [2.1.2] - 2020-07-22
