@@ -564,7 +564,7 @@ class WC_3flavor(object):
             'cNR6p' : mN/DM_mass * FGtildep * c3mu_dict['C74']\
                       -2*mN*((F1up+F2up)*c3mu_dict['C719u']\
                              + (F1dp+F2dp)*c3mu_dict['C719d']\
-                             + (F1sp+F2dp)*c3mu_dict['C719s'])\
+                             + (F1sp+F2sp)*c3mu_dict['C719s'])\
                       + mN/DM_mass * F2sp * c3mu_dict['C61s'],
             'cNR7p' : - 2*(  FAup*(c3mu_dict['C63u'] - np.sqrt(2)*GF*mu**2 / gs2_2GeV * c3mu_dict['C83u'])\
                            + FAdp*(c3mu_dict['C63d'] - np.sqrt(2)*GF*md**2 / gs2_2GeV * c3mu_dict['C83d'])\
@@ -630,7 +630,7 @@ class WC_3flavor(object):
                         + (F1spslope - F2sp / mN**2/4) * c3mu_dict['C61s'],
             'cNR4q2p' : 2*((F1up+F2up)*c3mu_dict['C719u']\
                            + (F1dp+F2dp)*c3mu_dict['C719d']\
-                           + (F1sp+F2dp)*c3mu_dict['C719s'])/mN\
+                           + (F1sp+F2sp)*c3mu_dict['C719s'])/mN\
                         - 1/mN/DM_mass * F2sp * c3mu_dict['C61s'],
 
 
@@ -656,7 +656,7 @@ class WC_3flavor(object):
             'cNR6n' : mN/DM_mass * FGtilden * c3mu_dict['C74']\
                       -2*mN*((F1un+F2un)*c3mu_dict['C719u']\
                              + (F1dn+F2dn)*c3mu_dict['C719d']\
-                             + (F1sn+F2dn)*c3mu_dict['C719s'])\
+                             + (F1sn+F2sn)*c3mu_dict['C719s'])\
                       + mN/DM_mass * F2sn * c3mu_dict['C61s'],
             'cNR7n' : - 2*(  FAun*(c3mu_dict['C63u'] - np.sqrt(2)*GF*mu**2 / gs2_2GeV * c3mu_dict['C83u'])\
                            + FAdn*(c3mu_dict['C63d'] - np.sqrt(2)*GF*md**2 / gs2_2GeV * c3mu_dict['C83d'])\
@@ -721,7 +721,7 @@ class WC_3flavor(object):
                         + (F1snslope - F2sn / mN**2/4) * c3mu_dict['C61s'],
             'cNR4q2n' : 2*((F1un+F2un)*c3mu_dict['C719u']\
                            + (F1dn+F2dn)*c3mu_dict['C719d']\
-                           + (F1sn+F2dn)*c3mu_dict['C719s'])/mN\
+                           + (F1sn+F2sn)*c3mu_dict['C719s'])/mN\
                         - 1/mN/DM_mass * F2sn * c3mu_dict['C61s']
             }
 
