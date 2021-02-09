@@ -113,7 +113,7 @@ class Num_input(object):
         ### Low-energy constants for chiral EFT ###
 
         # The strange electric charge radius squared [1/GeV^2]
-        self.input_parameters['rs2'] = -0.115
+        self.input_parameters['rs2'] = -0.114
 
         # gA
         self.input_parameters['gA'] = 1.2756
