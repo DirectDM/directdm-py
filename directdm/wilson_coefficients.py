@@ -726,21 +726,25 @@ class WC_3flavor(object):
             }
 
             if NLO:
-                my_cNR_dict['cNR5p'] = - 2*mN * (F1un*c3mu_dict['C719u']\
+                my_cNR_dict['cNR5p'] = my_cNR_dict['cNR5p']\
+                                       - 2*mN * (F1un*c3mu_dict['C719u']\
                                                  + F1dn*c3mu_dict['C719d']\
                                                  + F1sn*c3mu_dict['C719s'])\
                                        + 2*((FT0up-FT1up)*c3mu_dict['C79u']\
                                             + (FT0dp-FT1dp)*c3mu_dict['C79d']\
                                             + (FT0sp-FT1sp)*c3mu_dict['C79s'])
-                my_cNR_dict['cNR1q2p'] = - ((FT0up-FT1up)*c3mu_dict['C79u']\
+                my_cNR_dict['cNR1q2p'] = my_cNR_dict['cNR1q2p']\
+                                         - ((FT0up-FT1up)*c3mu_dict['C79u']\
                                             + (FT0dp-FT1dp)*c3mu_dict['C79d']\
                                             + (FT0sp-FT1sp)*c3mu_dict['C79s'])/(2*DM_mass*mN)
-                my_cNR_dict['cNR5n'] = - 2*mN * (F1un*c3mu_dict['C719u']\
+                my_cNR_dict['cNR5n'] = my_cNR_dict['cNR5n']\
+                                       - 2*mN * (F1un*c3mu_dict['C719u']\
                                                  + F1dn*c3mu_dict['C719d'] + F1sn*c3mu_dict['C719s'])\
                                        + 2*((FT0un-FT1un)*c3mu_dict['C79u']\
                                             + (FT0dn-FT1dn)*c3mu_dict['C79d']\
                                             + (FT0sn-FT1sn)*c3mu_dict['C79s'])
-                my_cNR_dict['cNR1q2n'] = - ((FT0un-FT1un)*c3mu_dict['C79u']\
+                my_cNR_dict['cNR1q2n'] = my_cNR_dict['cNR1q2n']\
+                                         - ((FT0un-FT1un)*c3mu_dict['C79u']\
                                             + (FT0dn-FT1dn)*c3mu_dict['C79d']\
                                             + (FT0sn-FT1sn)*c3mu_dict['C79s'])/(2*DM_mass*mN)
 
