@@ -6,7 +6,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 ## Unreleased
 ### Fixed
 - Inconsistent implementation of double weak insertions for lepton operators
-- Bug in matching of dimenion-seven Wilson coefficients (matching to wrong NR coefficient)
+- Typos in matching of dimension-seven Wilson coefficients (matching to wrong NR coefficient, typos in form factors)
 
 ### Changed
 - Updated charm-quark mass to most recent PDG value
