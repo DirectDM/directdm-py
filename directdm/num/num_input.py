@@ -261,7 +261,7 @@ class Num_input(object):
                                      'mcmc': self.input_parameters['mc_at_mc']},\
                                     {'mut': self.input_parameters['mt_pole'],\
                                      'mub': self.input_parameters['mb_at_mb'],\
-                                     'muc': self.input_parameters['mc_at_mc']},\
+                                     'muc': 2},\
                                     2, 3, 1)
 
         # The running masses
