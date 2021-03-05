@@ -554,7 +554,7 @@ class WC_3flavor(object):
                       + FTW2sp*c3mu_dict['C723s']\
                       + FTW2gp*c3mu_dict['C725'],
             'cNR2p' : 0,
-            'cNR3p' : F2sp * c3mu_dict['C61s'],
+            'cNR3p' : F2sp*(c3mu_dict['C61s'] - np.sqrt(2)*GF*ms**2 / gs2_2GeV * c3mu_dict['C81s']),
             'cNR4p' : - 4*(  FAup*(c3mu_dict['C64u'] - np.sqrt(2)*GF*mu**2 / gs2_2GeV * c3mu_dict['C84u'])\
                            + FAdp*(c3mu_dict['C64d'] - np.sqrt(2)*GF*md**2 / gs2_2GeV * c3mu_dict['C84d'])\
                            + FAsp*(c3mu_dict['C64s'] - np.sqrt(2)*GF*ms**2 / gs2_2GeV * c3mu_dict['C84s']))\
@@ -565,7 +565,8 @@ class WC_3flavor(object):
                       -2*mN*((F1up+F2up)*c3mu_dict['C719u']\
                              + (F1dp+F2dp)*c3mu_dict['C719d']\
                              + (F1sp+F2sp)*c3mu_dict['C719s'])\
-                      + mN/DM_mass * F2sp * c3mu_dict['C61s'],
+                      + mN/DM_mass*F2sp*(c3mu_dict['C61s']
+                                         - np.sqrt(2)*GF*ms**2 / gs2_2GeV * c3mu_dict['C81s']),
             'cNR7p' : - 2*(  FAup*(c3mu_dict['C63u'] - np.sqrt(2)*GF*mu**2 / gs2_2GeV * c3mu_dict['C83u'])\
                            + FAdp*(c3mu_dict['C63d'] - np.sqrt(2)*GF*md**2 / gs2_2GeV * c3mu_dict['C83d'])\
                            + FAsp*(c3mu_dict['C63s'] - np.sqrt(2)*GF*ms**2 / gs2_2GeV * c3mu_dict['C83s']))\
@@ -627,11 +628,13 @@ class WC_3flavor(object):
             'cNR1q2p' : (  F1up*c3mu_dict['C719u']\
                          + F1dp*c3mu_dict['C719d']\
                          + F1sp*c3mu_dict['C719s'])/(2*DM_mass)\
-                        + (F1spslope - F2sp / mN**2/4) * c3mu_dict['C61s'],
+                        + (F1spslope - F2sp / mN**2/4)
+                          * (c3mu_dict['C61s'] - np.sqrt(2)*GF*ms**2 / gs2_2GeV * c3mu_dict['C81s']),
             'cNR4q2p' : 2*((F1up+F2up)*c3mu_dict['C719u']\
                            + (F1dp+F2dp)*c3mu_dict['C719d']\
                            + (F1sp+F2sp)*c3mu_dict['C719s'])/mN\
-                        - 1/mN/DM_mass * F2sp * c3mu_dict['C61s'],
+                        - 1/mN/DM_mass * F2sp
+                          * (c3mu_dict['C61s'] - np.sqrt(2)*GF*ms**2 / gs2_2GeV * c3mu_dict['C81s']),
 
 
 
@@ -646,7 +649,7 @@ class WC_3flavor(object):
                       + FTW2sn*c3mu_dict['C723s']\
                       + FTW2gn*c3mu_dict['C725'],
             'cNR2n' : 0,
-            'cNR3n' : F2sn * c3mu_dict['C61s'],
+            'cNR3n' : F2sn*(c3mu_dict['C61s'] - np.sqrt(2)*GF*ms**2 / gs2_2GeV * c3mu_dict['C81s']),
             'cNR4n' : - 4*(  FAun*(c3mu_dict['C64u'] - np.sqrt(2)*GF*mu**2 / gs2_2GeV * c3mu_dict['C84u'])\
                            + FAdn*(c3mu_dict['C64d'] - np.sqrt(2)*GF*md**2 / gs2_2GeV * c3mu_dict['C84d'])\
                            + FAsn*(c3mu_dict['C64s'] - np.sqrt(2)*GF*ms**2 / gs2_2GeV * c3mu_dict['C84s']))\
@@ -657,7 +660,8 @@ class WC_3flavor(object):
                       -2*mN*((F1un+F2un)*c3mu_dict['C719u']\
                              + (F1dn+F2dn)*c3mu_dict['C719d']\
                              + (F1sn+F2sn)*c3mu_dict['C719s'])\
-                      + mN/DM_mass * F2sn * c3mu_dict['C61s'],
+                      + mN/DM_mass * F2sn
+                        * (c3mu_dict['C61s'] - np.sqrt(2)*GF*ms**2 / gs2_2GeV * c3mu_dict['C81s']),
             'cNR7n' : - 2*(  FAun*(c3mu_dict['C63u'] - np.sqrt(2)*GF*mu**2 / gs2_2GeV * c3mu_dict['C83u'])\
                            + FAdn*(c3mu_dict['C63d'] - np.sqrt(2)*GF*md**2 / gs2_2GeV * c3mu_dict['C83d'])\
                            + FAsn*(c3mu_dict['C63s'] - np.sqrt(2)*GF*ms**2 / gs2_2GeV * c3mu_dict['C83s']))\
@@ -718,11 +722,13 @@ class WC_3flavor(object):
             'cNR1q2n' : (  F1un*c3mu_dict['C719u']\
                          + F1dn*c3mu_dict['C719d']\
                          + F1sn*c3mu_dict['C719s'])/(2*DM_mass)\
-                        + (F1snslope - F2sn / mN**2/4) * c3mu_dict['C61s'],
+                        + (F1snslope - F2sn / mN**2/4)
+                          * (c3mu_dict['C61s'] - np.sqrt(2)*GF*ms**2 / gs2_2GeV * c3mu_dict['C81s']),
             'cNR4q2n' : 2*((F1un+F2un)*c3mu_dict['C719u']\
                            + (F1dn+F2dn)*c3mu_dict['C719d']\
                            + (F1sn+F2sn)*c3mu_dict['C719s'])/mN\
-                        - 1/mN/DM_mass * F2sn * c3mu_dict['C61s']
+                        - 1/mN/DM_mass * F2sn
+                          * (c3mu_dict['C61s'] - np.sqrt(2)*GF*ms**2 / gs2_2GeV * c3mu_dict['C81s'])
             }
 
             if NLO:
@@ -871,7 +877,7 @@ class WC_3flavor(object):
                        + FGp*c3mu_dict['C65']/2/DM_mass\
                        + (FSup*c3mu_dict['C63u'] + FSdp*c3mu_dict['C63d'] + FSsp*c3mu_dict['C63s'])/2/DM_mass,
             'cNR2p' : 0,
-            'cNR3p' : F2sp * c3mu_dict['C61s'],
+            'cNR3p' : F2sp * (c3mu_dict['C61s'] - np.sqrt(2)*GF*ms**2 / gs2_2GeV * c3mu_dict['C81s']),
             'cNR4p' : 0,
             'cNR5p' : 0,
             'cNR6p' : 0,
@@ -905,7 +911,8 @@ class WC_3flavor(object):
             'cNR6bq2p' : 0,
             'cNR11bq2p' : 0,
 
-            'cNR1q2p' : (F1spslope - 1/mN**2/4 * F2sp) * c3mu_dict['C61s'],
+            'cNR1q2p' : (F1spslope - 1/mN**2/4 * F2sp)
+                        * (c3mu_dict['C61s'] - np.sqrt(2)*GF*ms**2 / gs2_2GeV * c3mu_dict['C81s']),
             'cNR4q2p' : 0,
 
 
@@ -916,7 +923,7 @@ class WC_3flavor(object):
                       + FGn*c3mu_dict['C65']/2/DM_mass\
                       + (FSun*c3mu_dict['C63u'] + FSdn*c3mu_dict['C63d'] + FSsn*c3mu_dict['C63s'])/2/DM_mass,
             'cNR2n' : 0,
-            'cNR3n' : F2sp * c3mu_dict['C61s'],
+            'cNR3n' : F2sp * (c3mu_dict['C61s'] - np.sqrt(2)*GF*ms**2 / gs2_2GeV * c3mu_dict['C81s']),
             'cNR4n' : 0,
             'cNR5n' : 0,
             'cNR6n' : 0,
@@ -950,7 +957,8 @@ class WC_3flavor(object):
             'cNR6bq2n' : 0,
             'cNR11bq2n' : 0,
 
-            'cNR1q2n' : (F1snslope - 1/mN**2/4 * F2sn) * c3mu_dict['C61s'],
+            'cNR1q2n' : (F1snslope - 1/mN**2/4 * F2sn)
+                        * (c3mu_dict['C61s'] - np.sqrt(2)*GF*ms**2 / gs2_2GeV * c3mu_dict['C81s']),
             'cNR4q2n' : 0
             }
 
