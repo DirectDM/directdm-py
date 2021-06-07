@@ -112,12 +112,16 @@ def ADM_QED(nf):
 def ADM_QED2(nf):
     """ Return the QED anomalous dimension in the DM-SM sector for nf flavor EFT at alpha^2 """
 
-    # Mixing of Q_{11}^(7) into Q_{5,f}^(7) and Q_{12}^(7) into Q_{6,f}^(7), adapted from Hill et al. [1409.8290]. 
-    gamma_gf = -8
-    gamma_QED2_gf = np.array([5*[gamma_gf]])
+    # Mixing of Q_{11}^(7) into Q_{5,f}^(7) and Q_{12}^(7) into Q_{6,f}^(7),
+    # now correctly adapted from Hill et al. [1409.8290]. 
+    Qu = 2/3
+    Qd = -1/3
+    Qe = -1
+    gamma_QED2_gf = np.array([[8*Qu**2, 8*Qd**2, 8*Qd**2, 8*Qu**2,\
+                              8*Qd**2, 8*Qe**2, 8*Qe**2, 8*Qe**2]])
     gamma_QED2_1 = np.zeros((86,163))
-    gamma_QED2_2 = np.hstack((np.zeros((1,38)),gamma_QED2_gf,np.zeros((1,120))))
-    gamma_QED2_3 = np.hstack((np.zeros((1,46)),gamma_QED2_gf,np.zeros((1,112))))
+    gamma_QED2_2 = np.hstack((np.zeros((1,38)),gamma_QED2_gf,np.zeros((1,117))))
+    gamma_QED2_3 = np.hstack((np.zeros((1,46)),gamma_QED2_gf,np.zeros((1,109))))
     gamma_QED2_4 = np.zeros((75,163))
     gamma_QED2 = np.vstack((gamma_QED2_1, gamma_QED2_2, gamma_QED2_3, gamma_QED2_4))
 
