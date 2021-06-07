@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 - Typos in matching of dimension-seven Wilson coefficients (matching to wrong NR coefficient, typos in form factors)
 - A bug in NLO option: cNR coefficients were partially overwritten
 - decoupling alphas from 4 to 3 flavors at 2 GeV instead of mc(mc)
+- Error in QED anomalous dimension for tensor / scalar operators
 
 ### Changed
 - Updated charm-quark mass to most recent PDG value
