@@ -3,6 +3,26 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
+## [2.2.1] - 2023-04-21
+### Fixed
+- Inconsistent implementation of double weak insertions for lepton operators
+- Typos in matching of dimension-seven Wilson coefficients (matching to wrong NR coefficient, typos in form factors)
+- A bug in NLO option: cNR coefficients were partially overwritten
+- decoupling alphas from 4 to 3 flavors at 2 GeV instead of mc(mc)
+- Error in QED anomalous dimension for tensor / scalar operators
+
+### Changed
+- Updated charm-quark mass to most recent PDG value
+- Removed internal options "DOUBLE_WEAK" and "double_QCD"
+- class `WC_3f`: Removed method `run` and corresponding option `RGE`
+- Globally removed the option to set the lower running scale
+- Moved definitions of more dependent parameters to num_input
+
+### Added
+- Additional dependent parameters (masses and strong coupling at various scales) to num_input
+- NR coefficients `cNR13p`, `cNR13n`, `cNR14p`, `cNR14n`
+- "slope of strange vector current" contributions for double weak insertions
+
 ## [2.2.0] - 2020-11-30
 ### Fixed
 - Typos in expressions for cNR (no impact on numerics)
@@ -33,7 +53,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
   The approximate relations for converting the renormalization scheme are taken from [this reference](https://arxiv.org/abs/1212.4319).
 
 ### Added
-- Some four-loop relations for running and decoupling; just for completeness and convencience;
+- Some four-loop relations for running and decoupling; just for completeness and convenience;
   they are currently not used in the code
 
 ## [2.1.2] - 2020-07-22

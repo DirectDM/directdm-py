@@ -1,8 +1,0 @@
-__pycache__/*
-*.m
-build/*
-directdm.egg-info/*
-dist/*
-example_jb.py
-test_wilson.py
-*~

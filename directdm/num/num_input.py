@@ -98,7 +98,7 @@ class Num_input(object):
         self.input_parameters['mb_at_mb'] = 4.18
 
         # charm quark mass, MS-bar
-        self.input_parameters['mc_at_mc'] = 1.275
+        self.input_parameters['mc_at_mc'] = 1.27
 
         # strange quark mass, MS-bar at 2 GeV
         self.input_parameters['ms_at_2GeV'] = 0.093
@@ -113,7 +113,7 @@ class Num_input(object):
         ### Low-energy constants for chiral EFT ###
 
         # The strange electric charge radius squared [1/GeV^2]
-        self.input_parameters['rs2'] = -0.115
+        self.input_parameters['rs2'] = -0.114
 
         # gA
         self.input_parameters['gA'] = 1.2756
@@ -242,6 +242,27 @@ class Num_input(object):
             * (1 - 4/3*as6/np.pi - 9.125*(as6/np.pi)**2 - 80.405*(as6/np.pi)**3\
                + 0.0664 - 0.00115 * (self.input_parameters['Mh'] - 125))
 
+        # The running coupling (at LO, there are no finite threshold effects)
+
+        self.dependent_parameters['as_at_mb'] = rge.AlphaS(self.input_parameters['asMZ'],\
+                              self.input_parameters['Mz']).\
+                              run({'mtmt': self.input_parameters['mt_pole'],\
+                                   'mbmb': self.input_parameters['mb_at_mb'],\
+                                   'mcmc': self.input_parameters['mc_at_mc']},\
+                                  {'mut': self.input_parameters['mt_pole'],\
+                                   'mub': self.input_parameters['mb_at_mb'],\
+                                   'muc': self.input_parameters['mc_at_mc']},\
+                                  self.input_parameters['mb_at_mb'], 5, 1)
+
+        self.dependent_parameters['as_at_2GeV'] = rge.AlphaS(self.input_parameters['asMZ'],\
+                                self.input_parameters['Mz']).\
+                                run({'mtmt': self.input_parameters['mt_pole'],\
+                                     'mbmb': self.input_parameters['mb_at_mb'],\
+                                     'mcmc': self.input_parameters['mc_at_mc']},\
+                                    {'mut': self.input_parameters['mt_pole'],\
+                                     'mub': self.input_parameters['mb_at_mb'],\
+                                     'muc': 2},\
+                                    2, 3, 1)
 
         # The running masses
 
@@ -304,6 +325,7 @@ class Num_input(object):
                                                    self.input_parameters['mt_pole'],\
                                                    self.input_parameters['mb_at_mb'],\
                                                    self.input_parameters['mc_at_mc'], 6, 1)
+
         self.dependent_parameters['mb_at_MZ'] = mb(self.input_parameters['Mz'],\
                                                    self.input_parameters['mb_at_mb'],\
                                                    self.input_parameters['mc_at_mc'], 5, 1)
@@ -317,6 +339,16 @@ class Num_input(object):
                                                    self.input_parameters['mb_at_mb'],\
                                                    self.input_parameters['mc_at_mc'], 5, 1)
         self.dependent_parameters['mu_at_MZ'] = mu(self.input_parameters['Mz'],\
+                                                   self.input_parameters['mb_at_mb'],\
+                                                   self.input_parameters['mc_at_mc'], 5, 1)
+
+        self.dependent_parameters['ms_at_mb'] = ms(self.input_parameters['mb_at_mb'],\
+                                                   self.input_parameters['mb_at_mb'],\
+                                                   self.input_parameters['mc_at_mc'], 5, 1)
+        self.dependent_parameters['md_at_mb'] = md(self.input_parameters['mb_at_mb'],\
+                                                   self.input_parameters['mb_at_mb'],\
+                                                   self.input_parameters['mc_at_mc'], 5, 1)
+        self.dependent_parameters['mu_at_mb'] = mu(self.input_parameters['mb_at_mb'],\
                                                    self.input_parameters['mb_at_mb'],\
                                                    self.input_parameters['mc_at_mc'], 5, 1)
 
@@ -355,6 +387,41 @@ class Num_input(object):
 
         # F2sp
         self.dependent_parameters['F2sp'] = self.input_parameters['mus']
+
+
+        # Input parameters at MZ for electroweak RG evolution
+
+        # SU2 coupling
+        self.dependent_parameters['g2_at_MZ']\
+          = np.sqrt(4*np.pi/self.input_parameters['aMZinv']/self.input_parameters['sw2_MSbar'])
+
+        # U1 coupling
+        self.dependent_parameters['g1_at_MZ']\
+          = np.sqrt(self.dependent_parameters['g2_at_MZ']**2/(1/self.input_parameters['sw2_MSbar'] - 1))
+
+        # SU3 coupling
+        self.dependent_parameters['g3_at_MZ']\
+          = np.sqrt(4*np.pi*self.input_parameters['asMZ'])
+
+        # charm Yukawa
+        self.dependent_parameters['yc_at_MZ']\
+          = np.sqrt(np.sqrt(2)*self.input_parameters['GF'])*np.sqrt(2) * self.dependent_parameters['mc_at_MZ']
+
+        # bottom Yukawa
+        self.dependent_parameters['yb_at_MZ']\
+          = np.sqrt(np.sqrt(2)*self.input_parameters['GF'])*np.sqrt(2) * self.dependent_parameters['mb_at_MZ']
+
+        # tau Yukawa
+        self.dependent_parameters['ytau_at_MZ']\
+          = np.sqrt(np.sqrt(2)*self.input_parameters['GF'])*np.sqrt(2) * self.input_parameters['mtau']
+
+        # top Yukawa
+        self.dependent_parameters['yt_at_MZ']\
+          = np.sqrt(np.sqrt(2)*self.input_parameters['GF'])*np.sqrt(2) * self.dependent_parameters['mt_at_MZ']
+
+        # Higgs quartic coupling
+        self.dependent_parameters['lam_at_MZ']\
+          = 2*np.sqrt(2) * self.input_parameters['GF'] * self.input_parameters['Mh']**2
 
 
         # Update the dictionary with the dependent parameters

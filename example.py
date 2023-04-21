@@ -85,14 +85,14 @@ wc5f = ddm.WC_5f(dict1, "C")
 
 # If you like, you can do running:
 
-print('Run in five-flavor theory from MZ to 10 GeV:\n')
-print(wc5f.run(mu_low=10))
+print('Run in five-flavor theory from MZ to mb(mb):\n')
+print(wc5f.run())
 print('\n')
 
 # And matching:
 
-print('Match from five-flavor to four-flavor theory at scale 10 GeV:\n')
-print(wc5f.match(mu=10))
+print('Match from five-flavor to four-flavor theory at scale mb(mb):\n')
+print(wc5f.match())
 print('\n')
 
 print('\n')
@@ -146,7 +146,6 @@ print('\n')
 # The dimension of the DM SU(2) representation.
 
 # Note that Wilson coefficients above the weak scale do *not* include the factor 1/Lambda^n in their definition!
-# This might change in the future. 
 
 # E.g. 
 
@@ -154,8 +153,8 @@ wc_ew = ddm.WC_EW({'C663' : -1./1000**2 , 'C673' : 1./1000**2 , 'C683' : 1.}, 0,
 
 # If you like, you can do running:
 
-print('Run in unbroken e/w theory from 1000 to 100 GeV:\n')
-print(wc_ew.run(mu_Lambda=1000, muz=100))
+print('Run in unbroken e/w theory from 1000 to MZ:\n')
+print(wc_ew.run(mu_Lambda=1000))
 print('\n')
 
 # Of course, you can get the low-energy coefficients cNR, as usual: 

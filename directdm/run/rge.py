@@ -181,8 +181,6 @@ class AlphaS(object):
         {'mut': 160.0, 'mub': 5, 'muc': 1.3}
 
         (Depending on nf one or zero can be given)
-
-        The decoupling is always at mq(mq)
         """
         if nf == 6:
             as5_mut = self.__solve_rge_nf(self.asMZ, self.MZ, dict_mu['mut'], 5, loop)

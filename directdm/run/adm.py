@@ -112,12 +112,16 @@ def ADM_QED(nf):
 def ADM_QED2(nf):
     """ Return the QED anomalous dimension in the DM-SM sector for nf flavor EFT at alpha^2 """
 
-    # Mixing of Q_{11}^(7) into Q_{5,f}^(7) and Q_{12}^(7) into Q_{6,f}^(7), adapted from Hill et al. [1409.8290]. 
-    gamma_gf = -8
-    gamma_QED2_gf = np.array([5*[gamma_gf]])
+    # Mixing of Q_{11}^(7) into Q_{5,f}^(7) and Q_{12}^(7) into Q_{6,f}^(7),
+    # now correctly adapted from Hill et al. [1409.8290]. 
+    Qu = 2/3
+    Qd = -1/3
+    Qe = -1
+    gamma_QED2_gf = np.array([[8*Qu**2, 8*Qd**2, 8*Qd**2, 8*Qu**2,\
+                              8*Qd**2, 8*Qe**2, 8*Qe**2, 8*Qe**2]])
     gamma_QED2_1 = np.zeros((86,163))
-    gamma_QED2_2 = np.hstack((np.zeros((1,38)),gamma_QED2_gf,np.zeros((1,120))))
-    gamma_QED2_3 = np.hstack((np.zeros((1,46)),gamma_QED2_gf,np.zeros((1,112))))
+    gamma_QED2_2 = np.hstack((np.zeros((1,38)),gamma_QED2_gf,np.zeros((1,117))))
+    gamma_QED2_3 = np.hstack((np.zeros((1,46)),gamma_QED2_gf,np.zeros((1,109))))
     gamma_QED2_4 = np.zeros((75,163))
     gamma_QED2 = np.vstack((gamma_QED2_1, gamma_QED2_2, gamma_QED2_3, gamma_QED2_4))
 
@@ -683,143 +687,5 @@ def ADT_QCD(nf, input_dict=None):
                                                     np.s_[64:80]], 1), [4, 9], 2)
     else:
         raise Exception("nf has to be 4 or 5")
-
-
-
-
-def ADT_QCD_LEPTON():
-    """ Return the QCD anomalous dimension tensor for nf flavor EFT,
-        for double insertions of DM-SM and SM-SM operators 
-
-    Our basis of operators below the electroweak scale includes a set of 12 dimension-eight operators,
-    with Wilson coefficients for Dirac DM
-
-    ['C81u', 'C81d', 'C81s', 'C82u', 'C82d', 'C82s', 'C83u', 'C83d', 'C83s', 'C84u', 'C84d', 'C84s']
-
-    and by a subset of 18 SM operators, with Wilson coefficients
-
-    ['P62ue', 'P62umu', 'P62utau', 'P62de', 'P62dmu', 'P62dtau', 'P62se', 'P62smu', 'P62stau',
-     'P63eu', 'P63muu', 'P63tauu', 'P63ed', 'P63mud', 'P63taud', 'P63es', 'P63mus', 'P63taus']
-
-    The anomalous dimension tensor defined below uses the following subset of the dim.6 DM-SM basis,
-
-    ['C63e', 'C63mu', 'C63tau', 'C64e', 'C64mu', 'C64tau']
-
-    and the basis above.
-    """
-
-    # As input for the quark-mass ratios, we use the quark masses at MZ and the lepton masses
-    ip = Num_input()
-
-    mu = ip.mu_at_MZ
-    md = ip.md_at_MZ
-    ms = ip.ms_at_MZ
-    me = ip.me
-    mmu = ip.mmu
-    mtau = ip.mtau
-
-    # Create the ADT:
-
-    gamma_hat_P63eu_Q81u = np.hstack((-16 * me**2/mu**2, np.zeros(5)))
-    gamma_hat_P63muu_Q81u = np.hstack((np.zeros(1), -16 * mmu**2/mu**2, np.zeros(4)))
-    gamma_hat_P63tauu_Q81u = np.hstack((np.zeros(2), -16 * mtau**2/mu**2, np.zeros(3)))
-
-    gamma_hat_P63ed_Q81d = np.hstack((-16 * me**2/md**2, np.zeros(5)))
-    gamma_hat_P63mud_Q81d = np.hstack((np.zeros(1), -16 * mmu**2/md**2, np.zeros(4)))
-    gamma_hat_P63taud_Q81d = np.hstack((np.zeros(2), -16 * mtau**2/md**2, np.zeros(3)))
-
-    gamma_hat_P63es_Q81s = np.hstack((-16 * me**2/ms**2, np.zeros(5)))
-    gamma_hat_P63mus_Q81s = np.hstack((np.zeros(1), -16 * mmu**2/ms**2, np.zeros(4)))
-    gamma_hat_P63taus_Q81s = np.hstack((np.zeros(2), -16 * mtau**2/ms**2, np.zeros(3)))
-
-
-
-    gamma_hat_P63eu_Q82u = np.hstack((np.zeros(3), -16 * me**2/mu**2, np.zeros(2)))
-    gamma_hat_P63muu_Q82u = np.hstack((np.zeros(4), -16 * mmu**2/mu**2, np.zeros(1)))
-    gamma_hat_P63tauu_Q82u = np.hstack((np.zeros(5), -16 * mtau**2/mu**2))
-
-    gamma_hat_P63ed_Q82d = np.hstack((np.zeros(3), -16 * me**2/md**2, np.zeros(2)))
-    gamma_hat_P63mud_Q82d = np.hstack((np.zeros(4), -16 * mmu**2/md**2, np.zeros(1)))
-    gamma_hat_P63taud_Q82d = np.hstack((np.zeros(5), -16 * mtau**2/md**2))
-
-    gamma_hat_P63es_Q82s = np.hstack((np.zeros(3), -16 * me**2/ms**2, np.zeros(2)))
-    gamma_hat_P63mus_Q82s = np.hstack((np.zeros(4), -16 * mmu**2/ms**2, np.zeros(1)))
-    gamma_hat_P63taus_Q82s = np.hstack((np.zeros(5), -16 * mtau**2/ms**2))
-
-
-
-    gamma_hat_P62ue_Q83u = np.hstack((-16 * me**2/mu**2, np.zeros(5)))
-    gamma_hat_P62umu_Q83u = np.hstack((np.zeros(1), -16 * mmu**2/mu**2, np.zeros(4)))
-    gamma_hat_P62utau_Q83u = np.hstack((np.zeros(2), -16 * mtau**2/mu**2, np.zeros(3)))
-
-    gamma_hat_P62de_Q83d = np.hstack((-16 * me**2/md**2, np.zeros(5)))
-    gamma_hat_P62dmu_Q83d = np.hstack((np.zeros(1), -16 * mmu**2/md**2, np.zeros(4)))
-    gamma_hat_P62dtau_Q83d = np.hstack((np.zeros(2), -16 * mtau**2/md**2, np.zeros(3)))
-
-    gamma_hat_P62se_Q83s = np.hstack((-16 * me**2/ms**2, np.zeros(5)))
-    gamma_hat_P62smu_Q83s = np.hstack((np.zeros(1), -16 * mmu**2/ms**2, np.zeros(4)))
-    gamma_hat_P62stau_Q83s = np.hstack((np.zeros(2), -16 * mtau**2/ms**2, np.zeros(3)))
-
-
-
-    gamma_hat_P62ue_Q84u = np.hstack((np.zeros(3), -16 * me**2/mu**2, np.zeros(2)))
-    gamma_hat_P62umu_Q84u = np.hstack((np.zeros(4), -16 * mmu**2/mu**2, np.zeros(1)))
-    gamma_hat_P62utau_Q84u = np.hstack((np.zeros(5), -16 * mtau**2/mu**2))
-
-    gamma_hat_P62de_Q84d = np.hstack((np.zeros(3), -16 * me**2/md**2, np.zeros(2)))
-    gamma_hat_P62dmu_Q84d = np.hstack((np.zeros(4), -16 * mmu**2/md**2, np.zeros(1)))
-    gamma_hat_P62dtau_Q84d = np.hstack((np.zeros(5), -16 * mtau**2/md**2))
-
-    gamma_hat_P62se_Q84s = np.hstack((np.zeros(3), -16 * me**2/ms**2, np.zeros(2)))
-    gamma_hat_P62smu_Q84s = np.hstack((np.zeros(4), -16 * mmu**2/ms**2, np.zeros(1)))
-    gamma_hat_P62stau_Q84s = np.hstack((np.zeros(5), -16 * mtau**2/ms**2))
-
-
-
-    gamma_hat_Q81u = np.vstack((gamma_hat_P63eu_Q81u, gamma_hat_P63muu_Q81u,\
-                                gamma_hat_P63tauu_Q81u, np.zeros((15,6))))
-    gamma_hat_Q81d = np.vstack((np.zeros((3,6)), gamma_hat_P63ed_Q81d,\
-                                gamma_hat_P63mud_Q81d, gamma_hat_P63taud_Q81d, np.zeros((12,6))))
-    gamma_hat_Q81s = np.vstack((np.zeros((6,6)), gamma_hat_P63es_Q81s,\
-                                gamma_hat_P63mus_Q81s, gamma_hat_P63taus_Q81s, np.zeros((9,6))))
-
-    gamma_hat_Q82u = np.vstack((gamma_hat_P63eu_Q82u, gamma_hat_P63muu_Q82u,\
-                                gamma_hat_P63tauu_Q82u, np.zeros((15,6))))
-    gamma_hat_Q82d = np.vstack((np.zeros((3,6)), gamma_hat_P63ed_Q82d,\
-                                gamma_hat_P63mud_Q82d, gamma_hat_P63taud_Q82d, np.zeros((12,6))))
-    gamma_hat_Q82s = np.vstack((np.zeros((6,6)), gamma_hat_P63es_Q82s,\
-                                gamma_hat_P63mus_Q82s, gamma_hat_P63taus_Q82s, np.zeros((9,6))))
-
-    gamma_hat_Q83u = np.vstack((np.zeros((9,6)), gamma_hat_P62ue_Q83u,\
-                                gamma_hat_P62umu_Q83u, gamma_hat_P62utau_Q83u, np.zeros((6,6))))
-    gamma_hat_Q83d = np.vstack((np.zeros((12,6)), gamma_hat_P62de_Q83d,\
-                                gamma_hat_P62dmu_Q83d, gamma_hat_P62dtau_Q83d, np.zeros((3,6))))
-    gamma_hat_Q83s = np.vstack((np.zeros((15,6)), gamma_hat_P62se_Q83s,\
-                                gamma_hat_P62smu_Q83s, gamma_hat_P62stau_Q83s))
-
-    gamma_hat_Q84u = np.vstack((np.zeros((9,6)), gamma_hat_P62ue_Q84u,\
-                                gamma_hat_P62umu_Q84u, gamma_hat_P62utau_Q84u, np.zeros((6,6))))
-    gamma_hat_Q84d = np.vstack((np.zeros((12,6)), gamma_hat_P62de_Q84d,\
-                                gamma_hat_P62dmu_Q84d, gamma_hat_P62dtau_Q84d, np.zeros((3,6))))
-    gamma_hat_Q84s = np.vstack((np.zeros((15,6)), gamma_hat_P62se_Q84s,\
-                                gamma_hat_P62smu_Q84s, gamma_hat_P62stau_Q84s))
-
-
-
-
-    gamma_hat = np.array([gamma_hat_Q81u, gamma_hat_Q81d, gamma_hat_Q81s,\
-                          gamma_hat_Q82u, gamma_hat_Q82d, gamma_hat_Q82s,\
-                          gamma_hat_Q83u, gamma_hat_Q83d, gamma_hat_Q83s,\
-                          gamma_hat_Q84u, gamma_hat_Q84d, gamma_hat_Q84s])
-
-
-    # Return the tensor
-
-    # tensor, zeile, spalte
-
-    return gamma_hat
-
-
-
 
 
