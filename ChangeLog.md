@@ -3,7 +3,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
-## Unreleased
+## [2.2.1] - 2023-04-21
 ### Fixed
 - Inconsistent implementation of double weak insertions for lepton operators
 - Typos in matching of dimension-seven Wilson coefficients (matching to wrong NR coefficient, typos in form factors)
