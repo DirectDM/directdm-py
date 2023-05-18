@@ -839,7 +839,7 @@ class WC_3flavor(object):
                                    + F1dn*c3mu_dict['C716d']\
                                    + F1sn*c3mu_dict['C716s']),
             'cNR12n' : 0,
-            'cNR13p' : 0.,
+            'cNR13n' : 0.,
             'cNR14n' : + 4*mN * (FAun*c3mu_dict['C718u']\
                                  + FAdn*c3mu_dict['C718d']\
                                  + FAsn*c3mu_dict['C718s']),
