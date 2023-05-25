@@ -26,7 +26,7 @@ from directdm.run import rge
 # 'C64u', 'C64d', 'C64s', 'C64c', 'C64b', 'C64e', 'C64mu', 'C64tau',
 
 
-# dim.7 (129 operators)
+# dim.7 (97 operators)
 #
 # 'C71', 'C72', 'C73', 'C74',
 # 'C75u', 'C75d', 'C75s', 'C75c', 'C75b', 'C75e', 'C75mu', 'C75tau', 
@@ -40,10 +40,6 @@ from directdm.run import rge
 # 'C716u', 'C716d', 'C716s', 'C716c', 'C716b', 'C716e', 'C716mu', 'C716tau',
 # 'C717u', 'C717d', 'C717s', 'C717c', 'C717b', 'C717e', 'C717mu', 'C717tau', 
 # 'C718u', 'C718d', 'C718s', 'C718c', 'C718b', 'C718e', 'C718mu', 'C718tau',
-# 'C719u', 'C719d', 'C719s', 'C719c', 'C719b', 'C719e', 'C719mu', 'C719tau', 
-# 'C720u', 'C720d', 'C720s', 'C720c', 'C720b', 'C720e', 'C720mu', 'C720tau', 
-# 'C721u', 'C721d', 'C721s', 'C721c', 'C721b', 'C721e', 'C721mu', 'C721tau', 
-# 'C722u', 'C722d', 'C722s', 'C722c', 'C722b', 'C722e', 'C722mu', 'C722tau',
 # 'C723u', 'C723d', 'C723s', 'C723c', 'C723b', 'C723e', 'C723mu', 'C723tau', 
 # 'C725',
 
@@ -53,8 +49,8 @@ from directdm.run import rge
 # 'C81u', 'C81d', 'C81s', 'C82u', 'C82d', 'C82s'
 # 'C83u', 'C83d', 'C83s', 'C84u', 'C84d', 'C84s'
 
-# In total, we have 2+32+129+12=175 operators. 
-# In total, we have 2+32+129=163 operators w/o dim.8. 
+# In total, we have 2+32+97+12=143 operators. 
+# In total, we have 2+32+97=131 operators w/o dim.8. 
 
 
 #-----------------------------#
@@ -83,28 +79,26 @@ def ADM_QED(nf):
                            8/3*Qe*Qd,    8/3*Qe*Qe,    8/3*Qe*Qe,    8/3*Qe*Qe],
                           [8/3*Qe*Qu,    8/3*Qe*Qd,    8/3*Qe*Qd,    8/3*Qe*Qu,\
                            8/3*Qe*Qd,    8/3*Qe*Qe,    8/3*Qe*Qe,    8/3*Qe*Qe]])
-    gamma_QED_1 = np.zeros((2,163))
-    gamma_QED_2 = np.hstack((np.zeros((8,2)),gamma_QED,np.zeros((8,153))))
-    gamma_QED_3 = np.hstack((np.zeros((8,10)),gamma_QED,np.zeros((8,145))))
-    gamma_QED_4 = np.zeros((145,163))
+    gamma_QED_1 = np.zeros((2,131))
+    gamma_QED_2 = np.hstack((np.zeros((8,2)),gamma_QED,np.zeros((8,121))))
+    gamma_QED_3 = np.hstack((np.zeros((8,10)),gamma_QED,np.zeros((8,113))))
+    gamma_QED_4 = np.zeros((113,131))
     gamma_QED = np.vstack((gamma_QED_1, gamma_QED_2, gamma_QED_3, gamma_QED_4))
 
     if nf == 5:
         return gamma_QED
     elif nf == 4:
         return np.delete(np.delete(gamma_QED, [6, 14, 22, 30, 42, 50, 58, 66, 74, 82, 94,\
-                                               102, 110, 118, 126, 134, 142, 150, 158], 0)\
+                                               102, 110, 118, 126], 0)\
                                             , [6, 14, 22, 30, 42, 50, 58, 66, 74, 82, 94,\
-                                               102, 110, 118, 126, 134, 142, 150, 158], 1)
+                                               102, 110, 118, 126], 1)
     elif nf == 3:
         return np.delete(np.delete(gamma_QED, [5,6, 13,14, 21,22, 29,30, 41,42,\
                                                49,50, 57,58, 65,66, 73,74, 81,82,\
-                                               93,94, 101,102, 109,110, 117,118,\
-                                               125,126, 133,134, 141,142, 149,150, 158,159], 0)\
+                                               93,94, 101,102, 109,110, 117,118, 125,126], 0)\
                                             , [5,6, 13,14, 21,22, 29,30, 41,42,\
                                                49,50, 57,58, 65,66, 73,74, 81,82,\
-                                               93,94, 101,102, 109,110, 117,118,\
-                                               125,126, 133,134, 141,142, 149,150, 158,159], 1)
+                                               93,94, 101,102, 109,110, 117,118, 125,126], 1)
     else:
         raise Exception("nf has to be 3, 4 or 5")
 
@@ -119,28 +113,26 @@ def ADM_QED2(nf):
     Qe = -1
     gamma_QED2_gf = np.array([[8*Qu**2, 8*Qd**2, 8*Qd**2, 8*Qu**2,\
                               8*Qd**2, 8*Qe**2, 8*Qe**2, 8*Qe**2]])
-    gamma_QED2_1 = np.zeros((86,163))
-    gamma_QED2_2 = np.hstack((np.zeros((1,38)),gamma_QED2_gf,np.zeros((1,117))))
-    gamma_QED2_3 = np.hstack((np.zeros((1,46)),gamma_QED2_gf,np.zeros((1,109))))
-    gamma_QED2_4 = np.zeros((75,163))
+    gamma_QED2_1 = np.zeros((86,131))
+    gamma_QED2_2 = np.hstack((np.zeros((1,38)),gamma_QED2_gf,np.zeros((1,85))))
+    gamma_QED2_3 = np.hstack((np.zeros((1,46)),gamma_QED2_gf,np.zeros((1,77))))
+    gamma_QED2_4 = np.zeros((43,131))
     gamma_QED2 = np.vstack((gamma_QED2_1, gamma_QED2_2, gamma_QED2_3, gamma_QED2_4))
 
     if nf == 5:
         return gamma_QED2
     elif nf == 4:
         return np.delete(np.delete(gamma_QED2, [6, 14, 22, 30, 42, 50, 58, 66, 74, 82, 94,\
-                                                102, 110, 118, 126, 134, 142, 150, 158], 0)\
+                                                102, 110, 118, 126], 0)\
                                              , [6, 14, 22, 30, 42, 50, 58, 66, 74, 82, 94,\
-                                                102, 110, 118, 126, 134, 142, 150, 158], 1)
+                                                102, 110, 118, 126], 1)
     elif nf == 3:
         return np.delete(np.delete(gamma_QED2, [5,6, 13,14, 21,22, 29,30, 41,42,\
                                                 49,50, 57,58, 65,66, 73,74, 81,82,\
-                                                93,94, 101,102, 109,110, 117,118,\
-                                                125,126, 133,134, 141,142, 149,150, 158,159], 0)\
+                                                93,94, 101,102, 109,110, 117,118, 125,126], 0)\
                                              , [5,6, 13,14, 21,22, 29,30, 41,42,\
                                                 49,50, 57,58, 65,66, 73,74, 81,82,\
-                                                93,94, 101,102, 109,110, 117,118,\
-                                                125,126, 133,134, 141,142, 149,150, 158,159], 1)
+                                                93,94, 101,102, 109,110, 117,118, 125,126], 1)
     else:
         raise Exception("nf has to be 3, 4 or 5")
 
@@ -165,12 +157,12 @@ def ADM_QCD(nf):
                              [0,     0,     0,     0,     0,     0,     0,     0,     0    ],
                              [0,     0,     0,     0,     0,     0,     0,     0,     0    ],
                              [gt2gq, gt2gq, gt2gq, gt2gq, gt2gq, 0,     0,     0,     gt2gg]])
-    gamma_QCD_1 = np.zeros((70,163))
-    gamma_QCD_2 = np.hstack((np.zeros((5,70)), gamma_QCD_T, np.zeros((5,88))))
-    gamma_QCD_3 = np.zeros((3,163))
-    gamma_QCD_4 = np.hstack((np.zeros((5,78)), gamma_QCD_T, np.zeros((5,80))))
-    gamma_QCD_5 = np.zeros((71,163))
-    gamma_QCD_6 = np.hstack((np.zeros((9,154)), gamma_twist2))
+    gamma_QCD_1 = np.zeros((70,131))
+    gamma_QCD_2 = np.hstack((np.zeros((5,70)), gamma_QCD_T, np.zeros((5,56))))
+    gamma_QCD_3 = np.zeros((3,131))
+    gamma_QCD_4 = np.hstack((np.zeros((5,78)), gamma_QCD_T, np.zeros((5,48))))
+    gamma_QCD_5 = np.zeros((39,131))
+    gamma_QCD_6 = np.hstack((np.zeros((9,122)), gamma_twist2))
     gamma_QCD = [np.vstack((gamma_QCD_1, gamma_QCD_2, gamma_QCD_3,\
                             gamma_QCD_4, gamma_QCD_5, gamma_QCD_6))]
 
@@ -178,18 +170,16 @@ def ADM_QCD(nf):
         return gamma_QCD
     elif nf == 4:
         return np.delete(np.delete(gamma_QCD, [6, 14, 22, 30, 42, 50, 58, 66, 74, 82, 94,\
-                                               102, 110, 118, 126, 134, 142, 150, 158], 1)\
+                                               102, 110, 118, 126], 1)\
                                             , [6, 14, 22, 30, 42, 50, 58, 66, 74, 82, 94,\
-                                               102, 110, 118, 126, 134, 142, 150, 158], 2)
+                                               102, 110, 118, 126], 2)
     elif nf == 3:
         return np.delete(np.delete(gamma_QCD, [5,6, 13,14, 21,22, 29,30, 41,42,\
                                                49,50, 57,58, 65,66, 73,74, 81,82,\
-                                               93,94, 101,102, 109,110, 117,118,\
-                                               125,126, 133,134, 141,142, 149,150, 158,159], 1)\
+                                               93,94, 101,102, 109,110, 117,118, 125,126], 1)\
                                             , [5,6, 13,14, 21,22, 29,30, 41,42,\
                                                49,50, 57,58, 65,66, 73,74, 81,82,\
-                                               93,94, 101,102, 109,110, 117,118,\
-                                               125,126, 133,134, 141,142, 149,150, 158,159], 2)
+                                               93,94, 101,102, 109,110, 117,118, 125,126], 2)
     else:
         raise Exception("nf has to be 3, 4 or 5")
 
@@ -208,12 +198,12 @@ def ADM_QCD2(nf):
     gamma_5gq = -8 # changed 2019-08-29, double check with RG solution
     gamma_QCD2_gq = np.array([5*[gamma_gq]])
     gamma_QCD2_5gq = np.array([5*[gamma_5gq]])
-    gamma_QCD2_1 = np.zeros((34,163))
-    gamma_QCD2_2 = np.hstack((np.zeros((1,38)),gamma_QCD2_gq,np.zeros((1,120))))
-    gamma_QCD2_3 = np.hstack((np.zeros((1,46)),gamma_QCD2_gq,np.zeros((1,112))))
-    gamma_QCD2_4 = np.hstack((np.zeros((1,54)),gamma_QCD2_5gq,np.zeros((1,104))))
-    gamma_QCD2_5 = np.hstack((np.zeros((1,62)),gamma_QCD2_5gq,np.zeros((1,96))))
-    gamma_QCD2_6 = np.zeros((125,163))
+    gamma_QCD2_1 = np.zeros((34,131))
+    gamma_QCD2_2 = np.hstack((np.zeros((1,38)),gamma_QCD2_gq,np.zeros((1,88))))
+    gamma_QCD2_3 = np.hstack((np.zeros((1,46)),gamma_QCD2_gq,np.zeros((1,80))))
+    gamma_QCD2_4 = np.hstack((np.zeros((1,54)),gamma_QCD2_5gq,np.zeros((1,72))))
+    gamma_QCD2_5 = np.hstack((np.zeros((1,62)),gamma_QCD2_5gq,np.zeros((1,64))))
+    gamma_QCD2_6 = np.zeros((93,131))
     gamma_QCD2 = [np.vstack((gamma_QCD2_1, gamma_QCD2_2, gamma_QCD2_3,\
                              gamma_QCD2_4, gamma_QCD2_5, gamma_QCD2_6))]
 
@@ -221,18 +211,16 @@ def ADM_QCD2(nf):
         return gamma_QCD2
     elif nf == 4:
         return np.delete(np.delete(gamma_QCD2, [6, 14, 22, 30, 42, 50, 58, 66, 74, 82, 94,\
-                                                102, 110, 118, 126, 134, 142, 150, 158], 1)\
+                                                102, 110, 118, 126], 1)\
                                              , [6, 14, 22, 30, 42, 50, 58, 66, 74, 82, 94,\
-                                                102, 110, 118, 126, 134, 142, 150, 158], 2)
+                                                102, 110, 118, 126], 2)
     elif nf == 3:
         return np.delete(np.delete(gamma_QCD2, [5,6, 13,14, 21,22, 29,30, 41,42,\
                                                 49,50, 57,58, 65,66, 73,74, 81,82,\
-                                                93,94, 101,102, 109,110, 117,118,\
-                                                125,126, 133,134, 141,142, 149,150, 158,159], 1)\
+                                                93,94, 101,102, 109,110, 117,118, 125,126], 1)\
                                              , [5,6, 13,14, 21,22, 29,30, 41,42,\
                                                 49,50, 57,58, 65,66, 73,74, 81,82,\
-                                                93,94, 101,102, 109,110, 117,118,\
-                                                125,126, 133,134, 141,142, 149,150, 158,159], 2)
+                                                93,94, 101,102, 109,110, 117,118, 125,126], 2)
     else:
         raise Exception("nf has to be 3, 4 or 5")
 

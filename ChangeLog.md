@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 ## [unreleased]
 ### Fixed
 - Key error in wilson_coefficients.py (`cNR13n` was not defined)
+- Removed spurious NLO terms in `cNR` coefficients
+- Deleted spurious dimension-seven Wilson coefficients. The basis now corresponds to [arxix [v3] of this paper](https://arxiv.org/abs/1710.10218).
+
+### Changed
+- `example.py` includes a few more examples for RG running below the wek scale
 
 ## [2.2.1] - 2023-04-21
 ### Fixed
