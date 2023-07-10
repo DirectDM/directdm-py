@@ -79,19 +79,19 @@ print('\n')
 
 # The classes for four- and five flavor Wilson coefficients work basically the same as the three-flavor class. 
 
-# E.g. 
+# E.g. Dirac DM:
 
-wc5f = ddm.WC_5f(dict1, "C")
+wc5f = ddm.WC_5f(dict1, "D")
 
 # If you like, you can do running:
 
-print('Run in five-flavor theory from MZ to mb(mb):\n')
+print('Run in five-flavor theory from MZ to mb(mb) (Dirac DM):\n')
 print(wc5f.run())
 print('\n')
 
 # And matching:
 
-print('Match from five-flavor to four-flavor theory at scale mb(mb):\n')
+print('Match from five-flavor to four-flavor theory at scale mb(mb) (Dirac DM):\n')
 print(wc5f.match())
 print('\n')
 
@@ -100,20 +100,47 @@ print('-----------------------------------------')
 print('\n')
 
 
+# Or complex scalar DM:
+
+wc5f = ddm.WC_5f(dict1, "C")
+
+# If you like, you can do running:
+
+print('Run in five-flavor theory from MZ to mb(mb) (complex scalar DM):\n')
+print(wc5f.run())
+print('\n')
 
 
-#---------------------------------------------#
-# Examples with new dimension-seven operators #
-#---------------------------------------------#
+# Or Majorana DM:
+
+dict2 = {'C62u' : 1./scale**2, 'C62d' : 1./scale**2}
+
+wc5f = ddm.WC_5f(dict2, "M")
+
+# If you like, you can do running:
+
+print('Run in five-flavor theory from MZ to mb(mb) (Majorana DM):\n')
+print(wc5f.run())
+print('\n')
+
+print('\n')
+print('-----------------------------------------')
+print('\n')
+
+
+
+#-----------------------------------------#
+# Examples with dimension-seven operators #
+#-----------------------------------------#
 
 
 # Low-energy coefficients for dimension-seven operators with derivatives
 
 dict7 = {'C715u' : 1./scale**3, 'C715d' : 1./scale**3, 'C715s' : 1./scale**3, 'C716u' : 1./scale**3, 'C716d' : 1./scale**3, 'C716s' : 1./scale**3, }
-wc_7 = ddm.WC_5f(dict7, DM_type="M")
+wc_7 = ddm.WC_5f(dict7, DM_type="D")
 
 
-print('Low-energy coefficients from dimension-seven operators, Majorana DM:\n')
+print('Low-energy coefficients from dimension-seven operators, Dirac DM:\n')
 print(wc_7.cNR(100, 50e-3))
 print('\n')
 
