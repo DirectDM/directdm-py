@@ -1549,7 +1549,7 @@ class WC_4flavor(object):
         # We need to contract the ADT with a subset of the dim.-6 DM Wilson coefficients
         if self.DM_type == "D":
             DM_dim6_init = np.delete(self.coeff_list_dm_dim5_dim6_dim7,\
-                                     np.r_[np.s_[0:16], np.s_[20:23], np.s_[27:144]])
+                                     np.r_[np.s_[0:16], np.s_[20:23], np.s_[27:116]])
         elif self.DM_type == "M":
             DM_dim6_init = np.delete(self.coeff_list_dm_dim5_dim6_dim7, np.r_[np.s_[0:7], np.s_[11:86]])
         elif self.DM_type == "C":
@@ -2645,7 +2645,7 @@ class WC_5flavor(object):
         # We need to contract the ADT with a subset of the dim.-6 Wilson coefficients
         if self.DM_type == "D":
             DM_dim6_init = np.delete(self.coeff_list_dm_dim5_dim6_dim7,\
-                                     np.r_[np.s_[0:18], np.s_[23:26], np.s_[31:163]])
+                                     np.r_[np.s_[0:18], np.s_[23:26], np.s_[31:131]])
         elif self.DM_type == "M":
             DM_dim6_init = np.delete(self.coeff_list_dm_dim5_dim6_dim7, np.r_[np.s_[0:8], np.s_[13:97]])
         elif self.DM_type == "C":
