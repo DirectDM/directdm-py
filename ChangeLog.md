@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
+## [Unreleased] - 2025-03-25
+### Fixed
+- Wrong index ranges in wilson_coefficients.py
+
 ## [2.2.2] - 2023-07-10
 ### Fixed
 - Key error in wilson_coefficients.py (`cNR13n` was not defined)
