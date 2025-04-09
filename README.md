@@ -59,16 +59,16 @@ The included `example.py` file has basic examples for using the functions provid
 If you use `DirectDM` please cite us! To get the `BibTeX` entries, click on: [inspirehep query](https://inspirehep.net/search?p=arxiv:1809.03506+or+arxiv:1801.04240+or+arxiv:1710.10218+or+arxiv:1708.02678+or+arxiv:1707.06998+or+arxiv:1611.00368&of=hx) 
 
 
-## Main Author 
+## Main Author
 
    * Joachim Brod (University of Cincinnati)
 
 
 ## Contributors
 
-   * Fady Bishara (University of Oxford)
+   * Fady Bishara (Europaen XFEL)
    * Benjamin Grinstein (UC San Diego)
-   * Emmanuel Stamou (University of Chicago)
+   * Emmanuel Stamou (TU Dortmund)
    * Jure Zupan (University of Cincinnati)
 
 
