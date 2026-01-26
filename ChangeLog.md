@@ -3,9 +3,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 
-## [Unreleased] - 2025-03-25
+## [Unreleased] - 2026-01-23
 ### Fixed
 - Wrong index ranges in wilson_coefficients.py
+- Wrong signs in pion-neutron coupling
 
 ## [2.2.2] - 2023-07-10
 ### Fixed

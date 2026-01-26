@@ -163,9 +163,9 @@ class FPprimed(object):
                 return 0
         if self.nucleon == 'n':
             if self.quark == 'u':
-                return - self.mN**2 * 2 * self.ip['gA']
-            if self.quark == 'd':
                 return self.mN**2 * 2 * self.ip['gA']
+            if self.quark == 'd':
+                return - self.mN**2 * 2 * self.ip['gA']
             if self.quark == 's':
                 return 0
 
@@ -269,9 +269,9 @@ class FP(object):
                 return 0
         if self.nucleon == 'n':
             if self.quark == 'u':
-                return - self.mN**2 * self.ip['gA'] * self.ip['B0mu'] / self.mN 
+                return self.mN**2 * self.ip['gA'] * self.ip['B0mu'] / self.mN 
             if self.quark == 'd':
-                return self.mN**2 * self.ip['gA'] * self.ip['B0md'] / self.mN 
+                return - self.mN**2 * self.ip['gA'] * self.ip['B0md'] / self.mN 
             if self.quark == 's':
                 return 0
 
