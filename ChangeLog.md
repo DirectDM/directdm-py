@@ -8,6 +8,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 - Wrong index ranges in wilson_coefficients.py
 - Wrong signs in pion-neutron coupling
 
+### Changed
+- `scipy.integrate.odeint` to `scipy.integrate.solve_ivp`
+
 ## [2.2.2] - 2023-07-10
 ### Fixed
 - Key error in wilson_coefficients.py (`cNR13n` was not defined)

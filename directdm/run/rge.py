@@ -4,7 +4,7 @@ import sys
 import numpy as np
 import scipy as sp
 from scipy.integrate import ode
-from scipy.integrate import odeint
+from scipy.integrate import solve_ivp
 from scipy.special import zetac
 from scipy.interpolate import interp1d
 from scipy.linalg import expm
@@ -164,10 +164,10 @@ class AlphaS(object):
     
         Run from scale mu to scale mu0, with nf active flavors
         """
-        def deriv(alphas, mu):
+        def deriv(mu, alphas):
             return self.__dalphasdmu(mu, alphas, nf, loop)
-        r = odeint(deriv, as_at_mu, np.array([mu, mu0]))
-        return list(r)[1][0]
+        r = solve_ivp(deriv, np.array([mu, mu0]), np.array([as_at_mu]))
+        return r.y[0][-1]
 
     def run(self, dict_mh, dict_mu, mu0, nf, loop):
         """ Run the strong coupling with decoupling at flavor thresholds
@@ -291,13 +291,14 @@ class M_Quark_MSbar(object):
 
         Run from scale mu0 to scale mu, with nf active flavors
         """
-        def deriv(mq, mu):
+        def deriv(mu, mq):
             return self.__dmqdmu(mq, mu,\
                                  AlphaS(self.asMZ,\
                                         self.MZ).run(dict_mh, dict_mu, mu, nf,\
                                                      loop), nf, loop)
-        r = odeint(deriv, mq_at_mu0, np.array([mu0, mu]))
-        return list(r)[1][0]
+        r = solve_ivp(deriv, np.array([mu0, mu]), np.array([mq_at_mu0]))
+        return r.y[0][-1]
+
 
     def run(self, mu0, dict_mh, dict_mu, nf, loop):
 
